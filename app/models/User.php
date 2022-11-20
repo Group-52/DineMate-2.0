@@ -26,8 +26,7 @@ class User
 		$this->errors = [];
 
 		$exists = $this->where(['email' => $data['email']]);
-
-		if($exists!=false)
+		if ($exists!=false)
 			$this->errors['email'] = "Email already exists";
 
 		if(empty($data['email']))
@@ -37,6 +36,15 @@ class User
 
 		if(empty($data['password']))
 			$this->errors['password'] = "Password is required";
+
+		if(empty($data['contactNo']))
+			$this->errors['contactNo'] = "Contact number is required";
+
+		if(empty($data['lname']))
+			$this->errors['lname'] = "Last name is required";
+
+		if(empty($data['fname']))
+			$this->errors['fname'] = "First name is required";
 
 		if($data['password'] != $data['password_confirmation'])
 			$this->errors['password'] = "Password does not match";
