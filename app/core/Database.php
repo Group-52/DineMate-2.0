@@ -1,6 +1,6 @@
 <?php 
 
-Trait Database
+class Database
 {
 
 	private function connect()

@@ -29,7 +29,9 @@
   </div>
 
   <h1> HOME PAGE</h1>
-
+    <h2>
+      <a href="<?= ROOT ?>/dishes">View Dishes</a>
+    </h2>
 </body>
 
 </html>

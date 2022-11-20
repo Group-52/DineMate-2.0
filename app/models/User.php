@@ -4,11 +4,8 @@
 /**
  * User class
  */
-class User
+class User extends Model
 {
-	
-	use Model;
-
 	protected $table = 'users';
 
 	protected $allowedColumns = [

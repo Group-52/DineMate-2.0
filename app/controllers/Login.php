@@ -19,8 +19,7 @@ class Login
 			$row = $user->first($arr);
 			
 			if($row)
-			{
-				
+			{	
 				if(password_verify($_POST['password'], $row->password))
 				{
 					$_SESSION['user_id'] = $row->user_id;

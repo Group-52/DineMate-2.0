@@ -1,11 +1,10 @@
 <?php 
 
 /**
- * Main Model trait
+ * Main Model class
  */
-Trait Model
+class Model extends Database
 {
-	use Database;
 
 	protected $limit 		= 10;
 	protected $offset 		= 0;
@@ -15,9 +14,7 @@ Trait Model
 
 	public function findAll()
 	{
-	 
 		$query = "select * from $this->table order by $this->order_column $this->order_type limit $this->limit offset $this->offset";
-
 		return $this->query($query);
 	}
 
