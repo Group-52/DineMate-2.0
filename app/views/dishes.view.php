@@ -48,7 +48,9 @@
     </table>
     <br>
     <br>
-        <a href="">Index</a>
+
+        <a href = "<?php echo ROOT; ?>">Index</a>
+        <a href = "<?php echo ROOT; ?>/dishes/addDish">Add Dish</a>
 </body>
 
 </html>

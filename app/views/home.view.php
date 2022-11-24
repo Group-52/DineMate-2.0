@@ -16,11 +16,11 @@
   </style>
 </head>
 
-<body>
+<body>   
 
 <h4>Hi, <?=$username?></h4>
   <div>
-    <h3>Cover</h3>
+  
 
     <a href="<?= ROOT ?>">Home</a>
     <a href="<?= ROOT ?>/login">Login</a>

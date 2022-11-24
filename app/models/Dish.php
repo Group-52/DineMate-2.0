@@ -33,7 +33,9 @@ class Dish extends Model
 	public function getdishes(){
 		return $this->findAll();
 	}
-
+	public function adddish($data){
+		$this->insert($data);
+	}
 
 }
 
