@@ -13,7 +13,7 @@ class Signup
 		
 		if($_SERVER['REQUEST_METHOD'] == "POST")
 		{
-			$user = new User;
+			$user = new RegUser;
 			if($user->validate($_POST))
 			{
 				$_POST['password'] =  password_hash($_POST['password'], PASSWORD_DEFAULT);
