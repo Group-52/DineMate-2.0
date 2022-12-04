@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2022 at 07:59 AM
+-- Generation Time: Dec 04, 2022 at 08:34 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -75,18 +75,19 @@ CREATE TABLE `dishes` (
   `sellingPrice` double NOT NULL,
   `description` text NOT NULL,
   `prepTime` int(11) NOT NULL,
-  `image_url` text DEFAULT NULL
+  `image_url` text DEFAULT NULL,
+  `last_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `dishes`
 --
 
-INSERT INTO `dishes` (`dish_id`, `name`, `netPrice`, `sellingPrice`, `description`, `prepTime`, `image_url`) VALUES
-(17, 'Pizza', 900, 1000, 'Baked Dough', 60, 'uploads/dishes/Pizza2022_11_08_10_37_43.jpg'),
-(20, 'Egg Biriyani', 400, 500, 'Indian Rice', 30, 'uploads/dishes/EggBiriyani2022_11_08_10_47_15.jpg'),
-(29, 'Salad', 300, 600, 'Healthy', 20, '../public/assets/images/dishes/Salad09_25_04.jpg'),
-(30, 'Mushroom', 43, 43, 'Good', 59, '../public/assets/images/dishes/Mushroom10_01_10.jpg');
+INSERT INTO `dishes` (`dish_id`, `name`, `netPrice`, `sellingPrice`, `description`, `prepTime`, `image_url`, `last_modified`) VALUES
+(17, 'Pizza', 900, 1000, 'Baked Dough', 60, 'uploads/dishes/Pizza2022_11_08_10_37_43.jpg', '2022-12-04 07:34:18'),
+(20, 'Egg Biriyani', 400, 500, 'Indian Rice', 30, 'uploads/dishes/EggBiriyani2022_11_08_10_47_15.jpg', '2022-12-04 07:34:18'),
+(29, 'Salad', 300, 600, 'Healthy', 20, '../public/assets/images/dishes/Salad09_25_04.jpg', '2022-12-04 07:34:18'),
+(30, 'Mushroom', 43, 43, 'Good', 59, '../public/assets/images/dishes/Mushroom10_01_10.jpg', '2022-12-04 07:34:18');
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,7 @@ CREATE TABLE `employees` (
   `role` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(500) NOT NULL,
-  `last_modified` date NOT NULL DEFAULT current_timestamp()
+  `last_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -114,7 +115,7 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`emp_id`, `fname`, `lname`, `username`, `salary`, `contactNo`, `NIC`, `dateEmployed`, `role`, `email`, `password`, `last_modified`) VALUES
-(1, 'Janet', 'Pym', 'jp', 100000, '0724573075', '1234567890', '2012-11-09', 1, 'jp@xmail.com', 'janet', '2022-12-02');
+(1, 'Janet', 'Pym', 'jp', 100000, '0724573075', '1234567890', '2012-11-09', 1, 'jp@xmail.com', 'janet', '2022-12-01 18:30:00');
 
 -- --------------------------------------------------------
 
@@ -231,11 +232,13 @@ INSERT INTO `menus` (`menu_id`, `name`, `description`, `startTime`, `endTime`, `
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `customer_id` int(11) DEFAULT NULL,
+  `registered_customer` tinyint(1) NOT NULL DEFAULT 0,
   `request` text DEFAULT NULL,
   `timePlaced` timestamp NOT NULL DEFAULT current_timestamp(),
   `type` text NOT NULL,
   `status` text NOT NULL,
-  `scheduledTime` time DEFAULT NULL
+  `scheduledTime` time DEFAULT NULL,
+  `table_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -348,7 +351,7 @@ CREATE TABLE `reg_users` (
   `email` text NOT NULL,
   `password` text NOT NULL,
   `registered_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `last_modified` date NOT NULL DEFAULT current_timestamp()
+  `last_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -356,7 +359,9 @@ CREATE TABLE `reg_users` (
 --
 
 INSERT INTO `reg_users` (`user_id`, `fname`, `lname`, `contactNo`, `email`, `password`, `registered_date`, `last_modified`) VALUES
-(1, 'Clint', 'Barton', '555', 'cb@xmail.com', '$2y$10$tHdvolbPMWUhtVzFTe/U9upVSyxcJ.RxDA15aBbqmIBaGmr4XalKa', '2022-11-19 11:07:40', '2022-12-02');
+(1, 'Clint', 'Barton', '555', 'cb@xmail.com', '$2y$10$tHdvolbPMWUhtVzFTe/U9upVSyxcJ.RxDA15aBbqmIBaGmr4XalKa', '2022-11-19 11:07:40', '2022-12-01 18:30:00'),
+(2, 'Bruce', 'Wayne', '1234', 'bw@xmail.com', '$2y$10$n2MLfG2NVoAyw5kM7WHrPePkaM9oVODNU8FYymBh68MZkt2YrlbdW', '2022-12-03 20:37:41', '2022-12-03 20:37:41'),
+(3, 'Thor', 'Odinson', '1234', 'to@xmail.com', '$2y$10$W5tNA5WjXlBjS6bE7tB7CehMFlmkE2mFsh1jZ5v75Tzc3fK1voi8G', '2022-12-04 07:32:30', '2022-12-04 07:32:30');
 
 -- --------------------------------------------------------
 
@@ -401,25 +406,6 @@ INSERT INTO `units` (`unit_id`, `name`) VALUES
 (4, 'litres'),
 (5, 'packets'),
 (6, 'bottles');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
-  `registered` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`user_id`, `registered`) VALUES
-(1, 1),
-(5, 1);
 
 -- --------------------------------------------------------
 
@@ -588,12 +574,6 @@ ALTER TABLE `units`
   ADD PRIMARY KEY (`unit_id`);
 
 --
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`);
-
---
 -- Indexes for table `vendors`
 --
 ALTER TABLE `vendors`
@@ -661,7 +641,7 @@ ALTER TABLE `purchases`
 -- AUTO_INCREMENT for table `reg_users`
 --
 ALTER TABLE `reg_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -674,12 +654,6 @@ ALTER TABLE `roles`
 --
 ALTER TABLE `units`
   MODIFY `unit_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `vendors`
@@ -710,12 +684,6 @@ ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
--- Constraints for table `guest_users`
---
-ALTER TABLE `guest_users`
-  ADD CONSTRAINT `guest_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
-
---
 -- Constraints for table `ingredients`
 --
 ALTER TABLE `ingredients`
@@ -740,7 +708,8 @@ ALTER TABLE `menuitems`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `guest_users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `reg_users` (`user_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `order_items`
@@ -782,12 +751,6 @@ ALTER TABLE `promo_spendingbonus`
 ALTER TABLE `purchases`
   ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`vendor`) REFERENCES `vendors` (`vendor_id`),
   ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`item`) REFERENCES `items` (`item_id`);
-
---
--- Constraints for table `reg_users`
---
-ALTER TABLE `reg_users`
-  ADD CONSTRAINT `reg_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
