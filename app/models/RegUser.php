@@ -4,9 +4,9 @@
 /**
  * User class
  */
-class User extends Model
+class RegUser extends Model
 {
-	protected $table = 'users';
+	protected $table = 'reg_users';
 
 	protected $allowedColumns = [
 		'user_id',
@@ -15,8 +15,10 @@ class User extends Model
 		'contactNo',
 		'email',
 		'password',
-		'registered_date'
+		'registered_date',
+		'last_modified'
 	];
+	protected $order_column = "user_id";
 
 	public function validate($data)
 	{
