@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2022 at 08:34 AM
+-- Generation Time: Dec 04, 2022 at 09:53 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -84,7 +84,6 @@ CREATE TABLE `dishes` (
 --
 
 INSERT INTO `dishes` (`dish_id`, `name`, `netPrice`, `sellingPrice`, `description`, `prepTime`, `image_url`, `last_modified`) VALUES
-(17, 'Pizza', 900, 1000, 'Baked Dough', 60, 'uploads/dishes/Pizza2022_11_08_10_37_43.jpg', '2022-12-04 07:34:18'),
 (20, 'Egg Biriyani', 400, 500, 'Indian Rice', 30, 'uploads/dishes/EggBiriyani2022_11_08_10_47_15.jpg', '2022-12-04 07:34:18'),
 (29, 'Salad', 300, 600, 'Healthy', 20, '../public/assets/images/dishes/Salad09_25_04.jpg', '2022-12-04 07:34:18'),
 (30, 'Mushroom', 43, 43, 'Good', 59, '../public/assets/images/dishes/Mushroom10_01_10.jpg', '2022-12-04 07:34:18');
@@ -142,8 +141,7 @@ CREATE TABLE `guest_users` (
   `lname` varchar(100) DEFAULT NULL,
   `contact_no` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `date_created` datetime NOT NULL DEFAULT current_timestamp(),
-  `user_id` int(11) NOT NULL
+  `date_created` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -231,8 +229,8 @@ INSERT INTO `menus` (`menu_id`, `name`, `description`, `startTime`, `endTime`, `
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `customer_id` int(11) DEFAULT NULL,
-  `registered_customer` tinyint(1) NOT NULL DEFAULT 0,
+  `regcustomer_id` int(11) DEFAULT NULL,
+  `guest_id` int(11) DEFAULT NULL,
   `request` text DEFAULT NULL,
   `timePlaced` timestamp NOT NULL DEFAULT current_timestamp(),
   `type` text NOT NULL,
@@ -240,6 +238,13 @@ CREATE TABLE `orders` (
   `scheduledTime` time DEFAULT NULL,
   `table_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `regcustomer_id`, `guest_id`, `request`, `timePlaced`, `type`, `status`, `scheduledTime`, `table_id`) VALUES
+(1, 2, 0, '12', '2022-12-04 08:29:41', '332', '323', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -469,8 +474,7 @@ ALTER TABLE `feedback`
 -- Indexes for table `guest_users`
 --
 ALTER TABLE `guest_users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ingredients`
@@ -505,7 +509,7 @@ ALTER TABLE `menus`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `customer_id` (`customer_id`);
+  ADD KEY `customer_id` (`regcustomer_id`);
 
 --
 -- Indexes for table `order_items`
@@ -623,7 +627,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `promotions`
@@ -669,7 +673,7 @@ ALTER TABLE `vendors`
 -- Constraints for table `current_stocks`
 --
 ALTER TABLE `current_stocks`
-  ADD CONSTRAINT `current_stocks_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`purchase_id`);
+  ADD CONSTRAINT `current_stocks_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`purchase_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employees`
@@ -703,13 +707,6 @@ ALTER TABLE `items`
 ALTER TABLE `menuitems`
   ADD CONSTRAINT `menuitems_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`),
   ADD CONSTRAINT `menuitems_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`menu_id`);
-
---
--- Constraints for table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `guest_users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `reg_users` (`user_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `order_items`
