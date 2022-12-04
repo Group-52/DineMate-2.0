@@ -3,7 +3,7 @@
 if($_SERVER['SERVER_NAME'] == 'localhost')
 {
 	/** database config **/
-	define('DBNAME', 'dinemate2');
+	define('DBNAME', 'dinemate');
 	define('DBHOST', 'localhost');
 	define('DBUSER', 'Dineth');
 	define('DBPASS', '1234');
@@ -14,7 +14,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 }else
 {
 	/** database config **/
-	define('DBNAME', 'dinemate2');
+	define('DBNAME', 'dinemate');
 	define('DBHOST', 'localhost');
 	define('DBUSER', 'Dineth');
 	define('DBPASS', '1234');
