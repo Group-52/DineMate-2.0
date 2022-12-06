@@ -1,18 +1,16 @@
-<?php 
+<?php
 
 /**
- * home class
+ * Home Controller
  */
+
 class Home
 {
-	use Controller;
+    use Controller;
 
-	public function index()
-	{
-
-		$data['username'] = empty($_SESSION['user_id']) ? 'User':$_SESSION['fname'];
-
-		$this->view('home',$data);
-	}
-
+    public function index(): void
+    {
+        $data['username'] = empty($_SESSION['user_id']) ? 'User':$_SESSION['fname'];
+        $this->view("home", $data);
+    }
 }

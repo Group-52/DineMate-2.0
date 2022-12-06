@@ -1,53 +1,62 @@
-<?php 
+<?php
 
-class Database
+/**
+ * Database
+ * Connects to the database.
+ */
+
+trait Database
 {
+    private ?PDO $db = null;
 
-	private function connect()
-	{
-		$string = "mysql:hostname=".DBHOST.";dbname=".DBNAME;
-		$con = new PDO($string,DBUSER,DBPASS);
-		return $con;
-	}
+    /**
+     * Query the database.
+     * @param string $query
+     * @param array $data
+     * @return array | bool
+     */
+    public function query(string $query, array $data = []): bool|array
+    {
+        try {
+            $statement = $this->prepare($query);
+            $statement->execute($data);
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 
-	public function query($query, $data = [])
-	{
+    /**
+     * Prepare a query.
+     * @param string $query
+     * @return PDOStatement
+     */
+    private function prepare(string $query): PDOStatement
+    {
+        try {
+            if ($this->db == null) {
+                $this->connect();
+            }
+            return $this->db->prepare($query);
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+    }
 
-		$con = $this->connect();
-		$stm = $con->prepare($query);
+    /**
+     * Connect to the database.
+     */
+    private function connect(): void
+    {
+        try {
+            $connection_string = "mysql:hostname=" . DBHOST . ";dbname=" . DBNAME;
+            $this->db = new PDO($connection_string, DBUSER, DBPASS, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
+            ]);
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
+    }
 
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result;
-			}
-		}
-
-		return false;
-	}
-
-	public function get_row($query, $data = [])
-	{
-
-		$con = $this->connect();
-		$stm = $con->prepare($query);
-
-		$check = $stm->execute($data);
-		if($check)
-		{
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-			if(is_array($result) && count($result))
-			{
-				return $result[0];
-			}
-		}
-
-		return false;
-	}
-	
 }
-
-

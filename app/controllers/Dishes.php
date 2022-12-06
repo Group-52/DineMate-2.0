@@ -27,7 +27,7 @@ class Dishes
 		
 			$target_dir = '../public/assets/images/dishes/';
 		
-			if (checkforActualImage($file) && checkforSize($file,5000000) && checkforImage($file)) {
+			if (isImage($file) && isValidSize($file,5000000) && isImageType($file)) {
 		
 			// 	// Set path to store the uploaded image
 				$target_file = getFileName($target_dir, $name, $file);

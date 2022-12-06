@@ -2,23 +2,31 @@
 
 // Dish class
 
-class Dish extends Model
+class Dish
 {
-	
-	public  $order_column = "dish_id";
-	protected $table = 'dishes';
-	protected $allowedColumns = [
-		'dish_id',
-		'name',
-		'netPrice',
-		'sellingPrice',
-		'description',
-		'prepTime',
-		'image_url'
-	];
+    use Model;
 
-	public function validate($data)
-	{
+    public function __construct()
+    {
+        $this->table = "dishes";
+        $this->primary_key = "dish_id";
+        $this->columns = [
+            "name",
+            "netPrice",
+            "sellingPrice",
+            "description",
+            "prepTime",
+            "image_url"
+        ];
+    }
+
+    /**
+     * Validate data.
+     * @param $data array
+     * @return bool
+     */
+	public function validate(array $data): bool
+    {
 		$this->errors = [];
 
 		if(empty($data['name']))
@@ -29,13 +37,23 @@ class Dish extends Model
 
 		return false;
 	}
-	
-	public function getdishes(){
+
+    /**
+     * Get all dishes.
+     */
+	public function getDishes(): bool|array
+    {
 		return $this->findAll();
 	}
-	public function adddish($data){
+
+    /**
+     * Add a dish.
+     * @param $data
+     * @return void
+     */
+	public function addDish($data): void
+    {
 		$this->insert($data);
 	}
-
 }
 

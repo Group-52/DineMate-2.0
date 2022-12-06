@@ -33,7 +33,7 @@
 
     <button type="submit">Sign in</button>
     <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/signup">Signup</a>
+    <a href="<?= ROOT ?>/auth/signup">Signup</a>
 
   </form>
 

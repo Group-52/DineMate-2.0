@@ -14,7 +14,7 @@
             add dish page
         </h1>
 
-        <form method = "post"enctype="multipart/form-data"> 
+        <form method = "post" enctype="multipart/form-data">
         <input type = "text" name = "name" placeholder = "Name">
         <input type = "number" name = "preptime" placeholder = "Preparation Time">
         <input type = "number" name = "netprice" placeholder = "Net Price">

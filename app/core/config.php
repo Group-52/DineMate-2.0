@@ -1,31 +1,22 @@
-<?php 
+<?php
 
-if($_SERVER['SERVER_NAME'] == 'localhost')
-{
-	/** database config **/
-	define('DBNAME', 'dinemate');
-	define('DBHOST', 'localhost');
-	define('DBUSER', 'Dineth');
-	define('DBPASS', '1234');
-	define('DBDRIVER', '');
-	
-	define('ROOT', 'http://localhost/DineMate/public');
+/** database config **/
+const DBNAME = "dinemate";
+const DBHOST = "localhost";
+const DBUSER = "root";
+const DBPASS = "";
+const DBDRIVER = "";
 
-}else
-{
-	/** database config **/
-	define('DBNAME', 'dinemate');
-	define('DBHOST', 'localhost');
-	define('DBUSER', 'Dineth');
-	define('DBPASS', '1234');
-	define('DBDRIVER', '');
+if($_SERVER["SERVER_NAME"] == "localhost")
+    define("ROOT", "http://localhost/DineMate/public");
+else
+    define("ROOT", "https://www.DineMate.com");
 
-	define('ROOT', 'https://www.DineMate.com');
-
-}
-
-define('APP_NAME', "DineMate ");
-define('APP_DESC', "Restaurant Management System");
+const APP_NAME = "DineMate";
+const APP_DESC = "Restaurant Management System";
 
 /** true means show errors **/
-define('DEBUG', true);
+const DEBUG = true;
+
+const LOG_ERRORS = true;
+const ERROR_LOG = "/tmp/php-error.log";

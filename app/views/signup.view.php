@@ -31,14 +31,14 @@
 
     <input name = "fname" type ="text" placeholder = "First Name">
     <input name = "lname" type ="text" placeholder = "Last Name">
-    <input type="text" name= "contactNo" placeholder="Contact No">
+    <input type = "text" name= "contactNo" placeholder="Contact No">
     <input name = "email" type= "text" placeholder="Email" >
     <input name = "password" type ="password" placeholder = "Password">
-    <input name = "password_confirmation" type ="password" placeholder = "Confirm Password">
+    <input name = "password-confirm" type ="password" placeholder = "Confirm Password">
 
     <button type="submit">Create</button>
     <a href="<?=ROOT?>">Home</a>
-    <a href="<?=ROOT?>/login">Login</a>
+    <a href="<?=ROOT?>/auth/login">Login</a>
 
   </form>
   </body>

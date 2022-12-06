@@ -1,10 +1,11 @@
-<?php 
+<?php
 
 session_start();
 
 require "../app/core/init.php";
 
-DEBUG ? ini_set('display_errors', 1) : ini_set('display_errors', 0);
+ini_set("display_errors", DEBUG ? "1" : "0");
+ini_set("log_errors", LOG_ERRORS ? "1" : "0");
+ini_set("error_log", ERROR_LOG);
 
-$app = new App;
-$app->loadController();
+$app = new App();
