@@ -1,23 +1,26 @@
-<?php 
+<?php
 
 
 class Menuitems extends Model
 {
-	
-	public  $order_column = "menu_id";
-	protected $table = 'menuitems';
-	protected $allowedColumns = [
+
+    public string $order_column = "menu_id";
+    protected string $table = 'menu_items';
+    protected array $allowedColumns = [
         'menu_id',
         'dish_id'
-	];
+    ];
 
-	
-	public function getdishes($menu){
-		return $this->findAll();
-	}
-	public function addmenu($data){
-		$this->insert($data);
-	}
+
+    public function getDishes($menu): bool|array
+    {
+        return $this->findAll();
+    }
+
+    public function addMenu($data)
+    {
+        $this->insert($data);
+    }
 
 }
 

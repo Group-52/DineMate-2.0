@@ -9,7 +9,7 @@ class Dishes
     public function index()
     {
         $dish = new Dish;
-        $results['dishlist'] = $dish->getdishes();
+        $results['dishlist'] = $dish->getDishes();
 
         $this->view('dishes', $results);
 
@@ -37,7 +37,7 @@ class Dishes
                 }
             }
             $d = new Dish;
-            $d->adddish([
+            $d->addDish([
                 'name' => $name,
                 'net_price' => $netprice,
                 'selling_price' => $sellprice,

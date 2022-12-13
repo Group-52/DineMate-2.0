@@ -7,13 +7,13 @@ const DBUSER = "root";
 const DBPASS = "";
 const DBDRIVER = "";
 
-define('ROOT', 'http://localhost/DineMate/public');
-define('ASSETS', 'http://localhost/DineMate/public/assets');
-
-if ($_SERVER["SERVER_NAME"] == "localhost")
+if ($_SERVER["SERVER_NAME"] == "localhost") {
     define("ROOT", "http://localhost/DineMate/public");
-else
+} else {
     define("ROOT", "https://www.DineMate.com");
+}
+
+const ASSETS = ROOT . "/assets";
 
 const APP_NAME = "DineMate";
 const APP_DESC = "Restaurant Management System";

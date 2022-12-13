@@ -15,9 +15,9 @@ class Home
 
         #get 5 dishes from database
         $d = new Dish();
-        $data['dishes'] = $d->getdishes();
+        $data['dishes'] = $d->getDishes();
         $m = new Menu();
-        $data['menus'] = $m->getmenus();
+        $data['menus'] = $m->getMenus();
         $this->view('home', $data);
     }
 }

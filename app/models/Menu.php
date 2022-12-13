@@ -5,19 +5,19 @@
 class Menu extends Model
 {
 
-    public $order_column = "menu_id";
-    protected $table = 'menus';
-    protected $allowedColumns = [
+    public string $order_column = "menu_id";
+    protected string $table = 'menus';
+    protected array $allowedColumns = [
         'menu_id',
         'name',
         'description',
-        'startTime',
-        'endTime',
-        'imageurl',
-        'allday'
+        'start_time',
+        'end_time',
+        'image_url',
+        'all_day'
     ];
 
-    public function validate($data)
+    public function validate($data): bool
     {
         $this->errors = [];
 
@@ -30,12 +30,12 @@ class Menu extends Model
         return false;
     }
 
-    public function getmenus()
+    public function getMenus(): bool|array
     {
         return $this->findAll();
     }
 
-    public function addmenu($data)
+    public function addMenu($data)
     {
         $this->insert($data);
     }
