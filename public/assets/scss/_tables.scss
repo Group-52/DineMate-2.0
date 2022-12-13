@@ -1,0 +1,19 @@
+@import "colors";
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+
+  th {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid $border;
+    font-weight: normal;
+  }
+
+  & thead {
+    th {
+      padding: 0.75rem 0;
+      font-weight: bold;
+    }
+  }
+}

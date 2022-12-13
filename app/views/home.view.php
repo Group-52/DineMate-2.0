@@ -1,34 +1,20 @@
-<!doctype html>
-<html lang="en" class="h-100">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-
-    <title>Home page</title>
-
-    <style>
-        input {
-            padding: 15px;
-            margin: 10px;
-        }
-    </style>
-</head>
+<?php include "partials/head.partial.php" ?>
 
 <body>
 
-<?php if (isset($username)) : ?>
-<h4>Hi, <?= $username ?></h4>
-<?php endif ?>
-<div>
-    <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/auth/login">Login</a>
-    <a href="<?= ROOT ?>/auth/logout">Logout</a>
+<div class="container">
+    <h1 class="display-2">DineMate</h1>
+    <h2 class="display-4">Home Page</h2>
+    <?php if (isset($_SESSION['user'])): ?>
+        <h3 class="display-5 mt-5">Welcome, <b><?= $_SESSION['user']->first_name ?></b></h3>
+        <a class="link" href="<?= ROOT ?>/admin">Admin</a> <br>
+        <a class="link" href="<?= ROOT ?>/auth/logout">Logout</a>
+    <?php else: ?>
+        Have an account?
+        <br> Customer login <a class="link" href="<?= ROOT ?>/auth/login">here</a>
+        <br> Employee login <a class="link" href="<?= ROOT ?>/admin/auth/login">here</a>
+    <?php endif ?>
+    <h2><a class="link" href="<?= ROOT ?>/dishes">View Dishes</a></h2>
 </div>
 
-<h1>HOME PAGE</h1>
-<h2><a href="<?= ROOT ?>/dishes">View Dishes</a></h2>
 </body>
-
-</html>

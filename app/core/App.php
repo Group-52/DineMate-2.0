@@ -19,8 +19,10 @@ class App
             array_shift($url);
         }
 
+        $controllerPath = "../app/controllers/";
+
         // generates path of controller
-        $path = "../app/controllers/";
+        $path = $controllerPath;
         if ($this->module) {
             // appends module name if it exists
             $path .= ucfirst($this->module) . "/";
@@ -34,7 +36,7 @@ class App
                 unset($url[0]);
             } else {
                 $this->controller = "_404";
-                $path = "../app/controllers/_404.php";
+                $path = $controllerPath . "_404.php";
             }
         }
 
@@ -52,12 +54,12 @@ class App
         }
 
         // checks if index method exists
-        if (!method_exists($this->controller, $this->method)) {
+        if ($this->controller != "_404" && !method_exists($this->controller, $this->method)) {
             $this->controller = "_404";
         }
 
         if ($this->controller == "_404") {
-            $path = "../app/controllers/_404.php";
+            $path = $controllerPath . "_404.php";
             include $path;
             $this->controller = new $this->controller;
         }

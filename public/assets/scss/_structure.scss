@@ -1,0 +1,180 @@
+/**
+  Structure
+ */
+
+@import "colors";
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+$columns: (1: 8.333333%, 2: 16.666667%, 3: 25%, 4: 33.333333%, 5: 41.666667%, 6: 50%, 7: 58.333333%, 8: 66.666667%, 9: 75%, 10: 83.333333%, 11: 91.666667%, 12: 100%);
+@each $column, $width in $columns {
+  .col-#{$column} {
+    flex: 0 0 $width;
+    max-width: $width;
+  }
+  .col-offset-#{$column} {
+    margin-left: $width;
+  }
+}
+
+$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+@each $type, $width in $viewport-types {
+  @each $column, $width in $columns {
+    .col-#{$type}-#{$column} {
+      flex: 0 0 $width;
+      max-width: $width;
+    }
+    .col-offset-#{$type}-#{$column} {
+      margin-left: $width;
+    }
+  }
+}
+
+$sizes: (0: 0, 1: 0.25rem, 2: 0.5rem, 3: 1rem, 4: 1.5rem, 5: 3rem);
+@each $key, $value in $sizes {
+  // Padding
+  .p-#{$key} {
+    padding: $value !important;
+  }
+  .pt-#{$key} {
+    padding-top: $value !important;
+  }
+  .pr-#{$key} {
+    padding-right: $value !important;
+  }
+  .pb-#{$key} {
+    padding-bottom: $value !important;
+  }
+  .pl-#{$key} {
+    padding-left: $value !important;
+  }
+  .px-#{$key} {
+    padding-left: $value !important;
+    padding-right: $value !important;
+  }
+  .py-#{$key} {
+    padding-top: $value !important;
+    padding-bottom: $value !important;
+  }
+
+  // Margins
+  .m-#{$key} {
+    margin: $value !important;
+  }
+  .mt-#{$key} {
+    margin-top: $value !important;
+  }
+  .mr-#{$key} {
+    margin-right: $value !important;
+  }
+  .mb-#{$key} {
+    margin-bottom: $value !important;
+  }
+  .ml-#{$key} {
+    margin-left: $value !important;
+  }
+  .mx-#{$key} {
+    margin-left: $value !important;
+    margin-right: $value !important;
+  }
+  .my-#{$key} {
+    margin-top: $value !important;
+    margin-bottom: $value !important;
+  }
+}
+
+$display-types: (block, inline-block, inline, flex, inline-flex, grid, inline-grid);
+@each $type in $display-types {
+  .d-#{$type} {
+    display: $type !important;
+  }
+}
+
+
+$relative-sizes: (0: 0%, 25: 25%, 50: 50%, 75: 75%, 100: 100%);
+@each $key, $value in $relative-sizes {
+  .w-#{$key} {
+    width: $value !important;
+  }
+  .h-#{$key} {
+    height: $value !important;
+  }
+}
+
+$viewport-sizes: (0: 0vh, 25: 25vh, 50: 50vh, 75: 75vh, 100: 100vh);
+@each $key, $value in $viewport-sizes {
+  .vh-#{$key} {
+    height: $value;
+  }
+  .vw-#{$key} {
+    width: $value;
+  }
+}
+
+$position-types: (static, relative, absolute, fixed, sticky);
+@each $type in $position-types {
+  .position-#{$type} {
+    position: $type;
+  }
+}
+
+$position-sides: (top, right, bottom, left);
+@each $side in $position-sides {
+  .#{$side}-0 {
+    #{$side}: 0;
+  }
+  .#{$side}-auto {
+    #{$side}: auto;
+  }
+}
+
+.img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.img-logo {
+  width: 5rem;
+  height: 5rem;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.img-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.img-thumbnail {
+  padding: 0.25rem;
+  background-color: $border;
+  border: 1px solid $border;
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+

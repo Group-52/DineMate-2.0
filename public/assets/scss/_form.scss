@@ -1,0 +1,73 @@
+/**
+  Forms
+ */
+@import "colors";
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $primary-text;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid $border;
+  border-radius: 4px;
+
+  &:focus {
+    border-color: $primary-color;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+  }
+
+}
+
+select.form-control {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url("../images/ChevronDownsvg.svg") no-repeat 95%;
+  appearance: none;
+  padding: 0.75rem;
+}
+
+.form-control::placeholder {
+  color: $secondary-text;
+  opacity: 1;
+}
+
+.form-textarea {
+  height: 150px;
+}
+
+.form-search {
+  position: relative;
+  width: 100%;
+
+  .form-control {
+    padding-right: 40px;
+  }
+
+  .form-search-icon {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    transform: translateY(-50%);
+    color: $secondary-text;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+  }
+
+}

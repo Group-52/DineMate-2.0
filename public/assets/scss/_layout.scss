@@ -1,0 +1,46 @@
+/**
+  Layout
+ */
+
+
+$flex-directions: (row, row-reverse, column, column-reverse);
+@each $direction in $flex-directions {
+  .flex-#{$direction} {
+    flex-direction: $direction;
+  }
+}
+
+$flex-wrap: (nowrap, wrap, wrap-reverse);
+@each $wrap in $flex-wrap {
+  .flex-#{$wrap} {
+    flex-wrap: $wrap;
+  }
+}
+
+$flex-justify: (start, end, center, space-between, space-around, space-evenly);
+@each $justify in $flex-justify {
+  .justify-content-#{$justify} {
+    justify-content: $justify;
+  }
+}
+
+$flex-align: (start, end, center, baseline, stretch);
+@each $align in $flex-align {
+  .align-items-#{$align} {
+    align-items: $align;
+  }
+}
+
+$flex-align-content: (start, end, center, space-between, space-around, space-evenly, stretch);
+@each $align in $flex-align-content {
+  .align-content-#{$align} {
+    align-content: $align;
+  }
+}
+
+$flex-align-self: (auto, start, end, center, baseline, stretch);
+@each $align in $flex-align-self {
+  .align-self-#{$align} {
+    align-self: $align;
+  }
+}

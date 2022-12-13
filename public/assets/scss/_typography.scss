@@ -1,0 +1,60 @@
+/**
+  Typography
+ */
+
+@import "colors";
+
+@each $key, $value in (1: 5rem, 2: 4rem, 3: 3rem, 4: 2.5rem, 5: 2rem, 6: 1.5rem) {
+  .display-#{$key} {
+    font-size: $value !important;
+    font-weight: 300 !important;
+    color: $headings;
+  }
+}
+
+@each $key, $value in (1: 2.5rem, 2: 2rem, 3: 1.75rem, 4: 1.5rem, 5: 1.25rem, 6: 1rem) {
+  .heading-#{$key} {
+    font-size: $value !important;
+    color: $headings;
+  }
+}
+
+@each $key, $value in (1: 2rem, 2: 1.75rem, 3: 1.5rem, 4: 1.25rem, 5: 1rem, 6: 0.875rem) {
+  .fs-#{$key} {
+    font-size: $value;
+    color: $primary-text;
+  }
+}
+
+@each $value in (100, 200, 300, 400, 500, 600, 700, 800, 900) {
+  .fw-#{$value} {
+    font-weight: $value !important;
+  }
+}
+
+@each $key, $value in (light: 300, normal: 400, bold: 700) {
+  .fw-#{$key} {
+    font-weight: $value !important;
+  }
+}
+
+@each $value in (left, center, right, justify) {
+  .text-#{$value} {
+    text-align: $value;
+  }
+}
+
+@each $value in (uppercase, lowercase, capitalize) {
+  .text-#{$value} {
+    text-transform: $value !important;
+  }
+}
+
+a.link {
+    color: $secondary-color;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      text-decoration: underline;
+    }
+}

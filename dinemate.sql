@@ -71,10 +71,10 @@ INSERT INTO `current_stocks` (`purchase_id`, `amount_remaining`, `last_updated`)
 CREATE TABLE `dishes` (
   `dish_id` int(11) NOT NULL,
   `name` text NOT NULL,
-  `netPrice` double NOT NULL,
-  `sellingPrice` double NOT NULL,
+  `net_price` double NOT NULL,
+  `selling_price` double NOT NULL,
   `description` text NOT NULL,
-  `prepTime` int(11) NOT NULL,
+  `prep_time` int(11) NOT NULL,
   `image_url` text DEFAULT NULL,
   `last_modified` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -83,7 +83,7 @@ CREATE TABLE `dishes` (
 -- Dumping data for table `dishes`
 --
 
-INSERT INTO `dishes` (`dish_id`, `name`, `netPrice`, `sellingPrice`, `description`, `prepTime`, `image_url`, `last_modified`) VALUES
+INSERT INTO `dishes` (`dish_id`, `name`, `net_price`, `selling_price`, `description`, `prep_time`, `image_url`, `last_modified`) VALUES
 (20, 'Egg Biriyani', 400, 500, 'Indian Rice', 30, 'uploads/dishes/EggBiriyani2022_11_08_10_47_15.jpg', '2022-12-04 07:34:18'),
 (29, 'Salad', 300, 600, 'Healthy', 20, '../public/assets/images/dishes/Salad09_25_04.jpg', '2022-12-04 07:34:18'),
 (30, 'Mushroom', 43, 43, 'Good', 59, '../public/assets/images/dishes/Mushroom10_01_10.jpg', '2022-12-04 07:34:18');
@@ -96,13 +96,13 @@ INSERT INTO `dishes` (`dish_id`, `name`, `netPrice`, `sellingPrice`, `descriptio
 
 CREATE TABLE `employees` (
   `emp_id` int(11) NOT NULL,
-  `fname` varchar(100) NOT NULL,
-  `lname` varchar(100) NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
   `salary` double NOT NULL,
-  `contactNo` varchar(20) NOT NULL,
+  `contact_no` varchar(20) NOT NULL,
   `NIC` varchar(20) NOT NULL,
-  `dateEmployed` date NOT NULL,
+  `date_employed` date NOT NULL,
   `role` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(500) NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`emp_id`, `fname`, `lname`, `username`, `salary`, `contactNo`, `NIC`, `dateEmployed`, `role`, `email`, `password`, `last_modified`) VALUES
+INSERT INTO `employees` (`emp_id`, `first_name`, `last_name`, `username`, `salary`, `contact_no`, `NIC`, `date_employed`, `role`, `email`, `password`, `last_modified`) VALUES
 (1, 'Janet', 'Pym', 'jp', 100000, '0724573075', '1234567890', '2012-11-09', 1, 'jp@xmail.com', 'janet', '2022-12-01 18:30:00');
 
 -- --------------------------------------------------------
@@ -137,8 +137,8 @@ CREATE TABLE `feedback` (
 
 CREATE TABLE `guest_users` (
   `id` int(11) NOT NULL,
-  `fname` varchar(100) DEFAULT NULL,
-  `lname` varchar(100) DEFAULT NULL,
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
   `contact_no` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
@@ -186,7 +186,7 @@ INSERT INTO `items` (`item_id`, `name`, `brand`, `description`, `unit`, `categor
 -- Table structure for table `menuitems`
 --
 
-CREATE TABLE `menuitems` (
+CREATE TABLE `menu_items` (
   `menu_id` int(11) NOT NULL,
   `dish_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -195,7 +195,7 @@ CREATE TABLE `menuitems` (
 -- Dumping data for table `menuitems`
 --
 
-INSERT INTO `menuitems` (`menu_id`, `dish_id`) VALUES
+INSERT INTO `menu_items` (`menu_id`, `dish_id`) VALUES
 (1, 20);
 
 -- --------------------------------------------------------
@@ -208,17 +208,17 @@ CREATE TABLE `menus` (
   `menu_id` int(11) NOT NULL,
   `name` text NOT NULL,
   `description` text NOT NULL,
-  `startTime` time DEFAULT NULL,
-  `endTime` time DEFAULT NULL,
-  `imageurl` text DEFAULT NULL,
-  `allday` tinyint(1) NOT NULL DEFAULT 0
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `image_url` text DEFAULT NULL,
+  `all_day` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`menu_id`, `name`, `description`, `startTime`, `endTime`, `imageurl`, `allday`) VALUES
+INSERT INTO `menus` (`menu_id`, `name`, `description`, `start_time`, `end_time`, `image_url`, `all_day`) VALUES
 (1, 'Indian', 'Good, spicy, flavoured foods', NULL, NULL, 'x', 1);
 
 -- --------------------------------------------------------
@@ -229,13 +229,13 @@ INSERT INTO `menus` (`menu_id`, `name`, `description`, `startTime`, `endTime`, `
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `regcustomer_id` int(11) DEFAULT NULL,
+  `reg_customer_id` int(11) DEFAULT NULL,
   `guest_id` int(11) DEFAULT NULL,
   `request` text DEFAULT NULL,
-  `timePlaced` timestamp NOT NULL DEFAULT current_timestamp(),
+  `time_placed` timestamp NOT NULL DEFAULT current_timestamp(),
   `type` text NOT NULL,
   `status` text NOT NULL,
-  `scheduledTime` time DEFAULT NULL,
+  `scheduled_time` time DEFAULT NULL,
   `table_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -243,7 +243,7 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `regcustomer_id`, `guest_id`, `request`, `timePlaced`, `type`, `status`, `scheduledTime`, `table_id`) VALUES
+INSERT INTO `orders` (`order_id`, `reg_customer_id`, `guest_id`, `request`, `time_placed`, `type`, `status`, `scheduled_time`, `table_id`) VALUES
 (1, 2, 0, '12', '2022-12-04 08:29:41', '332', '323', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -308,10 +308,10 @@ CREATE TABLE `promo_discounts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `promo_spendingbonus`
+-- Table structure for table `promo_spending_bonus`
 --
 
-CREATE TABLE `promo_spendingbonus` (
+CREATE TABLE `promo_spending_bonus` (
   `promo_id` int(11) NOT NULL,
   `spent_amount` double NOT NULL,
   `bonus_amount` double NOT NULL
@@ -326,7 +326,7 @@ CREATE TABLE `promo_spendingbonus` (
 CREATE TABLE `purchases` (
   `purchase_id` int(11) NOT NULL,
   `item` int(11) NOT NULL,
-  `Quantity` double NOT NULL,
+  `quantity` double NOT NULL,
   `vendor` int(11) NOT NULL,
   `purchase_date` date NOT NULL,
   `expiry_date` date DEFAULT NULL,
@@ -339,7 +339,7 @@ CREATE TABLE `purchases` (
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`purchase_id`, `item`, `Quantity`, `vendor`, `purchase_date`, `expiry_date`, `cost`, `discount`, `final_price`) VALUES
+INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `purchase_date`, `expiry_date`, `cost`, `discount`, `final_price`) VALUES
 (1, 2, 20, 1, '2022-11-09', '2023-03-03', 7000, 0.1, 6300);
 
 -- --------------------------------------------------------
@@ -350,8 +350,8 @@ INSERT INTO `purchases` (`purchase_id`, `item`, `Quantity`, `vendor`, `purchase_
 
 CREATE TABLE `reg_users` (
   `user_id` int(11) NOT NULL,
-  `fname` text NOT NULL,
-  `lname` text NOT NULL,
+  `first_name` text NOT NULL,
+  `last_name` text NOT NULL,
   `contactNo` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL,
@@ -363,7 +363,7 @@ CREATE TABLE `reg_users` (
 -- Dumping data for table `reg_users`
 --
 
-INSERT INTO `reg_users` (`user_id`, `fname`, `lname`, `contactNo`, `email`, `password`, `registered_date`, `last_modified`) VALUES
+INSERT INTO `reg_users` (`user_id`, `first_name`, `last_name`, `contactNo`, `email`, `password`, `registered_date`, `last_modified`) VALUES
 (1, 'Clint', 'Barton', '555', 'cb@xmail.com', '$2y$10$tHdvolbPMWUhtVzFTe/U9upVSyxcJ.RxDA15aBbqmIBaGmr4XalKa', '2022-11-19 11:07:40', '2022-12-01 18:30:00'),
 (2, 'Bruce', 'Wayne', '1234', 'bw@xmail.com', '$2y$10$n2MLfG2NVoAyw5kM7WHrPePkaM9oVODNU8FYymBh68MZkt2YrlbdW', '2022-12-03 20:37:41', '2022-12-03 20:37:41'),
 (3, 'Thor', 'Odinson', '1234', 'to@xmail.com', '$2y$10$W5tNA5WjXlBjS6bE7tB7CehMFlmkE2mFsh1jZ5v75Tzc3fK1voi8G', '2022-12-04 07:32:30', '2022-12-04 07:32:30');
@@ -423,14 +423,14 @@ CREATE TABLE `vendors` (
   `name` varchar(50) NOT NULL,
   `address` varchar(100) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
-  `contactNo` varchar(50) NOT NULL
+  `contact_no` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `vendors`
 --
 
-INSERT INTO `vendors` (`vendor_id`, `name`, `address`, `company`, `contactNo`) VALUES
+INSERT INTO `vendors` (`vendor_id`, `name`, `address`, `company`, `contact_no`) VALUES
 (1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075');
 
 --
@@ -460,7 +460,6 @@ ALTER TABLE `dishes`
 --
 ALTER TABLE `employees`
   ADD PRIMARY KEY (`emp_id`),
-  ADD UNIQUE KEY `username` (`username`),
   ADD KEY `role` (`role`);
 
 --
@@ -492,9 +491,9 @@ ALTER TABLE `items`
   ADD KEY `category` (`category`);
 
 --
--- Indexes for table `menuitems`
+-- Indexes for table `menu_items`
 --
-ALTER TABLE `menuitems`
+ALTER TABLE `menu_items`
   ADD KEY `dish_id` (`dish_id`),
   ADD KEY `menu_id` (`menu_id`);
 
@@ -509,7 +508,7 @@ ALTER TABLE `menus`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `customer_id` (`regcustomer_id`);
+  ADD KEY `customer_id` (`reg_customer_id`);
 
 --
 -- Indexes for table `order_items`
@@ -546,9 +545,9 @@ ALTER TABLE `promo_discounts`
   ADD KEY `promo_id` (`promo_id`);
 
 --
--- Indexes for table `promo_spendingbonus`
+-- Indexes for table `promo_spending_bonus`
 --
-ALTER TABLE `promo_spendingbonus`
+ALTER TABLE `promo_spending_bonus`
   ADD KEY `promo_id` (`promo_id`);
 
 --
@@ -704,7 +703,7 @@ ALTER TABLE `items`
 --
 -- Constraints for table `menuitems`
 --
-ALTER TABLE `menuitems`
+ALTER TABLE `menu_items`
   ADD CONSTRAINT `menuitems_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`),
   ADD CONSTRAINT `menuitems_ibfk_2` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`menu_id`);
 
@@ -739,7 +738,7 @@ ALTER TABLE `promo_discounts`
 --
 -- Constraints for table `promo_spendingbonus`
 --
-ALTER TABLE `promo_spendingbonus`
+ALTER TABLE `promo_spending_bonus`
   ADD CONSTRAINT `promo_spendingbonus_ibfk_1` FOREIGN KEY (`promo_id`) REFERENCES `promotions` (`promo_id`);
 
 --

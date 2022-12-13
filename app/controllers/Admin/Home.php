@@ -14,10 +14,12 @@ class Home
     {
         // TODO Allow access based on roles
         if (!isset($_SESSION["user"])) {
-            redirect("login");
+            redirect("admin/auth");
+        } else if (!isset($_SESSION["user"]->role)) {
+           redirect("home");
         }
         $data = [];
         $data["controller"] = $this->controller;
-        $this->view("Admin", $data);
+        $this->view("admin", $data);
     }
 }

@@ -30,7 +30,7 @@ class Items
         } else if (isset($_GET["category"]) && $_GET["category"] != "") {
             $data["items"] = $item->findBy(["category" => $_GET["category"]]);
         } else {
-            $data["items"] = $item->all();
+            $data["items"] = $item->findAll();
         }
 
         $data["controller"] = $this->controller;

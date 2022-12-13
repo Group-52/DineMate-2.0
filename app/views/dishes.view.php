@@ -1,5 +1,5 @@
-<html <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -29,21 +29,20 @@
         </tr>
 
         <?php 
-        // show(get_defined_vars());
 
-        // show($dishlist);
-        foreach($dishlist as $dish){
-            echo "<tr>";
-            echo "<td>".$dish->dish_id."</td>";
-            echo "<td><div class='dishpic'> <img src=".$dish->image_url." ></div></td>";
-            echo "<td>".$dish->name."</td>";
-            echo "<td>".$dish->prepTime."</td>";
-            echo "<td>".$dish->netPrice."</td>";
-            echo "<td>".$dish->sellingPrice."</td>";
-            echo "<td>".$dish->description."</td>";
-            echo "</tr>";
+        if (isset($dishlist)) {
+            foreach($dishlist as $dish){
+                echo "<tr>";
+                echo "<td>".$dish->dish_id."</td>";
+                echo "<td><div class='dishpic'> <img alt='".$dish->name."' src=".$dish->image_url." ></div></td>";
+                echo "<td>".$dish->name."</td>";
+                echo "<td>".$dish->prep_time."</td>";
+                echo "<td>".$dish->net_price."</td>";
+                echo "<td>".$dish->selling_price."</td>";
+                echo "<td>".$dish->description."</td>";
+                echo "</tr>";
+            }
         }
-
         ?>
     </table>
     <br>

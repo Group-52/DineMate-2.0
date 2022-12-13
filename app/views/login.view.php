@@ -20,9 +20,7 @@
   <form method="post">
 
     <?php if (!empty($errors)) : ?>
-      <div class="alert alert-danger">
-        <?= implode("<br>", $errors) ?>
-      </div>
+        <?= is_array($errors) ? implode("<br>", $errors) : $errors?>
     <?php endif; ?>
 
     <h1>Please sign in</h1>

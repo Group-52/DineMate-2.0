@@ -1,24 +1,28 @@
 <?php
-
 /**
- * User class
+ * User Model
  */
-class RegUser
+
+class AdminUser
 {
     use Model;
 
     public function __construct()
     {
-        $this->table = "reg_users";
-        $this->primary_key = "user_id";
+        $this->table = "employees";
+        $this->primary_key = "emp_id";
         $this->columns = [
-            "user_id",
+            "emp_id",
             "first_name",
             "last_name",
+            "username",
+            "salary",
+            "contact_no",
+            "NIC",
+            "date_employed",
+            "role",
             "email",
             "password",
-            "registered_date",
-            "contact_no",
             "last_modified"
         ];
     }
@@ -31,22 +35,20 @@ class RegUser
     public function validate(array $data): bool
     {
         $this->errors = [];
+        if (empty($data["first_name"])) {
+            $this->errors["first_name"] = "First name is required.";
+        }
+        if (empty($data["last_name"])) {
+            $this->errors["last_name"] = "Last name is required.";
+        }
 
-        $exists = $this->findBy(['email' => $data['email']]);
-        if ($exists)
-            $this->errors["email"] = "Email already exists";
+        if (empty($data["username"])) {
+            $this->errors["username"] = "Username is required.";
+        }
 
         if (empty($data["email"])) {
             $this->errors["email"] = "Email is required.";
-        } else if (!filter_var($data["email"], FILTER_VALIDATE_EMAIL)) {
-            $this->errors["email"] = "Email is not valid";
         }
-
-        if (empty($data["first_name"]))
-            $this->errors["first_name"] = "First name is required";
-
-        if (empty($data["last_name"]))
-            $this->errors["last_name"] = "Last name is required";
 
         if (empty($data["password"])) {
             $this->errors["password"] = "Password is required.";
@@ -60,4 +62,3 @@ class RegUser
         return empty($this->errors);
     }
 }
-

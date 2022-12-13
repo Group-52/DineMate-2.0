@@ -15,17 +15,19 @@ class Auth
             $user = new RegUser();
             try {
                 $result = $user->findBy(["email" => $_POST["email"]]);
-                if (password_verify($_POST["password"], $result[0]->password)) {
-                    $user = $result[0];
-                    $_SESSION["user_id"] = $user->user_id;
-                    $_SESSION["fname"] = $user->fname;
-                    $_SESSION["email"] = $user->email;
-                    redirect("home");
-                } else {
-                    $data["error"] = "Invalid email or password.";
+
+                if (!isset($result[0]))
+                    $data["errors"] = "Invalid email or password.";
+                else {
+                    if (password_verify($_POST["password"], $result[0]->password)) {
+                        $_SESSION["user"] = $result[0];
+                        redirect("home");
+                    } else {
+                        $data["errors"] = "Invalid email or password.";
+                    }
                 }
             } catch (Exception $e) {
-                $data["error"] = "Unknown error.";
+                $data["errors"] = "Unknown error.";
             }
         }
         $this->view("login", $data);

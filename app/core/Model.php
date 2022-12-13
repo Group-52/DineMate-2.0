@@ -15,7 +15,7 @@ trait Model
     protected int $offset = 0;
     protected string $order_by = "";
     protected string $order = "";
-    protected array $errors = [];
+    public array $errors = [];
 
     /**
      * Get all records.
@@ -168,20 +168,21 @@ trait Model
      */
     public function update(int $id, array $data): bool|array
     {
-        $query = "UPDATE $this->table SET ";
         $params = [];
 
+        $set = "";
         foreach ($data as $key => $value) {
             if (!in_array($key, $this->columns)) {
                 unset($data[$key]);
             } else {
-                $query .= "$key = ?, ";
+                $set .= "$key = ?, ";
                 $params[] = $value;
             }
         }
 
-        $query = rtrim($query, ", ");
-        $query .= " WHERE $this->primary_key = ?";
+        $set = rtrim($set, ", ");
+
+        $query = "UPDATE $this->table SET $set WHERE $this->primary_key = ?";
         $params[] = $id;
 
         return $this->query($query, $params);

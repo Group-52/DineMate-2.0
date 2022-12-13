@@ -12,10 +12,10 @@ class Dish
         $this->primary_key = "dish_id";
         $this->columns = [
             "name",
-            "netPrice",
-            "sellingPrice",
+            "net_price",
+            "selling_price",
             "description",
-            "prepTime",
+            "prep_time",
             "image_url"
         ];
     }
