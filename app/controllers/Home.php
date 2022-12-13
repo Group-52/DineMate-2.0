@@ -8,8 +8,16 @@ class Home
 {
     use Controller;
 
-    public function index(): void
+    public function index()
     {
-        $this->view("home");
+
+        $data['username'] = empty($_SESSION['user_id']) ? 'User' : $_SESSION['fname'];
+
+        #get 5 dishes from database
+        $d = new Dish();
+        $data['dishes'] = $d->getdishes();
+        $m = new Menu();
+        $data['menus'] = $m->getmenus();
+        $this->view('home', $data);
     }
 }

@@ -35,19 +35,18 @@ function redirect(string $path): void
 /**
  * Generates a unique name for the file using timestamp
  *
- * @param string $path
  * @param string $name
  * @param array $file
  * @return string
  */
-function getFileName(string $path, string $name, array $file): string
+function getFileName(string $name, array $file): string
 {
     $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
     $name = str_replace(' ', '', $name);
     $date = new DateTime();
     $n = $date->format('H:i:s');
     $n = str_replace(array("-", " ", ":"), "_", $n);
-    return $path . $name . $n . "." . $ext;
+    return $name . $n . "." . $ext;
 }
 
 /**

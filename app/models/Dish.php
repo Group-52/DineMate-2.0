@@ -1,10 +1,9 @@
-<?php 
+<?php
 
 // Dish class
 
-class Dish
+class Dish extends Model
 {
-    use Model;
 
     public function __construct()
     {
@@ -25,35 +24,35 @@ class Dish
      * @param $data array
      * @return bool
      */
-	public function validate(array $data): bool
+    public function validate(array $data): bool
     {
-		$this->errors = [];
+        $this->errors = [];
 
-		if(empty($data['name']))
-			$this->errors['name'] = 'Name is required';
+        if (empty($data['name']))
+            $this->errors['name'] = 'Name is required';
 
-		if(empty($this->errors))
-			return true;
+        if (empty($this->errors))
+            return true;
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * Get all dishes.
      */
-	public function getDishes(): bool|array
+    public function getDishes(): bool|array
     {
-		return $this->findAll();
-	}
+        return $this->findAll();
+    }
 
     /**
      * Add a dish.
      * @param $data
      * @return void
      */
-	public function addDish($data): void
+    public function addDish($data): void
     {
-		$this->insert($data);
-	}
+        $this->insert($data);
+    }
 }
 

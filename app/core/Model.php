@@ -4,7 +4,7 @@
  * Base Model Trait
  */
 
-trait Model
+class Model
 {
     use Database;
 

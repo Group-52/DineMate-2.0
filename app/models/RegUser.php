@@ -3,9 +3,8 @@
 /**
  * User class
  */
-class RegUser
+class RegUser extends Model
 {
-    use Model;
 
     public function __construct()
     {

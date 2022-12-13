@@ -7,7 +7,10 @@ const DBUSER = "root";
 const DBPASS = "";
 const DBDRIVER = "";
 
-if($_SERVER["SERVER_NAME"] == "localhost")
+define('ROOT', 'http://localhost/DineMate/public');
+define('ASSETS', 'http://localhost/DineMate/public/assets');
+
+if ($_SERVER["SERVER_NAME"] == "localhost")
     define("ROOT", "http://localhost/DineMate/public");
 else
     define("ROOT", "https://www.DineMate.com");

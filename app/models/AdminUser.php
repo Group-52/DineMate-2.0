@@ -3,9 +3,8 @@
  * User Model
  */
 
-class AdminUser
+class AdminUser extends Model
 {
-    use Model;
 
     public function __construct()
     {

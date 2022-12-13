@@ -4,10 +4,8 @@
  * Item Model
  */
 
-class Item
+class Item extends Model
 {
-    use Model;
-
     public function __construct()
     {
         $this->table = "items";
