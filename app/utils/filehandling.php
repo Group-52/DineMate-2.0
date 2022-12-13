@@ -1,13 +1,13 @@
 <?php 
 
 // Generates a unique name for the file using timestamp
-function getFileName($path,$name,$file){
+function getFileName($name,$file){
     $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
     $name = str_replace(' ', '', $name);
     $date = new DateTime();
     $n = $date->format('H:i:s');
     $n = str_replace(array("-"," ",":"), "_", $n);
-    return $path.$name.$n.".".$ext;
+    return $name.$n.".".$ext;
 }
 
 //Check if the file is of an image type

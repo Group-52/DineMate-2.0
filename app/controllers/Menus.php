@@ -15,7 +15,7 @@ class Dishes
 		
 	}
 	
-	public function addDish()
+	public function addMenu()
 	{
 		if (isset($_POST['submit'])){
 			$name = $_POST['name'];
@@ -49,7 +49,7 @@ class Dishes
 			redirect('dishes');
 
 	}
-		$this->view('adddish');
+		$this->view('addmenu');
 	}
 
 }

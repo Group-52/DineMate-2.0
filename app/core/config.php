@@ -10,6 +10,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost')
 	define('DBDRIVER', '');
 	
 	define('ROOT', 'http://localhost/DineMate/public');
+	define('ASSETS', 'http://localhost/DineMate/public/assets');
 
 }else
 {

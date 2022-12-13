@@ -35,7 +35,7 @@
         foreach($dishlist as $dish){
             echo "<tr>";
             echo "<td>".$dish->dish_id."</td>";
-            echo "<td><div class='dishpic'> <img src=".$dish->image_url." ></div></td>";
+            echo "<td><div class='dishpic'><img src='".ASSETS."/images/dishes/".$dish->image_url."'></div></td>";
             echo "<td>".$dish->name."</td>";
             echo "<td>".$dish->prepTime."</td>";
             echo "<td>".$dish->netPrice."</td>";
