@@ -9,7 +9,6 @@ class RegUser extends Model
     public function __construct()
     {
         $this->table = "reg_users";
-        $this->primary_key = "user_id";
         $this->columns = [
             "user_id",
             "first_name",

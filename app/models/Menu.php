@@ -32,7 +32,7 @@ class Menu extends Model
 
     public function getMenus(): bool|array
     {
-        return $this->findAll();
+        return $this->select()->fetchAll();
     }
 
     public function addMenu($data)

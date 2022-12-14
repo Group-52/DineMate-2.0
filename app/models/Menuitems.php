@@ -1,10 +1,8 @@
 <?php
 
 
-class Menuitems extends Model
+class MenuItems extends Model
 {
-
-    public string $order_column = "menu_id";
     protected string $table = 'menu_items';
     protected array $allowedColumns = [
         'menu_id',
@@ -14,7 +12,7 @@ class Menuitems extends Model
 
     public function getDishes($menu): bool|array
     {
-        return $this->findAll();
+        return $this->select()->fetchAll();
     }
 
     public function addMenu($data)

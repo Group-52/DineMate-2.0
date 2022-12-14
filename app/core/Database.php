@@ -8,7 +8,7 @@
 trait Database
 {
     private ?PDO $db = null;
-    protected string $query;
+    protected string $query = "";
     protected array $data = [];
 
     /**
@@ -18,8 +18,11 @@ trait Database
     public function execute(): PDOStatement
     {
         try {
+            echo $this->query;
             $statement = $this->prepare($this->query);
             $statement->execute($this->data);
+            $this->query = "";
+            $this->data = [];
             return $statement;
         } catch (PDOException $e) {
             die($e->getMessage());
@@ -37,7 +40,7 @@ trait Database
     /**
      * Fetch a single row from the query.
      */
-    public function fetch(): array
+    public function fetch(): object|false
     {
         return $this->execute()->fetch();
     }

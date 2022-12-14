@@ -23,12 +23,12 @@ class Auth
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new AdminUser();
             try {
-                $result = $user->findBy(["username" => $_POST["username"]]);
-                if (!isset($result[0])) {
+                $result = $user->select()->where("username", $_POST["username"])->fetch();
+                if (!isset($result)) {
                     $data["error"] = "Username or password is incorrect";
                 } else {
-                    if (password_verify($_POST["password"], $result[0]->password)) {
-                        $_SESSION["user"] = $result[0];
+                    if (password_verify($_POST["password"], $result->password)) {
+                        $_SESSION["user"] = $result;
                         redirect("admin");
                     } else {
                         $data["error"] = "Invalid email or password.";
@@ -62,7 +62,7 @@ class Auth
                     $data["errors"] = "Unknown error.";
                 }
             } else {
-                $data["errors"] = $user->errors;
+                $data["errors"] = $user->getErrors();
             }
         }
         $this->view("admin.register", $data);

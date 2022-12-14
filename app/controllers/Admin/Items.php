@@ -22,16 +22,14 @@ class Items
             foreach ($like_columns as $column) {
                 $data[$column] = $_GET["query"];
             }
-            if (isset($_GET["category"]) && $_GET["category"] != "") {
-                $data["items"] = $item->findLikeWhere($data, ["category" => $_GET["category"]]);
-            } else {
-                $data["items"] = $item->findLike($data);
-            }
-        } else if (isset($_GET["category"]) && $_GET["category"] != "") {
-            $data["items"] = $item->findBy(["category" => $_GET["category"]]);
-        } else {
-            $data["items"] = $item->findAll();
         }
+
+        $data["items"] = $item->select(["item_id", "name AS item_name", "brand", "description", "units.name", "categories.name AS category_name"])
+            ->containsAll($data)
+            ->where("category", $_GET["category"] ?? "")
+            ->join("units", "unit", "unit_id")
+            ->join("categories", "category", "category_id")
+            ->fetchAll();
 
         $data["controller"] = $this->controller;
         $this->view("items", $data);

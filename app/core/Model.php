@@ -14,17 +14,27 @@ class Model
 
     /**
      * Select rows from table
-     * @param array|string $columns
+     * @param array|string $column_list
      * @return Model
      */
-    public function select(array|string $columns): Model
+    public function select(array|string $column_list = "*"): Model
     {
-        $column_list = "*";
-        if (is_array($columns)) {
-            $column_list = implode(", ", $columns);
-        } else if (is_string($columns)) {
-            $column_list = $columns;
+        if (empty($column_list)) {
+            $column_list = "*";
         }
+        if (is_array($column_list)) {
+            for ($i = 0; $i < count($column_list); $i++) {
+                if (!str_contains($column_list[$i], ".")) {
+                    $column_list[$i] = $this->table . "." . $column_list[$i];
+                }
+            }
+            $column_list = implode(", ", $column_list);
+        } else {
+            if (!str_contains($column_list, ".")) {
+                $column_list = $this->table . "." . $column_list;
+            }
+        }
+
         $this->query = "SELECT $column_list FROM $this->table";
         return $this;
     }
@@ -36,6 +46,14 @@ class Model
      */
     public function insert(array $data): Model
     {
+        foreach (array_keys($data) as $column) {
+            if (!in_array($column, $this->columns)) {
+                unset($data[$column]);
+            }
+        }
+        if (empty($data)) {
+            return $this;
+        }
         $column_list = implode(", ", array_keys($data));
         $value_list = "";
         foreach ($data as $ignored) {
@@ -56,7 +74,13 @@ class Model
     {
         $column_list = "";
         foreach (array_keys($data) as $column) {
+            if (!in_array($column, $this->columns)) {
+                unset($data[$column]);
+            }
             $column_list .= "$column = ?, ";
+        }
+        if (empty($data)) {
+            return $this;
         }
         $column_list = rtrim($column_list, ", ");
         $this->query = "UPDATE $this->table SET $column_list";
@@ -81,8 +105,11 @@ class Model
      * @param string $value
      * @return Model
      */
-    public function where(string $column, string $operator, string $value): Model
+    public function where(string $column, string $value, string $operator = "="): Model
     {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
         $this->query .= " WHERE $column $operator ?";
         $this->data[] = $value;
         return $this;
@@ -95,8 +122,11 @@ class Model
      * @param string $value
      * @return Model
      */
-    public function and(string $column, string $operator, string $value): Model
+    public function and(string $column, string $value, string $operator = "="): Model
     {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
         $this->query .= " AND $column $operator ?";
         $this->data[] = $value;
         return $this;
@@ -109,7 +139,7 @@ class Model
      * @param string $value
      * @return Model
      */
-    public function or(string $column, string $operator, string $value): Model
+    public function or(string $column, string $value, string $operator = "="): Model
     {
         $this->query .= " OR $column $operator ?";
         $this->data[] = $value;
@@ -124,6 +154,9 @@ class Model
      */
     public function orderBy(string $column, string $direction = "ASC"): Model
     {
+        if (empty($column)) {
+            return $this;
+        }
         $this->query .= " ORDER BY $column $direction";
         return $this;
     }
@@ -148,5 +181,52 @@ class Model
     {
         $this->query .= " OFFSET $offset";
         return $this;
+    }
+
+    /**
+     * Join clause
+     */
+    public function join(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+
+    public function contains(string $column, string $value): Model
+    {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " WHERE $column LIKE ?";
+        $this->data[] = "%$value%";
+        return $this;
+    }
+
+    public function containsAll(array $data): Model
+    {
+        foreach (array_keys($data) as $column) {
+            if (!in_array($column, $this->columns)) {
+                unset($data[$column]);
+            }
+        }
+        if (empty($data)) {
+            return $this;
+        }
+        $this->query .= " WHERE ";
+        foreach ($data as $column => $value) {
+            $this->query .= "$column LIKE ? AND ";
+            $this->data[] = "%$value%";
+        }
+        $this->query .= rtrim($this->query, "AND ");
+        return $this;
+    }
+
+    /**
+     * Return errors
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

@@ -9,7 +9,6 @@ class Item extends Model
     public function __construct()
     {
         $this->table = "items";
-        $this->primary_key = "id";
         $this->columns = [
             "name",
             "brand",

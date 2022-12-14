@@ -6,7 +6,7 @@ class Dishes
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
         $dish = new Dish;
         $results['dishlist'] = $dish->getDishes();
@@ -15,7 +15,7 @@ class Dishes
 
     }
 
-    public function addDish()
+    public function addDish(): void
     {
         if (isset($_POST['submit'])) {
             $name = $_POST['name'];
