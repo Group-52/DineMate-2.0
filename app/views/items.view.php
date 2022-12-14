@@ -35,7 +35,7 @@
             <th>Name</th>
             <th>Brand</th>
             <th>Description</th>
-            <th>Measure</th>
+            <th>Unit</th>
             <th>Category</th>
         </tr>
         </thead>

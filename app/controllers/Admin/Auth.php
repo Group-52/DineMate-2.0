@@ -24,11 +24,15 @@ class Auth
             $user = new AdminUser();
             try {
                 $result = $user->findBy(["username" => $_POST["username"]]);
-                if (password_verify($_POST["password"], $result[0]->password)) {
-                    $_SESSION["user"] = $result[0];
-                    redirect("admin");
+                if (!isset($result[0])) {
+                    $data["error"] = "Username or password is incorrect";
                 } else {
-                    $data["error"] = "Invalid email or password.";
+                    if (password_verify($_POST["password"], $result[0]->password)) {
+                        $_SESSION["user"] = $result[0];
+                        redirect("admin");
+                    } else {
+                        $data["error"] = "Invalid email or password.";
+                    }
                 }
             } catch (Exception $e) {
                 $data["error"] = "Unknown error.";

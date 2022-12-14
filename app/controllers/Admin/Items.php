@@ -23,7 +23,7 @@ class Items
                 $data[$column] = $_GET["query"];
             }
             if (isset($_GET["category"]) && $_GET["category"] != "") {
-                $data["items"] = $item->findLikeCategory($data, $_GET["category"], "category");
+                $data["items"] = $item->findLikeWhere($data, ["category" => $_GET["category"]]);
             } else {
                 $data["items"] = $item->findLike($data);
             }

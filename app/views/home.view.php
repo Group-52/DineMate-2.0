@@ -44,8 +44,8 @@
 
 
     <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/login">Login</a>
-    <a href="<?= ROOT ?>/logout">Logout</a>
+    <a href="<?= ROOT ?>/auth/login">Login</a>
+    <a href="<?= ROOT ?>/auth/logout">Logout</a>
 
 </div>
 
@@ -59,29 +59,33 @@
 
 <div class="dishrow">
     <h3>Dishes</h3>
-    <?php foreach ($dishes as $dish) : ?>
-        <div class="card" style="width: 18rem;">
-            <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"><?= $dish->name ?></h5>
-                <p class="card-text"><?= $dish->description ?></p>
+    <?php if (isset($dishes)) : ?>
+        <?php foreach ($dishes as $dish) : ?>
+            <div class="card" style="width: 18rem;">
+                <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $dish->name ?></h5>
+                    <p class="card-text"><?= $dish->description ?></p>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
 <!-- generate all menus -->
 <div class="menurow">
     <h3>Menus</h3>
-    <?php foreach ($menus as $menu) : ?>
-        <div class="card" style="width: 18rem;">
-            <img src="<?= ASSETS ?>/images/menus/<?= $menu->imageurl ?>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"><?= $menu->name ?></h5>
-                <p class="card-text"></p>
+    <?php if (isset($menus)) : ?>
+        <?php foreach ($menus as $menu) : ?>
+            <div class="card" style="width: 18rem;">
+                <img src="<?= ASSETS ?>/images/menus/<?= $menu->imageurl ?>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $menu->name ?></h5>
+                    <p class="card-text"></p>
+                </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 </body>
 </html>

@@ -17,8 +17,8 @@
         <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
     </div>
     <div class="form-group">
-        <label class="label" for="measure">Measure</label>
-        <input class="form-control" type="text" name="measure" id="measure">
+        <label class="label" for="unit">Unit</label>
+        <input class="form-control" type="text" name="unit" id="unit">
     </div>
     <div class="form-group">
         <label class="label" for="category">Category</label>

@@ -128,6 +128,50 @@ class Model
         return false;
     }
 
+
+    /**
+     * Get a record by multiple columns with LIKE for a category
+     * @param array $like_data
+     * @param array $where_data
+     * @return false|array
+     */
+    public function findLikeWhere(array $like_data, array $where_data): false|array
+    {
+        try {
+
+            $query = "SELECT * FROM $this->table WHERE ";
+            $params = [];
+
+            foreach ($like_data as $key => $value) {
+                if (!in_array($key, $this->columns)) {
+                    unset($like_data[$key]);
+                } else {
+                    $query .= "$key LIKE ? OR ";
+                    $params[] = "%$value%";
+                }
+            }
+            $query = rtrim($query, "OR ");
+            foreach ($where_data as $key => $value) {
+                if (!in_array($key, $this->columns)) {
+                    unset($where_data[$key]);
+                } else {
+                    $query .= "$key = ? AND ";
+                    $params[] = $value;
+                }
+            }
+            $query = rtrim($query, "AND ");
+
+            $query .= " LIMIT $this->limit OFFSET $this->offset";
+
+            return $this->query($query, $params);
+
+        } catch (Exception) {
+            $this->errors[] = "Unknown error.";
+
+        }
+        return false;
+    }
+
     /**
      * Insert a record.
      * @param array $data
