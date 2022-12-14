@@ -75,7 +75,7 @@
     <h3>Menus</h3>
     <?php foreach ($menus as $menu) : ?>
         <div class="card" style="width: 18rem;">
-            <img src="<?= ASSETS ?>/images/menus/<?= $menu->imageurl ?>" class="card-img-top" alt="...">
+            <img src="<?= ASSETS ?>/images/menus/<?= $menu->image_url ?>" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title"><?= $menu->name ?></h5>
                 <p class="card-text"></p>
@@ -83,5 +83,14 @@
         </div>
     <?php endforeach; ?>
 </div>
+
+<?php
+echo '<br>';
+var_dump($menuitems);  
+echo '<br>'.gettype($menuitems).'<br>';
+// echo gettype($menuitems[0]).'<br>';
+
+// get_defined_vars()
+?>
 </body>
 </html>

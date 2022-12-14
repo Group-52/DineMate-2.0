@@ -7,6 +7,7 @@ class Menu extends Model
 
     public string $order_column = "menu_id";
     protected string $table = 'menus';
+    protected string $primary_key = 'menu_id';
     protected array $allowedColumns = [
         'menu_id',
         'name',
