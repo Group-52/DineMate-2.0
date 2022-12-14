@@ -8,22 +8,38 @@
 trait Database
 {
     private ?PDO $db = null;
+    protected string $query;
+    protected array $data = [];
 
     /**
-     * Query the database.
-     * @param string $query
-     * @param array $data
-     * @return array | bool
+     * Execute the query.
+     * @return PDOStatement
      */
-    public function query(string $query, array $data = []): bool|array
+    public function execute(): PDOStatement
     {
         try {
-            $statement = $this->prepare($query);
-            $statement->execute($data);
-            return $statement->fetchAll();
+            $statement = $this->prepare($this->query);
+            $statement->execute($this->data);
+            return $statement;
         } catch (PDOException $e) {
             die($e->getMessage());
         }
+    }
+
+    /**
+     * Fetch all rows from the query.
+     */
+    public function fetchAll(): array
+    {
+        return $this->execute()->fetchAll();
+    }
+
+    /**
+     * Fetch a single row from the query.
+     */
+    public function fetch(): array
+    {
+        return $this->execute()->fetch();
     }
 
     /**
