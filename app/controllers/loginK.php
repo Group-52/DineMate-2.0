@@ -5,27 +5,25 @@ class loginK{
     {
         echo "HI";
     }
-    public function signup(){	
-		if(isset($_POST['register'])){
-			$fname = $_POST['fname'];
-			$lname = $_POST['lname'];
-			$contactNo = $_POST['contactNo'];
-			$email = $_POST['email'];
-			$password = $_POST['password'];
-
-	 		$manageruser = new ManagerUser;
-	 		$manageruser ->signup([
-	 			'fname'=> $fname,
-	 			'lname'=> $lname,
-	 			'contactNo'=> $contactNo,
-	 			'email'=> $email,
-				'password'=> $password
-	 		]);
-
-			 //header('Location: login');
-			
-	 	}
-         $this->view("signupK");
+    public function signup(): void
+    {
+        $data = [];
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $user = new ManagerUser();
+            if ($user->validate($_POST)) {
+                $_POST["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                try {
+                    $_POST["role"] = "4";
+                    $user->insert($_POST);
+                    redirect("loginK");
+                } catch (Exception $e) {
+                    $data["errors"] = "Unknown error.";
+                }
+            } else {
+                $data["errors"] = $user->errors;
+            }
+        }
+        $this->view("loginK");
     }
 
     public function login(): void

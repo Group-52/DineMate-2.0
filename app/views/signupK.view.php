@@ -37,7 +37,7 @@
           <input name = "lname" type ="text" placeholder = "Last Name" required><br>
 
           <label for ="contactNo"><b>Contact No</b></label><br>
-          <input name = "contactNo" type="text" placeholder = "Contact No" required><br>
+          <input name = "contact_no" type="text" placeholder = "Contact No" required><br>
 
           <label for="email"><b>Email</b></label><br>
           <input name = "email" type = "text" placeholder = "Email" required><br>
