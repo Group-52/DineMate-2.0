@@ -42,7 +42,12 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        return $this->select()->fetchAll();
+        $l = $this->select()->fetchAll();
+        $dishes = array();
+        foreach($l as $d) {
+            $dishes[$d->dish_id] = $d;
+        }
+        return $dishes;
     }
 
     #get dish by id
