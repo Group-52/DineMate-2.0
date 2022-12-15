@@ -33,5 +33,14 @@ class Cart extends Model
         return $carts;
     }
 
+    public function addtoCart($userid,$itemid)
+    {
+        $this->insert([
+            'user_id' => $userid,
+            'item_id' => $itemid,
+            'quantity' => 1
+        ]);
+    }
+
 
 }
