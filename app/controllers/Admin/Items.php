@@ -16,20 +16,10 @@ class Items
             redirect("login");
         }
         $data = [];
-        $item = new Item;
-        if (isset($_GET["query"]) && $_GET["query"] != "") {
-            $like_columns = ["name", "description", "category", "measure"];
-            foreach ($like_columns as $column) {
-                $data[$column] = $_GET["query"];
-            }
-        }
-
-        $data["items"] = $item->select(["item_id", "name AS item_name", "brand", "description", "units.name", "categories.name AS category_name"])
-            ->containsAll($data)
-            ->where("category", $_GET["category"] ?? "")
-            ->join("units", "unit", "unit_id")
-            ->join("categories", "category", "category_id")
-            ->fetchAll();
+        $data["items"] = (new Item)->itemsSearch($_GET);
+        $data["categories"] = (new Category)->select()->fetchAll();
+        $data["query"] = $_GET["query"] ?? "";
+        $data["category_name"] = $_GET["category"] ?? "";
 
         $data["controller"] = $this->controller;
         $this->view("items", $data);

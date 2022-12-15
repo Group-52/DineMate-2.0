@@ -34,4 +34,24 @@ class Item extends Model
         }
         return empty($this->errors);
     }
+
+    public function itemsSearch(array $data): array
+    {
+        $like_columns = ["items.name", "items.brand", "items.description", "units.name", "categories.name"];
+        $likeData = [];
+
+        if (isset($data["query"])) {
+            foreach ($like_columns as $column) {
+                $likeData[$column] = $data["query"];
+            }
+            unset($data["query"]);
+        }
+
+        return $this->select(["item_id", "name", "brand", "description", "units.name AS units_name", "categories.name AS category_name"])
+            ->join("units", "unit", "unit_id")
+            ->join("categories", "category", "category_id")
+            ->containsAll($likeData)
+            ->and("categories.name", $data["category"] ?? "")
+            ->fetchAll();
+    }
 }

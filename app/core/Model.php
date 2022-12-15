@@ -204,20 +204,16 @@ class Model
 
     public function containsAll(array $data): Model
     {
-        foreach (array_keys($data) as $column) {
-            if (!in_array($column, $this->columns)) {
-                unset($data[$column]);
-            }
-        }
         if (empty($data)) {
             return $this;
         }
-        $this->query .= " WHERE ";
+        $this->query .= " WHERE (";
         foreach ($data as $column => $value) {
-            $this->query .= "$column LIKE ? AND ";
+            $this->query .= "$column LIKE ? OR ";
             $this->data[] = "%$value%";
         }
-        $this->query .= rtrim($this->query, "AND ");
+        $this->query = rtrim($this->query, "OR ");
+        $this->query .= ")";
         return $this;
     }
 

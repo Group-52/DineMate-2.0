@@ -26,6 +26,16 @@ class AdminUser extends Model
     }
 
     /**
+     * Get user by username
+     * @param string $username
+     * @return object|null
+     */
+    public function getUserByUsername(string $username): ?object
+    {
+        return $this->select()->where("username", $username)->fetch();
+    }
+
+    /**
      * Validate user data.
      * @param array $data
      * @return bool

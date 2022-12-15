@@ -18,7 +18,6 @@ trait Database
     public function execute(): PDOStatement
     {
         try {
-            echo $this->query;
             $statement = $this->prepare($this->query);
             $statement->execute($this->data);
             $this->query = "";

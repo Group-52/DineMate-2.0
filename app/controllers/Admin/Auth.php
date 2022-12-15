@@ -8,6 +8,8 @@ class Auth
 {
     use Controller;
 
+    private string $controller = "auth";
+
     public function index(): void
     {
         if (!isset($_SESSION["user"])) {
@@ -23,7 +25,7 @@ class Auth
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new AdminUser();
             try {
-                $result = $user->select()->where("username", $_POST["username"])->fetch();
+                $result = $user->getUserByUsername($_POST["username"]);
                 if (!isset($result)) {
                     $data["error"] = "Username or password is incorrect";
                 } else {

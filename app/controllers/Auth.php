@@ -14,8 +14,7 @@ class Auth
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
             try {
-                $result = $user->select()->where("email", $_POST["email"])->fetch();
-
+                $result = $user->getUserByEmail($_POST["email"]);
                 if (!$result)
                     $data["errors"] = "Invalid email or password.";
                 else {
