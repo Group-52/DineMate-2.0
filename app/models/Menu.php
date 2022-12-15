@@ -33,7 +33,12 @@ class Menu extends Model
 
     public function getMenus(): bool|array
     {
-        return $this->findAll();
+        $l= $this->findAll();
+        $menus = array();
+        foreach ($l as $m) {
+            $menus[$m->menu_id] = $m;
+        }
+        return $menus;
     }
 
     public function addMenu($data)

@@ -93,7 +93,8 @@ foreach ($menuitems as $menu) {
 
 
 // show(get_defined_vars());
-var_dump($_SESSION);
+// var_dump($_SESSION);
+var_dump($menus)
 ?>
 
 </body>
