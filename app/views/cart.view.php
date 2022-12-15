@@ -243,14 +243,14 @@
             <!-- generate all items in cart -->
             
             <?php foreach ($cartlist as $key => $dish) :
-                show($dish);
+                // show($dish);
                 echo "<div class='Cart-Items'>";
                 echo "<div class='image-box'>";
-                echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish[0]->image_url . ">";
+                echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
                 echo "</div>";
                 echo "<div class='about'>";
-                echo "<h1 class='title'>" . $dish[0]->name . "</h1>";
-                echo "<h3 class='subtitle'>" . $dish[0]->description . "</h3>";
+                echo "<h1 class='title'>" . $dish->name . "</h1>";
+                echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
                 // echo "<img src='images/veg.png' />";
                 echo "</div>";
                 echo "<div class='counter'>";
@@ -259,7 +259,7 @@
                 echo "<div class='btn'>-</div>";
                 echo "</div>";
                 echo "<div class='prices'>";
-                echo "<div class='amount'>$" . $dish[0]->selling_price . "</div>";
+                echo "<div class='amount'>$" . $dish->selling_price . "</div>";
                 echo "<div class='save'><u>Save for later</u></div>";
                 echo "<div class='remove'><u>Remove</u></div>";
                 echo "</div>";
@@ -283,7 +283,7 @@
     </div>
 
     <?php
-    show($cartlist);
+    // show($cartlist);
     ?>
 </body>
 
