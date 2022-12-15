@@ -235,11 +235,12 @@
             <h5 class="Action">Remove all</h5>
         </div>
 
-        <div class="Cart-Items">
+        
 
             <!-- generate all items in cart -->
             <?php foreach ($cartlist as $key => $dish) :
                 // show($dish);
+                echo "<div class='Cart-Items'>";
                 echo "<div class='image-box'>";
                 echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish[0]->image_url . ">";
                 echo "</div>";
@@ -258,10 +259,10 @@
                 echo "<div class='save'><u>Save for later</u></div>";
                 echo "<div class='remove'><u>Remove</u></div>";
                 echo "</div>";
+                echo "</div>";
 
             endforeach; ?>
 
-        </div>
 
         <hr>
 
