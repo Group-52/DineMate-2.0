@@ -14,7 +14,7 @@ class Menuitems extends Model
 
 
     #pass menu id to get all dishes in that menu
-    public function getMenuItems($menu)
+    public function getMenuItems($menu): array
     {
         $d = new Dish();
         
@@ -30,7 +30,7 @@ class Menuitems extends Model
 
     #get all menu items and sort and separate by menu and make an array of arrays of menu items
 
-    public function getMenuItemsByMenu()
+    public function getMenuItemsByMenu(): array
     {
         $m = new Menu();
         $menus = $m->getMenus();
@@ -43,11 +43,9 @@ class Menuitems extends Model
         return $mids;
     }
 
-    // public function addMenu($data)
-    // {
-    //     $this->insert($data);
-    // }
-
-
+     public function addMenu($data): void
+     {
+         $this->insert($data);
+     }
 }
 
