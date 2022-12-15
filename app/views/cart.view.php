@@ -200,6 +200,32 @@
             font-weight: 600;
             color: #202020;
         }
+
+        .image-box {
+            width: 200px;
+            /* Set the width of the box */
+            height: 200px;
+            /* Set the height of the box */
+            overflow: hidden;
+            /* Hide any content that overflows the box */
+        }
+
+        .image-box img {
+            width: 100%;
+            /* Set the width of the image to 100% of the box */
+            height: auto;
+            /* Set the height of the image to auto to maintain the aspect ratio */
+        }
+
+        .cartitem {
+            height: 200px;
+            display: block;
+            justify-content: space-between;
+            align-items: center;
+        }
+        img{
+            border-radius: 10px;
+        }
     </style>
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet"> -->
 </head>
@@ -212,49 +238,34 @@
             <h5 class="Action">Remove all</h5>
         </div>
 
-        <div class="Cart-Items">
-            <!-- <div class="image-box">
-                <img src="images/apple.png" />
-            </div>
-            <div class="about">
-                <h1 class="title">Apple Juice</h1>
-                <h3 class="subtitle">250ml</h3>
-                <img src="images/veg.png" />
-            </div>
-            <div class="counter">
-                <div class="btn">+</div>
-                <div class="count">2</div>
-                <div class="btn">-</div>
-            </div>
-            <div class="prices">
-                <div class="amount">$2.99</div>
-                <div class="save"><u>Save for later</u></div>
-                <div class="remove"><u>Remove</u></div>
-            </div> -->
+        
 
             <!-- generate all items in cart -->
-            <?php foreach($cartlist as $dish): 
-            echo "<div class='image-box'>";
-            echo "<img " . $dish->name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'>";
-            echo "</div>";
-            echo "<div class='about'>";
-            echo "<h1 class='title'>" . $dish->name . "</h1>";
-            echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
-            echo "<img src='images/veg.png' />";
-            echo "</div>";
-            echo "<div class='counter'>";
-            echo "<div class='btn'>+</div>";
-            echo "<div class='count'>2</div>";
-            echo "<div class='btn'>-</div>";
-            echo "</div>";
-            echo "<div class='prices'>";
-            echo "<div class='amount'>$" . $dish->price . "</div>";
-            echo "<div class='save'><u>Save for later</u></div>";
-            echo "<div class='remove'><u>Remove</u></div>";
-            echo "</div>";
+            <?php foreach ($cartlist as $key => $dish) :
+                // show($dish);
+                echo "<div class='Cart-Items'>";
+                echo "<div class='image-box'>";
+                echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish[0]->image_url . ">";
+                echo "</div>";
+                echo "<div class='about'>";
+                echo "<h1 class='title'>" . $dish[0]->name . "</h1>";
+                echo "<h3 class='subtitle'>" . $dish[0]->description . "</h3>";
+                // echo "<img src='images/veg.png' />";
+                echo "</div>";
+                echo "<div class='counter'>";
+                echo "<div class='btn'>+</div>";
+                echo "<div class='count'>2</div>";
+                echo "<div class='btn'>-</div>";
+                echo "</div>";
+                echo "<div class='prices'>";
+                echo "<div class='amount'>$" . $dish[0]->selling_price . "</div>";
+                echo "<div class='save'><u>Save for later</u></div>";
+                echo "<div class='remove'><u>Remove</u></div>";
+                echo "</div>";
+                echo "</div>";
+
             endforeach; ?>
 
-        </div>
 
         <hr>
 
@@ -270,8 +281,8 @@
         </div>
     </div>
 
-    <?php 
-    var_dump($cartlist);
+    <?php
+    // var_dump($cartlist);
     ?>
 </body>
 
