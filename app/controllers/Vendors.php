@@ -27,7 +27,6 @@ class Vendors
                 'contact_no'=> $contact_no
 			]);
 
-			//header('Location: vendor');
             redirect('./vendors/vendor');
 
         }
@@ -38,7 +37,7 @@ class Vendors
     {
         $vendor = new Vendor;
         $results['Vendor'] = $vendor->getVendors();
-        print_r($results);die();
+        
         $this->view('vendor', $results);
     }
 

@@ -1,13 +1,10 @@
-<?php
-            print_r($results['vendor']);die();
-            
-?>
+
 <!DOCTYPE html>
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Employee Details</title>
+    <title>Vendors Details</title>
     <style>
         .table {
             font-family: Arial, Helvetica, sans-serif;
@@ -62,16 +59,26 @@
             </tr>
         </thead>
     
-    
     <tbody>
-        
-        <tr>
+        <?php if (isset($Vendor)) {
+            foreach ($Vendor as $v1) {
+                echo "<tr>";
+                echo "<td>" . $v1->vendor_id . "</td>";
+                echo "<td>" . $v1->name. "</td>";
+                echo "<td>" . $v1->address . "</td>";
+                echo "<td>" . $v1->company . "</td>";
+                echo "<td>" . $v1->contact_no . "</td>";
+                echo "</tr>";
+            }
+        }
+        ?>
+        <!-- <tr>
             <td><?php echo $row['vendor_id']?></td>
             <td><?php echo $row['name']?></td>
             <td><?php echo $row['address']?></td>
             <td><?php echo $row['company']?></td>
             <td><?php echo $row['contact_no']?></td>
-        </tr>
+        </tr> -->
         
         </tbody>
     </table>
