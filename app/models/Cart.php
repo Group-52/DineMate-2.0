@@ -20,7 +20,7 @@ class Cart extends Model
     public function getCart($id): bool|array
     {
         $d = new Dish();
-        $cart = $this->select()->where('item_id', $id)->fetchAll();
+        $cart = $this->select()->where('user_id', $id)->fetchAll();
         $l = array();
         foreach ($cart as $c) {
             $l[$c->item_id] = $d->getDishById($c->item_id);
