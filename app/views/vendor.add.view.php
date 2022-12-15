@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
         <title>Add Vendor</title>
     </head>
 

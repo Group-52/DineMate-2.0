@@ -8,8 +8,8 @@ class Dish extends Model
     public function __construct()
     {
         $this->table = "dishes";
-        $this->primary_key = "dish_id";
         $this->columns = [
+            "dish_id",
             "name",
             "net_price",
             "selling_price",
@@ -42,7 +42,7 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        $l = $this->findAll();
+        $l = $this->select()->fetchAll();
         $dishes = array();
         foreach($l as $d) {
             $dishes[$d->dish_id] = $d;
@@ -51,9 +51,9 @@ class Dish extends Model
     }
 
     #get dish by id
-    public function getDishById($id): bool|array
+    public function getDishById($id): bool|object
     {
-        return $this->find($id);
+        return $this->select()->where("dish_id", $id)->fetch();
     }
 
     /**

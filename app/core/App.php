@@ -35,8 +35,7 @@ class App
                 $this->controller = $url[0];
                 unset($url[0]);
             } else {
-                $this->controller = "_404";
-                $path = $controllerPath . "_404.php";
+                $this->controller = null;
             }
         }
 
@@ -49,16 +48,17 @@ class App
                 $this->method = $url[1];
                 unset($url[1]);
             } else {
-                $this->controller = "_404";
+                $this->controller = null;
             }
         }
 
-        // checks if index method exists
-        if ($this->controller != "_404" && !method_exists($this->controller, $this->method)) {
-            $this->controller = "_404";
+        // checks if method exists
+        if ($this->controller && !method_exists($this->controller, $this->method)) {
+            $this->controller = null;
         }
 
-        if ($this->controller == "_404") {
+        if (!$this->controller) {
+            $this->controller = "_404";
             $path = $controllerPath . "_404.php";
             include $path;
             $this->controller = new $this->controller;

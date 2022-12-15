@@ -29,9 +29,8 @@
     </tr>
 
     <?php
-
-    if (isset($dishlist)) {
-        foreach ($dishlist as $dish) {
+    if (isset($dish_list)) {
+        foreach ($dish_list as $dish) {
             echo "<tr>";
             echo "<td>" . $dish->dish_id . "</td>";
             echo "<td><div class='dishpic'><img alt='" . $dish->name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'></div></td>";

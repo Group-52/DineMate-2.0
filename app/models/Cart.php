@@ -1,4 +1,5 @@
 <?php
+
 class Cart extends Model
 {
     public string $order_column = "user_id";
@@ -19,9 +20,9 @@ class Cart extends Model
     public function getCart($id): bool|array
     {
         $d = new Dish();
-        $cart = $this->find($id);
+        $cart = $this->select()->where('item_id', $id)->fetch();
         $l = array();
-        foreach($cart as $c) {
+        foreach ($cart as $c) {
             $l[$c->item_id] = $d->getDishById($c->item_id);
         }
         return $l;
@@ -29,17 +30,7 @@ class Cart extends Model
 
     public function getCarts(): bool|array
     {
-        $carts = $this->findAll();
-        return $carts;
-    }
-
-    public function addtoCart($userid,$itemid)
-    {
-        $this->insert([
-            'user_id' => $userid,
-            'item_id' => $itemid,
-            'quantity' => 1
-        ]);
+        return $this->select()->fetchAll();
     }
 
 

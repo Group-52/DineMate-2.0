@@ -9,7 +9,6 @@ class AdminUser extends Model
     public function __construct()
     {
         $this->table = "employees";
-        $this->primary_key = "emp_id";
         $this->columns = [
             "emp_id",
             "first_name",
@@ -27,6 +26,16 @@ class AdminUser extends Model
     }
 
     /**
+     * Get user by username
+     * @param string $username
+     * @return object|null
+     */
+    public function getUserByUsername(string $username): ?object
+    {
+        return $this->select()->where("username", $username)->fetch();
+    }
+
+    /**
      * Validate user data.
      * @param array $data
      * @return bool
@@ -40,15 +49,12 @@ class AdminUser extends Model
         if (empty($data["last_name"])) {
             $this->errors["last_name"] = "Last name is required.";
         }
-
         if (empty($data["username"])) {
             $this->errors["username"] = "Username is required.";
         }
-
         if (empty($data["email"])) {
             $this->errors["email"] = "Email is required.";
         }
-
         if (empty($data["password"])) {
             $this->errors["password"] = "Password is required.";
         }
