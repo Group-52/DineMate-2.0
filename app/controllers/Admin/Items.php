@@ -13,7 +13,7 @@ class Items
     public function index(): void
     {
         if (!isset($_SESSION["user"])) {
-            redirect("login");
+            redirect("admin/auth");
         }
         $data = [];
         $item = new Item;
@@ -40,7 +40,7 @@ class Items
     public function create(): void
     {
         if (!isset($_SESSION["user"])) {
-            redirect("login");
+            redirect("admin/auth");
         }
 
         $data = [];
@@ -62,6 +62,6 @@ class Items
             }
         }
         $data["controller"] = $this->controller;
-        $this->view("create.items", $data);
+        $this->view("items.create", $data);
     }
 }

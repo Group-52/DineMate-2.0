@@ -5,7 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
+
     <script src="https://kit.fontawesome.com/3cb91da810.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
+
 
     <title>Home page</title>
 
@@ -28,7 +32,7 @@
 
         /* make all card images same size */
         .card-img-top {
-            width: 18rem;
+            width: 100%;
             height: 10rem;
             object-fit: cover;
         }
@@ -67,53 +71,55 @@
 </head>
 
 <body>
+<?php include "partials/navbar.home.partial.php"; ?>
 
-    <?php
-    // check if user is logged in
-    if (isset($_SESSION['user'])) {
-        echo '<a href="' . ROOT . '/carts/viewcart/' . $_SESSION['user']->user_id . '">View Cart</a>';
-    }
-    ?>
+<?php
+// check if user is logged in
+if (isset($_SESSION['user'])) {
+    echo '<a href="' . ROOT . '/carts/viewcart/' . $_SESSION['user']->user_id . '">View Cart</a>';
+}
+?>
 
-
-    <h4>Hi, <?= $username ?></h4>
+<div class="row py-5 justify-content-space-around">
     <div>
-
-
-        <a href="<?= ROOT ?>">Home</a>
-        <a href="<?= ROOT ?>/auth/login">Login</a>
-        <a href="<?= ROOT ?>/auth/logout">Logout</a>
-
+        <h2>Customer</h2>
+        <a class="link d-block" href="<?= ROOT ?>/auth/login">Login</a>
+        <a class="link d-block" href="<?= ROOT ?>/menus">View Menus</a>
+        <a class="link d-block" href="<?= ROOT ?>/dishes">View Dishes</a>
     </div>
+    <div>
+        <h2>Inventory Manager</h2>
+        <a class="link d-block" href="<?= ROOT ?>/admin/auth/login">Login</a>
+        <a class="link d-block" href="<?= ROOT ?>/admin/items">View items</a>
+    </div>
+    <div>
+        <h2>General Manager</h2>
+        <a class="link d-block" href="<?= ROOT ?>/loginK/login">Login</a>
+        <a class="link d-block" href="<?= ROOT ?>/vendors">View Vendors</a>
+    </div>
+    <div>
+        <h2>Chef</h2>
+        <a class="link d-block" href="<?= ROOT ?>/loginZ/signup">Login</a>
+        <a class="link d-block" href="<?= ROOT ?>/orders">View Orders</a>
+    </div>
+</div>
 
-    <h1> HOME PAGE</h1>
-    <h2>
-        <a href="<?= ROOT ?>/dishes">View Dishes</a>
-        <a href="<?= ROOT ?>/menus">View Menus</a>
-        <a href="<?= ROOT ?>/admin/auth/login">Login Employee</a>
-        <a href="<?= ROOT ?>/loginK/login">Login Keethapriya</a>
-        <a href="<?= ROOT ?>/loginZ/signup">Login Zulfa</a>
-        <a href="<?= ROOT ?>/admin/items">View items</a>
-        <a href="<?= ROOT ?>/vendors">View Vendors</a>
-        <a href="<?= ROOT ?>/orders">View Orders</a>
-    </h2>
+<h1> HOME PAGE</h1>
 
+<!-- generate all dishes -->
 
-    <!-- generate all dishes -->
-
-    <div class="dishrow">
-        <h3>Dishes</h3>
-        <?php if (isset($dishes)) : ?>
-            <?php foreach ($dishes as $dish) : ?>
-                <div class="card" style="width: 18rem;">
-                    <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $dish->name ?></h5>
-                        <p class="card-text"><?= $dish->description ?></p>
+<div class="dishrow">
+    <h3>Dishes</h3>
+    <?php if (isset($dishes)) : ?>
+        <?php foreach ($dishes as $dish) : ?>
+            <div class="card" style="width: 18rem;">
+                <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $dish->name ?></h5>
+                    <p class="card-text"><?= $dish->description ?></p>
                         <a href="#" class="add-to-cart-btn">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
                         </a>
-                    </div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -121,15 +127,14 @@
 
 
 
-
-    <!-- generate all items for each menu -->
-    <?php
-    if (isset($menuitems)) {
-        foreach ($menuitems as $key => $menu) {
-            echo '<div class="menurow">';
-            echo '<h3>' . $menus[$key]->name . '</h3>';
-            foreach ($menu as $item) {
-                echo '<div class="card" style="width: 18rem;">
+<!-- generate all items for each menu -->
+<?php
+if (isset($menuitems) && isset($menus)) {
+    foreach ($menuitems as $key => $menu) {
+        echo '<div class="menurow">';
+        echo '<h3>' . $menus[$key]->name . '</h3>';
+        foreach ($menu as $item) {
+            echo '<div class="card" style="width: 18rem;">
             <img src="' . ASSETS . '/images/dishes/' . $item->image_url . '" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title

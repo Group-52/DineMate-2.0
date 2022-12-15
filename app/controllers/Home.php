@@ -8,10 +8,10 @@ class Home
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
 
-        $data['username'] = empty($_SESSION['user']) ? 'User' : $_SESSION['user']->first_name;
+        $data['user'] = $_SESSION['user'] ?? null;
 
         #get dishes from database
         $d = new Dish();

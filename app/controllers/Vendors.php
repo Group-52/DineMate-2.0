@@ -11,7 +11,7 @@ class Vendors
         echo "HII";
     }
 
-    public function addVendor()
+    public function addVendor(): void
     {
         if(isset($_POST['save'])){
 			$name = $_POST['name'];
@@ -30,42 +30,14 @@ class Vendors
             redirect('./vendors/vendor');
 
         }
-        $this->view('addvendor');
+        $this->view('vendor.add');
     }
 
-    public function vendor() 
+    public function vendor(): void
     {
         $vendor = new Vendor;
         $results['Vendor'] = $vendor->getVendors();
         
         $this->view('vendor', $results);
     }
-
-    // public function create(): void
-    // {
-    //     // if (!isset($_SESSION["user"])) {
-    //     //     redirect("login");
-    //     // }
-
-    //     $data = [];
-    //     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //         $item = new Vendor();
-    //         if ($item->validate($_POST)) {
-    //             try {
-    //                 $item->insert([
-    //                     "name" => $_POST["name"],
-    //                     "address" => $_POST["address"] ?? null,
-    //                     "company" => $_POST["company"] ?? null,
-    //                     "contact_no" => $_POST["contact_no"]
-    //                 ]);
-    //                 redirect("vendors");
-    //             } catch (Exception $e) {
-    //                 $data["error"] = "Unknown error.";
-    //             }
-    //         }
-    //     }
-    //     $data["controller"] = $this->controller;
-    //     $this->view("addvendor", $data);
-    // }
-
 }

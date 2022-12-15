@@ -8,6 +8,15 @@ class Auth
 {
     use Controller;
 
+    public function index(): void
+    {
+        if (!isset($_SESSION["user"])) {
+            redirect("auth/login");
+        } else {
+            redirect("home");
+        }
+    }
+
     public function login(): void
     {
         $data = [];
