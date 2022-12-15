@@ -11,7 +11,7 @@ class Home
     public function index()
     {
 
-        $data['username'] = empty($_SESSION['user_id']) ? 'User' : $_SESSION['fname'];
+        $data['username'] = empty($_SESSION['user']) ? 'User' : $_SESSION['user']->first_name;
 
         #get dishes from database
         $d = new Dish();
