@@ -22,7 +22,7 @@
   
   <body>
     <div class = "container">
-        <form action="" method="post" class="split left">
+        <form action="" method="POST" class="split left">
           
           <!-- <img src="../assets/images/manager/logo.png" alt="Logo"> -->
           
@@ -30,11 +30,11 @@
 
           <span id="error-display" class="error-display"> </span> <br>
 
-          <label for ="fname"><b>First Name</b></label><br>
-          <input name = "fname" type ="text" placeholder = "First Name" required><br>
+          <label for ="first_name"><b>First Name</b></label><br>
+          <input name = "first_name" type ="text" placeholder = "First Name" required><br>
 
-          <label for="lname"><b>Last Name</b></label><br>
-          <input name = "lname" type ="text" placeholder = "Last Name" required><br>
+          <label for="last_name"><b>Last Name</b></label><br>
+          <input name = "last_name" type ="text" placeholder = "Last Name" required><br>
 
           <label for ="contactNo"><b>Contact No</b></label><br>
           <input name = "contact_no" type="text" placeholder = "Contact No" required><br>

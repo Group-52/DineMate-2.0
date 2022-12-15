@@ -41,7 +41,7 @@
 
                 <div class="col">
                     <label for="address"><b>Address</b></label><br>
-                    <input type = "text" name = "adress" placeholder = "Address" required>
+                    <input type = "text" name = "address" placeholder = "Address" required>
                 </div>
 
                 <div class="col">
@@ -54,7 +54,7 @@
                     <input type = "number" name = "contact_no" placeholder = "Contact No">
                 </div>
 
-                <button type="submit" name="save">Save</button>
+                <button type="submit" name="save"><a class="link" href="<?= ROOT ?>/vendors">Save</a></button>
             </div>
         </form>
     </body>

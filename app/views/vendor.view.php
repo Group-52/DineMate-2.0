@@ -1,3 +1,7 @@
+<?php
+            print_r($results['vendor']);die();
+            
+?>
 <!DOCTYPE html>
 
 <head>
@@ -60,11 +64,7 @@
     
     
     <tbody>
-        <?php
-            $sql ="SELECT * FROM `vendors`";
-            $result = mysqli_query($conn, $sql);
-            while ($row = mysqli_fetch_assoc($result)) {
-        ?>
+        
         <tr>
             <td><?php echo $row['vendor_id']?></td>
             <td><?php echo $row['name']?></td>
@@ -72,14 +72,11 @@
             <td><?php echo $row['company']?></td>
             <td><?php echo $row['contact_no']?></td>
         </tr>
-        <?php
-        }
-            
-        ?>
+        
         </tbody>
     </table>
     <br>
-        <button type="submit" name="add"><a href="vendors">+ NEW VENDOR</a></button><br>
+        <button type="submit" name="add"><a href="addVendor">+ NEW VENDOR</a></button><br>
         <a href="loginK">Logout</a>
 </body>
 

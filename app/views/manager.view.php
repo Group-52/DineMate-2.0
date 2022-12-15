@@ -20,7 +20,7 @@
     <h4>Hi Keethu,</h4>
         <div>
             <a href="employee">Employee</a><br>
-            <a href="./vendor.view.php">Vendor</a>
+            <a href="../vendors/vendor">Vendor</a>
         </div>
 </body>
 

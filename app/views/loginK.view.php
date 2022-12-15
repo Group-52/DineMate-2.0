@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <form action = "../../app/controllers/loginK.php" method="post" class="split left">
+  <form action = "" method="post" class="split left">
     <img src="../assets/images/manager/logo.png" alt="Logo">
     <h1>Login with DineMate</h1>
 

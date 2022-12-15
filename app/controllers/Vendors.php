@@ -15,22 +15,20 @@ class Vendors
     {
         if(isset($_POST['save'])){
 			$name = $_POST['name'];
-			$role = $_POST['address'];
-			$salary = $_POST['company'];
-			$contactNo = $_POST['contact_no'];
+			$address = $_POST['address'];
+			$company = $_POST['company'];
+			$contact_no = $_POST['contact_no'];
 
 			$vendor = new Vendor;
 			$vendor ->addVendor([
 				'name'=> $name,
-				'role'=> $role,
-				'salary'=> $salary,
-				'DOB'=> $DOB,
-				'contactNo'=> $contactNo,
-				'NIC'=> $NIC
+				'address'=> $address,
+				'company'=> $company,
+                'contact_no'=> $contact_no
 			]);
 
-			//header('Location: employee');
-            redirect('vendor');
+			//header('Location: vendor');
+            redirect('./vendors/vendor');
 
         }
         $this->view('addvendor');
@@ -38,7 +36,37 @@ class Vendors
 
     public function vendor() 
     {
-        $this->view('vendor');
+        $vendor = new Vendor;
+        $results['Vendor'] = $vendor->getVendors();
+        print_r($results);die();
+        $this->view('vendor', $results);
     }
+
+    // public function create(): void
+    // {
+    //     // if (!isset($_SESSION["user"])) {
+    //     //     redirect("login");
+    //     // }
+
+    //     $data = [];
+    //     if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //         $item = new Vendor();
+    //         if ($item->validate($_POST)) {
+    //             try {
+    //                 $item->insert([
+    //                     "name" => $_POST["name"],
+    //                     "address" => $_POST["address"] ?? null,
+    //                     "company" => $_POST["company"] ?? null,
+    //                     "contact_no" => $_POST["contact_no"]
+    //                 ]);
+    //                 redirect("vendors");
+    //             } catch (Exception $e) {
+    //                 $data["error"] = "Unknown error.";
+    //             }
+    //         }
+    //     }
+    //     $data["controller"] = $this->controller;
+    //     $this->view("addvendor", $data);
+    // }
 
 }

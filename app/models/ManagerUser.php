@@ -24,24 +24,34 @@ class ManagerUser extends Model
             "password",
             "last_modified"
         ];
+
+        /**
+         * Validate user data.
+         * @param array $data
+         * @return bool
+         */
     }
 
     public function validate(array $data): bool
     {
         $this->errors = [];
-        if (empty($data["fname"])) {
-            $this->errors["fname"] = "First name is required.";
+        if (empty($data["first_name"])) {
+            $this->errors["first_name"] = "First name is required.";
         }
-        if (empty($data["lname"])) {
-            $this->errors["lname"] = "Last name is required.";
+        if (empty($data["last_name"])) {
+            $this->errors["last_name"] = "Last name is required.";
         }
 
-        if (empty($data["username"])) {
-            $this->errors["username"] = "Username is required.";
-        }
+        // if (empty($data["username"])) {
+        //     $this->errors["username"] = "Username is required.";
+        // }
 
         if (empty($data["email"])) {
             $this->errors["email"] = "Email is required.";
+        }
+
+        if (empty($data["contact_no"])) {
+            $this->errors["contact_no"] = "ContactNo is required.";
         }
 
         if (empty($data["password"])) {
