@@ -73,7 +73,7 @@
 <?php
 // check if user is logged in
 if (isset($_SESSION['user'])) {
-    echo '<a href="' . ROOT . '/carts/viewcart/' . $_SESSION['user']->user_id . '">View Cart</a>';
+    echo '<a href="' . ROOT . '/carts/viewcart/">View Cart</a>';
 }
 ?>
 
@@ -105,23 +105,23 @@ if (isset($_SESSION['user'])) {
 
 <!-- generate all dishes -->
 
-    <div class="dishrow">
-        <h3>Dishes</h3>
-        <?php if (isset($dishes)) : ?>
-            <?php foreach ($dishes as $dish) : ?>
-                <div class="card" style="width: 18rem;">
-                    <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $dish->name ?></h5>
-                        <p class="card-text"><?= $dish->description ?></p>
-                        <a href="#" id=<?=$dish->dish_id?> class="add-to-cart-btn">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
-                        </a>
-                    </div>
+<div class="dishrow">
+    <h3>Dishes</h3>
+    <?php if (isset($dishes)) : ?>
+        <?php foreach ($dishes as $dish) : ?>
+            <div class="card" style="width: 18rem;">
+                <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $dish->name ?></h5>
+                    <p class="card-text"><?= $dish->description ?></p>
+                    <a href="#" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
+                    </a>
                 </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>
 
 
 <!-- generate all items for each menu -->
