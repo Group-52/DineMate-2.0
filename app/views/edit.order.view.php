@@ -10,7 +10,7 @@
 <body>
    
     <form method="POST">
-    <?php show($order) ?>
+    
         <input type="text" value="<?= $order->order_id ?>">
         <input type="text" value="<?= $order->reg_customer_id ?? $guest_id ?? "" ?>">
         <input type="text" value="<?= $order->request ?>">
