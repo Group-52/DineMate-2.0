@@ -11,10 +11,12 @@ class Carts
         return;
     }
  
-    public function viewCart($id): void
+    public function viewCart(): void
     {
-        $cart = new Cart;
-        $results['cartlist'] = $cart->getCart($id);
-        $this->view('cart', $results);
+        if (isset($_SESSION['user'])) 
+            $id = $_SESSION['user']->user_id;
+            $cart = new Cart;
+            $results['cartlist'] = $cart->getCart($id);
+            $this->view('cart', $results);
     }
 }
