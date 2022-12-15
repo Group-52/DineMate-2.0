@@ -30,8 +30,9 @@
 
         }
     </style>
+
     <body>
-        <h2>New Vendor</h2>
+        <h2>Vendors> New Vendor</h2>
         <form action = "" method = "POST"> 
             <div class="row">
                 <div class="col">

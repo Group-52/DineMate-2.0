@@ -47,7 +47,6 @@
 <body>
     <h2>Vendors</h2>
     
-    
     <table class="table">
         <thead class="table-dark">
             <tr>
