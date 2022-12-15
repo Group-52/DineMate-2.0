@@ -242,7 +242,11 @@
 
             <!-- generate all items in cart -->
             
-            <?php foreach ($cartlist as $key => $dish) :
+            <?php 
+            if (!empty($cartlist)) {
+
+    
+            foreach ($cartlist as $key => $dish) :
                 // show($dish);
                 echo "<div class='Cart-Items'>";
                 echo "<div class='image-box'>";
@@ -265,7 +269,9 @@
                 echo "</div>";
                 echo "</div>";
 
-            endforeach; ?> 
+            endforeach;
+         }
+          ?> 
 
 
         <hr>

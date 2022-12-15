@@ -24,9 +24,9 @@ class RegUser extends Model
     /**
      * Get user by email
      * @param string $email
-     * @return object|null
+     * @return object|false
      */
-    public function getUserByEmail(string $email): ?object
+    public function getUserByEmail(string $email)
     {
         return $this->select()->where("email", $email)->fetch();
     }
