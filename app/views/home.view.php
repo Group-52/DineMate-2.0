@@ -72,20 +72,30 @@
     <?php endif; ?>
 </div>
 
-<!-- generate all menus -->
-<div class="menurow">
-    <h3>Menus</h3>
-    <?php if (isset($menus)) : ?>
-        <?php foreach ($menus as $menu) : ?>
-            <div class="card" style="width: 18rem;">
-                <img src="<?= ASSETS ?>/images/menus/<?= $menu->imageurl ?>" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $menu->name ?></h5>
-                    <p class="card-text"></p>
-                </div>
+
+
+
+<!-- generate all items for each menu -->
+<?php
+if (isset($menuitems)) {
+    foreach ($menuitems as $key => $menu) {
+        echo '<div class="menurow">';
+        echo '<h3>' . $menus[$key]->name . '</h3>';
+        foreach ($menu as $item) {
+            echo '<div class="card" style="width: 18rem;">
+            <img src="' . ASSETS . '/images/dishes/' . $item->image_url . '" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title
+                ">' . $item->name . '</h5> 
+                <p class="card-text">' . $item->description . '</p>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
+        </div>';
+        }
+        echo '</div>';
+    }
+}
+
+?>
+
 </body>
 </html>

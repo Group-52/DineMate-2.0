@@ -58,5 +58,15 @@ class RegUser extends Model
         }
         return empty($this->errors);
     }
+
+    public function addUser($data){
+        $this->insert([
+            "first_name" => $data["first_name"],
+            "last_name" => $data["last_name"],
+            "email" => $data["email"],
+            "password" => $data["password"],
+            "contact_no" => $data["contactNo"]
+        ]);
+    }
 }
 

@@ -47,7 +47,7 @@ class Auth
             if ($user->validate($_POST)) {
                 $_POST['password'] =  password_hash($_POST["password"], PASSWORD_DEFAULT);
                 try {
-                    $user->insert($_POST);
+                    $user->addUser($_POST);
                     redirect("auth/login");
                 } catch (Exception $e) {
                     $data["errors"] = "Unknown error.";
