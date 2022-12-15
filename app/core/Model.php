@@ -84,7 +84,6 @@ class Model
 
             $query = rtrim($query, "AND ");
             $query .= " LIMIT $this->limit OFFSET $this->offset";
-
             return $this->query($query, $params);
 
         } catch (Exception) {
