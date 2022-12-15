@@ -1,24 +1,21 @@
 <?php
 
 
-class Menuitems extends Model
+class MenuItems extends Model
 {
-
-    public string $order_column = "menu_id";
     protected string $table = 'menu_items';
-    protected string $primary_key = 'menu_id';
     protected array $allowedColumns = [
         'menu_id',
         'dish_id'
     ];
 
 
-    #pass menu id to get all dishes in that menu
-    public function getMenuItems($menu): array
+    public function getDishes($menu): bool|array
     {
         $d = new Dish();
-        
+
         $records = $this->find($menu);
+        return $this->select()->fetchAll();
         $menuitems = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu) {

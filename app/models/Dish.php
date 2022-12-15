@@ -8,7 +8,6 @@ class Dish extends Model
     public function __construct()
     {
         $this->table = "dishes";
-        $this->primary_key = "dish_id";
         $this->columns = [
             "name",
             "net_price",
@@ -42,7 +41,7 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        return $this->findAll();
+        return $this->select()->fetchAll();
     }
 
     #get dish by id

@@ -16,22 +16,10 @@ class Items
             redirect("admin/auth");
         }
         $data = [];
-        $item = new Item;
-        if (isset($_GET["query"]) && $_GET["query"] != "") {
-            $like_columns = ["name", "description", "category", "measure"];
-            foreach ($like_columns as $column) {
-                $data[$column] = $_GET["query"];
-            }
-            if (isset($_GET["category"]) && $_GET["category"] != "") {
-                $data["items"] = $item->findLikeWhere($data, ["category" => $_GET["category"]]);
-            } else {
-                $data["items"] = $item->findLike($data);
-            }
-        } else if (isset($_GET["category"]) && $_GET["category"] != "") {
-            $data["items"] = $item->findBy(["category" => $_GET["category"]]);
-        } else {
-            $data["items"] = $item->findAll();
-        }
+        $data["items"] = (new Item)->itemsSearch($_GET);
+        $data["categories"] = (new Category)->select()->fetchAll();
+        $data["query"] = $_GET["query"] ?? "";
+        $data["category_name"] = $_GET["category"] ?? "";
 
         $data["controller"] = $this->controller;
         $this->view("items", $data);

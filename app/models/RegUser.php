@@ -9,7 +9,6 @@ class RegUser extends Model
     public function __construct()
     {
         $this->table = "reg_users";
-        $this->primary_key = "user_id";
         $this->columns = [
             "user_id",
             "first_name",
@@ -23,6 +22,16 @@ class RegUser extends Model
     }
 
     /**
+     * Get user by email
+     * @param string $email
+     * @return object|null
+     */
+    public function getUserByEmail(string $email): ?object
+    {
+        return $this->select()->where("email", $email)->fetch();
+    }
+
+    /**
      * Validate user data.
      * @param array $data
      * @return bool
@@ -31,7 +40,7 @@ class RegUser extends Model
     {
         $this->errors = [];
 
-        $exists = $this->findBy(['email' => $data['email']]);
+        $exists = $this->getUserByEmail($data['email']);
         if ($exists)
             $this->errors["email"] = "Email already exists";
 
