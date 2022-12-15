@@ -15,7 +15,7 @@
     <h1>Login with DineMate</h1>
 
     <div class="container">
-      <label for="username"><b>Username</b></label><br>
+      <label for="username"><b>Email</b></label><br>
       <input type="text" placeholder="Username" name="username" required></div><br>
       
       <label for="password"><b>Password</b></label><br>
@@ -34,6 +34,11 @@
       <a href="home">Home</a>
     </div>
   </form>
+
+  <?php
+
+  var_dump($_SESSION);
+  ?>
 </body>
 
 </html>

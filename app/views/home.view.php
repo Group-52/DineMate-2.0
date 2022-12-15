@@ -52,6 +52,7 @@
 <h1> HOME PAGE</h1>
 <h2>
     <a href="<?= ROOT ?>/dishes">View Dishes</a>
+    <a href="<?= ROOT?>/vendors">Go to Vendors </a>
 </h2>
 
 
