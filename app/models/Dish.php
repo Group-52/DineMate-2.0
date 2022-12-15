@@ -9,6 +9,7 @@ class Dish extends Model
     {
         $this->table = "dishes";
         $this->columns = [
+            "dish_id",
             "name",
             "net_price",
             "selling_price",
@@ -45,9 +46,9 @@ class Dish extends Model
     }
 
     #get dish by id
-    public function getDishById($id): bool|array
+    public function getDishById($id): bool|object
     {
-        return $this->find($id);
+        return $this->select()->where("dish_id", $id)->fetch();
     }
 
     /**

@@ -8,7 +8,6 @@ class Vendor extends Model
     public function __construct()
     {
         $this->table = "vendors";
-        $this->primary_key = "vendor_id";
         $this->columns = [
             "name",
             "address",
@@ -32,7 +31,7 @@ class Vendor extends Model
 
     public function getVendors(): bool|array
     {
-        return $this->findAll();
+        return $this->select()->fetchAll();
     }
 
     public function addVendor($data): void
