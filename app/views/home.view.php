@@ -73,7 +73,6 @@
 <?php
 // check if user is logged in
 if (isset($_SESSION['user'])) {
-    echo '<h3>Hello '. $_SESSION['user']->first_name . '!</h3>';
     echo '<a href="' . ROOT . '/carts/viewcart/">View Cart</a>';
 }
 ?>

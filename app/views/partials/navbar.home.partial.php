@@ -8,7 +8,7 @@
     </div>
     <div class="nav-items justify-content-end">
         <div class="nav-item">
-            <?= (isset($user)) ? $user->username : "" ?>
+            <?= (isset($user)) ? $user->first_name : "" ?>
         </div>
         <div class="nav-item">
             <?php if (isset($user)): ?>
