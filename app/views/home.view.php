@@ -52,6 +52,8 @@
 <h1> HOME PAGE</h1>
 <h2>
     <a href="<?= ROOT ?>/dishes">View Dishes</a>
+    <a href="<?= ROOT ?>/menus">View Menus</a>
+    <a href="<?= ROOT ?>/admin/auth/login">Login Employee</a>
 </h2>
 
 
