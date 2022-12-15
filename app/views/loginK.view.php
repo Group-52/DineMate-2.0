@@ -31,7 +31,7 @@
       <div class="container">
         <span class="span1">Don't have an account? Sign up <a href="signup">here</a></span>
       </div>
-      <a href="home">Home</a>
+      <a href="<?=ROOT?>/home">Home</a>
     </div>
   </form>
 </body>

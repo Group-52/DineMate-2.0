@@ -64,6 +64,7 @@ if (isset($_SESSION['user'])) {
     <a href="<?= ROOT ?>/dishes">View Dishes</a>
     <a href="<?= ROOT ?>/menus">View Menus</a>
     <a href="<?= ROOT ?>/admin/auth/login">Login Employee</a>
+    <a href="<?= ROOT ?>/loginK/login">Login Keethapriya</a>
 </h2>
 
 
