@@ -16,11 +16,13 @@ class Menuitems extends Model
     #pass menu id to get all dishes in that menu
     public function getMenuItems($menu)
     {
+        $d = new Dish();
+        
         $records = $this->find($menu);
         $menuitems = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu) {
-                $menuitems[] = $r->dish_id;
+                $menuitems[] = $d->getDishById($r->dish_id)[0];
             }
         }
         return $menuitems;
@@ -32,6 +34,7 @@ class Menuitems extends Model
     {
         $m = new Menu();
         $menus = $m->getMenus();
+        $menulist = array_values($menus);
         $mids = array();
 
         foreach ($menus as $menu) {

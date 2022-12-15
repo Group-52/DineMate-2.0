@@ -44,8 +44,8 @@
 
 
     <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/login">Login</a>
-    <a href="<?= ROOT ?>/logout">Logout</a>
+    <a href="<?= ROOT ?>/auth/login">Login</a>
+    <a href="<?= ROOT ?>/auth/logout">Logout</a>
 
 </div>
 
@@ -70,27 +70,30 @@
     <?php endforeach; ?>
 </div>
 
-<!-- generate all menus -->
-<div class="menurow">
-    <h3>Menus</h3>
-    <?php foreach ($menus as $menu) : ?>
-        <div class="card" style="width: 18rem;">
-            <img src="<?= ASSETS ?>/images/menus/<?= $menu->image_url ?>" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title"><?= $menu->name ?></h5>
-                <p class="card-text"></p>
-            </div>
-        </div>
-    <?php endforeach; ?>
-</div>
 
+
+
+<!-- generate all items for each menu -->
 <?php
-echo '<br>';
-var_dump($menuitems);  
-echo '<br>'.gettype($menuitems).'<br>';
-// echo gettype($menuitems[0]).'<br>';
+foreach ($menuitems as $menu) {
+    echo '<div class="menurow">';
+    echo '<h3>' . "MENU X" . '</h3>';
+    foreach ($menu as $item) {
+        echo '<div class="card" style="width: 18rem;">
+            <img src="' . ASSETS . '/images/dishes/' . $item->image_url . '" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title
+                ">' . $item->name . '</h5> 
+                <p class="card-text">' . $item->description . '</p>
+            </div>
+        </div>';
+    }
+    echo '</div>';
+}
 
-// get_defined_vars()
+
+show(get_defined_vars());
 ?>
+
 </body>
 </html>

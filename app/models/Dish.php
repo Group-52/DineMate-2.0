@@ -45,6 +45,12 @@ class Dish extends Model
         return $this->findAll();
     }
 
+    #get dish by id
+    public function getDishById($id): bool|array
+    {
+        return $this->find($id);
+    }
+
     /**
      * Add a dish.
      * @param $data

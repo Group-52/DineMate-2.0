@@ -25,8 +25,6 @@ class Home
         $mi = new Menuitems();
         $data['menuitems'] = $mi->getMenuItemsByMenu();
 
-
-
         $this->view('home', $data);
     }
 }
