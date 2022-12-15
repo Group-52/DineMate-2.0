@@ -75,9 +75,9 @@
 
 <!-- generate all items for each menu -->
 <?php
-foreach ($menuitems as $menu) {
+foreach ($menuitems as $key=>$menu) {
     echo '<div class="menurow">';
-    echo '<h3>' . "MENU X" . '</h3>';
+    echo '<h3>' . $menus[$key]->name. '</h3>';
     foreach ($menu as $item) {
         echo '<div class="card" style="width: 18rem;">
             <img src="' . ASSETS . '/images/dishes/' . $item->image_url . '" class="card-img-top" alt="...">
@@ -91,10 +91,6 @@ foreach ($menuitems as $menu) {
     echo '</div>';
 }
 
-
-// show(get_defined_vars());
-// var_dump($_SESSION);
-var_dump($menus)
 ?>
 
 </body>
