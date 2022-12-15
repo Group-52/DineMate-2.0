@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
     <title>Home page</title>
 
     <style>
@@ -20,6 +19,9 @@
             margin: 10px;
             width: 18rem;
             height: 18rem;
+            border: 1px solid grey;
+            border-radius: 5px;
+            padding: 5px;
         }
 
         /* make all card images same size */
@@ -39,6 +41,14 @@
 
 <body>
 
+<?php 
+// check if user is logged in
+if (isset($_SESSION['user'])) {
+    echo '<a href="' . ROOT . '/carts/viewcart/'.$_SESSION['user']->user_id.'">View Cart</a>';
+} 
+?>
+
+
 <h4>Hi, <?= $username ?></h4>
 <div>
 
@@ -52,6 +62,8 @@
 <h1> HOME PAGE</h1>
 <h2>
     <a href="<?= ROOT ?>/dishes">View Dishes</a>
+    <a href="<?= ROOT ?>/menus">View Menus</a>
+    <a href="<?= ROOT ?>/admin/auth/login">Login Employee</a>
 </h2>
 
 

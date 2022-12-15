@@ -31,6 +31,7 @@ class Menu extends Model
         return false;
     }
 
+    // return all menus with ids as keys
     public function getMenus(): bool|array
     {
         $l= $this->findAll();
