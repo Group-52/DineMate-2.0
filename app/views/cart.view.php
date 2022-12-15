@@ -223,6 +223,9 @@
             justify-content: space-between;
             align-items: center;
         }
+        img{
+            border-radius: 10px;
+        }
     </style>
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet"> -->
 </head>
