@@ -2,10 +2,9 @@
 
 class Cart extends Model
 {
-    public string $order_column = "user_id";
     protected string $table = 'carts';
     protected string $primary_key = 'user_id';
-    protected array $allowedColumns = [
+    protected array $columns = [
         'item_id',
         'user_id',
         'quantity'
