@@ -211,9 +211,9 @@
         }
 
         .image-box img {
-            width: 100%;
+            /* width: 100%; */
             /* Set the width of the image to 100% of the box */
-            height: auto;
+            /* height: auto; */
             /* Set the height of the image to auto to maintain the aspect ratio */
         }
 
@@ -225,6 +225,8 @@
         }
         img{
             border-radius: 10px;
+            height: 100px;
+            width: 100px;
         }
     </style>
     <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet"> -->
@@ -253,13 +255,13 @@
                 echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
                 echo "</div>";
                 echo "<div class='about'>";
-                echo "<h1 class='title'>" . $dish->name . "</h1>";
-                echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
+                echo "<h3 class='title'>" . $dish->name . "</h3>";
+                // echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
                 // echo "<img src='images/veg.png' />";
                 echo "</div>";
                 echo "<div class='counter'>";
                 echo "<div class='btn'>+</div>";
-                echo "<div class='count'>2</div>";
+                echo "<div class='count'>1</div>";
                 echo "<div class='btn'>-</div>";
                 echo "</div>";
                 echo "<div class='prices'>";
@@ -276,13 +278,24 @@
 
         <hr>
 
+<?php 
+// calculate price of all items
+$total = 0;
+$count = 0;
+if (!empty($cartlist)) {
+    foreach ($cartlist as $key => $dish) {
+        $total += $dish->selling_price;
+        $count++;
+    }
+}
+?>
         <div class="checkout">
             <div class="total">
                 <div>
                     <div class="Subtotal">Sub-Total</div>
-                    <div class="items">2 items</div>
+                    <div class="items"><?=$count?> items</div>
                 </div>
-                <div class="total-amount">$6.18</div>
+                <div class="total-amount">$ <?=$total?></div>
             </div>
             <button class="button">Checkout</button>
         </div>
