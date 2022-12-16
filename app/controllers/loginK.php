@@ -3,7 +3,6 @@ class loginK{
     use Controller;
     public function index()
     {
-        //echo "HI";
         if (!isset($_SESSION["user"])) {
             redirect("loginK/login");
         } else {

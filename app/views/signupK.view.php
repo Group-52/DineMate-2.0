@@ -84,6 +84,9 @@
           <label for="last_name"><b>Last Name</b></label><br>
           <input name = "last_name" type ="text" placeholder = "Last Name" required><br>
 
+          <label for="username"><b>Last Name</b></label><br>
+          <input name = "username" type ="text" placeholder = "User Name" required><br>
+
           <label for ="contactNo"><b>Contact No</b></label><br>
           <input name = "contact_no" type="text" placeholder = "Contact No" required><br>
 
