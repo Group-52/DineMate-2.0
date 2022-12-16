@@ -114,7 +114,7 @@ if (isset($_SESSION['user'])) {
                 <div class="card-body">
                     <h5 class="card-title"><?= $dish->name ?></h5>
                     <p class="card-text"><?= $dish->description ?></p>
-                    <a href="#" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
+                    <a href="<?=ROOT?>/carts/addtocart/<?=$_SESSION['user']->user_id?>/<?= $dish->dish_id ?>" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
                     </a>
                 </div>

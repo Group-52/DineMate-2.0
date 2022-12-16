@@ -19,4 +19,12 @@ class Carts
             $results['cartlist'] = $cart->getCart($id);
             $this->view('cart', $results);
     }
+    public function addtocart($userid, $itemid)
+    {
+        $cart = new Cart;
+        $cart->addCart($userid, $itemid);///
+        redirect('carts/viewcart');
+
+        // show($cart->getErrors());
+    }
 }

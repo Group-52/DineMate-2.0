@@ -2,18 +2,21 @@
 
 class Cart extends Model
 {
-    public string $order_column = "user_id";
     protected string $table = 'carts';
     protected string $primary_key = 'user_id';
-    protected array $allowedColumns = [
+    protected array $columns = [
         'item_id',
         'user_id',
         'quantity'
     ];
 
-    public function addCart($data)
+    public function addCart($userid,$itemid)
     {
-        $this->insert($data);
+        $this->insert([
+            'item_id' => $itemid,
+            'user_id' => $userid,
+            'quantity' => 1
+        ]);
     }
 
     // Get the cart items of a specific customer
