@@ -42,7 +42,7 @@ class Model
     /**
      * Insert a row into table
      * @param array $data
-     * @return Model
+     * @return void
      */
     public function insert(array $data): void
     {
@@ -52,7 +52,7 @@ class Model
             }
         }
         if (empty($data)) {
-            return ;
+            return;
         }
         $column_list = implode(", ", array_keys($data));
         $value_list = "";
@@ -63,15 +63,14 @@ class Model
         $this->query = "INSERT INTO $this->table ($column_list) VALUES ($value_list)";
         $this->data = array_values($data);
         $this->execute();
-
     }
 
     /**
      * Update a row in table
      * @param array $data
-     * @return Model
+     * @return void
      */
-    public function update(array $data): Model
+    public function update(array $data): void
     {
         $column_list = "";
         foreach (array_keys($data) as $column) {
@@ -81,12 +80,12 @@ class Model
             $column_list .= "$column = ?, ";
         }
         if (empty($data)) {
-            return $this;
+            return;
         }
         $column_list = rtrim($column_list, ", ");
         $this->query = "UPDATE $this->table SET $column_list";
-        $this->data[] = array_values($data);
-        return $this;
+        $this->data = array_values($data);
+        $this->execute();
     }
 
     /**
