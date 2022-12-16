@@ -24,7 +24,7 @@ class Order extends Model
         return $this->findAll();
     }
 
-    public function getOrder($id) {
-        return $this->findBy(["order_id" => $id]);
+    public function getOrder($order_id) {
+        return $this->findBy(["order_id" => $order_id]);
     }
 }

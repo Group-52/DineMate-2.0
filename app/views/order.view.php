@@ -51,7 +51,7 @@
             echo "<td>".$order->type."</td>";
             echo "<td>".$order->status."</td>";
             echo "<td><a href='orders/edit/".$order->order_id."'>Edit</a>";
-            //echo "<td>" .$row1['status']."<button id='btn' >pending</button></td>";
+           // echo "<td><button id='btn' >detail</button></td>";
             // <script src='button.js'></script>
          
             echo "</tr>";
@@ -69,3 +69,7 @@
 </body>
 </div>
 </html>
+
+<style>
+  
+</style>

@@ -12,7 +12,7 @@
     <header>
         <nav>
             <label>
-                <img src="../public/assets/images/logo/logo.png" alt="logo"><br>
+                <img src="../../public/assets/images/login/logo.png" alt="logo"><br>
                 <h1>DineMate</h1>
             </label>    
             

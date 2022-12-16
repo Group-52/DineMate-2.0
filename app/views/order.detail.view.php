@@ -10,7 +10,7 @@
     <div >
 
     <h1>Order>Order Details</h1></label><br>
-   <label>Order ID: # <?php quary('SELECT order_id FROM orders') ?>
+   <label>Order ID: #
     
 
         <img height="200" width="200" src=""><br>

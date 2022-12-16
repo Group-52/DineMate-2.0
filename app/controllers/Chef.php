@@ -21,7 +21,7 @@ class Chef
                 else {
                     if (password_verify($_POST["password"], $result[0]->password)) {
                         $_SESSION["user"] = $result[0];
-                        redirect("order");
+                        redirect("orders");
                     } else {
                         $data["errors"] = "Invalid email or password.";
                     }

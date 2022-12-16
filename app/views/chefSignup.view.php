@@ -13,7 +13,7 @@
     <header>
         <nav>
             <label>
-                <img src="../public/assets/images/logo/logo.png" alt="logo"><br>
+                <img src="../../public/assets/images/login/logo.png" alt="logo"><br>
                 <h1>Register with DineMate</h1>
             </label>    
             
@@ -22,11 +22,7 @@
         <div class="formContainer">
                 <form action=""  method="post">
 
-                <?php if(!empty($errors)):?>
-      <div class="alert alert-danger">
-        <?= implode("<br>", $errors)?>
-      </div>
-    <?php endif;?>
+                
                     
                 <input name = "first_name" type ="text" placeholder = "First Name" required><br>
                 <input name = "last_name" type ="text" placeholder = "Last Name" required><br>
@@ -75,10 +71,10 @@ body{
     }
 header{
     position: absolute;
-    left: 10px;
+    left: 5px;
     right: 30%;
-    top: 10px;
-    bottom: 10px;
+    top: 5px;
+    bottom: 5px;
     background: #FFFFFF;
     border-radius: 10px;
     }
@@ -113,7 +109,7 @@ h1{
     font-style: normal;
     font-weight: 700;
     font-size: 20px;
-    line-height: 15px;
+    line-height: 10px;
       
     }
     input{
@@ -234,7 +230,7 @@ h1{
         form{
             font-family: 'Open Sans';
         font-style: normal;
-        font-weight: 700;
+        font-weight: 500;
         font-size: 20px;
         line-height: 15px;
           

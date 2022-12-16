@@ -9,27 +9,37 @@
 
 <body>
    
-    <form method="POST">
-    
-        <input type="text" value="<?= $order->order_id ?>">
-        <input type="text" value="<?= $order->reg_customer_id ?? $guest_id ?? "" ?>">
-        <input type="text" value="<?= $order->request ?>">
-        <input type="text" value="<?= $order->Qty ?>">
-        <input type="date" value="<?= $order->time_placed ?>">
-        <input type="text" value="<?= $order->type ?>">
-        <input type="text" value="<?= $order->status ?>">
-        <input type="date" value="<?= $order->scheduled_time ?>">
-        <input type="text" value="<?= $order->table_id ?>">
-        
-
-        <select name="status">
-            <option value="complete">completed</option>
-            <option value="complete">confirmed</option>
-            <option value="pending">pending</option>
-        </select>
+    <form action="edit.order" method="POST">
+  
+        <label>Order ID</label> <br>
+        <input type="text" name="order_id" value="<?=$order[0]->order_id ?>" readonly><br>
+        <label>Guest ID</label> <br>
+        <input type="text" name="guest_id" value="<?= $order[0]->reg_customer_id ?? $guest_id ?? "" ?>" readonly><br>
+        <label>Request</label> <br>
+        <input type="text" value="<?= $order[0]->request ?>"><br>
+        <label>Qty</label> <br>
+        <input type="text" value="<?= $order[0]->qty ?>"><br>
+        <label>Time Placed</label> <br>
+        <input type="date" value="<?= $order[0]->time_placed ?>"><br>
+        <label>Type</label> <br>
+        <input type="text" value="<?= $order[0]->type ?>"><br>
+        <label>Status</label> <br>
+        <input type="text" value="<?= $order[0]->status ?>"><br>
+        <label>Scheduled Time</label> <br>
+        <input type="date" value="<?= $order[0]->scheduled_time ?>"><br>
+        <label>Table ID</label> <br>
+        <input type="text" value="<?= $order[0]->table_id ?>">
+     
     </form>  
-        
+    <!-- <?php
+    show($order);
+    ?> -->
+
         
 </body>
 </div>
 </html>
+
+<style>
+    
+</style>
