@@ -11,9 +11,13 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function addCart($data)
+    public function addCart($userid,$itemid)
     {
-        $this->insert($data);
+        $this->insert([
+            'item_id' => $itemid,
+            'user_id' => $userid,
+            'quantity' => 1
+        ]);
     }
 
     // Get the cart items of a specific customer
