@@ -1,7 +1,10 @@
 <?php
-class loginK{
+
+class LoginK
+{
     use Controller;
-    public function index()
+
+    public function index(): void
     {
         if (!isset($_SESSION["user"])) {
             redirect("loginK/login");
@@ -11,11 +14,11 @@ class loginK{
     }
 
     public function signup(): void
-	{
-        
+    {
+
         $data = [];
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            
+
             $user = new ManagerUser();
             if ($user->validate($_POST)) {
                 print_r($_SERVER["REQUEST_METHOD"]);
@@ -28,11 +31,11 @@ class loginK{
                     $data["errors"] = "Unknown error.";
                 }
             } else {
-                $data["errors"] = $user->errors;
+                $data["errors"] = $user->getErrors();
             }
         }
         $this->view("signupK", $data);
-	}
+    }
 
     public function login(): void
     {
@@ -40,9 +43,9 @@ class loginK{
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new ManagerUser();
             try {
-                $result = $user->findBy(["email" => $_POST["username"]]);
-                if (password_verify($_POST["password"], $result[0]->password)) {
-                    $_SESSION["user"] = $result[0];
+                $result = $user->select()->where("email", $_POST["username"])->fetch();
+                if (password_verify($_POST["password"], $result->password)) {
+                    $_SESSION["user"] = $result;
                     redirect("home");
                 } else {
                     $data["error"] = "Invalid email or password.";
