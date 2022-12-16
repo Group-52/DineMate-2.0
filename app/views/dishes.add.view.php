@@ -8,10 +8,25 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
+        <style>
+            input{
+                padding: 15px;
+                margin: 10px;
+                display: block;
+            }
+            form{
+                margin: 50px;
+                padding: 50px;
+            }
+            h1{
+                text-align: center;
+                width: 100%;
+            }
+        </style>
     </head>
     <body>
         <h1>
-            add dish page
+            Add a Dish
         </h1>
 
         <form method = "post" enctype="multipart/form-data">
