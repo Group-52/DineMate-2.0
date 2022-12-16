@@ -1,6 +1,6 @@
 <?php
 
-class loginK
+class LoginK
 {
     use Controller;
 
