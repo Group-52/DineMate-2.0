@@ -44,7 +44,7 @@ class Model
      * @param array $data
      * @return Model
      */
-    public function insert(array $data): Model
+    public function insert(array $data): void
     {
         foreach (array_keys($data) as $column) {
             if (!in_array($column, $this->columns)) {
@@ -52,7 +52,7 @@ class Model
             }
         }
         if (empty($data)) {
-            return $this;
+            return ;
         }
         $column_list = implode(", ", array_keys($data));
         $value_list = "";
@@ -60,9 +60,10 @@ class Model
             $value_list .= "?, ";
         }
         $value_list = rtrim($value_list, ", ");
-        $this->query = "INSERT INTO $this->table $column_list VALUES $value_list";
-        $this->data[] = array_values($data);
-        return $this;
+        $this->query = "INSERT INTO $this->table ($column_list) VALUES ($value_list)";
+        $this->data = array_values($data);
+        $this->execute();
+
     }
 
     /**
