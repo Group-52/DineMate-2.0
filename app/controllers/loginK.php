@@ -3,7 +3,12 @@ class loginK{
     use Controller;
     public function index()
     {
-        echo "HI";
+        //echo "HI";
+        if (!isset($_SESSION["user"])) {
+            redirect("loginK/login");
+        } else {
+            redirect("vendor");
+        }
     }
 
     public function signup(): void
@@ -50,8 +55,9 @@ class loginK{
         $this->view("loginK", $data);
     }
 
-    public function manager(): void
+    public function logout(): void
     {
-        $this->view("manager");
+        unset($_SESSION["user"]);
+        redirect("loginK/login");
     }
 }

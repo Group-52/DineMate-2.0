@@ -75,7 +75,7 @@
     </table>
     <br>
         <button type="submit" name="add"><a href="<?=ROOT?>/vendors/addVendor">+ NEW VENDOR</a></button><br>
-        <a href="loginK">Logout</a>   
+        <a href="<?=ROOT?>/loginK/logout">Logout</a>   
 </body>
 
 </html>
