@@ -11,7 +11,7 @@
     </div>
     <div class="nav-items justify-content-end">
         <div class="nav-item">
-            <?= $_SESSION["user"]->username ?>
+            <?= $_SESSION["user"]->first_name ?>
         </div>
         <div class="nav-item">
             <a class="link text-uppercase fw-bold" href="<?= ROOT ?>/admin/auth/logout">Logout</a>
