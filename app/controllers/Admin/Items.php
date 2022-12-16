@@ -32,6 +32,8 @@ class Items
         }
 
         $data = [];
+        $data["categories"] = (new Category)->select()->fetchAll();
+        $data["units"] = (new Unit)->select()->fetchAll();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $item = new Item();
             if ($item->validate($_POST)) {
@@ -40,7 +42,7 @@ class Items
                         "name" => $_POST["name"],
                         "brand" => $_POST["brand"] ?? null,
                         "description" => $_POST["description"] ?? null,
-                        "measure" => $_POST["measure"],
+                        "unit" => $_POST["unit"],
                         "category" => $_POST["category"] ?? null
                     ]);
                     redirect("admin/items");

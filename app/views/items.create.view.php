@@ -18,19 +18,20 @@
     </div>
     <div class="form-group">
         <label class="label" for="unit">Unit</label>
-        <input class="form-control" type="text" name="unit" id="unit">
+        <select class="form-control" name="unit" id="unit">
+            <option value="">Select Unit</option>
+            <?php foreach ($data["units"] as $unit): ?>
+                <option value="<?= $unit->unit_id ?>"><?= $unit->name ?></option>
+            <?php endforeach; ?>
+            </select>
     </div>
     <div class="form-group">
         <label class="label" for="category">Category</label>
         <select class="form-control" name="category" id="category">
-            <option>Beverages</option>
-            <option>Bread</option>
-            <option>Canned Goods</option>
-            <option>Dairy</option>
-            <option>Frozen Foods</option>
-            <option>Meat</option>
-            <option>Produce</option>
-            <option>Snacks</option>
+            <option value="">Select Category</option>
+            <?php foreach ($data["categories"] as $category): ?>
+                <option value="<?= $category->category_id ?>"><?= $category->name ?></option>
+            <?php endforeach; ?>
         </select>
     </div>
 </form>
