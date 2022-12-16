@@ -3,7 +3,11 @@ class loginK{
     use Controller;
     public function index()
     {
-        echo "HI";
+        if (!isset($_SESSION["user"])) {
+            redirect("loginK/login");
+        } else {
+            redirect("vendor");
+        }
     }
 
     public function signup(): void
@@ -39,7 +43,7 @@ class loginK{
                 $result = $user->findBy(["email" => $_POST["username"]]);
                 if (password_verify($_POST["password"], $result[0]->password)) {
                     $_SESSION["user"] = $result[0];
-                    redirect("./loginK/manager");
+                    redirect("home");
                 } else {
                     $data["error"] = "Invalid email or password.";
                 }
@@ -50,8 +54,9 @@ class loginK{
         $this->view("loginK", $data);
     }
 
-    public function manager(): void
+    public function logout(): void
     {
-        $this->view("manager");
+        unset($_SESSION["user"]);
+        redirect("loginK/login");
     }
 }

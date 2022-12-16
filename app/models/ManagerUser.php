@@ -41,6 +41,10 @@ class ManagerUser extends Model
             $this->errors["last_name"] = "Last name is required.";
         }
 
+        if (empty($data["username"])) {
+            $this->errors["username"] = "Username is required.";
+        }
+
         if (empty($data["email"])) {
             $this->errors["email"] = "Email is required.";
         }

@@ -8,7 +8,9 @@ class Vendors
 
     public function index()
     {
-        echo "HII";
+        $vendor = new Vendor;
+        $results['Vendor'] = $vendor->getVendors();      
+        $this->view('vendor', $results);
     }
 
     public function addVendor(): void
@@ -27,17 +29,9 @@ class Vendors
                 'contact_no'=> $contact_no
 			]);
 
-            redirect('./vendors/vendor');
+            redirect('vendors');
 
         }
         $this->view('vendor.add');
-    }
-
-    public function vendor(): void
-    {
-        $vendor = new Vendor;
-        $results['Vendor'] = $vendor->getVendors();
-        
-        $this->view('vendor', $results);
     }
 }

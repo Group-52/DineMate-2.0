@@ -47,7 +47,6 @@
 <body>
     <h2>Vendors</h2>
     
-    
     <table class="table">
         <thead class="table-dark">
             <tr>
@@ -72,19 +71,11 @@
             }
         }
         ?>
-        <!-- <tr>
-            <td><?php echo $row['vendor_id']?></td>
-            <td><?php echo $row['name']?></td>
-            <td><?php echo $row['address']?></td>
-            <td><?php echo $row['company']?></td>
-            <td><?php echo $row['contact_no']?></td>
-        </tr> -->
-        
         </tbody>
     </table>
     <br>
-        <button type="submit" name="add"><a href="addVendor">+ NEW VENDOR</a></button><br>
-        <a href="loginK">Logout</a>
+        <button type="submit" name="add"><a href="<?=ROOT?>/vendors/addVendor">+ NEW VENDOR</a></button><br>
+        <a href="<?=ROOT?>/loginK/logout">Logout</a>   
 </body>
 
 </html>
