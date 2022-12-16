@@ -96,7 +96,7 @@ if (isset($_SESSION['user'])) {
     </div>
     <div>
         <h2>Chef</h2>
-        <a class="link d-block" href="<?= ROOT ?>/loginZ/signup">Login</a>
+        <a class="link d-block" href="<?= ROOT ?>/chef/login">Login</a>
         <a class="link d-block" href="<?= ROOT ?>/orders">View Orders</a>
     </div>
 </div>

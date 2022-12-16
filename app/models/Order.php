@@ -5,7 +5,6 @@ class Order extends Model
     public function __construct()
     {
         $this->table = "orders";
-        $this->primary_key = "order_id";
         $this->columns = [
             "order_id",
             "reg_customer_id",
@@ -13,6 +12,7 @@ class Order extends Model
             "request",
             "time_placed",
             "type",
+            "quantity",
             "status",
             "scheduled_time",
             "table_id"
@@ -20,11 +20,18 @@ class Order extends Model
     }
 
 
-    public function getOrders() {
-        return $this->findAll();
+    public function getOrders(): array|false
+    {
+        return $this->select()->fetchAll();
     }
 
-    public function getOrder($order_id) {
-        return $this->findBy(["order_id" => $order_id]);
+    public function getOrder($order_id): object|false
+    {
+        return $this->select()->where("order_id", $order_id)->fetch();
+    }
+
+    public function editOrder($order)
+    {
+        $this->update($order)->where("order_id", $order['order_id'])->execute();
     }
 }

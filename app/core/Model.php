@@ -68,9 +68,9 @@ class Model
     /**
      * Update a row in table
      * @param array $data
-     * @return void
+     * @return Model
      */
-    public function update(array $data): void
+    public function update(array $data): Model
     {
         $column_list = "";
         foreach (array_keys($data) as $column) {
@@ -80,12 +80,12 @@ class Model
             $column_list .= "$column = ?, ";
         }
         if (empty($data)) {
-            return;
+            return $this;
         }
         $column_list = rtrim($column_list, ", ");
         $this->query = "UPDATE $this->table SET $column_list";
         $this->data = array_values($data);
-        $this->execute();
+        return $this;
     }
 
     /**
