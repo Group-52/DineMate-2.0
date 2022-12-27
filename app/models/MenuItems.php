@@ -38,9 +38,12 @@ class MenuItems extends Model
         return $m_ids;
     }
 
-    public function addMenu($data): void
+    public function addMenuItem($data): void
     {
-        $this->insert($data);
+        $this->insert([
+            'menu_id' => $data['menu_id'],
+            'dish_id' => $data['dish_id']
+        ]);
     }
 }
 
