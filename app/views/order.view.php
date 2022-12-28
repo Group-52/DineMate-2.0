@@ -49,7 +49,6 @@
             echo "<td>" . $order->time_placed . "</td>";
             echo "<td>" . $order->scheduled_time . "</td>";
             echo "<td>" . $order->request . "</td>";
-            echo "<td>" . $order->quantity . "</td>";
             echo "<td>" . $order->type . "</td>";
             echo "<td>" . $order->status . "</td>";
             echo "<td><a href='orders/edit/" . $order->order_id . "'>Edit</a>";

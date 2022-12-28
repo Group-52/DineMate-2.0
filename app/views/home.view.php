@@ -85,18 +85,10 @@ if (isset($_SESSION['user'])) {
         <a class="link d-block" href="<?= ROOT ?>/dishes">View Dishes</a>
     </div>
     <div>
-        <h2>Inventory Manager</h2>
+        <h2>Admin</h2>
         <a class="link d-block" href="<?= ROOT ?>/admin/auth/login">Login</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/items">View items</a>
-    </div>
-    <div>
-        <h2>General Manager</h2>
-        <a class="link d-block" href="<?= ROOT ?>/loginK/login">Login</a>
         <a class="link d-block" href="<?= ROOT ?>/vendors">View Vendors</a>
-    </div>
-    <div>
-        <h2>Chef</h2>
-        <a class="link d-block" href="<?= ROOT ?>/chef/login">Login</a>
         <a class="link d-block" href="<?= ROOT ?>/orders">View Orders</a>
     </div>
 </div>

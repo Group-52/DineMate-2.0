@@ -210,13 +210,6 @@
             /* Hide any content that overflows the box */
         }
 
-        .image-box img {
-            /* width: 100%; */
-            /* Set the width of the image to 100% of the box */
-            /* height: auto; */
-            /* Set the height of the image to auto to maintain the aspect ratio */
-        }
-
         .cartitem {
             height: 200px;
             display: block;
