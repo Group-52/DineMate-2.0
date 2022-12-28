@@ -37,8 +37,8 @@
         foreach ($dish_list as $dish) {
             echo "<tr>";
             echo "<td>" . $dish->dish_id . "</td>";
-            echo "<td><div class='dishpic'><img alt='" . $dish->name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'></div></td>";
-            echo "<td>" . $dish->name . "</td>";
+            echo "<td><div class='dishpic'><img alt='" . $dish->dish_name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'></div></td>";
+            echo "<td>" . $dish->dish_name . "</td>";
             echo "<td>" . $dish->prep_time . "</td>";
             echo "<td>" . $dish->net_price . "</td>";
             echo "<td>" . $dish->selling_price . "</td>";

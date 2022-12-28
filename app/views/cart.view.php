@@ -255,7 +255,7 @@
                 echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
                 echo "</div>";
                 echo "<div class='about'>";
-                echo "<h3 class='title'>" . $dish->name . "</h3>";
+                echo "<h3 class='title'>" . $dish->dish_name . "</h3>";
                 // echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
                 // echo "<img src='images/veg.png' />";
                 echo "</div>";

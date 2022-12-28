@@ -21,7 +21,7 @@
         <select class="form-control" name="unit" id="unit">
             <option value="">Select Unit</option>
             <?php foreach ($data["units"] as $unit): ?>
-                <option value="<?= $unit->unit_id ?>"><?= $unit->name ?></option>
+                <option value="<?= $unit->unit_id ?>"><?= $unit->unit_name ?></option>
             <?php endforeach; ?>
             </select>
     </div>
@@ -30,7 +30,7 @@
         <select class="form-control" name="category" id="category">
             <option value="">Select Category</option>
             <?php foreach ($data["categories"] as $category): ?>
-                <option value="<?= $category->category_id ?>"><?= $category->name ?></option>
+                <option value="<?= $category->category_id ?>"><?= $category->category_name ?></option>
             <?php endforeach; ?>
         </select>
     </div>

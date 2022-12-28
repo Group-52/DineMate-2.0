@@ -6,7 +6,7 @@ class Category extends Model
     {
         $this->table = "categories";
         $this->columns = [
-            "name"
+            "category_name"
         ];
     }
 }

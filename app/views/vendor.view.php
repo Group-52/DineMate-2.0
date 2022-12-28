@@ -63,7 +63,7 @@
             foreach ($Vendor as $v1) {
                 echo "<tr>";
                 echo "<td>" . $v1->vendor_id . "</td>";
-                echo "<td>" . $v1->name. "</td>";
+                echo "<td>" . $v1->vendor_name. "</td>";
                 echo "<td>" . $v1->address . "</td>";
                 echo "<td>" . $v1->company . "</td>";
                 echo "<td>" . $v1->contact_no . "</td>";

@@ -52,7 +52,7 @@
         foreach ($menulist as $menu) {
             echo "<tr>";
             echo "<td>" . $menu->menu_id . "</td>";
-            echo "<td>" . $menu->name . "</td>";
+            echo "<td>" . $menu->menu_name . "</td>";
             echo "<td>" . $menu->description . "</td>";
             echo "<td>" . $menu->start_time . "</td>";
             echo "<td>" . $menu->end_time . "</td>";

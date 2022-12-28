@@ -21,7 +21,7 @@ class AdminUser extends Model
             "role",
             "email",
             "password",
-            "last_modified"
+            "last_login"
         ];
     }
 

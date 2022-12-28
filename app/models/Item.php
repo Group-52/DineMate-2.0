@@ -10,8 +10,7 @@ class Item extends Model
     {
         $this->table = "items";
         $this->columns = [
-            "name",
-            "brand",
+            "item_name",
             "description",
             "unit",
             "category",
@@ -37,7 +36,7 @@ class Item extends Model
 
     public function itemsSearch(array $data): array
     {
-        $like_columns = ["items.name", "items.brand", "items.description", "units.name", "categories.name"];
+        $like_columns = ["items.item_name", "items.brand", "items.description", "units.unit_name", "categories.category_name"];
         $likeData = [];
 
         if (isset($data["query"])) {
@@ -47,11 +46,11 @@ class Item extends Model
             unset($data["query"]);
         }
 
-        return $this->select(["item_id", "name", "brand", "description", "units.name AS units_name", "categories.name AS category_name"])
+        return $this->select(["item_id", "item_name", "description", "units.unit_name AS units_name", "categories.category_name AS category_name"])
             ->join("units", "unit", "unit_id")
             ->join("categories", "category", "category_id")
             ->containsAll($likeData)
-            ->and("categories.name", $data["category"] ?? "")
+            ->and("categories.category_name", $data["category"] ?? "")
             ->fetchAll();
     }
 }
