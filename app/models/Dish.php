@@ -10,7 +10,7 @@ class Dish extends Model
         $this->table = "dishes";
         $this->columns = [
             "dish_id",
-            "name",
+            "dish_name",
             "net_price",
             "selling_price",
             "description",
@@ -63,7 +63,14 @@ class Dish extends Model
      */
     public function addDish($data): void
     {
-        $this->insert($data);
+        $this->insert([
+            'dish_name' => $data['name'],
+            'net_price' => $data['net_price'],
+            'selling_price' => $data['selling_price'],
+            'description' => $data['description'],
+            'prep_time' => $data['prep_time'],
+            'image_url' => $data['image_url']
+        ]);
     }
 }
 

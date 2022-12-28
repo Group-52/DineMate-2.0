@@ -9,7 +9,7 @@ class Menu extends Model
     protected string $table = 'menus';
     protected array $allowedColumns = [
         'menu_id',
-        'name',
+        'menu_name',
         'description',
         'start_time',
         'end_time',
@@ -42,7 +42,14 @@ class Menu extends Model
 
     public function addMenu($data)
     {
-        $this->insert($data);
+        $this->insert([
+            'menu_name' => $data['name'],
+            'description' => $data['description'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time'],
+            'image_url' => $data['image_url'],
+            'all_day' => $data['all_day']
+        ]);
     }
 
 }

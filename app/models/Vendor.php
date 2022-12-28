@@ -9,10 +9,11 @@ class Vendor extends Model
     {
         $this->table = "vendors";
         $this->columns = [
-            "name",
+            "vendor_name",
             "address",
             "company",
-            "contact_no"
+            "contact_no",
+            "email"
         ];
     }
 

@@ -5,7 +5,7 @@ class Cart extends Model
     protected string $table = 'carts';
     protected string $primary_key = 'user_id';
     protected array $columns = [
-        'item_id',
+        'dish_id',
         'user_id',
         'quantity'
     ];
@@ -13,7 +13,7 @@ class Cart extends Model
     public function addCart($userid,$itemid)
     {
         $this->insert([
-            'item_id' => $itemid,
+            'dish_id' => $itemid,
             'user_id' => $userid,
             'quantity' => 1
         ]);
@@ -26,7 +26,7 @@ class Cart extends Model
         $cart = $this->select()->where('user_id', $id)->fetchAll();
         $l = array();
         foreach ($cart as $c) {
-            $l[$c->item_id] = $d->getDishById($c->item_id);
+            $l[$c->dish_id] = $d->getDishById($c->dish_id);
         }
         return $l;
     }

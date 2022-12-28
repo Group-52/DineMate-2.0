@@ -17,9 +17,9 @@
                         <option value="">Filter Category</option>
                         <?php if (isset($categories) && is_array($categories)): ?>
                             <?php foreach ($categories as $category): ?>
-                                <option value="<?= $category->name ?>"
-                                    <?= (isset($category_name) && $category->name == $category_name) ? " selected" : "" ?>>
-                                    <?= $category->name ?>
+                                <option value="<?= $category->category_name ?>"
+                                    <?= (isset($category_name) && $category->category_name == $category_name) ? " selected" : "" ?>>
+                                    <?= $category->category_name ?>
                                 </option>
                             <?php endforeach; ?>
                         <?php endif ?>
@@ -33,7 +33,6 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Brand</th>
             <th>Description</th>
             <th>Unit</th>
             <th>Category</th>

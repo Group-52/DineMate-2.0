@@ -112,7 +112,7 @@ if (isset($_SESSION['user'])) {
             <div class="card" style="width: 18rem;">
                 <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $dish->name ?></h5>
+                    <h5 class="card-title"><?= $dish->dish_name ?></h5>
                     <p class="card-text"><?= $dish->description ?></p>
                     <a href="<?=ROOT?>/carts/addtocart/<?=$_SESSION['user']->user_id?>/<?= $dish->dish_id ?>" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
@@ -124,19 +124,19 @@ if (isset($_SESSION['user'])) {
 </div>
 
 
-<!-- generate all items for each menu -->
+<!-- generate all dishes for each menu -->
 <?php
-if (isset($menuitems) && isset($menus)) {
-    foreach ($menuitems as $key => $menu) {
+if (isset($menudishes) && isset($menus)) {
+    foreach ($menudishes as $key => $menu) {
         echo '<div class="menurow">';
-        echo '<h3>' . $menus[$key]->name . '</h3>';
-        foreach ($menu as $item) {
+        echo '<h3>' . $menus[$key]->menu_name . '</h3>';
+        foreach ($menu as $d) {
             echo '<div class="card" style="width: 18rem;">
-            <img src="' . ASSETS . '/images/dishes/' . $item->image_url . '" class="card-img-top" alt="...">
+            <img src="' . ASSETS . '/images/dishes/' . $d->image_url . '" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title
-                ">' . $item->name . '</h5> 
-                <p class="card-text">' . $item->description . '</p>
+                ">' . $d->dish_name . '</h5> 
+                <p class="card-text">' . $d->description . '</p>
             </div>
         </div>';
         }
