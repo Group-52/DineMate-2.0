@@ -1,8 +1,8 @@
 <?php
 
-// Main Promotions class
+// Main Promotion class
 
-class Promotions extends Model
+class Promotion extends Model
 {
 
     public string $order_column = "promo_id";
@@ -17,12 +17,15 @@ class Promotions extends Model
     // Get all entries in the promotions table
     public function getpromos(): bool|array
     {
-        $l = $this->select()->fetchAll();
-        $promos = array();
-        foreach ($l as $p) {
-            $promos[$p->promo_id] = $p;
-        }
-        return $promos;
+        $query = "SELECT * FROM promotions p
+        JOIN (
+          CASE
+            WHEN p.type = 'spending_bonus' THEN promotions_spendingbonus
+            WHEN p.type = 'discounts' THEN promotions_discounts
+            WHEN p.type = 'free_dish' THEN promotions_buy1get1free
+          END
+        ) t2 ON p.promo_id = t2.promo_id";
+        $this->query = $query;
     }
 
     // Add a new entry to the promotions table and sub tables
@@ -51,8 +54,8 @@ class Promotions extends Model
     public function getpromotion($id): bool|array
     {
         $l = $this->select()->where('promo_id', $id)->fetch();
+        // $type = $l->type;        
         
-        $l = $this->select()->where('promo_id', $id)->fetch();
 
         return $l;
     }
@@ -65,3 +68,21 @@ class Promotions extends Model
 //     return $this;
 // }
 
+// return $this->select(["item_id", "item_name", "description", "units.unit_name AS units_name", "categories.category_name AS category_name"])
+//             ->join("units", "unit", "unit_id")
+//             ->join("categories", "category", "category_id")
+//             ->containsAll($likeData)
+//             ->and("categories.category_name", $data["category"] ?? "")
+//             ->fetchAll();
+
+// SELECT *
+// FROM table1 t1
+// JOIN (
+//   SELECT *
+//   FROM
+//     CASE
+//       WHEN column1 = 'value1' THEN table2
+//       WHEN column1 = 'value2' THEN table3
+//       ELSE table4
+//     END
+// ) t2 ON t1.id = t2.id
