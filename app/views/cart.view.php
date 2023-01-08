@@ -242,24 +242,20 @@
 
     
             foreach ($cartlist as $key => $dish) :
-                // show($dish);
                 echo "<div class='Cart-Items'>";
                 echo "<div class='image-box'>";
                 echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
                 echo "</div>";
                 echo "<div class='about'>";
                 echo "<h3 class='title'>" . $dish->dish_name . "</h3>";
-                // echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
-                // echo "<img src='images/veg.png' />";
                 echo "</div>";
                 echo "<div class='counter'>";
                 echo "<div class='btn'>+</div>";
-                echo "<div class='count'>1</div>";
+                echo "<div class='count'>".$dish->quantity."</div>";
                 echo "<div class='btn'>-</div>";
                 echo "</div>";
                 echo "<div class='prices'>";
                 echo "<div class='amount'>$" . $dish->selling_price . "</div>";
-                echo "<div class='save'><u>Save for later</u></div>";
                 echo "<div class='remove'><u>Remove</u></div>";
                 echo "</div>";
                 echo "</div>";
@@ -293,10 +289,6 @@ if (!empty($cartlist)) {
             <button class="button">Checkout</button>
         </div>
     </div>
-
-    <?php
-    // show($cartlist);
-    ?>
 </body>
 
 </html>

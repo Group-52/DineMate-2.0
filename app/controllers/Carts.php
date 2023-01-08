@@ -22,9 +22,7 @@ class Carts
     public function addtocart($userid, $itemid)
     {
         $cart = new Cart;
-        $cart->addCart($userid, $itemid);///
+        $cart->addCart($userid, $itemid);
         redirect('carts/viewcart');
-
-        // show($cart->getErrors());
     }
 }
