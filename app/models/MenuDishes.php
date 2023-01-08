@@ -10,39 +10,19 @@ class MenuDishes extends Model
     ];
 
 
-    public function getMenuDishes($menu_id): array
-    {
-        $d = new Dish();
-
-        $records = $this->select()->where('menu_id', $menu_id)->fetchAll();
-        $menu_dishes = array();
-        foreach ($records as $r) {
-            if ($r->menu_id == $menu_id) {
-                $menu_dishes[] = $d->getDishById($r->dish_id);
-            }
-        }
-        return $menu_dishes;
+    // get all dishes in a menu
+    public function getDishesforMenu($menuid){
+        return $this->select(["menu_dishes.dish_id", "dishes.dish_name", "dishes.selling_price", "dishes.description", "dishes.image_url"])
+        ->join("dishes", "dishes.dish_id", "menu_dishes.dish_id")
+        ->where("menu_id", $menuid)
+        ->fetchAll();
     }
 
-    #get all menu dishes and sort and separate by menu and make an array of arrays of menu dishes
-
-    public function getMenuDishesByMenu(): array
-    {
-        $m = new Menu();
-        $menus = $m->getMenus();
-        $m_ids = array();
-
-        foreach ($menus as $menu) {
-            $m_ids[$menu->menu_id] = $this->getMenuDishes($menu->menu_id);
-        }
-        return $m_ids;
-    }
-
-    public function addMenuDish($data): void
+    public function addMenuDish($menuid,$dishid): void
     {
         $this->insert([
-            'menu_id' => $data['menu_id'],
-            'dish_id' => $data['dish_id']
+            'menu_id' => $menuid,
+            'dish_id' => $dishid
         ]);
     }
 }

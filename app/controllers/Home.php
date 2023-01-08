@@ -21,9 +21,8 @@ class Home
         $m = new Menu();
         $data['menus'] = $m->getMenus();
 
-        #get menu items from database
-        $mi = new MenuDishes();
-        $data['menudishes'] = $mi->getMenuDishesByMenu();
+        #get menu dishes from database
+        $data['menudishes'] = $m->getDishesperMenu();
 
         $this->view('home', $data);
     }
