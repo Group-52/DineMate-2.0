@@ -116,13 +116,13 @@ if (isset($_SESSION['user'])) {
 </div>
 
 
-<!-- generate all dishes for each menu -->
+<!-- Generate all dishes for each menu -->
 <?php
 if (isset($menudishes) && isset($menus)) {
-    foreach ($menudishes as $key => $menu) {
+    foreach ($menudishes as $menu => $dishes) {
         echo '<div class="menurow">';
-        echo '<h3>' . $menus[$key]->menu_name . '</h3>';
-        foreach ($menu as $d) {
+        echo '<h3>' . $menus[$menu]->menu_name . '</h3>';
+        foreach ($dishes as $d) {
             echo '<div class="card" style="width: 18rem;">
             <img src="' . ASSETS . '/images/dishes/' . $d->image_url . '" class="card-img-top" alt="...">
             <div class="card-body">
@@ -135,8 +135,8 @@ if (isset($menudishes) && isset($menus)) {
         echo '</div>';
     }
 }
-
 ?>
+
 
 </body>
 </html>

@@ -1,8 +1,15 @@
+# Prevent people from looking directly into folders
+Options -Indexes -MultiViews
+
 RewriteEngine On
 
-#accept loading of actual files and directories
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Remove public/ from URLs using a redirect rule
+RewriteCond %{THE_REQUEST} \s/+(.+/)?public/(\S*) [NC]
+RewriteRule ^ /%1%2? [R=301,L,NE]
 
-#send everything else to the index page
-RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+# If the following conditions are true, then rewrite the URL:
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

@@ -32,13 +32,26 @@ class Menu extends Model
 
     public function getMenus(): bool|array
     {
-        $l = $this->select()->fetchAll();
-        $menus = array();
+        $l =  $this->select()->fetchAll();
+        $menulist = array();
         foreach ($l as $m) {
-            $menus[$m->menu_id] = $m;
+            $menulist[$m->menu_id] = $m;
         }
-        return $menus;
+        return $menulist;
     }
+
+    // get all dishes for all menus and returns as an associative array 
+    // with menu_id as key and array of dishes as value
+    public function getDishesperMenu(){
+        $dpm = new MenuDishes();
+        $menus = $this->getMenus();
+        $menudishes = array();
+        foreach ($menus as $m) {
+            $menudishes[$m->menu_id] = $dpm->getDishesforMenu($m->menu_id);
+        }
+        return $menudishes;
+    }
+
 
     public function addMenu($data)
     {

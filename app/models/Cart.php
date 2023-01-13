@@ -10,31 +10,39 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function addCart($userid,$itemid)
+    // Check if entry exists in the cart table and return the quantity if exists
+    public function checkCart($userid, $dish_id)
     {
-        $this->insert([
-            'dish_id' => $itemid,
-            'user_id' => $userid,
-            'quantity' => 1
-        ]);
+        return $this->select(['quantity'])
+            ->where('user_id', $userid)
+            ->and('dish_id', $dish_id)
+            ->fetch();
+    }
+
+    public function addCart($userid, $dish_id)
+    {
+        // if entry does not exist, insert new entry
+        if (!$this->checkCart($userid, $dish_id)) {
+            $this->insert([
+                'user_id' => $userid,
+                'dish_id' => $dish_id,
+                'quantity' => 1
+            ]);
+        }
     }
 
     // Get the cart items of a specific customer
     public function getCart($id): bool|array
     {
-        $d = new Dish();
-        $cart = $this->select()->where('user_id', $id)->fetchAll();
-        $l = array();
-        foreach ($cart as $c) {
-            $l[$c->dish_id] = $d->getDishById($c->dish_id);
-        }
-        return $l;
+        return $this->select('carts.*, dishes.dish_name, dishes.selling_price, dishes.image_url')
+            ->join('dishes', 'carts.dish_id', 'dishes.dish_id')
+            ->where('user_id', $id)
+            ->fetchAll();
     }
 
     public function getCarts(): bool|array
     {
         return $this->select()->fetchAll();
     }
-
 
 }

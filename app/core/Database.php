@@ -49,7 +49,7 @@ trait Database
      * @param string $query
      * @return PDOStatement
      */
-    private function prepare(string $query): PDOStatement
+    protected function prepare(string $query): PDOStatement
     {
         try {
             if ($this->db == null) {
