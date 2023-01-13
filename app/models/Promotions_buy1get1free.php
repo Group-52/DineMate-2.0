@@ -13,15 +13,11 @@ class Promotions_buy1get1free extends Model
         'dish2_id',
     ];
 
-    // Get all entries in the table and return as an array where the key is the promo_id
+    // Get all entries in the table 
     public function getpromos(): bool|array
     {
-        $l = $this->select()->fetchAll();
-        $promos = array();
-        foreach ($l as $p) {
-            $promos[$p->promo_id] = $p;
-        }
-        return $promos;
+        return $this->select('promotions.*')->
+        leftJoin('promotions', 'promo_buy1get1free.promo_id','promotions.promo_id')->fetchAll();
     }
 
     // Add a new entry to the promos_get1buy1free table given the promo_id, dish1_id and dish2_id

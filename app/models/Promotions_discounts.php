@@ -13,15 +13,11 @@ class Promotions_discounts extends Model
         'discount',
     ];
 
-    // Get all entries in the table and return as an array where the key is the promo_id
+    // Get all entries in the table 
     public function getpromos(): bool|array
     {
-        $l = $this->select()->fetchAll();
-        $promos = array();
-        foreach ($l as $p) {
-            $promos[$p->promo_id] = $p;
-        }
-        return $promos;
+        return $this->select('promotions.*')->
+        join('promotions', 'promo_discounts.promo_id','promotions.promo_id')->fetchAll();
     }
 
     // Add a new entry to the promo_discounts table given the promo_id, dish_id and discount

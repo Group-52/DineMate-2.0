@@ -8,12 +8,10 @@
 </head>
 <body>
     <h1>Promotions</h1>
-    <h2><?= $promo->title ?></h2>
-    <p><?= $promo->description ?></p>
-    <p><?= $promo->price ?></p>
-    <p><?= $promo->start_date ?></p>
-    <p><?= $promo->end_date ?></p>
-    <p><?= $promo->image ?></p>
+
+    <?php 
+    show($promos);
+    ?>
     
 </body>
 </html>

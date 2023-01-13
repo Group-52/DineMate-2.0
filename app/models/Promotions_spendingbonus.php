@@ -13,15 +13,10 @@ class Promotions_spendingbonus extends Model
         'bonus_amount',
     ];
 
-    // Get all entries in the table and return as an array where the key is the promo_id
-    public function getpromos(): bool|array
-    {
-        $l = $this->select()->fetchAll();
-        $promos = array();
-        foreach ($l as $p) {
-            $promos[$p->promo_id] = $p;
-        }
-        return $promos;
+    // Get all entries in the table
+    public function getpromos(){
+        return $this->select('promotions.*')->
+        join('promotions', 'promo_spending_bonus.promo_id','promotions.promo_id')->fetchAll();
     }
 
     // Add a new entry to the promo_spending_bonus table given the promo_id, spent_amount and bonus_amount

@@ -5,8 +5,12 @@ class Promotions
 
     public function index(): void
     {
-        $m = new Promotion();
-        $p = $m->getpromotion(1);
-        $this->view('promotions.view', ['promo' => $p]);
+
+        $p = new Promotion();
+        $promos = $p->getpromos();
+
+        $this->view('promotions', [
+            'promos' => $promos
+        ]);
     }
 }
