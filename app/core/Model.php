@@ -211,7 +211,6 @@ class Model
         $this->query .= " RIGHT JOIN $table ON $column1 $operator $column2";
         return $this;
     }
-    
 
     public function contains(string $column, string $value): Model
     {
