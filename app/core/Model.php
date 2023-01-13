@@ -192,6 +192,27 @@ class Model
         return $this;
     }
 
+    /**
+     * Left join clause
+     */
+
+    public function leftJoin(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " LEFT JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
+     * Right join clause
+     */
+
+    public function rightJoin(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " RIGHT JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+    
+
     public function contains(string $column, string $value): Model
     {
         if (empty($column) || empty($value)) {
