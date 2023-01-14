@@ -90,6 +90,7 @@ if (isset($_SESSION['user'])) {
         <a class="link d-block" href="<?= ROOT ?>/admin/items">View items</a>
         <a class="link d-block" href="<?= ROOT ?>/vendors">View Vendors</a>
         <a class="link d-block" href="<?= ROOT ?>/orders">View Orders</a>
+        <a class="link d-block" href="<?= ROOT ?>/admin/purchases">View Purchases</a>
     </div>
 </div>
 
