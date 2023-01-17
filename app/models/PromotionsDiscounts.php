@@ -1,8 +1,9 @@
 <?php
 
+namespace models;
 // Sub Promotions class for the discounts promotion
 
-class Promotions_discounts extends Model
+class PromotionsDiscounts extends \Model
 {
 
     public string $order_column = "promo_id";
@@ -39,5 +40,5 @@ class Promotions_discounts extends Model
     {
         $l = $this->select()->where('promo_id', $id)->fetch();
         return $l;
-    }   
+    }
 }
