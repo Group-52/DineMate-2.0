@@ -42,39 +42,17 @@
     line-height: 1.5;
   }
 
-  &.btn-success {
-    color: $bg-color;
-    background-color: $success-color;
-    border-color: $success-color;
+  @each $value in (success, warning, danger) {
+    &.btn-success {
+      color: $bg-color;
+      background-color: map-get($alert-colors, $value);
+      border-color: map-get($alert-colors, $value);
 
-    &:hover {
-      color: $success-color;
-      background-color: $bg-color;
-      border-color: $success-color;
-    }
-  }
-
-  &.btn-warning {
-    color: $bg-color;
-    background-color: $warning-color;
-    border-color: $warning-color;
-
-    &:hover {
-      color: $warning-color;
-      background-color: $bg-color;
-      border-color: $warning-color;
-    }
-  }
-
-  &.btn-danger {
-    color: $bg-color;
-    background-color: $danger-color;
-    border-color: $danger-color;
-
-    &:hover {
-      color: $danger-color;
-      background-color: $bg-color;
-      border-color: $danger-color;
+      &:hover {
+        color: map-get($alert-colors, $value);
+        background-color: $bg-color;
+        border-color: map-get($alert-colors, $value);
+      }
     }
   }
 }
@@ -103,7 +81,6 @@
 
   .nav-items {
     display: flex;
-    flex: 1 1 auto;
     align-items: center;
     flex-direction: row;
     padding-left: 0;
@@ -123,6 +100,63 @@
       width: 5rem;
       height: 2.5rem;
       margin-right: 0.5rem;
+    }
+  }
+}
+
+.card {
+  background-color: white;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+
+  .card-img-wrapper {
+    overflow: hidden;
+    flex: 1 0 auto;
+    position: relative;
+
+    .card-img {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+    padding: 0.5rem 1rem;
+
+    .card-title {
+      font-weight: 600;
+      color: $headings;
+    }
+
+    .card-prices {
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      font-feature-settings: 'pnum' on, 'onum' on;
+
+      .card-price-old {
+        font-size: 0.75rem;
+        text-decoration: line-through;
+        color: $secondary-text;
+      }
+
+      .card-price-new {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: $secondary-color;
+      }
     }
   }
 }

@@ -22,11 +22,6 @@ body {
   background-color: $bg-color;
 }
 
-.container {
-  max-width: 100%;
-  padding: 0 15px;
-  margin: 0 auto;
-}
 
 /*
   Login
@@ -110,4 +105,9 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+
+.welcome {
+  padding: 5rem;
 }

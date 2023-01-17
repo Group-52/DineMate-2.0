@@ -10,28 +10,31 @@
   flex-wrap: wrap;
   align-items: stretch;
   align-content: stretch;
+  justify-content: space-between;
 }
 
 $columns: (1: 8.333333%, 2: 16.666667%, 3: 25%, 4: 33.333333%, 5: 41.666667%, 6: 50%, 7: 58.333333%, 8: 66.666667%, 9: 75%, 10: 83.333333%, 11: 91.666667%, 12: 100%);
 @each $column, $width in $columns {
   .col-#{$column} {
     flex: 0 0 $width;
-    max-width: $width;
+    max-width: calc($width - 15px);
   }
   .col-offset-#{$column} {
-    margin-left: $width;
+    margin-left: calc($width - 15px);
   }
 }
 
 $viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
-@each $type, $width in $viewport-types {
+@each $type, $vp-width in $viewport-types {
   @each $column, $width in $columns {
-    .col-#{$type}-#{$column} {
-      flex: 0 0 $width;
-      max-width: $width;
-    }
-    .col-offset-#{$type}-#{$column} {
-      margin-left: $width;
+    @media (min-width: $vp-width) {
+      .col-#{$type}-#{$column} {
+        flex: 0 0 $width;
+        max-width: calc($width - 15px);
+      }
+      .col-offset-#{$type}-#{$column} {
+        margin-left: calc($width - 15px);
+      }
     }
   }
 }
@@ -134,6 +137,28 @@ $position-sides: (top, right, bottom, left);
   }
 }
 
+$container-widths: (
+        1400px: 1320px,
+        1200px: 1140px,
+        992px: 960px,
+        768px: 720px,
+        576px: 540px
+);
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1400px;
+  @each $breakpoint, $width in $container-widths {
+    @media (max-width: $breakpoint) {
+      max-width: $width;
+    }
+  }
+}
+
 .img {
   display: block;
   max-width: 100%;
@@ -177,3 +202,18 @@ $position-sides: (top, right, bottom, left);
   height: auto;
 }
 
+.rounded {
+  border-radius: 1rem;
+}
+
+.rounded-sm {
+  border-radius: 0.5rem;
+}
+
+.shadow {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

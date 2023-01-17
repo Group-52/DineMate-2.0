@@ -2,11 +2,21 @@
   Layout
  */
 
+$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
 
 $flex-directions: (row, row-reverse, column, column-reverse);
 @each $direction in $flex-directions {
   .flex-#{$direction} {
     flex-direction: $direction;
+  }
+}
+@each $type, $width in $viewport-types {
+  @each $direction in $flex-directions {
+    .flex-#{$type}-#{$direction} {
+      @media (min-width: $width) {
+        flex-direction: $direction;
+      }
+    }
   }
 }
 
@@ -16,11 +26,29 @@ $flex-wrap: (nowrap, wrap, wrap-reverse);
     flex-wrap: $wrap;
   }
 }
+@each $type, $width in $viewport-types {
+  @each $wrap in $flex-wrap {
+    .flex-#{$type}-#{$wrap} {
+      @media (min-width: $width) {
+        flex-wrap: $wrap;
+      }
+    }
+  }
+}
 
 $flex-justify: (start, end, center, space-between, space-around, space-evenly);
 @each $justify in $flex-justify {
   .justify-content-#{$justify} {
     justify-content: $justify;
+  }
+}
+@each $type, $width in $viewport-types {
+  @each $justify in $flex-justify {
+    .justify-content-#{$type}-#{$justify} {
+      @media (min-width: $width) {
+        justify-content: $justify;
+      }
+    }
   }
 }
 
@@ -30,6 +58,15 @@ $flex-align: (start, end, center, baseline, stretch);
     align-items: $align;
   }
 }
+@each $type, $width in $viewport-types {
+  @each $align in $flex-align {
+    .align-items-#{$type}-#{$align} {
+      @media (min-width: $width) {
+        align-items: $align;
+      }
+    }
+  }
+}
 
 $flex-align-content: (start, end, center, space-between, space-around, space-evenly, stretch);
 @each $align in $flex-align-content {
@@ -37,10 +74,28 @@ $flex-align-content: (start, end, center, space-between, space-around, space-eve
     align-content: $align;
   }
 }
+@each $type, $width in $viewport-types {
+  @each $align in $flex-align-content {
+    .align-content-#{$type}-#{$align} {
+      @media (min-width: $width) {
+        align-content: $align;
+      }
+    }
+  }
+}
 
 $flex-align-self: (auto, start, end, center, baseline, stretch);
 @each $align in $flex-align-self {
   .align-self-#{$align} {
     align-self: $align;
+  }
+}
+@each $type, $width in $viewport-types {
+  @each $align in $flex-align-self {
+    .align-self-#{$type}-#{$align} {
+      @media (min-width: $width) {
+        align-self: $align;
+      }
+    }
   }
 }

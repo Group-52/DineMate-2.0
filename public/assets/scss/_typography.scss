@@ -50,11 +50,30 @@
   }
 }
 
+@each $value in (normal, italic) {
+  .text-#{$value} {
+    font-style: $value !important;
+  }
+}
+
+@each $value in (normal, underline, line-through) {
+  .text-#{$value} {
+    text-decoration: $value !important;
+  }
+}
+
+@each $value in (success, warning, danger) {
+  .text-#{$value} {
+    color: map-get($alert-colors, $value) !important;
+  }
+}
+
 a.link {
-    color: $secondary-color;
-    text-decoration: none;
-    transition: all 0.3s ease-in-out;
-    &:hover {
-      text-decoration: underline;
-    }
+  color: $secondary-color;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
