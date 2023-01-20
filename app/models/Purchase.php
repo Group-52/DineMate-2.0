@@ -14,7 +14,7 @@ class Purchase extends Model
             "purchase_date",
             "vendor",
             "item",
-            "Quantity",
+            "quantity",
             "brand",
             "expiry_date",
             "cost",
@@ -31,7 +31,7 @@ class Purchase extends Model
             "purchase_date" => $data["purchase_date"],
             "vendor" => $data["vendor"],
             "item" => $data["item"],
-            "Quantity" => $data["quantity"],
+            "quantity" => $data["quantity"],
             "brand" => $data["brand"],
             "expiry_date" => $data["expiry_date"],
             "cost" => $data["cost"],
@@ -44,7 +44,7 @@ class Purchase extends Model
     // Get all purchase data from database
     public function getAllPurchases()
     {
-        return $this->select(["purchases.purchase_id", "purchases.purchase_date", "vendors.vendor_name", "items.item_name", "purchases.Quantity", "purchases.brand", "purchases.expiry_date", "purchases.cost", "purchases.discount", "purchases.final_price", "purchases.tax"])
+        return $this->select(["purchases.purchase_id", "purchases.purchase_date", "vendors.vendor_name", "items.item_name", "purchases.quantity", "purchases.brand", "purchases.expiry_date", "purchases.cost", "purchases.discount", "purchases.final_price", "purchases.tax"])
             ->join("vendors", "vendor", "vendor_id")
             ->join("items", "item", "item_id")
             ->fetchAll();
