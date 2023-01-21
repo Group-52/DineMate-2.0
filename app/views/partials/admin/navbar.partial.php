@@ -1,4 +1,4 @@
-<nav class="nav px-3 position-sticky">
+<nav class="nav px-3 position-sticky justify-content-space-between">
     <div class="nav-brand">
         <div class="nav-items">
             <div class="nav-item">
@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <div class="nav-items justify-content-end">
+    <div class="nav-items">
         <div class="nav-item">
             <?= $_SESSION["user"]->first_name ?>
         </div>
