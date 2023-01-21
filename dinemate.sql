@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2023 at 02:16 AM
+-- Generation Time: Jan 21, 2023 at 05:50 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -200,8 +200,7 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `lead_time`) VALUES
-(3, 43, '2023-01-21 01:15:44', NULL, NULL, NULL),
-(7, 6, '2023-01-21 01:15:44', NULL, NULL, NULL);
+(7, 6, '2023-01-21 03:16:05', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,19 +210,41 @@ INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_sto
 
 CREATE TABLE `inventory2` (
   `pid` int(11) DEFAULT NULL,
+  `item_id` int(11) DEFAULT NULL,
   `amount_remaining` float DEFAULT NULL,
   `special_notes` varchar(500) DEFAULT NULL,
-  `expiryrisk` smallint(6) DEFAULT 0
+  `expiryrisk` smallint(6) DEFAULT 0,
+  `last_used` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventory2`
 --
 
-INSERT INTO `inventory2` (`pid`, `amount_remaining`, `special_notes`, `expiryrisk`) VALUES
-(18, 1, NULL, 0),
-(19, 5, NULL, 0),
-(20, 43, NULL, 0);
+INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`, `expiryrisk`, `last_used`) VALUES
+(21, 7, 6, NULL, 0, '2023-01-21 04:38:27');
+
+--
+-- Triggers `inventory2`
+--
+DELIMITER $$
+CREATE TRIGGER `update_amount_remaining` AFTER UPDATE ON `inventory2` FOR EACH ROW BEGIN
+    IF NEW.amount_remaining < OLD.amount_remaining THEN
+        UPDATE inventory SET amount_remaining = amount_remaining - (OLD.amount_remaining - NEW.amount_remaining) WHERE item_id = NEW.item_id;
+    ELSE
+		UPDATE inventory SET amount_remaining = amount_remaining + (NEW.amount_remaining - OLD.amount_remaining) WHERE item_id = NEW.item_id;
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_last_used` BEFORE UPDATE ON `inventory2` FOR EACH ROW BEGIN
+    IF NEW.amount_remaining <> OLD.amount_remaining THEN
+        SET NEW.last_used = NOW();
+    END IF;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -462,9 +483,7 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(18, 7, 1, 1, NULL, '2023-01-21', NULL, 100, 0, 0, 100),
-(19, 7, 5, 1, NULL, '2023-01-21', NULL, 450, 0, 0, 450),
-(20, 3, 43, 1, NULL, '2023-01-21', NULL, 5000, 0, 0, 5000);
+(21, 7, 5, 1, NULL, '2023-01-21', NULL, 500, 0, 0, 500);
 
 --
 -- Triggers `purchases`
@@ -481,7 +500,7 @@ $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `update_inventory2` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
-INSERT into inventory2 (pid, amount_remaining) VALUES (NEW.purchase_id, NEW.quantity);
+INSERT into inventory2 (pid, amount_remaining,item_id) VALUES (NEW.purchase_id, NEW.quantity, NEW.item);
 END
 $$
 DELIMITER ;
@@ -643,7 +662,7 @@ ALTER TABLE `inventory`
 -- Indexes for table `inventory2`
 --
 ALTER TABLE `inventory2`
-  ADD KEY `pid` (`pid`);
+  ADD UNIQUE KEY `pid` (`pid`);
 
 --
 -- Indexes for table `items`
@@ -807,7 +826,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
