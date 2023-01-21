@@ -65,7 +65,13 @@
   display: flex;
   flex-wrap: wrap;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  background: #ffffffaa;
+  backdrop-filter: blur(10px);
   z-index: 2;
+
+  #sidebar-open {
+    cursor: pointer;
+  }
 
   &.nav-brand {
     display: flex;
@@ -90,7 +96,7 @@
 
   .nav-item {
     padding: 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 1.25rem;
     font-weight: 600;
     line-height: inherit;
     white-space: nowrap;
@@ -102,7 +108,79 @@
       margin-right: 0.5rem;
     }
   }
+
+  // sidebar
+  &.nav-home .sidebar {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 20rem;
+    height: 100vh;
+    background-color: $bg-color;
+    font-weight: 400;
+    transition: all 0.2s ease-in-out;
+
+    &.open {
+      right: 0;
+    }
+
+    .sidebar-items {
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .sidebar-item i {
+      margin-right: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .sidebar-item {
+      margin: 1rem 0;
+      font-size: 1rem;
+      line-height: inherit;
+      white-space: nowrap;
+      text-decoration: none;
+
+    }
+
+    #sidebar-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 1.5rem;
+      padding: 1rem;
+      font-size: 1.5rem;
+      color: $secondary-text;
+      cursor: pointer;
+    }
+  }
+
+  .nav-shopping-cart {
+    position: relative;
+
+    a {
+      color: $primary-text;
+    }
+
+    .badge {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      padding: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1;
+      color: $bg-color;
+      background-color: $primary-color;
+      border-radius: 0.25rem;
+    }
+  }
 }
+
+/**
+  Menu Item Card
+ */
 
 .card {
   background-color: white;
