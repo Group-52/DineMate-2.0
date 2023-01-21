@@ -1,9 +1,9 @@
 <?php
 
+namespace core;
 /**
  * Base Model Trait
  */
-
 class Model
 {
     use Database;

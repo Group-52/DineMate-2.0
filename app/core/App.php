@@ -1,5 +1,6 @@
 <?php
 
+namespace core;
 class App
 {
     private mixed $module = "";
@@ -39,8 +40,16 @@ class App
             }
         }
 
-        include $path;
-        $this->controller = new $this->controller;
+        if ($this->controller) {
+            include $path;
+            if ($this->module) {
+                $this->controller = "controllers\\" . $this->module . "\\" . $this->controller;
+            } else {
+                $this->controller = "controllers\\" . $this->controller;
+            }
+            $this->controller = new $this->controller;
+        }
+
 
         // checks if the method exists
         if (isset($url[1])) {
@@ -63,6 +72,7 @@ class App
             include $path;
             $this->controller = new $this->controller;
         }
+
 
         // sets the params
         $this->params = $url ? array_values($url) : [];

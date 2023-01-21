@@ -4,6 +4,7 @@
  * Base controller trait.
  */
 
+namespace core;
 trait Controller
 {
     /**
