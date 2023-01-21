@@ -35,7 +35,8 @@ class IngredientModel extends Model
         return $this->select(["ingredients.*", "items.item_name", "units.unit_name","dishes.dish_name"])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
-            ->where("dish_id", $dish)
+            ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
+            ->where("ingredients.dish_id", $dish)
             ->fetchAll();
     }
 
@@ -46,7 +47,7 @@ class IngredientModel extends Model
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
-            ->where("item_id", $item)
+            ->where("ingredients.item_id", $item)
             ->fetchAll();
     }
 }
