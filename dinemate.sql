@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 03, 2023 at 10:48 AM
+-- Generation Time: Jan 21, 2023 at 02:16 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -33,24 +33,6 @@ CREATE TABLE `carts` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `carts`
---
-
-INSERT INTO `carts` (`user_id`, `dish_id`, `quantity`) VALUES
-(6, 37, 1),
-(6, 35, 5),
-(2, 43, 4),
-(3, 35, 1),
-(8, 37, 1),
-(6, 46, 1),
-(6, 41, 1),
-(6, 42, 1),
-(6, 34, 1),
-(6, 34, 1),
-(6, 35, 1),
-(6, 37, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -76,36 +58,17 @@ INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `current_stocks`
---
-
-CREATE TABLE `current_stocks` (
-  `purchase_id` int(11) NOT NULL,
-  `amount_remaining` double NOT NULL,
-  `last_updated` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `current_stocks`
---
-
-INSERT INTO `current_stocks` (`purchase_id`, `amount_remaining`, `last_updated`) VALUES
-(1, 20, '2022-11-01 18:30:00');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `dishes`
 --
 
 CREATE TABLE `dishes` (
   `dish_id` int(11) NOT NULL,
-  `dish_name` text NOT NULL,
-  `net_price` double NOT NULL,
-  `selling_price` double NOT NULL,
-  `description` text NOT NULL,
+  `dish_name` varchar(255) NOT NULL,
+  `net_price` float NOT NULL,
+  `selling_price` float NOT NULL,
+  `description` varchar(500) NOT NULL,
   `prep_time` int(11) NOT NULL,
-  `image_url` text DEFAULT NULL
+  `image_url` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -137,13 +100,13 @@ CREATE TABLE `employees` (
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `salary` double NOT NULL,
+  `salary` float NOT NULL,
   `contact_no` varchar(20) NOT NULL,
   `NIC` varchar(20) NOT NULL,
   `date_employed` date NOT NULL,
   `role` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(500) NOT NULL,
+  `password` varchar(512) NOT NULL,
   `last_login` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -165,11 +128,30 @@ INSERT INTO `employees` (`emp_id`, `first_name`, `last_name`, `username`, `salar
 --
 
 CREATE TABLE `feedback` (
-  `customer_id` int(11) NOT NULL,
+  `feedback_id` int(11) NOT NULL,
+  `reg_customer_id` int(11) DEFAULT NULL,
+  `guest_id` int(11) DEFAULT NULL,
   `order_id` int(11) NOT NULL,
   `rating` tinyint(4) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` varchar(2000) DEFAULT NULL,
+  `time_placed` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `general_info`
+--
+
+CREATE TABLE `general_info` (
+  `restaurant_name` varchar(100) NOT NULL,
+  `opening_time` time DEFAULT NULL,
+  `closing_time` time DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `contact_no` varchar(20) DEFAULT NULL,
+  `introduction` varchar(500) DEFAULT NULL,
+  `image_url` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -195,8 +177,53 @@ CREATE TABLE `guest_users` (
 CREATE TABLE `ingredients` (
   `dish_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL
+  `quantity` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory`
+--
+
+CREATE TABLE `inventory` (
+  `item_id` int(11) NOT NULL,
+  `amount_remaining` float NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
+  `max_stock_level` float DEFAULT NULL,
+  `buffer_stock_level` float DEFAULT NULL,
+  `lead_time` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `lead_time`) VALUES
+(3, 43, '2023-01-21 01:15:44', NULL, NULL, NULL),
+(7, 6, '2023-01-21 01:15:44', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory2`
+--
+
+CREATE TABLE `inventory2` (
+  `pid` int(11) DEFAULT NULL,
+  `amount_remaining` float DEFAULT NULL,
+  `special_notes` varchar(500) DEFAULT NULL,
+  `expiryrisk` smallint(6) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventory2`
+--
+
+INSERT INTO `inventory2` (`pid`, `amount_remaining`, `special_notes`, `expiryrisk`) VALUES
+(18, 1, NULL, 0),
+(19, 5, NULL, 0),
+(20, 43, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -209,18 +236,18 @@ CREATE TABLE `items` (
   `item_name` varchar(256) NOT NULL,
   `description` text DEFAULT NULL,
   `unit` int(50) NOT NULL,
-  `category` int(11) DEFAULT NULL
+  `category` int(11) DEFAULT NULL,
+  `reorder_level` double DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`) VALUES
-(2, 'Dhal', 'always keep at hand', 1, 3),
-(3, 'Carrots', 'orange long cone', 1, 4),
-(7, 'Banana', 'Long and Yellow', 1, 5),
-(8, 'skafjsdkl', 'kljfskldjf', 3, 2);
+INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`, `reorder_level`) VALUES
+(2, 'Dhal', 'always keep at hand', 1, 3, 0),
+(3, 'Carrots', 'orange long cone', 1, 4, 0),
+(7, 'Banana', 'Long and Yellow', 1, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -231,10 +258,10 @@ INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`) 
 CREATE TABLE `menus` (
   `menu_id` int(11) NOT NULL,
   `menu_name` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `description` varchar(200) NOT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
-  `image_url` text DEFAULT NULL,
+  `image_url` varchar(200) DEFAULT NULL,
   `all_day` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -269,6 +296,14 @@ INSERT INTO `menu_dishes` (`menu_id`, `dish_id`) VALUES
 (1, 38),
 (1, 39),
 (1, 37),
+(1, 40),
+(3, 33),
+(3, 42),
+(3, 36),
+(3, 43),
+(1, 38),
+(1, 39),
+(1, 37),
 (1, 40);
 
 -- --------------------------------------------------------
@@ -281,10 +316,10 @@ CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `reg_customer_id` int(11) DEFAULT NULL,
   `guest_id` int(11) DEFAULT NULL,
-  `request` text DEFAULT NULL,
+  `request` varchar(500) DEFAULT NULL,
   `time_placed` timestamp NOT NULL DEFAULT current_timestamp(),
-  `type` text NOT NULL,
-  `status` text NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `status` varchar(50) NOT NULL,
   `scheduled_time` time DEFAULT NULL,
   `table_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -327,11 +362,20 @@ CREATE TABLE `order_promotions` (
 
 CREATE TABLE `promotions` (
   `promo_id` int(11) NOT NULL,
-  `caption` text DEFAULT NULL,
-  `type` text NOT NULL,
+  `caption` varchar(500) DEFAULT NULL,
+  `type` varchar(50) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `image_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `promotions`
+--
+
+INSERT INTO `promotions` (`promo_id`, `caption`, `type`, `status`, `image_url`) VALUES
+(1, 'This is my discount promotion 1', 'discounts', 1, NULL),
+(2, 'This is my spending bonus promotion 2', 'spending_bonus', 1, NULL),
+(3, 'This is my buy1get1 free promotion 3', 'free_dish', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -345,6 +389,14 @@ CREATE TABLE `promo_buy1get1free` (
   `dish2_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `promo_buy1get1free`
+--
+
+INSERT INTO `promo_buy1get1free` (`promo_id`, `dish1_id`, `dish2_id`) VALUES
+(3, 36, 35),
+(3, 36, 35);
+
 -- --------------------------------------------------------
 
 --
@@ -357,6 +409,14 @@ CREATE TABLE `promo_discounts` (
   `discount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `promo_discounts`
+--
+
+INSERT INTO `promo_discounts` (`promo_id`, `dish_id`, `discount`) VALUES
+(1, 37, 0.3),
+(1, 37, 0.3);
+
 -- --------------------------------------------------------
 
 --
@@ -365,9 +425,17 @@ CREATE TABLE `promo_discounts` (
 
 CREATE TABLE `promo_spending_bonus` (
   `promo_id` int(11) NOT NULL,
-  `spent_amount` double NOT NULL,
-  `bonus_amount` double NOT NULL
+  `spent_amount` float NOT NULL,
+  `bonus_amount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `promo_spending_bonus`
+--
+
+INSERT INTO `promo_spending_bonus` (`promo_id`, `spent_amount`, `bonus_amount`) VALUES
+(2, 2000, 400),
+(2, 2000, 400);
 
 -- --------------------------------------------------------
 
@@ -378,22 +446,45 @@ CREATE TABLE `promo_spending_bonus` (
 CREATE TABLE `purchases` (
   `purchase_id` int(11) NOT NULL,
   `item` int(11) NOT NULL,
-  `Quantity` double NOT NULL,
+  `quantity` float NOT NULL,
   `vendor` int(11) NOT NULL,
   `brand` varchar(256) DEFAULT NULL,
-  `purchase_date` date NOT NULL,
+  `purchase_date` date DEFAULT current_timestamp(),
   `expiry_date` date DEFAULT NULL,
-  `cost` double NOT NULL,
-  `discount` double NOT NULL DEFAULT 0,
-  `final_price` double NOT NULL
+  `cost` float NOT NULL,
+  `discount` float NOT NULL DEFAULT 0,
+  `tax` float NOT NULL DEFAULT 0,
+  `final_price` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`purchase_id`, `item`, `Quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `final_price`) VALUES
-(1, 2, 20, 1, NULL, '2022-11-09', '2023-03-03', 7000, 0.1, 6300);
+INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
+(18, 7, 1, 1, NULL, '2023-01-21', NULL, 100, 0, 0, 100),
+(19, 7, 5, 1, NULL, '2023-01-21', NULL, 450, 0, 0, 450),
+(20, 3, 43, 1, NULL, '2023-01-21', NULL, 5000, 0, 0, 5000);
+
+--
+-- Triggers `purchases`
+--
+DELIMITER $$
+CREATE TRIGGER `update_inventory` BEFORE INSERT ON `purchases` FOR EACH ROW BEGIN
+    IF EXISTS (SELECT 1 FROM inventory WHERE item_id = NEW.item) THEN
+        UPDATE inventory SET amount_remaining = amount_remaining + NEW.quantity WHERE item_id = NEW.item;
+    ELSE
+        INSERT INTO inventory (item_id, amount_remaining) VALUES (NEW.item, NEW.quantity);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_inventory2` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
+INSERT into inventory2 (pid, amount_remaining) VALUES (NEW.purchase_id, NEW.quantity);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -403,11 +494,11 @@ INSERT INTO `purchases` (`purchase_id`, `item`, `Quantity`, `vendor`, `brand`, `
 
 CREATE TABLE `reg_users` (
   `user_id` int(11) NOT NULL,
-  `first_name` text NOT NULL,
-  `last_name` text NOT NULL,
-  `contact_no` text NOT NULL,
-  `email` text NOT NULL,
-  `password` text NOT NULL,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `contact_no` varchar(20) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(512) NOT NULL,
   `registered_date` timestamp NOT NULL DEFAULT current_timestamp(),
   `last_login` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -430,7 +521,7 @@ INSERT INTO `reg_users` (`user_id`, `first_name`, `last_name`, `contact_no`, `em
 
 CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL,
-  `role` text NOT NULL
+  `role` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -475,7 +566,7 @@ INSERT INTO `units` (`unit_id`, `unit_name`) VALUES
 CREATE TABLE `vendors` (
   `vendor_id` int(11) NOT NULL,
   `vendor_name` varchar(100) NOT NULL,
-  `address` varchar(100) DEFAULT NULL,
+  `address` varchar(200) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `contact_no` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL
@@ -486,8 +577,7 @@ CREATE TABLE `vendors` (
 --
 
 INSERT INTO `vendors` (`vendor_id`, `vendor_name`, `address`, `company`, `contact_no`, `email`) VALUES
-(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL),
-(2, 'e', 'ew', 'ewe', '4', NULL);
+(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL);
 
 --
 -- Indexes for dumped tables
@@ -497,20 +587,14 @@ INSERT INTO `vendors` (`vendor_id`, `vendor_name`, `address`, `company`, `contac
 -- Indexes for table `carts`
 --
 ALTER TABLE `carts`
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `item_id` (`dish_id`);
+  ADD PRIMARY KEY (`user_id`,`dish_id`),
+  ADD KEY `dish_id` (`dish_id`);
 
 --
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
-
---
--- Indexes for table `current_stocks`
---
-ALTER TABLE `current_stocks`
-  ADD PRIMARY KEY (`purchase_id`);
 
 --
 -- Indexes for table `dishes`
@@ -530,8 +614,10 @@ ALTER TABLE `employees`
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`customer_id`,`order_id`),
-  ADD KEY `order_id` (`order_id`);
+  ADD PRIMARY KEY (`feedback_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `reg_customer_id` (`reg_customer_id`),
+  ADD KEY `guest_id` (`guest_id`);
 
 --
 -- Indexes for table `guest_users`
@@ -545,6 +631,19 @@ ALTER TABLE `guest_users`
 ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`dish_id`,`item_id`),
   ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD UNIQUE KEY `item_id_2` (`item_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `inventory2`
+--
+ALTER TABLE `inventory2`
+  ADD KEY `pid` (`pid`);
 
 --
 -- Indexes for table `items`
@@ -669,6 +768,12 @@ ALTER TABLE `employees`
   MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `guest_users`
 --
 ALTER TABLE `guest_users`
@@ -696,13 +801,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `promotions`
 --
 ALTER TABLE `promotions`
-  MODIFY `promo_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `promo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
@@ -733,10 +838,11 @@ ALTER TABLE `vendors`
 --
 
 --
--- Constraints for table `current_stocks`
+-- Constraints for table `carts`
 --
-ALTER TABLE `current_stocks`
-  ADD CONSTRAINT `current_stocks_ibfk_1` FOREIGN KEY (`purchase_id`) REFERENCES `purchases` (`purchase_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `reg_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `employees`
@@ -748,7 +854,9 @@ ALTER TABLE `employees`
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
-  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+  ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  ADD CONSTRAINT `feedback_ibfk_2` FOREIGN KEY (`reg_customer_id`) REFERENCES `reg_users` (`user_id`),
+  ADD CONSTRAINT `feedback_ibfk_3` FOREIGN KEY (`guest_id`) REFERENCES `guest_users` (`guest_id`);
 
 --
 -- Constraints for table `ingredients`
@@ -756,6 +864,18 @@ ALTER TABLE `feedback`
 ALTER TABLE `ingredients`
   ADD CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `ingredients_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `inventory`
+--
+ALTER TABLE `inventory`
+  ADD CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
+
+--
+-- Constraints for table `inventory2`
+--
+ALTER TABLE `inventory2`
+  ADD CONSTRAINT `inventory2_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `purchases` (`purchase_id`);
 
 --
 -- Constraints for table `items`
