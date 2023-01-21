@@ -109,9 +109,11 @@ if (isset($_SESSION['user'])) {
                 <div class="card-body">
                     <h5 class="card-title"><?= $dish->dish_name ?></h5>
                     <p class="card-text"><?= $dish->description ?></p>
-                    <a href="<?=ROOT?>/carts/addtocart/<?=$_SESSION['user']->user_id?>/<?= $dish->dish_id ?>" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
-                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
-                    </a>
+                    <?php if (isset($_SESSION['user'])) : ?>
+                        <a href="<?= ROOT ?>/carts/addtocart/<?= $_SESSION['user']->user_id ?>/<?= $dish->dish_id ?>" id=<?= $dish->dish_id ?> class="add-to-cart-btn">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endforeach; ?>
