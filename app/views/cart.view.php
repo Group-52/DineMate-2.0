@@ -216,7 +216,8 @@
             justify-content: space-between;
             align-items: center;
         }
-        img{
+
+        img {
             border-radius: 10px;
             height: 100px;
             width: 100px;
@@ -227,76 +228,75 @@
 
 <body>
 
-    <div class="CartContainer">
-        <div class="Header">
-            <h3 class="Heading">Shopping Cart</h3>
-            <h5 class="Action">Remove all</h5>
-        </div>
-
-        
-
-            <!-- generate all items in cart -->
-            
-            <?php 
-            if (!empty($cartlist)) {
-
-    
-            foreach ($cartlist as $key => $dish) :
-                // show($dish);
-                echo "<div class='Cart-Items'>";
-                echo "<div class='image-box'>";
-                echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
-                echo "</div>";
-                echo "<div class='about'>";
-                echo "<h3 class='title'>" . $dish->dish_name . "</h3>";
-                // echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
-                // echo "<img src='images/veg.png' />";
-                echo "</div>";
-                echo "<div class='counter'>";
-                echo "<div class='btn'>+</div>";
-                echo "<div class='count'>1</div>";
-                echo "<div class='btn'>-</div>";
-                echo "</div>";
-                echo "<div class='prices'>";
-                echo "<div class='amount'>$" . $dish->selling_price . "</div>";
-                echo "<div class='save'><u>Save for later</u></div>";
-                echo "<div class='remove'><u>Remove</u></div>";
-                echo "</div>";
-                echo "</div>";
-
-            endforeach;
-         }
-          ?> 
-
-
-        <hr>
-
-<?php 
-// calculate price of all items
-$total = 0;
-$count = 0;
-if (!empty($cartlist)) {
-    foreach ($cartlist as $key => $dish) {
-        $total += $dish->selling_price;
-        $count++;
-    }
-}
-?>
-        <div class="checkout">
-            <div class="total">
-                <div>
-                    <div class="Subtotal">Sub-Total</div>
-                    <div class="items"><?=$count?> items</div>
-                </div>
-                <div class="total-amount">$ <?=$total?></div>
-            </div>
-            <button class="button">Checkout</button>
-        </div>
+<div class="CartContainer">
+    <div class="Header">
+        <h3 class="Heading">Shopping Cart</h3>
+        <h5 class="Action">Remove all</h5>
     </div>
 
+
+    <!-- generate all items in cart -->
+
     <?php
-    // show($cartlist);
+    if (!empty($cartlist)) {
+
+
+        foreach ($cartlist as $key => $dish) :
+            // show($dish);
+            echo "<div class='Cart-Items'>";
+            echo "<div class='image-box'>";
+            echo "<img " . "src=" . ASSETS . "/images/dishes/" . $dish->image_url . ">";
+            echo "</div>";
+            echo "<div class='about'>";
+            echo "<h3 class='title'>" . $dish->dish_name . "</h3>";
+            // echo "<h3 class='subtitle'>" . $dish->description . "</h3>";
+            // echo "<img src='images/veg.png' />";
+            echo "</div>";
+            echo "<div class='counter'>";
+            echo "<div class='btn'>+</div>";
+            echo "<div class='count'>1</div>";
+            echo "<div class='btn'>-</div>";
+            echo "</div>";
+            echo "<div class='prices'>";
+            echo "<div class='amount'>$" . $dish->selling_price . "</div>";
+            echo "<div class='save'><u>Save for later</u></div>";
+            echo "<div class='remove'><u>Remove</u></div>";
+            echo "</div>";
+            echo "</div>";
+
+        endforeach;
+    }
     ?>
+
+
+    <hr>
+
+    <?php
+    // calculate price of all items
+    $total = 0;
+    $count = 0;
+    if (!empty($cartlist)) {
+        foreach ($cartlist as $key => $dish) {
+            $total += $dish->selling_price;
+            $count++;
+        }
+    }
+    ?>
+    <div class="checkout">
+        <div class="total">
+            <div>
+                <div class="Subtotal">Sub-Total</div>
+                <div class="items"><?= $count ?> items</div>
+            </div>
+            <div class="total-amount">$ <?= $total ?></div>
+        </div>
+        <button class="button">Checkout</button>
+    </div>
+</div>
+
+<?php
+// show($cartlist);
+?>
 </body>
 
 </html>

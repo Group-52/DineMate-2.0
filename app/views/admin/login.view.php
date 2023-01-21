@@ -12,14 +12,12 @@
                     <img class="img-logo" src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="DineMate Logo">
                 </a>
                 <h1 class="display-3 mb-1">Login with DineMate</h1>
+                <h2 class="mb-3">Admin</h2>
                 <?php if (isset($form)) : ?>
                     <?php $form->render(); ?>
                 <?php endif; ?>
-                <div class="fw-bold text-right mt-3">
+                <div class="fw-bold text-right">
                     Forgot <a class="link" href="#">Password</a>?
-                </div>
-                <div class="fw-bold text-right mt-3">
-                    Don't have an account? <a class="link" href="<?= ROOT ?>/auth/register">Register</a>
                 </div>
             </div>
         </div>

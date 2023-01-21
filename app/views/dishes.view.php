@@ -16,11 +16,11 @@
 </head>
 
 <body>
-    <h1>
+<h1>
 
-        <a href="<?php echo ROOT; ?>">Index</a>
-        <a href="<?php echo ROOT; ?>/dishes/addDish">Add Dish</a>
-    </h1>
+    <a href="<?php echo ROOT; ?>">Index</a>
+    <a href="<?php echo ROOT; ?>/dishes/addDish">Add Dish</a>
+</h1>
 <table>
     <tr>
         <th>Dish ID</th>

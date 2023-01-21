@@ -1,4 +1,7 @@
-<?php include "partials/head.partial.php" ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include VIEWS . "/partials/home/head.partial.php" ?>
 
 <body class="vh-100 d-flex align-items-center justify-content-center">
 <div class="not-found-container">
@@ -8,3 +11,4 @@
     <a href="<?= ROOT ?>/home" class="link text-right">Go to home</a>
 </div>
 </body>
+</html>

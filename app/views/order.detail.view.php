@@ -7,31 +7,26 @@
     <title>orderDetail</title>
 </head>
 <body>
-    <div >
+<div>
 
     <h1>Order>Order Details</h1></label><br>
-   <label>Order ID: #
-    
+    <label>Order ID: #
+
 
         <img height="200" width="200" src=""><br>
-        
+
         <h1><?php ?></h1>
         <p>
-            Type: <?php echo ($row1['type'])?><br>
-            prep time: <?php echo ($row2['prep_time']) ?><br>
-            pieces: <?php echo ($row1['dish_count'])?>
+            Type: <?php echo($row1['type']) ?><br>
+            prep time: <?php echo($row2['prep_time']) ?><br>
+            pieces: <?php echo($row1['dish_count']) ?>
         </p>
 
-        <button name="accept" style="background-color: green;" >Accept</button>
-        <button name="cancel" style="background-color: red;" >Cancel</button>
-
-        
-        
+        <button name="accept" style="background-color: green;">Accept</button>
+        <button name="cancel" style="background-color: red;">Cancel</button>
 
 
+</div>
 
-
-    </div>
-    
 </body>
 </html>
