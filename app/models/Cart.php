@@ -1,5 +1,10 @@
 <?php
 
+namespace models;
+
+
+use core\Model;
+
 class Cart extends Model
 {
     protected string $table = 'carts';
@@ -10,11 +15,11 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function addCart($userid,$itemid)
+    public function addCart($userID, $itemID)
     {
         $this->insert([
-            'dish_id' => $itemid,
-            'user_id' => $userid,
+            'dish_id' => $itemID,
+            'user_id' => $userID,
             'quantity' => 1
         ]);
     }

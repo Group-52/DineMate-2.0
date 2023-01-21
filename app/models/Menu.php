@@ -1,6 +1,9 @@
 <?php
 
+namespace models;
+
 // Menu class
+use core\Model;
 
 class Menu extends Model
 {

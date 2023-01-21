@@ -3,7 +3,9 @@
 namespace models;
 // Sub Promotions class for the discounts promotion
 
-class PromotionsDiscounts extends \Model
+use core\Model;
+
+class PromotionsDiscounts extends Model
 {
 
     public string $order_column = "promo_id";
@@ -26,7 +28,7 @@ class PromotionsDiscounts extends \Model
     }
 
     // Add a new entry to the promo_discounts table given the promo_id, dish_id and discount
-    public function addpromotion($pid, $d, $disc)
+    public function addPromotion($pid, $d, $disc)
     {
         $this->insert([
             'promo_id' => $pid,
@@ -36,7 +38,7 @@ class PromotionsDiscounts extends \Model
     }
 
     // get one promotion by id
-    public function getpromotion($id): bool|array
+    public function getPromotion($id): bool|array
     {
         $l = $this->select()->where('promo_id', $id)->fetch();
         return $l;

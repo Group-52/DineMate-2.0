@@ -3,7 +3,9 @@
 namespace models;
 // Sub Promotions class for the spending bonus promotion
 
-class PromotionsSpendingBonus extends \Model
+use core\Model;
+
+class PromotionsSpendingBonus extends Model
 {
 
     public string $order_column = "promo_id";

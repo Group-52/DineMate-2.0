@@ -1,5 +1,9 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 class Order extends Model
 {
     public function __construct()

@@ -1,6 +1,10 @@
 <?php
 
+namespace models;
+
 // Main Promotions class
+
+use Model;
 
 class Promotions extends Model
 {
@@ -37,21 +41,22 @@ class Promotions extends Model
         // check for type of promotion and add to the respective table
 
         if ($data['type'] == 'spending_bonus') {
-            $obj = new Promotions_spendingbonus();
+            $obj = new PromotionsSpendingBonus();
             $obj->addpromotion($data['promo_id'], $data['spent_amount'], $data['bonus_amount']);
         } else if ($data['type'] == 'discounts') {
-            $obj = new Promotions_discounts();
+            $obj = new PromotionsDiscounts();
             $obj->addpromotion($data['promo_id'], $data['dish_id'], $data['discount']);
-        }else if ($data['type'] == 'free_dish') {
-            $obj = new Promotions_buy1get1free();
+        } else if ($data['type'] == 'free_dish') {
+            $obj = new PromotionsBuy1Get1Free();
             $obj->addpromotion($data['promo_id'], $data['dish1_id'], $data['dish2_id']);
         }
     }
+
     // get one promotion by id
     public function getpromotion($id): bool|array
     {
         $l = $this->select()->where('promo_id', $id)->fetch();
-        
+
         $l = $this->select()->where('promo_id', $id)->fetch();
 
         return $l;

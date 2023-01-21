@@ -1,6 +1,8 @@
 <?php
 
+namespace models;
 // Vendor class
+use core\Model;
 
 class Vendor extends Model
 {

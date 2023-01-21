@@ -1,7 +1,12 @@
 <?php
 
-// Dish class
+namespace models;
 
+use core\Model;
+
+/**
+ * Dish class
+ */
 class Dish extends Model
 {
 
@@ -44,7 +49,7 @@ class Dish extends Model
     {
         $l = $this->select()->fetchAll();
         $dishes = array();
-        foreach($l as $d) {
+        foreach ($l as $d) {
             $dishes[$d->dish_id] = $d;
         }
         return $dishes;

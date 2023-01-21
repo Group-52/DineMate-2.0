@@ -1,9 +1,12 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 /**
  * Item Model
  */
-
 class Item extends Model
 {
     public function __construct()
