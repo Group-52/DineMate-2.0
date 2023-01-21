@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 20, 2023 at 07:24 AM
+-- Generation Time: Jan 21, 2023 at 02:16 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -140,6 +140,22 @@ CREATE TABLE `feedback` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `general_info`
+--
+
+CREATE TABLE `general_info` (
+  `restaurant_name` varchar(100) NOT NULL,
+  `opening_time` time DEFAULT NULL,
+  `closing_time` time DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `contact_no` varchar(20) DEFAULT NULL,
+  `introduction` varchar(500) DEFAULT NULL,
+  `image_url` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `guest_users`
 --
 
@@ -178,6 +194,36 @@ CREATE TABLE `inventory` (
   `buffer_stock_level` float DEFAULT NULL,
   `lead_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `inventory`
+--
+
+INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `lead_time`) VALUES
+(3, 43, '2023-01-21 01:15:44', NULL, NULL, NULL),
+(7, 6, '2023-01-21 01:15:44', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inventory2`
+--
+
+CREATE TABLE `inventory2` (
+  `pid` int(11) DEFAULT NULL,
+  `amount_remaining` float DEFAULT NULL,
+  `special_notes` varchar(500) DEFAULT NULL,
+  `expiryrisk` smallint(6) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `inventory2`
+--
+
+INSERT INTO `inventory2` (`pid`, `amount_remaining`, `special_notes`, `expiryrisk`) VALUES
+(18, 1, NULL, 0),
+(19, 5, NULL, 0),
+(20, 43, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -403,7 +449,7 @@ CREATE TABLE `purchases` (
   `quantity` float NOT NULL,
   `vendor` int(11) NOT NULL,
   `brand` varchar(256) DEFAULT NULL,
-  `purchase_date` date NOT NULL,
+  `purchase_date` date DEFAULT current_timestamp(),
   `expiry_date` date DEFAULT NULL,
   `cost` float NOT NULL,
   `discount` float NOT NULL DEFAULT 0,
@@ -416,9 +462,29 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(1, 2, 20, 1, NULL, '2022-11-09', '2023-03-03', 7000, 0.1, 0, 6300),
-(2, 7, 200, 1, 'Silverbacks Inc.', '2023-01-05', '2023-02-08', 20000, 0.2, 0.1, 19796),
-(3, 2, 10, 1, 'Maysoor', '2023-01-10', '2023-05-11', 5000, 0, 0, 5000);
+(18, 7, 1, 1, NULL, '2023-01-21', NULL, 100, 0, 0, 100),
+(19, 7, 5, 1, NULL, '2023-01-21', NULL, 450, 0, 0, 450),
+(20, 3, 43, 1, NULL, '2023-01-21', NULL, 5000, 0, 0, 5000);
+
+--
+-- Triggers `purchases`
+--
+DELIMITER $$
+CREATE TRIGGER `update_inventory` BEFORE INSERT ON `purchases` FOR EACH ROW BEGIN
+    IF EXISTS (SELECT 1 FROM inventory WHERE item_id = NEW.item) THEN
+        UPDATE inventory SET amount_remaining = amount_remaining + NEW.quantity WHERE item_id = NEW.item;
+    ELSE
+        INSERT INTO inventory (item_id, amount_remaining) VALUES (NEW.item, NEW.quantity);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_inventory2` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
+INSERT into inventory2 (pid, amount_remaining) VALUES (NEW.purchase_id, NEW.quantity);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -511,8 +577,7 @@ CREATE TABLE `vendors` (
 --
 
 INSERT INTO `vendors` (`vendor_id`, `vendor_name`, `address`, `company`, `contact_no`, `email`) VALUES
-(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL),
-(2, 'e', 'ew', 'ewe', '4', NULL);
+(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL);
 
 --
 -- Indexes for dumped tables
@@ -571,7 +636,14 @@ ALTER TABLE `ingredients`
 -- Indexes for table `inventory`
 --
 ALTER TABLE `inventory`
+  ADD UNIQUE KEY `item_id_2` (`item_id`),
   ADD KEY `item_id` (`item_id`);
+
+--
+-- Indexes for table `inventory2`
+--
+ALTER TABLE `inventory2`
+  ADD KEY `pid` (`pid`);
 
 --
 -- Indexes for table `items`
@@ -735,7 +807,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
@@ -798,6 +870,12 @@ ALTER TABLE `ingredients`
 --
 ALTER TABLE `inventory`
   ADD CONSTRAINT `inventory_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
+
+--
+-- Constraints for table `inventory2`
+--
+ALTER TABLE `inventory2`
+  ADD CONSTRAINT `inventory2_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `purchases` (`purchase_id`);
 
 --
 -- Constraints for table `items`
