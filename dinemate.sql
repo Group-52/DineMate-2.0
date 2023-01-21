@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2023 at 05:50 AM
+-- Generation Time: Jan 21, 2023 at 09:13 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -177,7 +177,8 @@ CREATE TABLE `guest_users` (
 CREATE TABLE `ingredients` (
   `dish_id` int(11) NOT NULL,
   `item_id` int(11) NOT NULL,
-  `quantity` float NOT NULL
+  `quantity` float NOT NULL,
+  `unit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
@@ -561,20 +562,47 @@ INSERT INTO `roles` (`role_id`, `role`) VALUES
 
 CREATE TABLE `units` (
   `unit_id` int(50) NOT NULL,
-  `unit_name` varchar(20) NOT NULL
+  `unit_name` varchar(20) NOT NULL,
+  `abbreviation` varchar(10) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `units`
 --
 
-INSERT INTO `units` (`unit_id`, `unit_name`) VALUES
-(1, 'kg'),
-(2, 'grams'),
-(3, 'ml'),
-(4, 'litres'),
-(5, 'packets'),
-(6, 'bottles');
+INSERT INTO `units` (`unit_id`, `unit_name`, `abbreviation`, `type`) VALUES
+(1, 'kilogram', 'kg', 'mass'),
+(2, 'grams', 'g', 'mass'),
+(3, 'mililiter', 'ml', 'volume'),
+(4, 'litres', 'l', 'volume'),
+(5, 'packets', 'pkts', 'discrete'),
+(6, 'bottles', 'btls', 'discrete'),
+(7, 'ounce', 'oz', 'mass'),
+(8, 'pounds', 'lb', 'mass'),
+(9, 'cups', NULL, 'volume');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `unit_conversion`
+--
+
+CREATE TABLE `unit_conversion` (
+  `u1` int(11) DEFAULT NULL,
+  `u2` int(11) DEFAULT NULL,
+  `conversion_factor` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `unit_conversion`
+--
+
+INSERT INTO `unit_conversion` (`u1`, `u2`, `conversion_factor`) VALUES
+(1, 2, 1000),
+(4, 3, 1000),
+(7, 2, 28.3495),
+(8, 2, 453.592);
 
 -- --------------------------------------------------------
 
@@ -649,7 +677,8 @@ ALTER TABLE `guest_users`
 --
 ALTER TABLE `ingredients`
   ADD PRIMARY KEY (`dish_id`,`item_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `unit` (`unit`);
 
 --
 -- Indexes for table `inventory`
@@ -759,6 +788,13 @@ ALTER TABLE `units`
   ADD PRIMARY KEY (`unit_id`);
 
 --
+-- Indexes for table `unit_conversion`
+--
+ALTER TABLE `unit_conversion`
+  ADD KEY `u1` (`u1`),
+  ADD KEY `u2` (`u2`);
+
+--
 -- Indexes for table `vendors`
 --
 ALTER TABLE `vendors`
@@ -844,7 +880,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
-  MODIFY `unit_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `unit_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `vendors`
@@ -881,8 +917,9 @@ ALTER TABLE `feedback`
 -- Constraints for table `ingredients`
 --
 ALTER TABLE `ingredients`
-  ADD CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `ingredients_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `ingredients_ibfk_1` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ingredients_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `ingredients_ibfk_3` FOREIGN KEY (`unit`) REFERENCES `units` (`unit_id`);
 
 --
 -- Constraints for table `inventory`
@@ -950,6 +987,13 @@ ALTER TABLE `promo_spending_bonus`
 ALTER TABLE `purchases`
   ADD CONSTRAINT `purchases_ibfk_1` FOREIGN KEY (`vendor`) REFERENCES `vendors` (`vendor_id`),
   ADD CONSTRAINT `purchases_ibfk_2` FOREIGN KEY (`item`) REFERENCES `items` (`item_id`);
+
+--
+-- Constraints for table `unit_conversion`
+--
+ALTER TABLE `unit_conversion`
+  ADD CONSTRAINT `unit_conversion_ibfk_1` FOREIGN KEY (`u1`) REFERENCES `units` (`unit_id`),
+  ADD CONSTRAINT `unit_conversion_ibfk_2` FOREIGN KEY (`u2`) REFERENCES `units` (`unit_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
