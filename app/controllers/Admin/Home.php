@@ -1,9 +1,12 @@
 <?php
 
+namespace controllers\admin;
+
+use core\Controller;
+
 /**
  * Admin Controller
  */
-
 class Home
 {
     use Controller;
@@ -19,6 +22,6 @@ class Home
         }
         $data = [];
         $data["controller"] = $this->controller;
-        $this->view("admin", $data);
+        $this->view("admin/home", $data);
     }
 }

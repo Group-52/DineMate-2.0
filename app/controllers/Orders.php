@@ -1,14 +1,20 @@
 <?php
 
-// dish class
+namespace controllers;
 
+use core\Controller;
+use models\Order;
+
+/**
+ * Orders
+ */
 class Orders
 {
     use Controller;
 
     public function index(): void
     {
-        $order = new Order;
+        $order = new Order();
         $results['order_list'] = $order->getOrders();
         $this->view('order', $results);
     }

@@ -1,14 +1,20 @@
 <?php
 
-// dish class
+namespace controllers;
 
+use core\Controller;
+use models\Dish;
+
+/**
+ * Class Dishes
+ */
 class Dishes
 {
     use Controller;
 
     public function index(): void
     {
-        $dish = new Dish;
+        $dish = new Dish();
         $results['dish_list'] = $dish->getDishes();
 
         $this->view('dishes', $results);
