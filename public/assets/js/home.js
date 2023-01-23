@@ -1,4 +1,7 @@
+const url_root = "http://localhost/DineMate/";
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Toggle sidebar
   const sidebar = document.getElementById("sidebar");
   const sidebarOpen = document.getElementById("sidebar-open");
   const sidebarClose = document.getElementById("sidebar-close");
@@ -22,4 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     };
   }
+
+  // Add to cart
+  const addToCartButtons = document.querySelectorAll(".add-to-cart");
+  const cartCount = document.getElementById("cart-count");
+  addToCartButtons.forEach((button) => {
+    button.onclick = () => {
+      const id = button.dataset.id;
+      fetch(`${url_root}api/cart/add`, {
+        method: "POST",
+        body: JSON.stringify({ id }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "success") {
+            cartCount.innerText = data.cart_count || 0;
+          }
+        });
+    };
+  });
 });

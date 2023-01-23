@@ -27,13 +27,13 @@ class Cart extends Model
     // Get the cart items of a specific customer
     public function getCart($id): bool|array
     {
-        $d = new Dish();
-        $cart = $this->select()->where('user_id', $id)->fetchAll();
-        $l = array();
-        foreach ($cart as $c) {
-            $l[$c->dish_id] = $d->getDishById($c->dish_id);
+        $cartItems = $this->select()->where('user_id', $id)->fetchAll();
+        $items = [];
+        foreach ($cartItems as $item) {
+            $items[$item->dish_id] = (new Dish)->getDishById($item->dish_id);
+            $items[$item->dish_id]->quantity = $item->quantity;
         }
-        return $l;
+        return $items;
     }
 
     public function getCarts(): bool|array
@@ -41,5 +41,11 @@ class Cart extends Model
         return $this->select()->fetchAll();
     }
 
+
+    public function getNoOfItems($id): int
+    {
+        $cart = $this->count("*")->where('user_id', $id)->fetch();
+        return $cart->{'COUNT(*)'};
+    }
 
 }

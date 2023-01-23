@@ -24,4 +24,15 @@ trait Controller
         }
         require $filename;
     }
+
+    /**
+     * Return a JSON response.
+     * @param array $data
+     * @return void
+     */
+    public function json(array $data): void
+    {
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    }
 }

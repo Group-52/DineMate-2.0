@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include VIEWS . "/partials/home/head.partial.php" ?>
+<?php use components\Form;
+
+include VIEWS . "/partials/home/head.partial.php" ?>
 
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">
@@ -12,7 +14,9 @@
                 </a>
                 <h1 class="display-3 mb-3">Register with DineMate</h1>
 
-                <?php if (isset($form)) $form->render(); ?>
+                <?php
+                /** @var $form Form */
+                if (isset($form)) $form->render(); ?>
 
                 <div class="fw-bold text-right mt-3">
                     Have an account? Login <a class="link" href="<?= ROOT ?>/auth/login">here</a>

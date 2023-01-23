@@ -1,9 +1,14 @@
+<?php
+
+use models\Cart;
+
+?>
 <nav class="nav nav-home px-3 position-sticky top-0 left-0">
     <div class="d-flex flex-wrap justify-content-space-between w-100">
         <div class="nav-brand">
             <div class="nav-items">
                 <div class="nav-item">
-                    <img src="<?= ROOT ?>/assets/images/logos/logo_Full Logo.svg" alt="Logo">
+                    <a href="<?= ROOT ?>/home"><img src="<?= ROOT ?>/assets/images/logos/logo_Full Logo.svg" alt="Logo"></a>
                 </div>
             </div>
         </div>
@@ -17,12 +22,13 @@
             </div>
         </div>
         <div class="nav-items">
-            <?php if (isset($user)): ?>
+            <?php if (isset($_SESSION['user'])): ?>
                 <div class="nav-item">
                     <div class="nav-shopping-cart">
                         <a href="<?= ROOT ?>/cart">
                             <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="badge">0</span>
+                            <span class="badge"
+                                  id="cart-count"><?php echo (new Cart)->getNoOfItems($_SESSION['user']->user_id) ?? 0 ?></span>
                         </a>
                     </div>
                 </div>

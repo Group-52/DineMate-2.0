@@ -12,22 +12,16 @@ class MenuItem
     protected string $new_price;
 
     /**
-     * @param string $id
-     * @param string $name
-     * @param string $url
-     * @param string $description
-     * @param string $image_url
-     * @param string $old_price
-     * @param string $new_price
+     * @param object $dish
      */
-    public function __construct(string $id, string $name, string|null $description, string|null $image_url, string|null $old_price, string $new_price)
+    public function __construct(object $dish)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->image_url = $image_url;
-        $this->old_price = $old_price;
-        $this->new_price = $new_price;
+        $this->id = $dish->dish_id;
+        $this->name = $dish->dish_name;
+        $this->description = $dish->description ?? null;
+        $this->image_url = $dish->image_url ?? null;
+        $this->old_price = $dish->old_price ?? null;
+        $this->new_price = $dish->selling_price;
     }
 
     /**
@@ -45,10 +39,13 @@ class MenuItem
      */
     public function html(): string
     {
-        $html = "<div class='card rounded-sm shadow'>";
+        $html = "<div class='menu-item-card rounded-sm shadow'>";
         $html .= "<div class='card-img-wrapper'>";
         $html .= "<img src=" . ASSETS . "/images/dishes/" . $this->image_url . " class='card-img' alt='{$this->name}'>";
         $html .= "</div>";
+        $html .= "<button class='add-to-cart' data-id='" . $this->id . "'>";
+        $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
+        $html .= "</button>";
         $html .= "<div class='card-body'>";
         $html .= "<h2 class='card-title'>{$this->name}</h2>";
         $html .= "<div class='card-prices'>";

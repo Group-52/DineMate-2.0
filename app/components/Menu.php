@@ -15,25 +15,21 @@ class Menu
     protected array $menu_items = [];
 
     /**
-     * @param string $id
-     * @param string $name
-     * @param string $description
-     * @param string $start_time
-     * @param string $end_time
-     * @param string $all_day
+     * @param object $menu
+     * @param int $n
      */
-    public function __construct(string $id, string $name, string|null $description, string|null $start_time, string|null $end_time, string $all_day)
+    public function __construct(object $menu, int $n = 100)
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
-        $this->start_time = $start_time;
-        $this->end_time = $end_time;
-        $this->all_day = $all_day;
+        $this->id = $menu->menu_id;
+        $this->name = $menu->menu_name;
+        $this->description = $menu->description ?? null;
+        $this->start_time = $menu->start_time ?? null;
+        $this->end_time = $menu->end_time ?? null;
+        $this->all_day = $menu->all_day;
 
-        $menuDishes = (new MenuDishes())->getMenuDishes($id, 3);
+        $menuDishes = (new MenuDishes())->getMenuDishes($this->id, $n);
         foreach ($menuDishes as $menuDish) {
-            $this->menu_items[] = new MenuItem($menuDish->dish_id, $menuDish->dish_name, $menuDish->description ?? null, $menuDish->image_url ?? null, $menuDish->old_price ?? null, $menuDish->selling_price);
+            $this->menu_items[] = new MenuItem($menuDish);
         }
     }
 
@@ -52,7 +48,7 @@ class Menu
      */
     public function html(): string
     {
-        $html = "<div class='menu'>";
+        $html = "<div class='menu mt-3'>";
         $html .= "<div class='row'>";
         $html .= "<div>";
         $html .= "<div class='d-flex flex-column justify-content-space-between mb-2'>";
@@ -65,7 +61,7 @@ class Menu
         }
         $html .= "</h4></div></div>";
         $html .= "<div class='d-flex align-items-center'>";
-        $html .= "<button class='btn btn-primary text-uppercase'>View More</button>";
+        $html .= "<a href='menus/menu/{$this->id}' class='btn btn-primary text-uppercase'>View More</a>";
         $html .= "</div></div>";
         $html .= "<div class='row flex-column flex-lg-row'>";
         foreach ($this->menu_items as $menu_item) {

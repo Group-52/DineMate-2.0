@@ -2,21 +2,30 @@
 
 namespace controllers;
 
+use components\MenuItem;
 use core\Controller;
 use models\Menu;
+use models\MenuDishes;
 
-/**
- * Dish Class
- */
 class Menus
 {
     use Controller;
 
-    public function index()
+    public function menu(int $menu_id): void
     {
-        $m = new Menu();
-        $results['menulist'] = $m->getMenus();
-        $this->view('menus', $results);
+        $menu = new Menu();
+        $menuDetails = $menu->getMenu($menu_id);
+        if ($menuDetails) {
+            $data = [];
+            $data['menu'] = $menuDetails;
+            $menuDishes = (new MenuDishes())->getMenuDishes($menu_id);
+            $data['menu_items'] = [];
+            foreach ($menuDishes as $menuDish) {
+                $data['menu_items'][] = new MenuItem($menuDish);
+            }
+            $this->view('menu', $data);
+        } else {
+            redirect("404");
+        }
     }
 }
-

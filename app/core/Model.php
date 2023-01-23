@@ -39,6 +39,12 @@ class Model
         return $this;
     }
 
+    public function count(string $column): Model
+    {
+        $this->query = "SELECT COUNT($column) FROM $this->table";
+        return $this;
+    }
+
     /**
      * Insert a row into table
      * @param array $data

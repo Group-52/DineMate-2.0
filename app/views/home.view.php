@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include VIEWS . "/partials/home/head.partial.php" ?>
+<?php use components\Menu;
+
+include VIEWS . "/partials/home/head.partial.php" ?>
 <body>
 <?php include VIEWS . "/partials/home/navbar.partial.php"; ?>
 
@@ -23,7 +25,9 @@
         ?>, <?= $user->first_name ?? "User" ?></h1>
 </div>
 <div class="container">
-    <?php if (isset($menus)) foreach ($menus as $menu) $menu->render() ?>
+    <?php
+    /** @var $menus Menu[] */
+    if (isset($menus)) foreach ($menus as $menu) $menu->render() ?>
 </div>
 
 </body>

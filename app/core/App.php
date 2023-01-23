@@ -4,7 +4,7 @@ namespace core;
 class App
 {
     private mixed $module = "";
-    private array $modules = ["admin"];
+    private array $modules = ["admin", "api"];
     private mixed $controller = "home";
     private string $method = "index";
     private array $params = [];
@@ -48,26 +48,22 @@ class App
                 $this->controller = "controllers\\" . $this->controller;
             }
             $this->controller = new $this->controller;
-        }
 
-
-        // checks if the method exists
-        if (isset($url[1])) {
-            if (method_exists($this->controller, $url[1])) {
-                $this->method = $url[1];
-                unset($url[1]);
-            } else {
-                $this->controller = null;
+            // checks if the method exists
+            if (isset($url[1])) {
+                if (method_exists($this->controller, $url[1])) {
+                    $this->method = $url[1];
+                    unset($url[1]);
+                } else {
+                    $this->controller = null;
+                }
             }
-        }
-
-        // checks if method exists
-        if ($this->controller && !method_exists($this->controller, $this->method)) {
+        } else {
             $this->controller = null;
         }
 
         if (!$this->controller) {
-            $this->controller = "_404";
+            $this->controller = "controllers\\" . "_404";
             $path = $controllerPath . "_404.php";
             include $path;
             $this->controller = new $this->controller;

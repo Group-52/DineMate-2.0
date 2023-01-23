@@ -2844,8 +2844,9 @@ select.form-control {
 }
 .nav .nav-shopping-cart .badge {
   position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
   padding: 0.25rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -2856,9 +2857,10 @@ select.form-control {
 }
 
 /**
-  Menu Item Card
+  Menus Item Card
  */
-.card {
+.menu-item-card {
+  position: relative;
   background-color: white;
   margin-bottom: 1rem;
   overflow: hidden;
@@ -2866,12 +2868,12 @@ select.form-control {
   display: flex;
   flex-direction: column;
 }
-.card .card-img-wrapper {
+.menu-item-card .card-img-wrapper {
   overflow: hidden;
   flex: 1 0 auto;
   position: relative;
 }
-.card .card-img-wrapper .card-img {
+.menu-item-card .card-img-wrapper .card-img {
   width: 100%;
   object-fit: cover;
   height: 100%;
@@ -2879,7 +2881,26 @@ select.form-control {
   top: 0;
   left: 0;
 }
-.card .card-body {
+.menu-item-card .add-to-cart {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  background-color: #1F1C1C;
+  border: none;
+  border-radius: 50%;
+}
+.menu-item-card .add-to-cart i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.menu-item-card .card-body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -2887,22 +2908,22 @@ select.form-control {
   height: 4rem;
   padding: 0.5rem 1rem;
 }
-.card .card-body .card-title {
+.menu-item-card .card-body .card-title {
   font-weight: 600;
   color: #3A3131;
 }
-.card .card-body .card-prices {
+.menu-item-card .card-body .card-prices {
   display: flex;
   flex-direction: column;
   align-items: end;
   font-feature-settings: "pnum" on, "onum" on;
 }
-.card .card-body .card-prices .card-price-old {
+.menu-item-card .card-body .card-prices .card-price-old {
   font-size: 0.75rem;
   text-decoration: line-through;
   color: #4D4242;
 }
-.card .card-body .card-prices .card-price-new {
+.menu-item-card .card-body .card-prices .card-price-new {
   font-size: 1.5rem;
   font-weight: bold;
   color: #802323;
