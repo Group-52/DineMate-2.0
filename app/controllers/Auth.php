@@ -54,6 +54,7 @@ class Auth
                 $data["errors"] = $loginForm->getErrors();
             }
         }
+        $data["title"] = "Login";
         $this->view("login", $data);
     }
 
@@ -94,6 +95,7 @@ class Auth
                 $data["errors"] = $registerForm->getErrors();
             }
         }
+        $data["title"] = "Register";
         $this->view("register", $data);
     }
 }

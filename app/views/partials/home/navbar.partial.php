@@ -47,7 +47,7 @@ use models\Cart;
         <div class="sidebar-items mt-3">
             <div class="sidebar-user">
                 <div class="display-4">
-                    <?= (isset($user)) ? $user->first_name . " " . $user->last_name : "" ?>
+                    <?= (isset($_SESSION["user"])) ? $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name : "" ?>
                 </div>
                 <div class="secondary">
                     View Profile
@@ -66,6 +66,5 @@ use models\Cart;
                     <span class="secondary text-uppercase">Sign Out</span>
                 </a>
         </div>
-    </div>
     </div>
 </nav>

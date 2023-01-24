@@ -15,32 +15,32 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function addCart($userID, $itemID)
+    public function addToCart($userID, $itemID, $qty = 1)
     {
         $this->insert([
             'dish_id' => $itemID,
             'user_id' => $userID,
-            'quantity' => 1
+            'quantity' => $qty
         ]);
     }
 
-    // Get the cart items of a specific customer
-    public function getCart($id): bool|array
+    public function deleteFromCart($userID, $itemID)
     {
-        $cartItems = $this->select()->where('user_id', $id)->fetchAll();
+        $this->delete()->where('user_id', $userID)->and('dish_id', $itemID)->execute();
+    }
+
+    // Get the cart items of a specific customer
+    public function getCartItems(): bool|array
+    {
+        $cartItems = $this->select()->where('user_id', $_SESSION["user"]->user_id)->fetchAll();
         $items = [];
         foreach ($cartItems as $item) {
-            $items[$item->dish_id] = (new Dish)->getDishById($item->dish_id);
-            $items[$item->dish_id]->quantity = $item->quantity;
+            $dish = (new Dish)->getDishById($item->dish_id);
+            $dish->quantity = $item->quantity;
+            $items[] = $dish;
         }
         return $items;
     }
-
-    public function getCarts(): bool|array
-    {
-        return $this->select()->fetchAll();
-    }
-
 
     public function getNoOfItems($id): int
     {
@@ -48,4 +48,17 @@ class Cart extends Model
         return $cart->{'COUNT(*)'};
     }
 
+    public function getQty($user_id, $dish_id): int
+    {
+        $qty = $this->select()->where('user_id', $user_id)->and('dish_id', $dish_id)->fetch();
+        if (!$qty) {
+            return 0;
+        }
+        return $qty->quantity;
+    }
+
+    public function editCartItemQty($user_id, $dish_id, $qty): void
+    {
+        $this->update(['quantity' => $qty])->where('user_id', $user_id)->and('dish_id', $dish_id)->execute();
+    }
 }

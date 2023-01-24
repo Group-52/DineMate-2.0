@@ -1,5 +1,3 @@
-const url_root = "http://localhost/DineMate/";
-
 document.addEventListener("DOMContentLoaded", () => {
   // Toggle sidebar
   const sidebar = document.getElementById("sidebar");
@@ -32,16 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
   addToCartButtons.forEach((button) => {
     button.onclick = () => {
       const id = button.dataset.id;
-      fetch(`${url_root}api/cart/add`, {
+      fetch(`${ROOT}/api/cart/add`, {
         method: "POST",
         body: JSON.stringify({ id }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") {
-            cartCount.innerText = data.cart_count || 0;
+            cartCount.innerText = data["cart_count"] || 0;
+            button.disabled = true;
           }
-        });
+        })
+        .catch((error) => console.log(error));
     };
   });
 });

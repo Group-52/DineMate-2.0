@@ -10,6 +10,7 @@ $flex-directions: (row, row-reverse, column, column-reverse);
     flex-direction: $direction;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $direction in $flex-directions {
     .flex-#{$type}-#{$direction} {
@@ -26,6 +27,7 @@ $flex-wrap: (nowrap, wrap, wrap-reverse);
     flex-wrap: $wrap;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $wrap in $flex-wrap {
     .flex-#{$type}-#{$wrap} {
@@ -42,6 +44,7 @@ $flex-justify: (start, end, center, space-between, space-around, space-evenly);
     justify-content: $justify;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $justify in $flex-justify {
     .justify-content-#{$type}-#{$justify} {
@@ -58,6 +61,7 @@ $flex-align: (start, end, center, baseline, stretch);
     align-items: $align;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $align in $flex-align {
     .align-items-#{$type}-#{$align} {
@@ -74,6 +78,7 @@ $flex-align-content: (start, end, center, space-between, space-around, space-eve
     align-content: $align;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $align in $flex-align-content {
     .align-content-#{$type}-#{$align} {
@@ -90,6 +95,7 @@ $flex-align-self: (auto, start, end, center, baseline, stretch);
     align-self: $align;
   }
 }
+
 @each $type, $width in $viewport-types {
   @each $align in $flex-align-self {
     .align-self-#{$type}-#{$align} {
@@ -98,4 +104,11 @@ $flex-align-self: (auto, start, end, center, baseline, stretch);
       }
     }
   }
+}
+
+.body-min-vh-100 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }

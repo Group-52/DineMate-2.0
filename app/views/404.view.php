@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include VIEWS . "/partials/home/head.partial.php" ?>
+<head>
+    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+</head>
 
 <body class="vh-100 d-flex align-items-center justify-content-center">
 <div class="not-found-container">

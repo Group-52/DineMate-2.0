@@ -20,7 +20,7 @@ class Home
          * Get number of items in cart
          */
 
-        # Get Menus From Database
+        # Get Menu From Database
         $menus = (new Menu())->getMenus();
         foreach ($menus as $menu) {
             $data['menus'][$menu->menu_id] = new \components\Menu($menu, 3);

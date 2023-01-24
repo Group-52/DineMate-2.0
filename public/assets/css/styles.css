@@ -246,6 +246,12 @@ a.link:hover {
   text-decoration: underline;
 }
 
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #1F1C1C;
+}
+
 /**
   Layout
  */
@@ -1301,6 +1307,13 @@ a.link:hover {
   .align-self-xl-stretch {
     align-self: stretch;
   }
+}
+
+.body-min-vh-100 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /**
@@ -2691,8 +2704,8 @@ select.form-control {
   * Buttons
   */
 .btn {
-  padding: 0.5rem 2rem;
-  font-size: 1rem;
+  padding: 0.6rem 2.5rem;
+  font-size: 0.8rem;
   font-weight: 600;
   text-decoration: none;
   line-height: 1.5;
@@ -2857,7 +2870,7 @@ select.form-control {
 }
 
 /**
-  Menus Item Card
+  Menu Item Card
  */
 .menu-item-card {
   position: relative;
@@ -2899,6 +2912,9 @@ select.form-control {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.menu-item-card .add-to-cart:disabled {
+  color: grey;
 }
 .menu-item-card .card-body {
   display: flex;
@@ -2953,6 +2969,53 @@ select.form-control {
 .table thead th {
   padding: 0.75rem 0;
   font-weight: bold;
+}
+.table.cart td {
+  padding: 0.25rem 0;
+  text-align: center;
+}
+.table.cart tr:first-child td {
+  padding-top: 0.5rem;
+}
+.table.cart tr:last-child td {
+  padding-bottom: 0.5rem;
+}
+.table.cart .cart-qty-btn {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #C0C0C0;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+.table.cart .cart-qty-btn:disabled {
+  background: #efefef;
+  cursor: not-allowed;
+}
+.table.cart .cart-qty {
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  border: 1px solid #C0C0C0;
+  border-radius: 5px;
+}
+.table .td-img {
+  position: relative;
+  text-align: center;
+  height: 100px;
+  width: 200px;
+  margin-right: 1rem;
+}
+.table .td-img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.table #cart-total {
+  border-top: 1px solid #C0C0C0;
+}
+.table #cart-total td {
+  padding: 2rem 0;
 }
 
 body {
@@ -3036,6 +3099,14 @@ a {
 
 .welcome {
   padding: 5rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.footer {
+  border-top: 1px solid #C0C0C0;
 }
 
 /*# sourceMappingURL=styles.css.map */

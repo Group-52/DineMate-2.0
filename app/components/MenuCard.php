@@ -2,12 +2,14 @@
 
 namespace components;
 
-class MenuItem
+use models\Cart;
+
+class MenuCard
 {
     protected int $id;
     protected string $name;
-    protected string|null $description;
-    protected string|null $image_url;
+    public string|null $description;
+    public string|null $image_url;
     protected string|null $old_price;
     protected string $new_price;
 
@@ -22,6 +24,15 @@ class MenuItem
         $this->image_url = $dish->image_url ?? null;
         $this->old_price = $dish->old_price ?? null;
         $this->new_price = $dish->selling_price;
+    }
+
+    private function inCart(): bool
+    {
+        if (isset($_SESSION['user'])) {
+            return (new Cart)->getQty($_SESSION['user']->user_id, $this->id);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -40,10 +51,11 @@ class MenuItem
     public function html(): string
     {
         $html = "<div class='menu-item-card rounded-sm shadow'>";
+        $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
         $html .= "<div class='card-img-wrapper'>";
-        $html .= "<img src=" . ASSETS . "/images/dishes/" . $this->image_url . " class='card-img' alt='{$this->name}'>";
-        $html .= "</div>";
-        $html .= "<button class='add-to-cart' data-id='" . $this->id . "'>";
+        $html .= "<img src=" . ASSETS . "/images/dishes/{$this->image_url} class='card-img' alt='{$this->name}'>";
+        $html .= "</a></div>";
+        $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($this->inCart() ? "disabled" : "") . ">";
         $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
         $html .= "</button>";
         $html .= "<div class='card-body'>";

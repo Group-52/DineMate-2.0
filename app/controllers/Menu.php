@@ -2,28 +2,28 @@
 
 namespace controllers;
 
-use components\MenuItem;
+use components\MenuCard;
 use core\Controller;
-use models\Menu;
 use models\MenuDishes;
 
-class Menus
+class Menu
 {
     use Controller;
 
-    public function menu(int $menu_id): void
+    public function id(int $menu_id): void
     {
-        $menu = new Menu();
+        $menu = new \models\Menu();
         $menuDetails = $menu->getMenu($menu_id);
         if ($menuDetails) {
             $data = [];
-            $data['menu'] = $menuDetails;
+            $data["menu"] = $menuDetails;
             $menuDishes = (new MenuDishes())->getMenuDishes($menu_id);
-            $data['menu_items'] = [];
+            $data["menu_items"] = [];
             foreach ($menuDishes as $menuDish) {
-                $data['menu_items'][] = new MenuItem($menuDish);
+                $data["menu_items"][] = new MenuCard($menuDish);
             }
-            $this->view('menu', $data);
+            $data["title"] = $menuDetails->menu_name;
+            $this->view("menu", $data);
         } else {
             redirect("404");
         }

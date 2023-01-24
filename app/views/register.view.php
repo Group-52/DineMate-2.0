@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php use components\Form;
+<head>
+    <?php use components\Form;
 
-include VIEWS . "/partials/home/head.partial.php" ?>
+    include VIEWS . "/partials/home/head.partial.php" ?>
+</head>
 
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">

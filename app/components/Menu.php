@@ -29,7 +29,7 @@ class Menu
 
         $menuDishes = (new MenuDishes())->getMenuDishes($this->id, $n);
         foreach ($menuDishes as $menuDish) {
-            $this->menu_items[] = new MenuItem($menuDish);
+            $this->menu_items[] = new MenuCard($menuDish);
         }
     }
 
@@ -48,7 +48,7 @@ class Menu
      */
     public function html(): string
     {
-        $html = "<div class='menu mt-3'>";
+        $html = "<div class='menu mb-3'>";
         $html .= "<div class='row'>";
         $html .= "<div>";
         $html .= "<div class='d-flex flex-column justify-content-space-between mb-2'>";
@@ -61,7 +61,7 @@ class Menu
         }
         $html .= "</h4></div></div>";
         $html .= "<div class='d-flex align-items-center'>";
-        $html .= "<a href='menus/menu/{$this->id}' class='btn btn-primary text-uppercase'>View More</a>";
+        $html .= "<a href='menu/id/{$this->id}' class='btn btn-primary text-uppercase'>View More</a>";
         $html .= "</div></div>";
         $html .= "<div class='row flex-column flex-lg-row'>";
         foreach ($this->menu_items as $menu_item) {

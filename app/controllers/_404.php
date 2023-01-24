@@ -13,6 +13,7 @@ class _404
 
     public function index(): void
     {
-        $this->view("404");
+        $data["title"] = "404 Not Found";
+        $this->view("404", $data);
     }
 }
