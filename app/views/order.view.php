@@ -52,6 +52,7 @@
             echo "<td>" . $order->type . "</td>";
             echo "<td>" . $order->status . "</td>";
             echo "<td><a href='orders/edit/" . $order->order_id . "'>Edit</a>";
+            echo "<td><a href='orders/payment/" . $order->order_id . "'>payment</a>";
             echo "</tr>";
         }
     }

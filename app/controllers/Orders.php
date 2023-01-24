@@ -16,6 +16,7 @@ class Orders
     public function detail(): void
     {
         $order = new Order;
+         $results['order_list'] = $order->getOrders();
         $this->view('order.detail');
     }
 
@@ -31,6 +32,18 @@ class Orders
             redirect('orders');
         }
         $this->view('order.edit', $results);
+    }
+
+    public function payment($order_id): void
+    {
+        $order = new Order;
+        $results['order'] = $order->getOrder($order_id);
+        
+
+        $dish = new Dish();
+        $dishes = $dish->getDishById($order_id);
+        $this->view('payment', $results);
+
     }
 }
 
