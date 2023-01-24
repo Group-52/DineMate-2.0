@@ -10,6 +10,7 @@ class Item extends Model
     {
         $this->table = "items";
         $this->columns = [
+            "item_id",
             "item_name",
             "description",
             "unit",
@@ -51,6 +52,12 @@ class Item extends Model
             ->join("categories", "category", "category_id")
             ->containsAll($likeData)
             ->and("categories.category_name", $data["category"] ?? "")
+            ->fetchAll();
+    }
+
+    public function getItems(): array
+    {
+        return $this->select(["item_id", "item_name", "description"])
             ->fetchAll();
     }
 }

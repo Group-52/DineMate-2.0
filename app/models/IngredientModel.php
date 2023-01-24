@@ -50,4 +50,34 @@ class IngredientModel extends Model
             ->where("ingredients.item_id", $item)
             ->fetchAll();
     }
+
+    // update an ingredient
+    public function updateIngredient($dish, $item, $quantity = null, $unit=null)
+    {
+        $data = [];
+        if ($quantity) {
+            $data["quantity"] = $quantity;
+        }
+        if ($unit) {
+            $data["unit"] = $unit;
+        }
+        return $this->update($data)
+            ->where("dish_id", $dish)
+            ->where("item_id", $item)
+            ->execute();
+    }
+
+    // get all ingredients of each dish
+    public function getAllIngredients()
+    {
+        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name"])
+            ->join("items", "items.item_id", "ingredients.item_id")
+            ->join("units", "ingredients.unit", "units.unit_id")
+            ->fetchAll();
+        $ingredientlist = [];
+        foreach ($l as $i) {
+            $ingredientlist[$i->dish_id][] = $i;
+        }
+        return $ingredientlist;
+    }
 }

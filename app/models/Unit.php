@@ -26,4 +26,11 @@ class Unit extends Model
 
     // convert unit
 
+    // get all units
+    public function getUnits()
+    {
+        return $this->select(["unit_id", "unit_name", "abbreviation", "type"])
+            ->fetchAll();
+    }
+
 }
