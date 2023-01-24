@@ -8,7 +8,7 @@ const DBPASS = "";
 const DBDRIVER = "";
 
 if ($_SERVER["SERVER_NAME"] == "localhost") {
-    define("ROOT", "http://localhost/DineMate/public");
+    define("ROOT", "http://localhost/DineMate");
 } else {
     define("ROOT", "https://www.DineMate.com");
 }

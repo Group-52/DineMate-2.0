@@ -67,7 +67,7 @@
 <br>
 
 <a href="<?php echo ROOT; ?>">Index</a>
-<a href="<?php echo ROOT; ?>/menus/addMenu">Add Menu</a>
+<a href="<?php echo ROOT; ?>/admin/menus/addMenu">Add Menu</a>
 </body>
 
 </html>

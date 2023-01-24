@@ -81,15 +81,15 @@ if (isset($_SESSION['user'])) {
     <div>
         <h2>Customer</h2>
         <a class="link d-block" href="<?= ROOT ?>/auth/login">Login</a>
-        <a class="link d-block" href="<?= ROOT ?>/menus">View Menus</a>
-        <a class="link d-block" href="<?= ROOT ?>/dishes">View Dishes</a>
     </div>
     <div>
         <h2>Admin</h2>
+        <a class="link d-block" href="<?= ROOT ?>/admin/menus">View Menus</a>
+        <a class="link d-block" href="<?= ROOT ?>/admin/dishes">View Dishes</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/auth/login">Login</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/items">View items</a>
-        <a class="link d-block" href="<?= ROOT ?>/vendors">View Vendors</a>
-        <a class="link d-block" href="<?= ROOT ?>/orders">View Orders</a>
+        <a class="link d-block" href="<?= ROOT ?>/admin/vendors">View Vendors</a>
+        <a class="link d-block" href="<?= ROOT ?>/admin/orders">View Orders</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/inventory">View Inventory</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/ingredients">View Ingredients</a>
         <a class="link d-block" href="<?= ROOT ?>/admin/purchases">View Purchases</a>

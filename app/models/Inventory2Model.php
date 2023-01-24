@@ -15,7 +15,7 @@ class Inventory2Model extends Model
             'item_id',
             'amount_remaining',
             'special_notes',
-            'expiry_risk',
+            'expiryrisk',
             'last_used'
         ];
     }
@@ -27,6 +27,27 @@ class Inventory2Model extends Model
         return $this->select(["inventory2.*", "items.item_name"])
         ->join("items", "items.item_id", "inventory2.item_id")    
         ->fetchAll();
+    }
+
+    // Make sure to give named arguments
+    // Update a single inventory item
+    public function updateInventory($pid,$amount=null, $notes=null, $risk=null)
+    {
+        $data2 =[];
+
+        if ($amount != null) {
+            $data2['amount_remaining'] = $amount;
+        }
+        if ($notes != null) {
+            $data2['special_notes'] = $notes;
+        }
+        if ($risk != null) {
+            $data2['expiryrisk'] = $risk;
+        }
+        
+        $this->update($data2)
+        ->where("pid", $pid)
+        ->execute();
     }
 
 }

@@ -8,9 +8,19 @@ class Ingredients
 
     public function index()
     {
+        $d = new Dish();
+        $dishes = $d->getDishes();
+
+        $items = new Item();
+        $ingredients = $items->getItems();
+
+        $u = new Unit();
+        $units = $u->getUnits();
+
         $ing = new IngredientModel();
-        $ingredients = $ing->getIngredients(1);
-        $this->view('ingredients', ['ingredients' => $ingredients]);
+        $ingredientlist = $ing->getAllIngredients();
+
+        $this->view('ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units'=>$units,'ingredientlist'=>$ingredientlist]);
     }
 
 }
