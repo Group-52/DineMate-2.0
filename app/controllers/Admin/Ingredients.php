@@ -23,4 +23,22 @@ class Ingredients
         $this->view('ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units'=>$units,'ingredientlist'=>$ingredientlist]);
     }
 
+    public function add()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $m = new IngredientModel();
+
+            $data = json_decode(file_get_contents("php://input"), true);
+            $dishId = $data['dish'];
+            $itemId = $data['ingredient'];
+            $unitId = $data['unit'];
+            $amount = $data['quantity'];
+
+            $m->addIngredient($dishId, $itemId, $amount, $unitId);
+            echo json_encode(array("status" => "success", "message" => "Data received successfully"));
+        } else
+            echo json_encode(array("status" => "error", "message" => "Invalid request"));
+
+    }
+
 }
