@@ -15,6 +15,7 @@ class InventoryModel extends Model
             'last_updated',
             'max_stock_level',
             'buffer_stock_level',
+            'reorder_level',
             'lead_time'            
         ];
     }
@@ -29,7 +30,7 @@ class InventoryModel extends Model
     }
 
     // update inventory
-    public function updateInventory($item, $amount=null, $max=null, $buffer=null, $lead=null)
+    public function updateInventory($item, $amount=null, $max=null, $buffer=null, $lead=null, $reorder=null)
     {
         $data = [];
         if ($amount) {
@@ -40,6 +41,9 @@ class InventoryModel extends Model
         }
         if ($buffer) {
             $data["buffer_stock_level"] = $buffer;
+        }
+        if ($reorder) {
+            $data["reorder_level"] = $reorder;
         }
         if ($lead) {
             $data["lead_time"] = $lead;
