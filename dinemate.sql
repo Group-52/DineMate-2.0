@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2023 at 03:00 PM
+-- Generation Time: Jan 25, 2023 at 03:09 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -202,7 +202,10 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `reorder_level`, `lead_time`) VALUES
-(7, 67, '2023-01-21 03:16:05', NULL, NULL, NULL, NULL);
+(2, 30, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL),
+(3, 60, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL),
+(7, 86, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL),
+(9, 44, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -224,7 +227,14 @@ CREATE TABLE `inventory2` (
 --
 
 INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`, `expiryrisk`, `last_used`) VALUES
-(21, 7, 67, NULL, 0, '2023-01-25 13:57:27');
+(38, 7, 43, NULL, 0, '2023-01-25 14:07:00'),
+(39, 7, 43, NULL, 0, '2023-01-25 14:08:02'),
+(40, 9, 4, NULL, 0, '2023-01-25 14:08:02'),
+(41, 3, 10, NULL, 0, '2023-01-25 14:07:00'),
+(42, 3, 50, NULL, 0, '2023-01-25 14:07:00'),
+(43, 2, 10, NULL, 0, '2023-01-25 14:07:00'),
+(44, 9, 40, NULL, 0, '2023-01-25 14:07:00'),
+(45, 2, 20, NULL, 0, '2023-01-25 14:07:00');
 
 --
 -- Triggers `inventory2`
@@ -269,7 +279,8 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`) VALUES
 (2, 'Dhal', 'always keep at hand', 1, 3),
 (3, 'Carrots', 'orange long cone', 1, 4),
-(7, 'Banana', 'Long and Yellow', 1, 5);
+(7, 'Banana', 'Long and Yellow', 1, 5),
+(9, 'Sugar', 'Sweetest', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -469,7 +480,7 @@ CREATE TABLE `purchases` (
   `purchase_id` int(11) NOT NULL,
   `item` int(11) NOT NULL,
   `quantity` float NOT NULL,
-  `vendor` int(11) NOT NULL,
+  `vendor` int(11) DEFAULT NULL,
   `brand` varchar(256) DEFAULT NULL,
   `purchase_date` date DEFAULT current_timestamp(),
   `expiry_date` date DEFAULT NULL,
@@ -484,7 +495,14 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(21, 7, 5, 1, NULL, '2023-01-21', NULL, 500, 0, 0, 500);
+(38, 7, 43, NULL, NULL, '2023-01-25', NULL, 423, 0, 0, 423),
+(39, 7, 430, NULL, NULL, '2023-01-25', NULL, 4230, 0, 0, 4230),
+(40, 9, 45630, NULL, NULL, '2023-01-25', NULL, 42330, 0, 0, 43230),
+(41, 3, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
+(42, 3, 50, NULL, NULL, '2023-01-25', NULL, 5000, 0, 0, 5000),
+(43, 2, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
+(44, 9, 40, NULL, NULL, '2023-01-25', NULL, 430, 0, 0, 430),
+(45, 2, 20, NULL, NULL, '2023-01-25', NULL, 2000, 0, 0, 2000);
 
 --
 -- Triggers `purchases`
@@ -838,7 +856,7 @@ ALTER TABLE `guest_users`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -862,7 +880,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
