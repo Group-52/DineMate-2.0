@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2023 at 10:17 AM
+-- Generation Time: Jan 25, 2023 at 03:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -181,15 +181,6 @@ CREATE TABLE `ingredients` (
   `unit` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `ingredients`
---
-
-INSERT INTO `ingredients` (`dish_id`, `item_id`, `quantity`, `unit`) VALUES
-(39, 2, 10, 2),
-(39, 7, 2, 2),
-(40, 3, 1, 2);
-
 -- --------------------------------------------------------
 
 --
@@ -200,9 +191,9 @@ CREATE TABLE `inventory` (
   `item_id` int(11) NOT NULL,
   `amount_remaining` float NOT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp(),
-  `reorder_level` float DEFAULT NULL,
   `max_stock_level` float DEFAULT NULL,
   `buffer_stock_level` float DEFAULT NULL,
+  `reorder_level` float DEFAULT NULL,
   `lead_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -210,10 +201,8 @@ CREATE TABLE `inventory` (
 -- Dumping data for table `inventory`
 --
 
-INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `reorder_level`, `max_stock_level`, `buffer_stock_level`, `lead_time`) VALUES
-(2, 60, '2023-01-25 06:12:57', NULL, NULL, 4, 5),
-(3, 120, '2023-01-25 06:03:00', NULL, NULL, 6, 7),
-(7, 946, '2023-01-25 06:02:35', NULL, NULL, NULL, NULL);
+INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `reorder_level`, `lead_time`) VALUES
+(7, 67, '2023-01-21 03:16:05', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -235,22 +224,21 @@ CREATE TABLE `inventory2` (
 --
 
 INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`, `expiryrisk`, `last_used`) VALUES
-(48, 7, 43, NULL, 0, '2023-01-25 07:02:44'),
-(49, 7, 430, NULL, 0, '2023-01-25 07:02:44'),
-(50, 3, 10, NULL, 0, '2023-01-25 07:02:44'),
-(51, 3, 50, NULL, 0, '2023-01-25 07:02:44'),
-(52, 2, 10, NULL, 0, '2023-01-25 07:02:44'),
-(53, 2, 20, NULL, 0, '2023-01-25 07:02:44'),
-(54, 7, 43, NULL, 0, '2023-01-25 07:02:44'),
-(55, 7, 430, NULL, 0, '2023-01-25 07:02:44'),
-(56, 3, 10, NULL, 0, '2023-01-25 07:02:44'),
-(57, 3, 50, NULL, 0, '2023-01-25 07:02:44'),
-(58, 2, 10, NULL, 0, '2023-01-25 07:02:44'),
-(59, 2, 20, NULL, 0, '2023-01-25 07:02:44');
+(21, 7, 67, NULL, 0, '2023-01-25 13:57:27');
 
 --
 -- Triggers `inventory2`
 --
+DELIMITER $$
+CREATE TRIGGER `update_amount_remaining` AFTER UPDATE ON `inventory2` FOR EACH ROW BEGIN
+    IF NEW.amount_remaining < OLD.amount_remaining THEN
+        UPDATE inventory SET amount_remaining = amount_remaining - (OLD.amount_remaining - NEW.amount_remaining) WHERE item_id = NEW.item_id;
+    ELSE
+		UPDATE inventory SET amount_remaining = amount_remaining + (NEW.amount_remaining - OLD.amount_remaining) WHERE item_id = NEW.item_id;
+    END IF;
+END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `update_last_used` BEFORE UPDATE ON `inventory2` FOR EACH ROW BEGIN
     IF NEW.amount_remaining <> OLD.amount_remaining THEN
@@ -481,7 +469,7 @@ CREATE TABLE `purchases` (
   `purchase_id` int(11) NOT NULL,
   `item` int(11) NOT NULL,
   `quantity` float NOT NULL,
-  `vendor` int(11) DEFAULT NULL,
+  `vendor` int(11) NOT NULL,
   `brand` varchar(256) DEFAULT NULL,
   `purchase_date` date DEFAULT current_timestamp(),
   `expiry_date` date DEFAULT NULL,
@@ -496,18 +484,7 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(48, 7, 43, NULL, NULL, '2023-01-25', NULL, 423, 0, 0, 423),
-(49, 7, 430, NULL, NULL, '2023-01-25', NULL, 4230, 0, 0, 4230),
-(50, 3, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
-(51, 3, 50, NULL, NULL, '2023-01-25', NULL, 5000, 0, 0, 5000),
-(52, 2, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
-(53, 2, 20, NULL, NULL, '2023-01-25', NULL, 2000, 0, 0, 2000),
-(54, 7, 43, NULL, NULL, '2023-01-25', NULL, 423, 0, 0, 423),
-(55, 7, 430, NULL, NULL, '2023-01-25', NULL, 4230, 0, 0, 4230),
-(56, 3, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
-(57, 3, 50, NULL, NULL, '2023-01-25', NULL, 5000, 0, 0, 5000),
-(58, 2, 10, NULL, NULL, '2023-01-25', NULL, 1000, 0, 0, 1000),
-(59, 2, 20, NULL, NULL, '2023-01-25', NULL, 2000, 0, 0, 2000);
+(21, 7, 5, 1, NULL, '2023-01-21', NULL, 500, 0, 0, 500);
 
 --
 -- Triggers `purchases`
@@ -519,6 +496,12 @@ CREATE TRIGGER `update_inventory` BEFORE INSERT ON `purchases` FOR EACH ROW BEGI
     ELSE
         INSERT INTO inventory (item_id, amount_remaining) VALUES (NEW.item, NEW.quantity);
     END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_inventory2` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
+INSERT into inventory2 (pid, amount_remaining,item_id) VALUES (NEW.purchase_id, NEW.quantity, NEW.item);
 END
 $$
 DELIMITER ;
@@ -589,13 +572,13 @@ CREATE TABLE `units` (
 --
 
 INSERT INTO `units` (`unit_id`, `unit_name`, `abbreviation`, `type`) VALUES
-(1, 'kilograms', 'kg', 'mass'),
+(1, 'kilogram', 'kg', 'mass'),
 (2, 'grams', 'g', 'mass'),
-(3, 'mililiters', 'ml', 'volume'),
+(3, 'mililiter', 'ml', 'volume'),
 (4, 'litres', 'l', 'volume'),
 (5, 'packets', 'pkts', 'discrete'),
 (6, 'bottles', 'btls', 'discrete'),
-(7, 'ounces', 'oz', 'mass'),
+(7, 'ounce', 'oz', 'mass'),
 (8, 'pounds', 'lb', 'mass'),
 (9, 'cups', NULL, 'volume');
 
@@ -708,9 +691,7 @@ ALTER TABLE `inventory`
 -- Indexes for table `inventory2`
 --
 ALTER TABLE `inventory2`
-  ADD UNIQUE KEY `pid` (`pid`),
-  ADD UNIQUE KEY `pid_2` (`pid`),
-  ADD KEY `item_id` (`item_id`);
+  ADD UNIQUE KEY `pid` (`pid`);
 
 --
 -- Indexes for table `items`
@@ -881,7 +862,7 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
@@ -950,8 +931,7 @@ ALTER TABLE `inventory`
 -- Constraints for table `inventory2`
 --
 ALTER TABLE `inventory2`
-  ADD CONSTRAINT `inventory2_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `purchases` (`purchase_id`),
-  ADD CONSTRAINT `inventory2_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`item_id`);
+  ADD CONSTRAINT `inventory2_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `purchases` (`purchase_id`);
 
 --
 -- Constraints for table `items`
