@@ -20,6 +20,15 @@ class Inventory2Model extends Model
         ];
     }
 
+    // get a single inventory item
+    public function getInventoryItem($pid)
+    {
+        return $this->select(["inventory2.*", "items.item_name"])
+        ->join("items", "items.item_id", "inventory2.item_id")
+        ->where("pid", $pid)
+        ->fetch();
+    }
+
 
     // Get all inventory data from database
     public function getInventory()
@@ -48,6 +57,29 @@ class Inventory2Model extends Model
         $this->update($data2)
         ->where("pid", $pid)
         ->execute();
+    }
+
+    // delete a single inventory item
+    public function deleteInventory($pid)
+    {
+        // Check if the amount_remaining is 0
+        $temp = $this->select(["amount_remaining","item_id"])->where("pid", $pid)->fetch();
+
+        // Check if such row exists
+        if ($temp == null) {
+            return;
+        }
+
+        if ($temp->amount_remaining != 0) {
+            // reduce from inventory before deleting
+            $inv = new InventoryModel();
+            $inv->adjustAmount($temp->item_id, $temp->amount_remaining, "reduce");
+        }
+
+        $this->delete()
+        ->where("pid", $pid)
+        ->execute();
+
     }
 
 }
