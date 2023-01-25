@@ -1,3 +1,4 @@
+<?php include "partials/dashboard.header.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -171,3 +172,5 @@
 
 
 </html>
+
+<?php include "partials/dashboard.footer.php" ?>

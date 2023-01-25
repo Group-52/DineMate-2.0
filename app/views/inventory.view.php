@@ -76,7 +76,6 @@
             <th> Buffer Stock Level</th>
             <th>Reorder Level</th>
             <th> Lead Time</th>
-            <th></th>
 
         </tr>
     </thead>
@@ -90,9 +89,6 @@
                 <td data-field-name="buffer_stock_level"><?= $item->buffer_stock_level ?></td>
                 <td data-field-name="reorder_level"><?= $item->reorder_level ?></td>
                 <td data-field-name="lead_time"><?= $item->lead_time ?></td>
-                <td>
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </td>
             </tr>
         <?php endforeach; ?>
     </tbody>
