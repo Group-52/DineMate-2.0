@@ -8,7 +8,7 @@ class Purchases
 {
     use Controller;
 
-    private string $controller = "items";
+
 
     public function index(): void
     {
@@ -17,37 +17,50 @@ class Purchases
         }
 
         $purchasemodel = new Purchase();
+        $v = new Vendor();
+        $i = new Item();
         $data = [];
         $data["purchases"] = $purchasemodel->getAllPurchases();
+        $data["vendors"] = $v->getVendors();
+        $data["items"] = $i->getItems();
+
+        $this->view("purchases", $data);
     }
 
-    public function create(): void
+    public function addPurchase(): void
     {
-        if (!isset($_SESSION["user"])) {
-            redirect("admin/auth");
-        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $data = [];
-        $data["categories"] = (new Category)->select()->fetchAll();
-        $data["units"] = (new Unit)->select()->fetchAll();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $item = new Item();
-            if ($item->validate($_POST)) {
-                try {
-                    $item->insert([
-                        "name" => $_POST["name"],
-                        "brand" => $_POST["brand"] ?? null,
-                        "description" => $_POST["description"] ?? null,
-                        "unit" => $_POST["unit"],
-                        "category" => $_POST["category"] ?? null
-                    ]);
-                    redirect("admin/items");
-                } catch (Exception $e) {
-                    $data["error"] = "Unknown error.";
-                }
+            if (isset($_POST['submit'])) {
+                $purchase_date = $_POST['purchase_date'];
+                $vendor = $_POST['vendor'];
+                $item = $_POST['item'];
+                $quantity = $_POST['quantity'];
+                $brand = $_POST['brand'];
+                $expiry_date = $_POST['expiry_date'];
+                $cost = $_POST['cost'];
+                $discount = $_POST['discount'];
+                $final_price = $_POST['final_price'];
+                $tax = $_POST['tax'];
+
+                $purchasemodel = new Purchase();
+                $purchasemodel->addPurchase([
+                    'purchase_date' => $purchase_date,
+                    'vendor' => $vendor,
+                    'item' => $item,
+                    'quantity' => $quantity,
+                    'brand' => $brand,
+                    'expiry_date' => $expiry_date,
+                    'cost' => $cost,
+                    'discount' => $discount,
+                    'final_price' => $final_price,
+                    'tax' => $tax
+                ]);
+                redirect("admin/purchases");
+                $this->view("purchases");
             }
         }
-        $data["controller"] = $this->controller;
-        $this->view("items.create", $data);
+        redirect("admin/purchases");
+        $this->view("purchases");
     }
 }
