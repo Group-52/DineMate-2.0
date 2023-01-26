@@ -277,11 +277,11 @@
         });
     });
 
-    // Add event listener to the form to add a new ingredient to the dish
-    document.querySelector("#add-button").addEventListener("click", function(event) {
-        // console.log("TRYING TO ADD")
-        event.preventDefault();
+    // Add event listener to the form to add a new ingredient or update dish
+        document.querySelector("#add-button").addEventListener("click", function(event) {
 
+        event.preventDefault();
+        
         var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
         var ingredient = document.getElementById("ingredient").value;
         var quantity = document.getElementById("quantity").value;
@@ -293,77 +293,107 @@
             quantity: quantity,
             unit: unit
         };
-        console.log(data);
-
-        fetch("<?= ROOT ?>/admin/ingredients/add", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
 
 
-        // add the ingredient to the table below the image
+        // check whether button is used for submitting form or updating
+        if (event.target.textContent == "Add") {
 
-        // if the table is empty, remove the "no ingredients added yet" row
-        if (dishIngredients.innerHTML == `
+            event.preventDefault();
+
+            console.log("Adding below");
+            console.log(data);
+
+            fetch("<?= ROOT ?>/admin/ingredients/add", {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+
+
+            // add the ingredient to the table below the image
+
+            // if the table is empty, remove the "no ingredients added yet" row
+            if (dishIngredients.innerHTML == `
                     <tr>
                         <td colspan="5">No ingredients added yet</td>
                     </tr>
                 `) {
-            dishIngredients.innerHTML = "";
-        } else {
-            // if the table is not empty, add the ingredient to the table
-            const tbody = document.querySelector(".ingredients-list");
-            let ingid = document.getElementById("ingredient").value;
-            let unitid = document.getElementById("unit").value;
-            const tr = document.createElement("tr");
+                dishIngredients.innerHTML = "";
+            } else {
+                // if the table is not empty, add the ingredient to the table
+                const tbody = document.querySelector(".ingredients-list");
+                let ingid = document.getElementById("ingredient").value;
+                let unitid = document.getElementById("unit").value;
+                const tr = document.createElement("tr");
 
-            // create cells for pencil icon
-            const pencilCell = document.createElement("td");
-            pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true"></i>`;
-            tr.appendChild(pencilCell);
+                // create cells for pencil icon
+                const pencilCell = document.createElement("td");
+                pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true"></i>`;
+                tr.appendChild(pencilCell);
 
-            const ingredientCell = document.createElement("td");
-            ingredientCell.textContent = ingredientNames[ingid].item_name;
-            tr.appendChild(ingredientCell);
+                const ingredientCell = document.createElement("td");
+                ingredientCell.textContent = ingredientNames[ingid].item_name;
+                tr.appendChild(ingredientCell);
 
-            const quantityCell = document.createElement("td");
-            quantityCell.textContent = quantity;
-            tr.appendChild(quantityCell);
+                const quantityCell = document.createElement("td");
+                quantityCell.textContent = quantity;
+                tr.appendChild(quantityCell);
 
-            const unitCell = document.createElement("td");
-            unitCell.textContent = unitNames[unitid].unit_name;
-            tr.appendChild(unitCell);
+                const unitCell = document.createElement("td");
+                unitCell.textContent = unitNames[unitid].unit_name;
+                tr.appendChild(unitCell);
 
-            // create cells for trash icon
-            const trashCell = document.createElement("td");
-            trashCell.innerHTML = `<i class="fa fa-trash trash-icon"></i>`;
-            tr.appendChild(trashCell);
+                // create cells for trash icon
+                const trashCell = document.createElement("td");
+                trashCell.innerHTML = `<i class="fa fa-trash trash-icon"></i>`;
+                tr.appendChild(trashCell);
 
 
-            // add the table row to the table
-            tbody.appendChild(tr);
+                // add the table row to the table
+                tbody.appendChild(tr);
 
-            DeleteOnTrashClick2(tr);
+                DeleteOnTrashClick2(tr);
 
-            ingredientCell.setAttribute('data-ing-id', data.ingredient);
-            unitCell.setAttribute('data-unit-id', unitid);
+                ingredientCell.setAttribute('data-ing-id', data.ingredient);
+                unitCell.setAttribute('data-unit-id', unitid);
 
+                clearForm();
+            }
+        } else if (event.target.textContent == "Save") {
+            console.log("Updating below");
+            console.log(data);
+            // send the data to the server to delete the ingredient from the dish
+            fetch("<?= ROOT ?>/admin/ingredients/edit", {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
             clearForm();
         }
-
     });
 
-    // Add event listener to the add button to make the ingredients non editable
+    // Add event listener to the add button to make the ingredients non editable and submit the form
     document.getElementById("add-button").addEventListener("click", function(event) {
         // event.preventDefault();
         makeNonEditable();
@@ -487,7 +517,12 @@
     // If an object is passed only the edit icons in that object are added
 
     function editOnClick(something = null) {
-        const pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
+        if (!something)
+            var pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
+        else
+            var pencilIcons = something.querySelectorAll('.ingredients-list .fa-pencil-square-o');
+
+        pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
         pencilIcons.forEach(pencilIcon => {
             pencilIcon.addEventListener("click", function(event) {
                 event.preventDefault();
@@ -504,7 +539,7 @@
                 document.getElementById("quantity").value = quantity
                 document.getElementById("unit").value = unitid
                 document.getElementById("quantity").value = quantity
-                
+
 
                 // var data = {
                 //     dish: dish,
