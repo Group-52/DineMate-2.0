@@ -63,7 +63,7 @@ class IngredientModel extends Model
         }
         return $this->update($data)
             ->where("dish_id", $dish)
-            ->where("item_id", $item)
+            ->and("item_id", $item)
             ->execute();
     }
 
@@ -79,5 +79,14 @@ class IngredientModel extends Model
             $ingredientlist[$i->dish_id][] = $i;
         }
         return $ingredientlist;
+    }
+
+    // delete an ingredient
+    public function deleteIngredient($dish,$ingredient)
+    {
+        return $this->delete()
+            ->where("item_id", $ingredient)
+            ->and("dish_id", $dish)
+            ->execute();
     }
 }

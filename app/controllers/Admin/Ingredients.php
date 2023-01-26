@@ -41,4 +41,19 @@ class Ingredients
 
     }
 
+    public function delete()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $m = new IngredientModel();
+
+            $data = json_decode(file_get_contents("php://input"), true);
+            $dish = $data['dish'];
+            $ingredient = $data['ingredient'];
+
+            $m->deleteIngredient($dish,$ingredient);
+            echo json_encode(array("status" => "success", "message" => "Data received successfully"));
+        } else
+            echo json_encode(array("status" => "error", "message" => "Invalid request"));
+    }
+
 }
