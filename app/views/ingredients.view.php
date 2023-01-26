@@ -268,6 +268,9 @@
                     `;
                 });
 
+                // Add event listener to all edit icons to edit the ingredient
+                editOnClick();
+
                 // Add event listener to all trash icons to delete the ingredient
                 DeleteOnTrashClick2();
             }
@@ -477,6 +480,65 @@
         document.getElementById("ingredient").value = "";
         document.getElementById("quantity").value = "";
         document.getElementById("unit").value = "";
+    }
+
+    // Add event listener to all pencil icons to edit the ingredient
+    // Fills in the form with the ingredient data
+    // If an object is passed only the edit icons in that object are added
+
+    function editOnClick(something = null) {
+        const pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
+        pencilIcons.forEach(pencilIcon => {
+            pencilIcon.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                let tablerow = event.target.parentElement;
+                // get the ingredient id, dish id, unit id and quantity
+                var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
+                var ingredient = tablerow.children[1].getAttribute("data-ing-id");
+                var quantity = tablerow.children[2].textContent;
+                var unitid = tablerow.children[3].getAttribute("data-unit-id");
+
+                // autofill the form with the ingredient data
+                document.getElementById("ingredient").value = ingredient
+                document.getElementById("quantity").value = quantity
+                document.getElementById("unit").value = unitid
+                document.getElementById("quantity").value = quantity
+                
+
+                // var data = {
+                //     dish: dish,
+                //     ingredient: ingredient,
+                //     unit: unitid,
+                //     quantity: quantity
+                // };
+
+                // // Here is new data
+                // console.log(data);
+
+                // // send the data to the server to delete the ingredient from the dish
+                // fetch("<?= ROOT ?>/admin/ingredients/edit", {
+                //         method: "POST",
+                //         body: JSON.stringify(data),
+                //         headers: {
+                //             "Content-Type": "application/json"
+                //         }
+                //     })
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         console.log(data);
+                //         if (data.success) {
+                //             location.reload();
+                //         }
+                //     })
+                //     .catch(error => {
+                //         console.error("Error:", error);
+                //     });
+
+                // change the ingredient in the table
+
+            })
+        });
     }
 </script>
 

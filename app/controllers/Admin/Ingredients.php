@@ -56,4 +56,21 @@ class Ingredients
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }
 
+    public function edit()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $m = new IngredientModel();
+
+            $data = json_decode(file_get_contents("php://input"), true);
+            $dish = $data['dish'];
+            $ingredient = $data['ingredient'];
+            $amount = $data['quantity'];
+            $unit = $data['unit'];
+
+            $m->updateIngredient($dish,$ingredient,$amount,$unit);
+            echo json_encode(array("status" => "success", "message" => "Data received successfully"));
+        } else
+            echo json_encode(array("status" => "error", "message" => "Invalid request"));
+    }
+
 }
