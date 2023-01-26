@@ -1,3 +1,4 @@
+<?php include "partials/dashboard.header.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,6 +39,13 @@
         form.ingredient-form {
             margin-top: 20px;
         }
+
+        .dish-image {
+            background-image: url("<?= ASSETS ?>/images/dishes/normaldish.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
@@ -55,7 +63,7 @@
                     <?php foreach ($dishes as $dish) : ?>
                         <li class="list-group-item">
                             <a href="#" data-id="<?= $dish->dish_id ?>" data-imgurl="<?= $dish->image_url ?>" class="dish-link">
-                                <?= $dish->dish_name ?>
+                                <?= $dish->dish_name ?> 
                             </a>
                         </li>
                     <?php endforeach; ?>
@@ -64,7 +72,7 @@
             <div class="col-md-4">
                 <h3>Dish details</h3>
                 <div class="dish-image">
-                    <img src="<?= ASSETS ?> . /images/dishes/ . <?= $dish->image_url ?>">
+                    <img src="">
                 </div>
                 <div class="dish-info">
                     <h4 class="dish-name"></h4>
@@ -74,9 +82,7 @@
 
                 </ul>
             </div>
-
-
-
+            
 
             <div class="col-md-4">
                 <h3>Add ingredient</h3>
@@ -84,6 +90,7 @@
                     <div class="form-group">
                         <label for="ingredient">Ingredient</label>
                         <select id="ingredient" class="form-control">
+                            <option value="" disabled selected>Select an ingredient</option>
                             <?php foreach ($ingredients as $ingredient) : ?>
                                 <option value="<?= $ingredient->item_id ?>">
                                     <?= $ingredient->item_name ?>
@@ -105,7 +112,6 @@
                                 </option>
                             <?php endforeach; ?>
                         </select>
-
                     </div>
 
                     <button type="submit" class="btn btn-primary">Add ingredient</button>
@@ -113,6 +119,7 @@
             </div>
         </div>
     </div>
+    <a href=# class="btn btn-primary">Edit Ingredients</a>
 
 
 </body>
@@ -120,6 +127,13 @@
 <script>
     var dishes = <?php echo json_encode($dishes); ?>;
     var ingredientlist = <?php echo json_encode($ingredientlist); ?>;
+    var ingredients = <?php echo json_encode($ingredients); ?>;
+    // for each ingredient in ingredient, create an object with the id as key and the name as value
+    var ingredientNames = {};
+    ingredients.forEach(ingredient => {
+        ingredientNames[ingredient.item_id] = ingredient
+    });
+
 
     const dishLinks = document.querySelectorAll('.dish-link');
     const dishImage = document.querySelector('.dish-image');
@@ -128,10 +142,13 @@
 
     const baseUrl = "<?= ASSETS ?>/images/dishes/";
 
+    // Add event listeners to all the dish links to show the dish details and change the image
     dishLinks.forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();
+            
             const id = link.getAttribute('data-id');
+            document.querySelector('.ingredient-form').setAttribute('data-dish-id', id);
             const imgname = link.getAttribute('data-imgurl');
             const imageUrl = baseUrl + imgname;
             dishImage.style.backgroundImage = `url(${imageUrl})`;
@@ -139,35 +156,62 @@
 
             myingredients = ingredientlist[id];
 
-            // add all the ingredients to the list
-            if (myingredients){
+            // add all the ingredients to the list below the image
+            if (myingredients) {
 
                 dishIngredients.innerHTML = '';
                 myingredients.forEach(ingredient => {
                     const li = document.createElement('li');
-                    li.textContent = ingredient.item_name;
+                    li.textContent = ingredient.item_name + " " + ingredient.quantity + " " + ingredient.unit_name;
                     dishIngredients.appendChild(li);
                 });
             }
-                
+
         });
     });
+    // Add event listener to the form to add a new ingredient to the dish
+    document.querySelector(".ingredient-form").addEventListener("submit", function(event) {
+        event.preventDefault();
 
+        var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
+        var ingredient = document.getElementById("ingredient").value;
+        var quantity = document.getElementById("quantity").value;
+        var unit = document.getElementById("unit").value;
 
+        var data = {
+            dish: dish,
+            ingredient: ingredient,
+            quantity: quantity,
+            unit: unit
+        };
+        console.log(data);
 
-    // // construct a map of dishes with their ids as keys
-    // var dishesMap = new Map(dishes.map(dish => [dish.dish_id, dish]));
+        fetch("<?= ROOT ?>/admin/ingredients/add", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
 
-    // dishLinks.forEach(link => {
-    //     link.addEventListener('click', e => {
-    //         e.preventDefault();
-    //         var id = link.getAttribute('data-id');
-    //         var selectedDish = dishesMap.get(id);
-    //         dishName.textContent = selectedDish.dish_name;
-    //     });
-    // });
+            
+        // add the ingredient to the list below the image
+        const li = document.createElement('li');
+        let ingid = document.getElementById("ingredient").value;
+        li.textContent = ingredientNames[ingid].item_name;
+        dishIngredients.appendChild(li);
+    });
 </script>
 
 
 
 </html>
+
+<?php include "partials/dashboard.footer.php" ?>

@@ -61,13 +61,20 @@
         .shrink {
             transition: height 2s ease-out;
         }
+
+        .trash-icon {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
     </style>
 </head>
 
 
 <body>
     <h1>Inventory</h1>
-    <button onclick="makeEditable()">Update Inventory</button>
     <table>
         <thead>
             <tr>
@@ -87,29 +94,65 @@
                         <td data-field-name="pid"><?= $item->pid ?></td>
                         <td data-field-name="item_name"><?= $item->item_name ?></td>
                         <td data-field-name="amount_remaining"><?= $item->amount_remaining ?></td>
-                        <td data-field-name="expiryrisk"><?= $item->expiryrisk ?></td>
+                        <td>
+                            <input type="checkbox" disabled=true data-field-name="expiryrisk" name="expiryrisk" value="<?= $item->expiryrisk ?>" <?= $item->expiryrisk ? "checked" : "" ?>>
+                        </td>
+
                         <td data-field-name="special_notes"><?= $item->special_notes ?></td>
                         <td data-field-name="last_used"><?= $item->last_used ?></td>
-                        <td><i class="fa fa-trash" aria-hidden="true"></i></td>
+                        <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
         </tbody>
     </table>
 
-    <button id="update-button" onclick="updateInventory()">Update</button>
 </body>
 <a href="<?= ROOT ?>/admin/inventory">Back</a>
+<a href=# onclick="makeEditable()" id="editButton">Edit</a>
+<a href=# onclick="updateInventory()" style = "display:none" id="updateButton">Update</a>
+
 
 </html>
 
 <?php include "partials/dashboard.footer.php" ?>
 
 
-
 <script>
+    // Stuff to do when the edit button is clicked
     function makeEditable() {
-        var cells = document.querySelectorAll("td[data-field-name='amount_remaining'], td[data-field-name='special_notes'], td[data-field-name='expiryrisk']");
+        // Hide the edit button
+        document.querySelector("#editButton").style.display = "none";
+        // Show the update button
+        document.querySelector("#updateButton").style.display = "block";
+
+        // Show the trash can icon
+        var trashIcons = document.querySelectorAll(".trash-icon");
+        for (var i = 0; i < trashIcons.length; i++) {
+            trashIcons[i].classList.add("visible");
+        }
+
+        var checkboxes = document.querySelectorAll("input[name='expiryrisk']");
+
+        // Make the expiry risk checkboxes 1 or 0 when checked or unchecked
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener("change", function() {
+            if (this.checked) {
+                this.value = "1";
+            } else {
+                this.value = "0";
+            }
+        });
+            // Make the expiry risk checkboxes editable
+            checkboxes[i].disabled = false;
+            // Add an event listener to each checkbox to set the data-changed attribute to true
+            checkboxes[i].addEventListener("change", function() {
+                this.setAttribute("data-changed", true);
+            });
+        }
+
+        // Make the amount remaining and special notes cells editable
+        var cells = document.querySelectorAll("td[data-field-name='amount_remaining'], td[data-field-name='special_notes']");
         for (var i = 0; i < cells.length; i++) {
             cells[i].setAttribute("contenteditable", "true");
             cells[i].classList.add("editable");
@@ -121,7 +164,28 @@
     }
 
     function makeUneditable() {
-        var cells = document.querySelectorAll("td[data-field-name='amount_remaining'], td[data-field-name='special_notes'], td[data-field-name='expiryrisk']");
+        // Show the edit button
+        document.querySelector("#editButton").style.display = "block";
+        // Hide the update button
+        document.querySelector("#updateButton").style.display = "none";
+        
+        // Hide the trash can icon
+        var trashIcons = document.querySelectorAll(".trash-icon");
+        for (var i = 0; i < trashIcons.length; i++) {
+            trashIcons[i].classList.remove("visible");
+        }
+
+        // Make the expiry risk checkboxes uneditable
+        var checkboxes = document.querySelectorAll("input[name='expiryrisk']");
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].disabled = true;
+            checkboxes[i].removeEventListener("change", function() {
+                this.setAttribute("data-changed", true);
+            });
+        }
+
+        // Make the amount remaining and special notes cells uneditable
+        var cells = document.querySelectorAll("td[data-field-name='amount_remaining'], td[data-field-name='special_notes']");
         for (var i = 0; i < cells.length; i++) {
             cells[i].setAttribute("contenteditable", "false");
             cells[i].classList.remove("editable");
@@ -132,6 +196,24 @@
         // Collect data from editable cells
         var cells = document.querySelectorAll(".editable");
         var data = [];
+
+        //Collect checkboxes that were changed
+        var checkboxes = document.querySelectorAll("input[name='expiryrisk']");
+        for (var i = 0; i < checkboxes.length; i++) {
+            var row = checkboxes[i].parentNode.parentNode;
+            var pid = row.getAttribute("data-purchase-id");
+            var newValue = checkboxes[i].value;
+            console.log(`pid: ${pid}, newValue: ${newValue}, data-changed: ${checkboxes[i].hasAttribute('data-changed')}`)
+            if (checkboxes[i].hasAttribute('data-changed')) {
+                data.push({
+                    pid: pid,
+                    fieldName: 'expiryrisk',
+                    newValue: newValue
+                });
+            }
+        }
+
+        // Collect data from other grid cells that were changed
         for (var i = 0; i < cells.length; i++) {
             var row = cells[i].parentNode;
             var pid = row.getAttribute("data-purchase-id");
@@ -148,9 +230,7 @@
 
         makeUneditable();
 
-
         // Send data to server
-
         let fetchRes = fetch(
             "<?= ROOT ?>/admin/inventory/updateInventory", {
                 method: "POST",

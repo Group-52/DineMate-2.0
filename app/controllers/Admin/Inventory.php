@@ -10,13 +10,13 @@ class Inventory
     {
         $inv = new InventoryModel();
         $inventory = $inv->getInventory();
-        $this->view('inventory', ['inventory' => $inventory]);
+        $this->view('inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
     }
     public function info()
     {
         $inv2 = new Inventory2Model();
         $inventory2 = $inv2->getInventory();
-        $this->view('inventory2', ['inventory2' => $inventory2]);
+        $this->view('inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
     }
 
     public function updateInventory()
