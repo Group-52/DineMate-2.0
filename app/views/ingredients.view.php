@@ -53,7 +53,7 @@
             display: none;
         }
 
-        #edit-button {
+        #edit-button, #finish-button {
             text-align: center;
             border-radius: 5px;
             margin: 10px;
@@ -413,7 +413,7 @@
     });
 
     // Add event listener to the add button to make the ingredients non editable and submit the form
-    document.getElementById("add-button").addEventListener("click", function(event) {
+    document.getElementById("finish-button").addEventListener("click", function(event) {
         // event.preventDefault();
         makeNonEditable();
     });
@@ -462,6 +462,9 @@
         editIcons.forEach(editIcon => {
             editIcon.style.display = "none";
         });
+
+        // make finish button invisible
+        document.getElementById("finish-button").style.display = "none";
 
         // make trash icon invisible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
