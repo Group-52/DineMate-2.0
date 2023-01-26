@@ -70,7 +70,7 @@ class IngredientModel extends Model
     // get all ingredients of each dish
     public function getAllIngredients()
     {
-        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name"])
+        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name",'units.unit_id'])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->fetchAll();
