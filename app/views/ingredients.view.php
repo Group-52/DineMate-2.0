@@ -48,7 +48,8 @@
         }
 
         #ing-form,
-        #edit-button {
+        #edit-button,
+        #finish-button {
             display: none;
         }
 
@@ -103,6 +104,14 @@
         .edit-icons {
             display: none;
         }
+
+        /* give blue glowing border */
+        .rowinform {
+            border: 3px solid #3498db;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+        }
     </style>
 </head>
 
@@ -153,6 +162,7 @@
                 </table>
 
                 <a href=# class="btn btn-primary" id="edit-button">Edit Ingredients</a>
+                <a href=# class="btn btn-primary" id="finish-button">Finish Editing</a>
             </div>
 
 
@@ -278,10 +288,10 @@
     });
 
     // Add event listener to the form to add a new ingredient or update dish
-        document.querySelector("#add-button").addEventListener("click", function(event) {
+    document.querySelector("#add-button").addEventListener("click", function(event) {
 
         event.preventDefault();
-        
+
         var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
         var ingredient = document.getElementById("ingredient").value;
         var quantity = document.getElementById("quantity").value;
@@ -367,6 +377,7 @@
                 unitCell.setAttribute('data-unit-id', unitid);
 
                 clearForm();
+                // makeNonEditable();
             }
         } else if (event.target.textContent == "Save") {
             console.log("Updating below");
@@ -390,6 +401,14 @@
                     console.error("Error:", error);
                 });
             clearForm();
+
+            // change the table row to the new values
+            var tablerow = document.querySelector(".rowinform");
+            tablerow.children[1].textContent = ingredientNames[ingredient].item_name;
+            tablerow.children[2].textContent = quantity;
+            tablerow.children[3].textContent = unitNames[unit].unit_name;
+
+            RowinForm();
         }
     });
 
@@ -403,6 +422,8 @@
     document.getElementById("edit-button").addEventListener("click", function(event) {
         event.preventDefault();
         makeEditable();
+        // make form field ingredient non editable
+        document.getElementById("ingredient").disabled = true;
     });
 
     function makeEditable() {
@@ -411,6 +432,9 @@
         editIcons.forEach(editIcon => {
             editIcon.style.display = "block";
         });
+
+        // make finish button visible
+        document.getElementById("finish-button").style.display = "block";
 
         // make trash icon visible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
@@ -502,6 +526,7 @@
 
                 // remove the ingredient from the table
                 event.target.parentElement.parentElement.remove();
+                clearForm();
             })
         });
     }
@@ -534,46 +559,32 @@
                 var quantity = tablerow.children[2].textContent;
                 var unitid = tablerow.children[3].getAttribute("data-unit-id");
 
+                // highlight the row that is being edited
+                RowinForm(tablerow);
+
                 // autofill the form with the ingredient data
                 document.getElementById("ingredient").value = ingredient
                 document.getElementById("quantity").value = quantity
                 document.getElementById("unit").value = unitid
                 document.getElementById("quantity").value = quantity
 
-
-                // var data = {
-                //     dish: dish,
-                //     ingredient: ingredient,
-                //     unit: unitid,
-                //     quantity: quantity
-                // };
-
-                // // Here is new data
-                // console.log(data);
-
-                // // send the data to the server to delete the ingredient from the dish
-                // fetch("<?= ROOT ?>/admin/ingredients/edit", {
-                //         method: "POST",
-                //         body: JSON.stringify(data),
-                //         headers: {
-                //             "Content-Type": "application/json"
-                //         }
-                //     })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         console.log(data);
-                //         if (data.success) {
-                //             location.reload();
-                //         }
-                //     })
-                //     .catch(error => {
-                //         console.error("Error:", error);
-                //     });
-
-                // change the ingredient in the table
-
+                // focus on the form
+                document.getElementById("ingredient").focus();
             })
         });
+    }
+
+    // Highlight the row that is being edited
+    function RowinForm(row = null) {
+        // remove the rowinform class from all rows
+        const rows = document.querySelectorAll(".rowinform");
+        rows.forEach(row => {
+            row.classList.remove("rowinform");
+        });
+
+        // add the rowinform class to the row that is being edited
+        if (row)
+            row.classList.add("rowinform");
     }
 </script>
 
