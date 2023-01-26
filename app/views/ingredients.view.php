@@ -227,8 +227,13 @@
             // make the form and edit button visible
             document.getElementById("ing-form").style.display = "block";
             document.getElementById("edit-button").style.display = "block";
+            // make form empty 
+            document.getElementById("ingredient").value = "";
+            document.getElementById("quantity").value = "";
+            document.getElementById("unit").value = "";
 
             const id = link.getAttribute('data-id');
+            // set the dish id in the form
             document.querySelector('.ingredient-form').setAttribute('data-dish-id', id);
             const imgname = link.getAttribute('data-imgurl');
             const imageUrl = baseUrl + imgname;
@@ -237,30 +242,78 @@
 
             // get the ingredients of the dish
             myingredients = ingredientlist[id];
-            console.log(myingredients);
 
             // display all the ingredients of the dish below the image in the table
             dishIngredients.innerHTML = "";
-            myingredients.forEach(ingredient => {
-                // console.log(ingredient);
-                dishIngredients.innerHTML += `
+            if (!myingredients) {
+                dishIngredients.innerHTML = `
                     <tr>
-                        <td <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
-                        <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name}</td>
-                        <td>${ingredient.quantity}</td>
-                        <td>${unitNames[ingredient.unit].unit_name}</td>
-                        <td> <i class="fa fa-trash trash-icon"></i> </td>
+                        <td colspan="5">No ingredients added yet</td>
                     </tr>
                 `;
-            });
+            }
+            else {
+                myingredients.forEach(ingredient => {
+                    // console.log(ingredient);
+                    dishIngredients.innerHTML += `
+                        <tr>
+                            <td <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                            <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name}</td>
+                            <td>${ingredient.quantity}</td>
+                            <td>${unitNames[ingredient.unit].unit_name}</td>
+                            <td> <i class="fa fa-trash trash-icon"></i> </td>
+                        </tr>
+                    `;
+                });
+    
+                DeleteOnTrashClick2();
+            }
 
-            DeleteOnTrashClick();
         });
     });
 
+    function DeleteOnTrashClick(event){
+        // Add event listener to all trash icons to delete the ingredient
+        let tcicons = document.querySelectorAll(".trash-icon")
+        tcicons.forEach(tcicon => {
 
-    function DeleteOnTrashClick() {
-        // Add event listener to the trash icon to delete the ingredient
+            tcicon.addEventListener("click", function(event) {
+                event.preventDefault();
+                // get the ingredient id and dish id
+                var ingredient = event.target.parentElement.parentElement.children[1].getAttribute("data-ing-id");
+                var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
+                ingredient = ingredientNames[ingredient].item_id;
+                var data = {
+                    dish: dish,
+                    ingredient: ingredient
+                };
+
+                // send the data to the server to delete the ingredient from the dish
+                fetch("<?= ROOT ?>/admin/ingredients/delete", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+
+                // remove the ingredient from the table
+                event.target.parentElement.parentElement.remove();
+            })
+        });
+    }
+    function DeleteOnTrashClick2() {
+        // Add event listener to all trash icons to delete the ingredient
         let tcicons = document.querySelectorAll(".trash-icon")
         tcicons.forEach(tcicon => {
 
@@ -303,6 +356,7 @@
 
     // Add event listener to the form to add a new ingredient to the dish
     document.querySelector(".ingredient-form").addEventListener("submit", function(event) {
+        console.log("TRYING TO ADD")
         event.preventDefault();
 
         var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
