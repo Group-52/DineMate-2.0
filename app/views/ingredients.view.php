@@ -210,6 +210,8 @@
     units.forEach(unit => {
         unitNames[unit.unit_id] = unit
     });
+    console.log("unitNames")
+    console.log(unitNames);
 
 
     const dishLinks = document.querySelectorAll('.dish-link');
@@ -229,6 +231,7 @@
             document.getElementById("edit-button").style.display = "block";
 
             clearForm();
+            makeNonEditable();
 
             const id = link.getAttribute('data-id');
             // set the dish id in the form
@@ -243,6 +246,8 @@
 
             // display all the ingredients of the dish below the image in the table
             dishIngredients.innerHTML = "";
+
+            // if no ingredients are added yet
             if (!myingredients) {
                 dishIngredients.innerHTML = `
                     <tr>
@@ -257,7 +262,7 @@
                             <td <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
                             <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name}</td>
                             <td>${ingredient.quantity}</td>
-                            <td>${unitNames[ingredient.unit].unit_name}</td>
+                            <td data-unit-id ="${ingredient.unit}">${unitNames[ingredient.unit].unit_name}</td>
                             <td> <i class="fa fa-trash trash-icon"></i> </td>
                         </tr>
                     `;
@@ -271,7 +276,7 @@
 
     // Add event listener to the form to add a new ingredient to the dish
     document.querySelector("#add-button").addEventListener("click", function(event) {
-        console.log("TRYING TO ADD")
+        // console.log("TRYING TO ADD")
         event.preventDefault();
 
         var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
@@ -312,32 +317,46 @@
                     </tr>
                 `) {
             dishIngredients.innerHTML = "";
+        } else {
+            // if the table is not empty, add the ingredient to the table
+            const tbody = document.querySelector(".ingredients-list");
+            let ingid = document.getElementById("ingredient").value;
+            let unitid = document.getElementById("unit").value;
+            const tr = document.createElement("tr");
+
+            // create cells for pencil icon
+            const pencilCell = document.createElement("td");
+            pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true"></i>`;
+            tr.appendChild(pencilCell);
+
+            const ingredientCell = document.createElement("td");
+            ingredientCell.textContent = ingredientNames[ingid].item_name;
+            tr.appendChild(ingredientCell);
+
+            const quantityCell = document.createElement("td");
+            quantityCell.textContent = quantity;
+            tr.appendChild(quantityCell);
+
+            const unitCell = document.createElement("td");
+            unitCell.textContent = unitNames[unitid].unit_name;
+            tr.appendChild(unitCell);
+
+            // create cells for trash icon
+            const trashCell = document.createElement("td");
+            trashCell.innerHTML = `<i class="fa fa-trash trash-icon"></i>`;
+            tr.appendChild(trashCell);
+
+
+            // add the table row to the table
+            tbody.appendChild(tr);
+
+            DeleteOnTrashClick2(tr);
+
+            ingredientCell.setAttribute('data-ing-id', data.ingredient);
+            unitCell.setAttribute('data-unit-id', unitid);
+
+            clearForm();
         }
-
-        const tbody = document.querySelector(".ingredients-list");
-        let ingid = document.getElementById("ingredient").value;
-        let unitid = document.getElementById("unit").value;
-        const tr = document.createElement("tr");
-
-        const ingredientCell = document.createElement("td");
-        ingredientCell.textContent = ingredientNames[ingid].item_name;
-        tr.appendChild(ingredientCell);
-
-        const quantityCell = document.createElement("td");
-        quantityCell.textContent = quantity;
-        tr.appendChild(quantityCell);
-
-        const unitCell = document.createElement("td");
-        unitCell.textContent = unitNames[unitid].unit_name;
-        tr.appendChild(unitCell);
-
-        tbody.appendChild(tr);
-        tr.setAttribute('data-ingredient-id', data.ingredient_id);
-        tr.setAttribute('data-ingredient-name', ingredientNames[ingid].item_name);
-        tr.setAttribute('data-ingredient-quantity', quantity);
-        tr.setAttribute('data-ingredient-unit', unitNames[unitid].unit_name);
-
-        clearForm();
 
     });
 
