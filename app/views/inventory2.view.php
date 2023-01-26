@@ -109,8 +109,8 @@
 
 </body>
 <a href="<?= ROOT ?>/admin/inventory">Back</a>
-<a href=# onclick="makeEditable()">Edit</a>
-<a href=# onclick="updateInventory()">Update</a>
+<a href=# onclick="makeEditable()" id="editButton">Edit</a>
+<a href=# onclick="updateInventory()" style = "display:none" id="updateButton">Update</a>
 
 
 </html>
@@ -121,6 +121,10 @@
 <script>
     // Stuff to do when the edit button is clicked
     function makeEditable() {
+        // Hide the edit button
+        document.querySelector("#editButton").style.display = "none";
+        // Show the update button
+        document.querySelector("#updateButton").style.display = "block";
 
         // Show the trash can icon
         var trashIcons = document.querySelectorAll(".trash-icon");
@@ -160,6 +164,11 @@
     }
 
     function makeUneditable() {
+        // Show the edit button
+        document.querySelector("#editButton").style.display = "block";
+        // Hide the update button
+        document.querySelector("#updateButton").style.display = "none";
+        
         // Hide the trash can icon
         var trashIcons = document.querySelectorAll(".trash-icon");
         for (var i = 0; i < trashIcons.length; i++) {
