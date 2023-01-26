@@ -1,3 +1,4 @@
+<?php include "partials/dashboard.header.php" ?>
 <!DOCTYPE html>
 
 
@@ -5,10 +6,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>viewOrders</title>
+
+    
+
 </head>
 
 <body>
-
+<h3>View Order></h3><br>
 <div>
     <input type="text" placeholder="Search..">
     <select>
@@ -34,7 +38,6 @@
         <th>Time Placed</th>
         <th>Scheduled Time</th>
         <th>Request</th>
-        <th>Qty</th>
         <th>Type</th>
         <th>Status</th>
     </tr>
@@ -51,8 +54,8 @@
             echo "<td>" . $order->request . "</td>";
             echo "<td>" . $order->type . "</td>";
             echo "<td>" . $order->status . "</td>";
-            echo "<td><a href='orders/edit/" . $order->order_id . "'>Edit</a>";
-            echo "<td><a href='orders/payment/" . $order->order_id . "'>payment</a>";
+            echo "<td><a class='edit-icon-link' href='orders/edit/" . $order->order_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+            echo "<td><a class='edit-icon-link' href='orders/payment/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
             echo "</tr>";
         }
     }
@@ -65,7 +68,87 @@
 </body>
 </div>
 </html>
+<?php include "partials/dashboard.footer.php" ?>
+ 
+ 
 
-<style>
+<style type="text/css">
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            color: #588c7e;
+            font-family: monospace;
+            font-size: 15px;
+            text-align: left;
+        }
 
-</style>
+        th {
+            background-color: #588c7e;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .editable {
+            border: 2px solid green;
+        }
+
+        .fa-edit {
+            cursor: pointer;
+            color: #588c7e ;
+        }
+
+        .fa-edit:hover {
+            color: #c0392b;
+        }
+
+        .fa-edit:active {
+            transform: scale(0.9);
+        }
+
+        .fa-cash-register {
+            cursor: pointer;
+            color:  #588c7e;
+        }
+
+        .fa-cash-register:hover {
+            color: #c0392b;
+        }
+
+        .fa-cash-register:active {
+            transform: scale(0.9);
+        }
+
+        .shrink {
+            transition: height 2s ease-out;
+        }
+
+      
+
+
+input[type="text"] {
+    padding: 10px 10px;
+    margin: 4px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    margin: 0 10px;
+    padding: 10px 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+
+    </style>
