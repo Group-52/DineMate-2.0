@@ -10,11 +10,13 @@
         <?php if (isset($dish)) : ?>
             <h1 class="display-4 mb-3">Dish Details</h1>
             <div class="row">
-                <div class="col-lg-5 col-12">
+                <div class="col-offset-lg-1"></div>
+                <div class="col-lg-4 col-md-5 col-12">
                     <img src="<?php echo ASSETS . "/images/dishes/" . $dish->image_url ?>" alt="<?= $dish->dish_name ?>"
                          class="img-fluid">
                 </div>
-                <div class="col-lg-7 col-12 d-flex flex-column justify-content-center">
+                <div class="col-offset-lg-1"></div>
+                <div class="col-lg-5 col-md-7 col-12 d-flex flex-column justify-content-center">
                     <h1><?= $dish->dish_name ?></h1>
                     <p class="lead"><?= $dish->description ?></p>
                     <div class="secondary display-5 fw-bold">LKR <?= $dish->selling_price ?></div>
@@ -25,6 +27,7 @@
                                value="1" style="width: auto">
                         <button type="submit" class="btn btn-primary text-uppercase">Add to Cart</button>
                 </div>
+                <div class="col-offset-lg-1"></div>
             </div>
         <?php endif ?>
     </div>
