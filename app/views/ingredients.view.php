@@ -227,10 +227,8 @@
             // make the form and edit button visible
             document.getElementById("ing-form").style.display = "block";
             document.getElementById("edit-button").style.display = "block";
-            // make form empty 
-            document.getElementById("ingredient").value = "";
-            document.getElementById("quantity").value = "";
-            document.getElementById("unit").value = "";
+
+            clearForm();
 
             const id = link.getAttribute('data-id');
             // set the dish id in the form
@@ -272,7 +270,7 @@
     });
 
     // Add event listener to the form to add a new ingredient to the dish
-    document.querySelector("#add-button").addEventListener("onclick", function(event) {
+    document.querySelector("#add-button").addEventListener("click", function(event) {
         console.log("TRYING TO ADD")
         event.preventDefault();
 
@@ -306,6 +304,16 @@
 
 
         // add the ingredient to the table below the image
+
+        // if the table is empty, remove the "no ingredients added yet" row
+        if (dishIngredients.innerHTML == `
+                    <tr>
+                        <td colspan="5">No ingredients added yet</td>
+                    </tr>
+                `) {
+            dishIngredients.innerHTML = "";
+        }
+
         const tbody = document.querySelector(".ingredients-list");
         let ingid = document.getElementById("ingredient").value;
         let unitid = document.getElementById("unit").value;
@@ -329,11 +337,13 @@
         tr.setAttribute('data-ingredient-quantity', quantity);
         tr.setAttribute('data-ingredient-unit', unitNames[unitid].unit_name);
 
+        clearForm();
+
     });
 
     // Add event listener to the add button to make the ingredients non editable
     document.getElementById("add-button").addEventListener("click", function(event) {
-        event.preventDefault();
+        // event.preventDefault();
         makeNonEditable();
     });
 
@@ -442,6 +452,12 @@
                 event.target.parentElement.parentElement.remove();
             })
         });
+    }
+
+    function clearForm() {
+        document.getElementById("ingredient").value = "";
+        document.getElementById("quantity").value = "";
+        document.getElementById("unit").value = "";
     }
 </script>
 
