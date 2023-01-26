@@ -67,10 +67,12 @@
             color: #3498db;
             /* Change the color of the icon */
         }
+
         .fa-pencil-square-o:hover {
             color: #2980b9;
             /* Change the color of the icon on hover */
         }
+
         .fa-pencil-square-o:active {
             transform: scale(0.9);
             /* Scale the icon down slightly */
@@ -251,17 +253,20 @@
                     </tr>
                 `;
             });
-            
+
             DeleteOnTrashClick();
         });
     });
 
 
-    function DeleteOnTrashClick(){
+    function DeleteOnTrashClick() {
         // Add event listener to the trash icon to delete the ingredient
-        document.querySelector(".trash-icon").addEventListener("click", function(event) {
-            event.preventDefault();
-            // get the ingredient id and dish id
+        let tcicons = document.querySelectorAll(".trash-icon")
+        tcicons.forEach(tcicon => {
+
+            tcicon.addEventListener("click", function(event) {
+                event.preventDefault();
+                // get the ingredient id and dish id
                 var ingredient = event.target.parentElement.parentElement.children[1].getAttribute("data-ing-id");
                 var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
                 ingredient = ingredientNames[ingredient].item_id;
@@ -288,11 +293,11 @@
                     .catch(error => {
                         console.error("Error:", error);
                     });
-    
+
                 // remove the ingredient from the table
                 event.target.parentElement.parentElement.remove();
-            }
-        );
+            })
+        });
     }
 
 
@@ -353,7 +358,7 @@
         tr.setAttribute('data-ingredient-quantity', quantity);
         tr.setAttribute('data-ingredient-unit', unitNames[unitid].unit_name);
 
-    });  
+    });
 
 
     // Add event listener to the edit button to make the ingredients editable
@@ -364,7 +369,7 @@
         editIcons.forEach(editIcon => {
             editIcon.style.display = "block";
         });
-        
+
         // make trash icon visible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
         trashIcons.forEach(trashIcon => {
@@ -395,7 +400,7 @@
         editIcons.forEach(editIcon => {
             editIcon.style.display = "none";
         });
-        
+
         // make trash icon invisible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
         trashIcons.forEach(trashIcon => {
