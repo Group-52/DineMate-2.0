@@ -12,9 +12,9 @@
 <div>
     <input type="text" placeholder="Search..">
     <select>
-        <option value="Dine-in">Dine-in</option>
-        <option value="Take-away">Take-away</option>
-        <option value="Bulk">Bulk</option>
+        <option name="Dine-in" value="Dine-in">Dine-in</option>
+        <option name="Take-away" value="Take-away">Take-away</option>
+        <option  name="Bulk" value="Bulk">Bulk</option>
     </select>
 
     <select>
