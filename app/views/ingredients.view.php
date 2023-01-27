@@ -63,7 +63,6 @@
 
         /* Style for pencil icon */
         .fa-pencil-square-o {
-            display: none;
             cursor: pointer;
             /* Make the icon look clickable */
             color: #3498db;
@@ -82,7 +81,6 @@
 
         /* Style for the trash can icon */
         .fa-trash {
-            display: none;
             cursor: pointer;
             /* Make the icon look clickable */
             color: #ff0000;
@@ -113,6 +111,7 @@
             padding: 10px;
             margin: 10px;
         }
+
     </style>
 </head>
 
@@ -232,14 +231,17 @@
 
     const baseUrl = "<?= ASSETS ?>/images/dishes/";
 
-    // Add event listeners to all the dish links to show the dish details and change the image
+    // Add event listeners to all the dish links to show the dish details and change the image and list all it's ingredients
     dishLinks.forEach(link => {
         link.addEventListener('click', e => {
             e.preventDefault();
 
-            // make the form and edit button visible
+
+            // make the form and  edit button visible
             document.getElementById("ing-form").style.display = "block";
             document.getElementById("edit-button").style.display = "block";
+
+
 
             clearForm();
             makeNonEditable();
@@ -270,11 +272,11 @@
                     // console.log(ingredient);
                     dishIngredients.innerHTML += `
                         <tr>
-                            <td <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                            <td style="display:none"> <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
                             <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name}</td>
                             <td>${ingredient.quantity}</td>
                             <td data-unit-id ="${ingredient.unit}">${unitNames[ingredient.unit].unit_name}</td>
-                            <td> <i class="fa fa-trash trash-icon"></i> </td>
+                            <td style="display:none"> <i class="fa fa-trash trash-icon"></i> </td>
                         </tr>
                     `;
                 });
@@ -283,7 +285,7 @@
                 editOnClick();
 
                 // Add event listener to all trash icons to delete the ingredient
-                DeleteOnTrashClick2();
+                DeleteOnTrashClick();
             }
         });
     });
@@ -348,7 +350,7 @@
 
                 // create cells for pencil icon
                 const pencilCell = document.createElement("td");
-                pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true"></i>`;
+                pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true" ></i>`;
                 tr.appendChild(pencilCell);
 
                 const ingredientCell = document.createElement("td");
@@ -365,13 +367,13 @@
 
                 // create cells for trash icon
                 const trashCell = document.createElement("td");
-                trashCell.innerHTML = `<i class="fa fa-trash trash-icon"></i>`;
+                trashCell.innerHTML = `<i class="fa fa-trash trash-icon" ></i>`;
                 tr.appendChild(trashCell);
 
                 // add the table row to the table
                 tbody.appendChild(tr);
 
-                DeleteOnTrashClick2(tr);
+                DeleteOnTrashClick(tr);
                 editOnClick(tr);
 
                 // hide the pencil and trash icons
@@ -443,13 +445,13 @@
         // make trash icon visible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
         trashIcons.forEach(trashIcon => {
-            trashIcon.style.display = "block";
+            trashIcon.parentElement.style.display = "block";
         });
 
         // make the pencil icon visible
         const pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
         pencilIcons.forEach(pencilIcon => {
-            pencilIcon.style.display = "block";
+            pencilIcon.parentElement.style.display = "block";
         });
 
         // make the edit button invisible
@@ -476,13 +478,13 @@
         // make trash icon invisible
         const trashIcons = document.querySelectorAll('.ingredients-list .trash-icon');
         trashIcons.forEach(trashIcon => {
-            trashIcon.style.display = "none";
+            trashIcon.parentElement.style.display = "none";
         });
 
         // make the pencil icon invisible
         const pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
         pencilIcons.forEach(pencilIcon => {
-            pencilIcon.style.display = "none";
+            pencilIcon.parentElement.style.display = "none";
         });
 
         // make the edit button visible
@@ -495,7 +497,7 @@
 
     // Add event listener to all trash icons to delete the ingredient
     // If an object is passed only the trash icons in that object are added
-    function DeleteOnTrashClick2(something = null) {
+    function DeleteOnTrashClick(something = null) {
 
         if (!something)
             var tcicons = document.querySelectorAll(".trash-icon")
@@ -561,7 +563,8 @@
             pencilIcon.addEventListener("click", function(event) {
                 event.preventDefault();
 
-                let tablerow = event.target.parentElement;
+                // get the row that is being edited
+                let tablerow = event.target.parentElement.parentElement;
                 // get the ingredient id, dish id, unit id and quantity
                 var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
                 var ingredient = tablerow.children[1].getAttribute("data-ing-id");
