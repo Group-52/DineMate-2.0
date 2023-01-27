@@ -198,24 +198,14 @@ class Model
         return $this;
     }
 
-    public function contains(string $column, string $value): Model
+    public function contains(array $columns, string $value): Model
     {
-        if (empty($column) || empty($value)) {
-            return $this;
-        }
-        $this->query .= " WHERE $column LIKE ?";
-        $this->data[] = "%$value%";
-        return $this;
-    }
-
-    public function containsAll(array $data): Model
-    {
-        if (empty($data)) {
+        if (empty($columns) || empty($value)) {
             return $this;
         }
         $this->query .= " WHERE (";
-        foreach ($data as $column => $value) {
-            $this->query .= "$column LIKE ? OR ";
+        foreach ($columns as $column) {
+            $this->query .= $column . " LIKE ? OR ";
             $this->data[] = "%$value%";
         }
         $this->query = rtrim($this->query, "OR ");

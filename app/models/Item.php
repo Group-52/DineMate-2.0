@@ -40,19 +40,11 @@ class Item extends Model
     public function itemsSearch(array $data): array
     {
         $like_columns = ["items.item_name", "items.brand", "items.description", "units.unit_name", "categories.category_name"];
-        $likeData = [];
-
-        if (isset($data["query"])) {
-            foreach ($like_columns as $column) {
-                $likeData[$column] = $data["query"];
-            }
-            unset($data["query"]);
-        }
 
         return $this->select(["item_id", "item_name", "description", "units.unit_name AS units_name", "categories.category_name AS category_name"])
             ->join("units", "unit", "unit_id")
             ->join("categories", "category", "category_id")
-            ->containsAll($likeData)
+            ->contains($like_columns, $data["search"] ?? "")
             ->and("categories.category_name", $data["category"] ?? "")
             ->fetchAll();
     }

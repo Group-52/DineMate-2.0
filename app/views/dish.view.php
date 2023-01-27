@@ -24,8 +24,9 @@
                         <input type="hidden" name="dish_id" value="<?= $dish->dish_id ?>">
                         <input type="number" step="1" min="1" max="10" class="form-control text-center my-3"
                                placeholder="Qty" name="quantity"
-                               value="1" style="width: auto">
+                               value="1" style="width: auto" required>
                         <button type="submit" class="btn btn-primary text-uppercase">Add to Cart</button>
+                    </form>
                 </div>
                 <div class="col-offset-lg-1"></div>
             </div>

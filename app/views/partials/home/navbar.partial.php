@@ -13,12 +13,18 @@ use models\Cart;
             </div>
         </div>
         <div class="nav-items w-50">
-            <div class="form-search">
-                <input type="text" class="form-control" name="query" placeholder="Search items"
-                       value="<?= $query ?? "" ?>">
+            <div id="home-search" class="form-search">
+                <input type="text" class="form-control" name="query"
+                       placeholder="Search items" id="home-search-field">
                 <button class="form-search-icon" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+            </div>
+            <div id="home-search-modal" class="search-modal">
+                <i class="fa-solid fa-x modal-close" id="home-modal-close"></i>
+                <div class="search-modal-container container">
+                    <div id="home-search-results" class="row justify-content-start"></div>
+                </div>
             </div>
         </div>
         <div class="nav-items">

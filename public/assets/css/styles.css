@@ -2812,6 +2812,7 @@ select.form-control {
 }
 .nav.nav-home .sidebar {
   position: absolute;
+  z-index: 5;
   top: 0;
   right: -100%;
   display: flex;
@@ -2880,11 +2881,13 @@ select.form-control {
   height: 20rem;
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.5s;
 }
 .menu-item-card .card-img-wrapper {
   overflow: hidden;
   flex: 1 0 auto;
   position: relative;
+  border-radius: 0 0 1rem 1rem;
 }
 .menu-item-card .card-img-wrapper .card-img {
   width: 100%;
@@ -2896,6 +2899,7 @@ select.form-control {
 }
 .menu-item-card .add-to-cart {
   position: absolute;
+  display: block;
   width: 3rem;
   height: 3rem;
   top: 0.5rem;
@@ -2906,6 +2910,7 @@ select.form-control {
   background-color: #1F1C1C;
   border: none;
   border-radius: 50%;
+  opacity: 0;
 }
 .menu-item-card .add-to-cart i {
   position: absolute;
@@ -2943,6 +2948,44 @@ select.form-control {
   font-size: 1.5rem;
   font-weight: bold;
   color: #802323;
+}
+.menu-item-card:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+.menu-item-card:hover .add-to-cart {
+  opacity: 1;
+}
+@media (max-width: 991px) {
+  .menu-item-card {
+    flex-direction: row;
+    height: 10rem;
+  }
+  .menu-item-card .card-img-wrapper {
+    flex: 0 0 33%;
+    border-radius: 0 1rem 1rem 0;
+  }
+  .menu-item-card .add-to-cart {
+    display: none;
+  }
+  .menu-item-card .card-body {
+    height: 100%;
+    width: 100%;
+  }
+}
+.menu-item-card.horizontal {
+  flex-direction: row;
+  height: 10rem;
+}
+.menu-item-card.horizontal .card-img-wrapper {
+  flex: 0 0 33%;
+  border-radius: 0 1rem 1rem 0;
+}
+.menu-item-card.horizontal .add-to-cart {
+  display: none;
+}
+.menu-item-card.horizontal .card-body {
+  height: 100%;
+  width: 100%;
 }
 
 .dark {
@@ -3107,6 +3150,49 @@ a {
 
 .footer {
   border-top: 1px solid #C0C0C0;
+}
+
+/**
+ * Home Page Search
+ */
+#home-search {
+  z-index: 4;
+  transition: margin-top 0.3s ease-in-out;
+}
+#home-search + * {
+  overflow: hidden;
+}
+#home-search + .search-modal {
+  z-index: 3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 0;
+  transition: height 0.3s ease-in-out;
+  background-color: white;
+}
+#home-search + .search-modal .modal-close {
+  position: fixed;
+  top: 1.5rem;
+  right: 3rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  visibility: hidden;
+}
+#home-search:focus-within, #home-search.open {
+  margin-top: 2rem;
+}
+#home-search:focus-within + .search-modal, #home-search.open + .search-modal {
+  height: 100vh;
+}
+#home-search:focus-within + .search-modal .modal-close, #home-search.open + .search-modal .modal-close {
+  visibility: visible;
+}
+#home-search + .search-modal > .search-modal-container {
+  margin-top: 6rem;
+  width: 100%;
+  height: 100%;
 }
 
 /*# sourceMappingURL=styles.css.map */
