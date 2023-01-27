@@ -1,0 +1,39 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    color: #588c7e;
+    font-family: monospace;
+    font-size: 25px;
+    text-align: left;
+}
+
+th {
+    background-color: #588c7e;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+}
+
+.editable {
+    border: 2px solid green;
+}
+
+.shrink {
+    transition: height 2s ease-out;
+}
+.trash-icon {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

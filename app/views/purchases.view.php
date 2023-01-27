@@ -7,66 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style type="text/css">
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            color: #588c7e;
-            font-family: monospace;
-            font-size: 25px;
-            text-align: left;
-        }
+    
+        <link rel="stylesheet" href="<?=ASSETS?>/css/admin/common.css">
+        <link rel="stylesheet" href="<?=ASSETS?>/css/admin/purchases.css">
 
-        th {
-            background-color: #588c7e;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2
-        }
-
-        td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .editable {
-            border: 2px solid green;
-        }
-
-        /* Style for the trash can icon */
-        .fa-trash {
-            cursor: pointer;
-            /* Make the icon look clickable */
-            color: #ff0000;
-            /* Change the color of the icon */
-        }
-
-        /* Style for the trash can icon when hovered */
-        .fa-trash:hover {
-            color: #c0392b;
-            /* Change the color of the icon on hover */
-        }
-
-        /* Style for the trash can icon when clicked */
-        .fa-trash:active {
-            transform: scale(0.9);
-            /* Scale the icon down slightly */
-        }
-
-        #Addform {
-            width : 30%;
-            padding: 10px;
-            margin: 10px;
-        }
-
-        .form-control {
-            width: 100%;
-        }
-    </style>
 </head>
 
 <body>
@@ -108,11 +52,12 @@
         </tbody>
     </table>
 
-    <a href="<?= ROOT ?>/admin/purchases/addPurchase" class="btn btn-primary" id="add-button">Add Purchase</a>
+    <button class="btn btn-primary" id="add-button">Add Purchase</button>
+
 
     <div id="Addform">
 
-        <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST">
+        <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST" onsubmit="return false">
             <div class="form-group">
                 <label for="purchase_date">Purchase Date</label>
                 <input type="date" name="purchase_date" id="purchase_date" placeholder="Purchase Date" class="form-control">
@@ -164,7 +109,7 @@
                 <label for="tax">Tax</label>
                 <input type="number" step="0.01" name="tax" id="tax" placeholder="Tax" class="form-control">
             </div>
-            <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
+            <button type="submit" name="submit" class="btn btn-primary" id="submit-button" >Submit</button>
         </form>
 
     </div>
@@ -173,6 +118,15 @@
 <?php include 'partials/dashboard.footer.php'; ?>
 
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // make form visible when add button is clicked
+        const addButton = document.querySelector('#add-button');
+        addButton.addEventListener('click', () => {
+            const formdiv = document.querySelector('#Addform');
+            formdiv.style.display = 'block';
+        });  
+    });
 
 
 </script>

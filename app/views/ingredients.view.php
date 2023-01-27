@@ -8,269 +8,166 @@
     <title>
         Ingredients
     </title>
-    <style>
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/ingredients.css">
 
-        .row {
-            display: flex;
-        }
-
-        .col-md-4 {
-            flex: 1;
-            margin: 10px;
-        }
-
-        .dish-image {
-            width: 100%;
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Additional styles for specific elements */
-        ul.list-group {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        form.ingredient-form {
-            margin-top: 20px;
-        }
-
-        .dish-image {
-            background-image: url("<?= ASSETS ?>/images/dishes/normaldish.jpg");
-            background-repeat: no-repeat;
-            background-size: cover;
-            border-radius: 5px;
-        }
-
-        #ing-form,
-        #edit-button,
-        #finish-button {
-            display: none;
-        }
-
-        #edit-button,
-        #finish-button {
-            text-align: center;
-            border-radius: 5px;
-            margin: 10px;
-            padding: 5px;
-        }
-
-        /* Style for pencil icon */
-        .fa-pencil-square-o {
-            cursor: pointer;
-            /* Make the icon look clickable */
-            color: #3498db;
-            /* Change the color of the icon */
-        }
-
-        .fa-pencil-square-o:hover {
-            color: #2980b9;
-            /* Change the color of the icon on hover */
-        }
-
-        .fa-pencil-square-o:active {
-            transform: scale(0.9);
-            /* Scale the icon down slightly */
-        }
-
-        /* Style for the trash can icon */
-        .fa-trash {
-            cursor: pointer;
-            /* Make the icon look clickable */
-            color: #ff0000;
-            /* Change the color of the icon */
-        }
-
-        /* Style for the trash can icon when hovered */
-        .fa-trash:hover {
-            color: #c0392b;
-            /* Change the color of the icon on hover */
-        }
-
-        /* Style for the trash can icon when clicked */
-        .fa-trash:active {
-            transform: scale(0.9);
-            /* Scale the icon down slightly */
-        }
-
-        /* Make extra table columns for edit icons be invisible */
-        .edit-icons {
-            display: none;
-        }
-
-        /* give blue glowing border */
-        .rowinform {
-            border: 3px solid #3498db;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
-        }
-
-    </style>
-</head>
-
-<body>
+</head <body>
 
 
-    <?php
-    ?>
-    <!-- Show all the dishes in a list -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h3>Dishes</h3>
-                <ul class="list-group">
-                    <?php foreach ($dishes as $dish) : ?>
-                        <li class="list-group-item">
-                            <a href="#" data-id="<?= $dish->dish_id ?>" data-imgurl="<?= $dish->image_url ?>" class="dish-link">
-                                <?= $dish->dish_name ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+<!-- Show all the dishes in a list -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Dishes</h3>
+            <ul class="list-group">
+                <?php foreach ($dishes as $dish) : ?>
+                    <li class="list-group-item">
+                        <a href="#" data-id="<?= $dish->dish_id ?>" data-imgurl="<?= $dish->image_url ?>" class="dish-link">
+                            <?= $dish->dish_name ?>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h3>Dish details</h3>
+            <div class="dish-image" style="background-image: url('<?= ASSETS ?>/images/dishes/normaldish.jpg')">
+                <img src="">
             </div>
-            <div class="col-md-4">
-                <h3>Dish details</h3>
-                <div class="dish-image">
-                    <img src="">
+            <div class="dish-info">
+                <h4 class="dish-name">
+                    Select a dish to add ingredients
+                </h4>
+                <p class="dish-description"></p>
+            </div>
+            <!-- create a table for ingredients of dish -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" class="edit-icons"></th>
+                        <th scope="col">Ingredient</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col" class="edit-icons"></th>
+                    </tr>
+                </thead>
+                <tbody class="ingredients-list">
+                </tbody>
+            </table>
+
+            <a href=# class="btn btn-primary" id="edit-button">Edit Ingredients</a>
+            <a href=# class="btn btn-primary" id="finish-button">Finish Editing</a>
+        </div>
+
+
+        <div class="col-md-4" id="ing-form">
+            <h3>Add ingredient</h3>
+            <form class="ingredient-form">
+                <div class="form-group">
+                    <label for="ingredient">Ingredient</label>
+                    <select id="ingredient" class="form-control" required>
+                        <option value="" disabled selected>Select an ingredient</option>
+                        <?php foreach ($ingredients as $ingredient) : ?>
+                            <option value="<?= $ingredient->item_id ?>">
+                                <?= $ingredient->item_name ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
-                <div class="dish-info">
-                    <h4 class="dish-name">
-                        Select a dish to add ingredients
-                    </h4>
-                    <p class="dish-description"></p>
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" step=0.001 id="quantity" class="form-control" required>
                 </div>
-                <!-- create a table for ingredients of dish -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="edit-icons"></th>
-                            <th scope="col">Ingredient</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Unit</th>
-                            <th scope="col" class="edit-icons"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="ingredients-list">
-                    </tbody>
-                </table>
+                <div class="form-group">
+                    <label for="unit">Unit</label>
+                    <select id="unit" class="form-control" required>
+                        <option value="" disabled selected>Select a unit</option>
+                        <?php foreach ($units as $unit) : ?>
+                            <option value="<?= $unit->unit_id ?>">
+                                <?= $unit->unit_name ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                <a href=# class="btn btn-primary" id="edit-button">Edit Ingredients</a>
-                <a href=# class="btn btn-primary" id="finish-button">Finish Editing</a>
-            </div>
-
-
-            <div class="col-md-4" id="ing-form">
-                <h3>Add ingredient</h3>
-                <form class="ingredient-form">
-                    <div class="form-group">
-                        <label for="ingredient">Ingredient</label>
-                        <select id="ingredient" class="form-control" required>
-                            <option value="" disabled selected>Select an ingredient</option>
-                            <?php foreach ($ingredients as $ingredient) : ?>
-                                <option value="<?= $ingredient->item_id ?>">
-                                    <?= $ingredient->item_name ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" step=0.001 id="quantity" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="unit">Unit</label>
-                        <select id="unit" class="form-control" required>
-                            <option value="" disabled selected>Select a unit</option>
-                            <?php foreach ($units as $unit) : ?>
-                                <option value="<?= $unit->unit_id ?>">
-                                    <?= $unit->unit_name ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" id="add-button">Add ingredient</button>
-                </form>
-            </div>
+                <button type="submit" class="btn btn-primary" id="add-button">Add ingredient</button>
+            </form>
         </div>
     </div>
+</div>
 
 </body>
 
 <script>
-    var dishes = <?php echo json_encode($dishes); ?>;
-    var ingredientlist = <?php echo json_encode($ingredientlist); ?>;
-    var ingredients = <?php echo json_encode($ingredients); ?>;
-    var ingredientNames = {};
-    ingredients.forEach(ingredient => {
-        ingredientNames[ingredient.item_id] = ingredient
-    });
-
-    // console.log("ingredientNames")
-    // console.log(ingredientNames);
-    var units = <?php echo json_encode($units); ?>;
-    var unitNames = {};
-    units.forEach(unit => {
-        unitNames[unit.unit_id] = unit
-    });
-    // console.log("unitNames")
-    // console.log(unitNames);
+    document.addEventListener('DOMContentLoaded', () => {
 
 
-    const dishLinks = document.querySelectorAll('.dish-link');
-    const dishImage = document.querySelector('.dish-image');
-    const dishName = document.querySelector('.dish-name');
-    const dishIngredients = document.querySelector('.ingredients-list');
+        var dishes = <?php echo json_encode($dishes); ?>;
+        var ingredientlist = <?php echo json_encode($ingredientlist); ?>;
+        var ingredients = <?php echo json_encode($ingredients); ?>;
+        var ingredientNames = {};
+        ingredients.forEach(ingredient => {
+            ingredientNames[ingredient.item_id] = ingredient
+        });
 
-    const baseUrl = "<?= ASSETS ?>/images/dishes/";
-
-    // Add event listeners to all the dish links to show the dish details and change the image and list all it's ingredients
-    dishLinks.forEach(link => {
-        link.addEventListener('click', e => {
-            e.preventDefault();
-
-
-            // make the form and  edit button visible
-            document.getElementById("ing-form").style.display = "block";
-            document.getElementById("edit-button").style.display = "block";
+        // console.log("ingredientNames")
+        // console.log(ingredientNames);
+        var units = <?php echo json_encode($units); ?>;
+        var unitNames = {};
+        units.forEach(unit => {
+            unitNames[unit.unit_id] = unit
+        });
+        // console.log("unitNames")
+        // console.log(unitNames);
 
 
+        const dishLinks = document.querySelectorAll('.dish-link');
+        const dishImage = document.querySelector('.dish-image');
+        const dishName = document.querySelector('.dish-name');
+        const dishIngredients = document.querySelector('.ingredients-list');
 
-            clearForm();
-            makeNonEditable();
+        const baseUrl = "<?= ASSETS ?>/images/dishes/";
 
-            const id = link.getAttribute('data-id');
-            // set the dish id in the form
-            document.querySelector('.ingredient-form').setAttribute('data-dish-id', id);
-            const imgname = link.getAttribute('data-imgurl');
-            const imageUrl = baseUrl + imgname;
-            dishImage.style.backgroundImage = `url(${imageUrl})`;
-            dishName.textContent = dishes[id].dish_name;
+        // Add event listeners to all the dish links to show the dish details and change the image and list all it's ingredients
+        dishLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
 
-            // get the ingredients of the dish
-            myingredients = ingredientlist[id];
 
-            // display all the ingredients of the dish below the image in the table
-            dishIngredients.innerHTML = "";
+                // make the form and  edit button visible
+                document.getElementById("ing-form").style.display = "block";
+                document.getElementById("edit-button").style.display = "block";
 
-            // if no ingredients are added yet
-            if (!myingredients) {
-                dishIngredients.innerHTML = `
+
+
+                clearForm();
+                makeNonEditable();
+
+                const id = link.getAttribute('data-id');
+                // set the dish id in the form
+                document.querySelector('.ingredient-form').setAttribute('data-dish-id', id);
+                const imgname = link.getAttribute('data-imgurl');
+                const imageUrl = baseUrl + imgname;
+                dishImage.style.backgroundImage = `url(${imageUrl})`;
+                dishName.textContent = dishes[id].dish_name;
+
+                // get the ingredients of the dish
+                myingredients = ingredientlist[id];
+
+                // display all the ingredients of the dish below the image in the table
+                dishIngredients.innerHTML = "";
+
+                // if no ingredients are added yet
+                if (!myingredients) {
+                    dishIngredients.innerHTML = `
                     <tr>
                         <td colspan="5">No ingredients added yet</td>
                     </tr>
                 `;
-            } else {
-                myingredients.forEach(ingredient => {
-                    // console.log(ingredient);
-                    dishIngredients.innerHTML += `
+                } else {
+                    myingredients.forEach(ingredient => {
+                        // console.log(ingredient);
+                        dishIngredients.innerHTML += `
                         <tr>
                             <td style="display:none"> <i class = "fa fa-pencil-square-o" aria-hidden="true"></i></td>
                             <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name}</td>
@@ -279,158 +176,159 @@
                             <td style="display:none"> <i class="fa fa-trash trash-icon"></i> </td>
                         </tr>
                     `;
-                });
+                    });
 
-                // Add event listener to all edit icons to edit the ingredient
-                editOnClick();
+                    // Add event listener to all edit icons to edit the ingredient
+                    editOnClick();
 
-                // Add event listener to all trash icons to delete the ingredient
-                DeleteOnTrashClick();
-            }
+                    // Add event listener to all trash icons to delete the ingredient
+                    DeleteOnTrashClick();
+                }
+            });
         });
-    });
 
-    // Add event listener to the form to add a new ingredient or update dish
-    document.querySelector("#add-button").addEventListener("click", function(event) {
-
-        event.preventDefault();
-
-        var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
-        var ingredient = document.getElementById("ingredient").value;
-        var quantity = document.getElementById("quantity").value;
-        var unit = document.getElementById("unit").value;
-
-        var data = {
-            dish: dish,
-            ingredient: ingredient,
-            quantity: quantity,
-            unit: unit
-        };
-
-
-        // check whether button is used for submitting form or updating
-        if (event.target.textContent == "Add") {
+        // Add event listener to the form to add a new ingredient or update dish
+        document.querySelector("#add-button").addEventListener("click", function(event) {
 
             event.preventDefault();
 
-            // console.log("Adding below");
-            // console.log(data);
+            var dish = document.querySelector(".ingredient-form").getAttribute("data-dish-id");
+            var ingredient = document.getElementById("ingredient").value;
+            var quantity = document.getElementById("quantity").value;
+            var unit = document.getElementById("unit").value;
 
-            fetch("<?= ROOT ?>/admin/ingredients/add", {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
+            var data = {
+                dish: dish,
+                ingredient: ingredient,
+                quantity: quantity,
+                unit: unit
+            };
 
 
-            // add the ingredient to the table below the image
+            // check whether button is used for submitting form or updating
+            if (event.target.textContent == "Add") {
 
-            // if the table is empty, remove the "no ingredients added yet" row
-            if (dishIngredients.innerHTML == `
+                event.preventDefault();
+
+                // console.log("Adding below");
+                // console.log(data);
+
+                fetch("<?= ROOT ?>/admin/ingredients/add", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+
+
+                // add the ingredient to the table below the image
+
+                // if the table is empty, remove the "no ingredients added yet" row
+                if (dishIngredients.innerHTML == `
                     <tr>
                         <td colspan="5">No ingredients added yet</td>
                     </tr>
                 `) {
-                dishIngredients.innerHTML = "";
-            } else {
-                // if the table is not empty, add the ingredient to the table
-                const tbody = document.querySelector(".ingredients-list");
-                let ingid = document.getElementById("ingredient").value;
-                let unitid = document.getElementById("unit").value;
-                const tr = document.createElement("tr");
+                    dishIngredients.innerHTML = "";
+                } else {
+                    // if the table is not empty, add the ingredient to the table
+                    const tbody = document.querySelector(".ingredients-list");
+                    let ingid = document.getElementById("ingredient").value;
+                    let unitid = document.getElementById("unit").value;
+                    const tr = document.createElement("tr");
 
-                // create cells for pencil icon
-                const pencilCell = document.createElement("td");
-                pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true" ></i>`;
-                tr.appendChild(pencilCell);
+                    // create cells for pencil icon
+                    const pencilCell = document.createElement("td");
+                    pencilCell.innerHTML = `<i class = "fa fa-pencil-square-o" aria-hidden="true" ></i>`;
+                    tr.appendChild(pencilCell);
 
-                const ingredientCell = document.createElement("td");
-                ingredientCell.textContent = ingredientNames[ingid].item_name;
-                tr.appendChild(ingredientCell);
+                    const ingredientCell = document.createElement("td");
+                    ingredientCell.textContent = ingredientNames[ingid].item_name;
+                    tr.appendChild(ingredientCell);
 
-                const quantityCell = document.createElement("td");
-                quantityCell.textContent = quantity;
-                tr.appendChild(quantityCell);
+                    const quantityCell = document.createElement("td");
+                    quantityCell.textContent = quantity;
+                    tr.appendChild(quantityCell);
 
-                const unitCell = document.createElement("td");
-                unitCell.textContent = unitNames[unitid].unit_name;
-                tr.appendChild(unitCell);
+                    const unitCell = document.createElement("td");
+                    unitCell.textContent = unitNames[unitid].unit_name;
+                    tr.appendChild(unitCell);
 
-                // create cells for trash icon
-                const trashCell = document.createElement("td");
-                trashCell.innerHTML = `<i class="fa fa-trash trash-icon" ></i>`;
-                tr.appendChild(trashCell);
+                    // create cells for trash icon
+                    const trashCell = document.createElement("td");
+                    trashCell.innerHTML = `<i class="fa fa-trash trash-icon" ></i>`;
+                    tr.appendChild(trashCell);
 
-                // add the table row to the table
-                tbody.appendChild(tr);
+                    // add the table row to the table
+                    tbody.appendChild(tr);
 
-                DeleteOnTrashClick(tr);
-                editOnClick(tr);
+                    DeleteOnTrashClick(tr);
+                    editOnClick(tr);
 
-                // hide the pencil and trash icons
-                pencilCell.style.display = "none";
-                trashCell.style.display = "none";
+                    // hide the pencil and trash icons
+                    pencilCell.style.display = "none";
+                    trashCell.style.display = "none";
 
-                ingredientCell.setAttribute('data-ing-id', data.ingredient);
-                unitCell.setAttribute('data-unit-id', unitid);
+                    ingredientCell.setAttribute('data-ing-id', data.ingredient);
+                    unitCell.setAttribute('data-unit-id', unitid);
 
+                    clearForm();
+                    // makeNonEditable();
+                }
+            } else if (event.target.textContent == "Save") {
+
+                // send the data to the server to delete the ingredient from the dish
+                fetch("<?= ROOT ?>/admin/ingredients/edit", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        if (data.success) {
+                            location.reload();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
                 clearForm();
-                // makeNonEditable();
+
+                // change the table row to the new values
+                var tablerow = document.querySelector(".rowinform");
+                tablerow.children[1].textContent = ingredientNames[ingredient].item_name;
+                tablerow.children[2].textContent = quantity;
+                tablerow.children[3].textContent = unitNames[unit].unit_name;
+
+                RowinForm();
             }
-        } else if (event.target.textContent == "Save") {
+        });
 
-            // send the data to the server to delete the ingredient from the dish
-            fetch("<?= ROOT ?>/admin/ingredients/edit", {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.success) {
-                        location.reload();
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
-            clearForm();
+        // Add event listener to the add button to make the ingredients non editable and submit the form
+        document.getElementById("finish-button").addEventListener("click", function(event) {
+            // event.preventDefault();
+            makeNonEditable();
+        });
 
-            // change the table row to the new values
-            var tablerow = document.querySelector(".rowinform");
-            tablerow.children[1].textContent = ingredientNames[ingredient].item_name;
-            tablerow.children[2].textContent = quantity;
-            tablerow.children[3].textContent = unitNames[unit].unit_name;
-
-            RowinForm();
-        }
-    });
-
-    // Add event listener to the add button to make the ingredients non editable and submit the form
-    document.getElementById("finish-button").addEventListener("click", function(event) {
-        // event.preventDefault();
-        makeNonEditable();
-    });
-
-    // Add event listener to the edit button to make the ingredients editable
-    document.getElementById("edit-button").addEventListener("click", function(event) {
-        event.preventDefault();
-        makeEditable();
-        // make form field ingredient non editable
-        document.getElementById("ingredient").disabled = true;
-    });
+        // Add event listener to the edit button to make the ingredients editable
+        document.getElementById("edit-button").addEventListener("click", function(event) {
+            event.preventDefault();
+            makeEditable();
+            // make form field ingredient non editable
+            document.getElementById("ingredient").disabled = true;
+        });
+    
 
     function makeEditable() {
         // Make the table headers with class edit-icons visible
@@ -598,6 +496,8 @@
         if (row)
             row.classList.add("rowinform");
     }
+
+});
 </script>
 
 
