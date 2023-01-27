@@ -61,6 +61,7 @@
             width : 30%;
             padding: 10px;
             margin: 10px;
+            display: none;
         }
 
         .form-control {
@@ -108,11 +109,12 @@
         </tbody>
     </table>
 
-    <a href="<?= ROOT ?>/admin/purchases/addPurchase" class="btn btn-primary" id="add-button">Add Purchase</a>
+    <button class="btn btn-primary" id="add-button">Add Purchase</button>
+
 
     <div id="Addform">
 
-        <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST">
+        <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST" onsubmit="return false">
             <div class="form-group">
                 <label for="purchase_date">Purchase Date</label>
                 <input type="date" name="purchase_date" id="purchase_date" placeholder="Purchase Date" class="form-control">
@@ -164,7 +166,7 @@
                 <label for="tax">Tax</label>
                 <input type="number" step="0.01" name="tax" id="tax" placeholder="Tax" class="form-control">
             </div>
-            <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
+            <button type="submit" name="submit" class="btn btn-primary" id="submit-button" >Submit</button>
         </form>
 
     </div>
@@ -173,6 +175,15 @@
 <?php include 'partials/dashboard.footer.php'; ?>
 
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // make form visible when add button is clicked
+        const addButton = document.querySelector('#add-button');
+        addButton.addEventListener('click', () => {
+            const formdiv = document.querySelector('#Addform');
+            formdiv.style.display = 'block';
+        });  
+    });
 
 
 </script>
