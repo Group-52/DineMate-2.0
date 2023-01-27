@@ -368,12 +368,15 @@
                 trashCell.innerHTML = `<i class="fa fa-trash trash-icon"></i>`;
                 tr.appendChild(trashCell);
 
-
                 // add the table row to the table
                 tbody.appendChild(tr);
 
                 DeleteOnTrashClick2(tr);
                 editOnClick(tr);
+
+                // hide the pencil and trash icons
+                pencilCell.style.display = "none";
+                trashCell.style.display = "none";
 
                 ingredientCell.setAttribute('data-ing-id', data.ingredient);
                 unitCell.setAttribute('data-unit-id', unitid);

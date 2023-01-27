@@ -138,27 +138,27 @@
 
             <div class="form-group">
                 <label for="quantity">Quantity</label>
-                <input type="number" step="0.01" name="quantity" id="quantity" placeholder="Quantity" class="form-control">
+                <input type="number" step="0.01" name="quantity" id="quantity" class="form-control">
             </div>
             <div class="form-group">
                 <label for="brand">Brand</label>
-                <input type="text" name="brand" id="brand" placeholder="Brand" class="form-control">
+                <input type="text" name="brand" id="brand" class="form-control">
             </div>
             <div class="form-group">
                 <label for="expiry_date">Expiry Date</label>
-                <input type="date" name="expiry_date" id="expiry_date" placeholder="Expiry Date" class="form-control">
+                <input type="date" name="expiry_date" id="expiry_date" class="form-control">
             </div>
             <div class="form-group">
                 <label for="cost">Cost</label>
-                <input type="number" step="0.01" name="cost" id="cost" placeholder="Cost" class="form-control">
+                <input type="number" step="0.01" name="cost" id="cost"  class="form-control">
             </div>
             <div class="form-group">
                 <label for="discount">Discount</label>
-                <input type="number" step="0.01" name="discount" id="discount" placeholder="Discount" class="form-control">
+                <input type="number" step="0.01" name="discount" id="discount" placeholder="0-100%" class="form-control">
             </div>
             <div class="form-group">
                 <label for="final_price">Final Price</label>
-                <input type="number" step="0.01" name="final_price" id="final_price" placeholder="Final Price" class="form-control">
+                <input type="number" step="0.01" name="final_price" id="final_price"  class="form-control">
             </div>
             <div class="form-group">
                 <label for="tax">Tax</label>
@@ -173,23 +173,6 @@
 <?php include 'partials/dashboard.footer.php'; ?>
 
 <script>
-
-    document.addEventListener('DomContentLoaded', function () {
-        // make form invisible on page load
-        document.querySelector('#Addform').style.display = 'none';
-        console.log("Made invisible on load")
-
-        // When clicked on add purchase button make form visible
-        document.querySelector('#add-button').addEventListener('click', function () {
-            document.querySelector('#Addform').style.display = 'block';
-            console.log("Made visible on click")
-        });
-        // When form is submitted make form invisible
-        document.querySelector('form').addEventListener('submit', function () {
-            document.querySelector('#Addform').style.display = 'none';
-            console.log("Made invisible on submit")
-        });
-    });
 
 
 </script>
