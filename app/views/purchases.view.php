@@ -1,3 +1,4 @@
+<?php include "partials/dashboard.header.php" ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,13 +57,14 @@
             /* Scale the icon down slightly */
         }
 
-        .shrink {
-            transition: height 2s ease-out;
-        }
-
         #Addform {
+            width : 30%;
             padding: 10px;
             margin: 10px;
+        }
+
+        .form-control {
+            width: 100%;
         }
     </style>
 </head>
@@ -106,37 +108,73 @@
         </tbody>
     </table>
 
+    <a href="<?= ROOT ?>/admin/purchases/addPurchase" class="btn btn-primary" id="add-button">Add Purchase</a>
+
     <div id="Addform">
 
         <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST">
-            <input type="date" name="purchase_date" id="purchase_date" placeholder="Purchase Date">
+            <div class="form-group">
+                <label for="purchase_date">Purchase Date</label>
+                <input type="date" name="purchase_date" id="purchase_date" placeholder="Purchase Date" class="form-control">
+            </div>
 
-            <select name="vendor" id="vendor">
-                <?php foreach ($vendors as $vendor) { ?>
-                    <option value="<?php echo $vendor->vendor_id; ?>"><?php echo $vendor->vendor_name; ?></option>
-                <?php } ?>
-            </select>
+            <div class="form-group">
+                <label for="vendor">Vendor</label>
+                <select name="vendor" id="vendor" class="form-control">
+                    <?php foreach ($vendors as $vendor) { ?>
+                        <option value="<?php echo $vendor->vendor_id; ?>"><?php echo $vendor->vendor_name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
+            <div class="form-group">
+                <label for="item">Item</label>
+                <select name="item" id="item" class="form-control">
+                    <?php foreach ($items as $item) { ?>
+                        <option value="<?php echo $item->item_id; ?>"><?php echo $item->item_name; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
 
-            <select name="item" id="item">
-                <?php foreach ($items as $item) { ?>
-                    <option value="<?php echo $item->item_id; ?>"><?php echo $item->item_name; ?></option>
-                <?php } ?>
-            </select>
-
-
-            <input type="number" step="0.01" name="quantity" id="quantity" placeholder="Quantity">
-            <input type="text" name="brand" id="brand" placeholder="Brand">
-            <input type="date" name="expiry_date" id="expiry_date" placeholder="Expiry Date">
-            <input type="decimal" name="cost" id="cost" placeholder="Cost">
-            <input type="number" step="0.01" name="discount" id="discount" placeholder="Discount">
-            <input type="number" step="0.01" name="final_price" id="final_price" placeholder="Final Price">
-            <input type="number" step="0.01" name="tax" id="tax" placeholder="Tax">
-            <button type="submit" name="submit">Submit</button>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" step="0.01" name="quantity" id="quantity" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <input type="text" name="brand" id="brand" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="expiry_date">Expiry Date</label>
+                <input type="date" name="expiry_date" id="expiry_date" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="cost">Cost</label>
+                <input type="number" step="0.01" name="cost" id="cost"  class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="discount">Discount</label>
+                <input type="number" step="0.01" name="discount" id="discount" placeholder="0-100%" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="final_price">Final Price</label>
+                <input type="number" step="0.01" name="final_price" id="final_price"  class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="tax">Tax</label>
+                <input type="number" step="0.01" name="tax" id="tax" placeholder="Tax" class="form-control">
+            </div>
+            <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
         </form>
 
     </div>
 
 </body>
+<?php include 'partials/dashboard.footer.php'; ?>
+
+<script>
+
+
+</script>
 
 </html>
