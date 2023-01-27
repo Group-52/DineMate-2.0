@@ -8,8 +8,13 @@
         <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && ($controller == "inventory" || $controller == "inventory2")) echo " active" ?>" href="<?= ROOT ?>/admin/inventory">
                 <i class="fa-solid fa-box d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Inventory</span>
         </a>
-        <a class = "fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "ingredients") echo " active" ?>" href="<?= ROOT ?>/admin/ingredients">
+        <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "ingredients") echo " active" ?>" href="<?= ROOT ?>/admin/ingredients">
                 <i class="fa-solid bi bi-egg-fried d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Ingredients</span>
         </a>
+        <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "menus") echo " active" ?>" href="<?= ROOT ?>/admin/menus">
+                <i class="fa-solid custom-icon d-inline" style="background-image:url('<?=ASSETS?>/images/icons/food-menu.svg')"></i>
+                <span class="sidebar-text">&nbsp;&nbsp;Menus</span>
+        </a>
+
 
 </div>

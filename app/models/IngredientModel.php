@@ -63,14 +63,14 @@ class IngredientModel extends Model
         }
         return $this->update($data)
             ->where("dish_id", $dish)
-            ->where("item_id", $item)
+            ->and("item_id", $item)
             ->execute();
     }
 
     // get all ingredients of each dish
     public function getAllIngredients()
     {
-        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name"])
+        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name",'units.unit_id'])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->fetchAll();
@@ -79,5 +79,14 @@ class IngredientModel extends Model
             $ingredientlist[$i->dish_id][] = $i;
         }
         return $ingredientlist;
+    }
+
+    // delete an ingredient
+    public function deleteIngredient($dish,$ingredient)
+    {
+        return $this->delete()
+            ->where("item_id", $ingredient)
+            ->and("dish_id", $dish)
+            ->execute();
     }
 }
