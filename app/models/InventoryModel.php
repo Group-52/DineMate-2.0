@@ -1,9 +1,12 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 /**
  * Inventory Model
  */
-
 class InventoryModel extends Model
 {
     public function __construct()
@@ -16,21 +19,21 @@ class InventoryModel extends Model
             'max_stock_level',
             'buffer_stock_level',
             'reorder_level',
-            'lead_time'            
+            'lead_time'
         ];
     }
 
     // Get all inventory data from database
-    public function getInventory()
+    public function getInventory(): array
     {
         return $this->select(["inventory.*", "items.item_name"])
-        ->join("items", "items.item_id", "inventory.item_id")    
-        ->fetchAll();
+            ->join("items", "items.item_id", "inventory.item_id")
+            ->fetchAll();
 
     }
 
     // update inventory
-    public function updateInventory($item, $amount=null, $max=null, $buffer=null, $lead=null, $reorder=null)
+    public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null)
     {
         $data = [];
         if ($amount) {
@@ -49,21 +52,21 @@ class InventoryModel extends Model
             $data["lead_time"] = $lead;
         }
         $this->update($data)
-        ->where("item_id", $item)
-        ->execute();
+            ->where("item_id", $item)
+            ->execute();
     }
 
     // reduce or add to inventory
-    public function adjustAmount($item,$amount,$operation){
-        $current = $this->select(["amount_remaining"])->where("item_id",$item)->fetch();
+    public function adjustAmount($item, $amount, $operation)
+    {
+        $current = $this->select(["amount_remaining"])->where("item_id", $item)->fetch();
         $current = $current->amount_remaining;
         if ($operation == "add") {
             $this->update(["amount_remaining" => $current + $amount])
-            ->where("item_id", $item)->execute();
-        } else if ($operation == "reduce"){
+                ->where("item_id", $item)->execute();
+        } else if ($operation == "reduce") {
             $this->update(["amount_remaining" => $current - $amount])
-            ->where("item_id", $item)->execute();
+                ->where("item_id", $item)->execute();
         }
     }
-
 }

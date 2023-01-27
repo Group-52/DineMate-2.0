@@ -1,6 +1,9 @@
 <?php
 
+namespace models;
+
 // Menu class
+use core\Model;
 
 class Menu extends Model
 {
@@ -63,6 +66,11 @@ class Menu extends Model
             'image_url' => $data['image_url'],
             'all_day' => $data['all_day']
         ]);
+    }
+
+    public function getMenu($menu_id): object|bool
+    {
+        return $this->select()->where("menu_id", $menu_id)->fetch();
     }
 
 }

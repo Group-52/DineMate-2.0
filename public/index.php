@@ -1,5 +1,7 @@
 <?php
 
+use core\App;
+
 session_start();
 
 require "../app/core/init.php";

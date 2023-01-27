@@ -11,6 +11,11 @@
   color: $primary-text;
 }
 
+.label.required::after {
+  content: " *";
+  color: map-get($alert-colors, danger);
+}
+
 .form-group {
   margin-bottom: 15px;
 }

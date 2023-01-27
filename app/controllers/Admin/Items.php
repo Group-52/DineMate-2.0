@@ -1,9 +1,16 @@
 <?php
 
+namespace controllers\admin;
+
+use core\Controller;
+use Exception;
+use models\Category;
+use models\Item;
+use models\Unit;
+
 /**
  * Items Controller
  */
-
 class Items
 {
     use Controller;
@@ -16,24 +23,28 @@ class Items
             redirect("admin/auth");
         }
         $data = [];
-        $data["items"] = (new Item)->itemsSearch($_GET);
-        $data["categories"] = (new Category)->select()->fetchAll();
+        $data["items"] = (new Item())->itemsSearch($_GET);
+        $data["categories"] = (new Category())->select()->fetchAll();
         $data["query"] = $_GET["query"] ?? "";
         $data["category_name"] = $_GET["category"] ?? "";
 
         $data["controller"] = $this->controller;
-        $this->view("items", $data);
+        $this->view("admin/items", $data);
     }
 
     public function create(): void
     {
+        /** TODO
+         * Add form component
+         */
+
         if (!isset($_SESSION["user"])) {
             redirect("admin/auth");
         }
 
         $data = [];
-        $data["categories"] = (new Category)->select()->fetchAll();
-        $data["units"] = (new Unit)->select()->fetchAll();
+        $data["categories"] = (new Category())->select()->fetchAll();
+        $data["units"] = (new Unit())->select()->fetchAll();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $item = new Item();
             if ($item->validate($_POST)) {
@@ -52,6 +63,6 @@ class Items
             }
         }
         $data["controller"] = $this->controller;
-        $this->view("items.create", $data);
+        $this->view("admin/items.create", $data);
     }
 }

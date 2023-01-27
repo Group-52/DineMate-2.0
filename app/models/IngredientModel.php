@@ -1,9 +1,12 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 /**
  * Ingredient Model
  */
-
 class IngredientModel extends Model
 {
     public function __construct()
@@ -26,13 +29,13 @@ class IngredientModel extends Model
             "quantity" => $quantity,
             "unit" => $unit
         ];
-        return $this->insert($data);
+        $this->insert($data);
     }
 
     // get ingredients of a dish
-    public function getIngredients($dish)
+    public function getIngredients($dish): array
     {
-        return $this->select(["ingredients.*", "items.item_name", "units.unit_name","dishes.dish_name"])
+        return $this->select(["ingredients.*", "items.item_name", "units.unit_name", "dishes.dish_name"])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
@@ -41,9 +44,9 @@ class IngredientModel extends Model
     }
 
     // get all dishes that use an ingredient
-    public function getdishes($item)
+    public function getdishes($item): array
     {
-        return $this->select(["ingredients.*", "items.item_name", "units.unit_name","dishes.dish_name"])
+        return $this->select(["ingredients.*", "items.item_name", "units.unit_name", "dishes.dish_name"])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
@@ -52,7 +55,7 @@ class IngredientModel extends Model
     }
 
     // update an ingredient
-    public function updateIngredient($dish, $item, $quantity = null, $unit=null)
+    public function updateIngredient($dish, $item, $quantity = null, $unit = null)
     {
         $data = [];
         if ($quantity) {
@@ -61,16 +64,16 @@ class IngredientModel extends Model
         if ($unit) {
             $data["unit"] = $unit;
         }
-        return $this->update($data)
+        $this->update($data)
             ->where("dish_id", $dish)
             ->and("item_id", $item)
             ->execute();
     }
 
     // get all ingredients of each dish
-    public function getAllIngredients()
+    public function getAllIngredients(): array
     {
-        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name",'units.unit_id'])
+        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name", 'units.unit_id'])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->fetchAll();
@@ -82,7 +85,7 @@ class IngredientModel extends Model
     }
 
     // delete an ingredient
-    public function deleteIngredient($dish,$ingredient)
+    public function deleteIngredient($dish, $ingredient)
     {
         return $this->delete()
             ->where("item_id", $ingredient)

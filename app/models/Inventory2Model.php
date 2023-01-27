@@ -1,10 +1,13 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 /**
- * Inventory 2 Model
+ * Inventory2 Model
  *  This database table corresponds to all the purchases and corresponding reductions in stock
  */
-
 class Inventory2Model extends Model
 {
     public function __construct()
@@ -21,28 +24,28 @@ class Inventory2Model extends Model
     }
 
     // get a single inventory item
-    public function getInventoryItem($pid)
+    public function getInventoryItem($pid): object|bool
     {
         return $this->select(["inventory2.*", "items.item_name"])
-        ->join("items", "items.item_id", "inventory2.item_id")
-        ->where("pid", $pid)
-        ->fetch();
+            ->join("items", "items.item_id", "inventory2.item_id")
+            ->where("pid", $pid)
+            ->fetch();
     }
 
 
     // Get all inventory data from database
-    public function getInventory()
+    public function getInventory(): array
     {
         return $this->select(["inventory2.*", "items.item_name"])
-        ->join("items", "items.item_id", "inventory2.item_id")    
-        ->fetchAll();
+            ->join("items", "items.item_id", "inventory2.item_id")
+            ->fetchAll();
     }
 
     // Make sure to give named arguments
     // Update a single inventory item
-    public function updateInventory($pid,$amount=null, $notes=null, $risk=null)
+    public function updateInventory($pid, $amount = null, $notes = null, $risk = null)
     {
-        $data2 =[];
+        $data2 = [];
 
         if ($amount != null) {
             $data2['amount_remaining'] = $amount;
@@ -53,17 +56,17 @@ class Inventory2Model extends Model
         if ($risk != null) {
             $data2['expiryrisk'] = $risk;
         }
-        
+
         $this->update($data2)
-        ->where("pid", $pid)
-        ->execute();
+            ->where("pid", $pid)
+            ->execute();
     }
 
     // delete a single inventory item
     public function deleteInventory($pid)
     {
         // Check if the amount_remaining is 0
-        $temp = $this->select(["amount_remaining","item_id"])->where("pid", $pid)->fetch();
+        $temp = $this->select(["amount_remaining", "item_id"])->where("pid", $pid)->fetch();
 
         // Check if such row exists
         if ($temp == null) {
@@ -77,8 +80,8 @@ class Inventory2Model extends Model
         }
 
         $this->delete()
-        ->where("pid", $pid)
-        ->execute();
+            ->where("pid", $pid)
+            ->execute();
 
     }
 

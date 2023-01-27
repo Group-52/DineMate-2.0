@@ -1,11 +1,11 @@
 <?php
 
 /** database config **/
-const DBNAME = "dinemate";
-const DBHOST = "localhost";
-const DBUSER = "root";
-const DBPASS = "";
-const DBDRIVER = "";
+const DB_NAME = "dinemate";
+const DB_HOST = "localhost";
+const DB_USER = "root";
+const DB_PASS = "";
+const DB_DRIVER = "";
 
 if ($_SERVER["SERVER_NAME"] == "localhost") {
     define("ROOT", "http://localhost/DineMate");
@@ -14,6 +14,8 @@ if ($_SERVER["SERVER_NAME"] == "localhost") {
 }
 
 const ASSETS = ROOT . "/assets";
+
+const VIEWS = "../app/views";
 
 const APP_NAME = "DineMate";
 const APP_DESC = "Restaurant Management System";

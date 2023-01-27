@@ -1,9 +1,15 @@
 <?php
 
+namespace controllers;
+
+use components\Form;
+use core\Controller;
+use Exception;
+use models\RegUser;
+
 /**
  * Login Controller
  */
-
 class Auth
 {
     use Controller;
@@ -20,24 +26,35 @@ class Auth
     public function login(): void
     {
         $data = [];
+
+        $loginForm = new Form("", "POST", "Login");
+        $loginForm->addField("email", "email", "email", "Email", true);
+        $loginForm->addField("password", "password", "password", "Password", true);
+        $data["form"] = $loginForm;
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
-            try {
-                $result = $user->getUserByEmail($_POST["email"]);
-                if (!$result)
-                    $data["errors"] = "Invalid email or password.";
-                else {
-                    if (password_verify($_POST["password"], $result->password)) {
-                        $_SESSION["user"] = $result;
-                        redirect("home");
-                    } else {
+            if ($loginForm->validate($_POST)) {
+                try {
+                    $result = $user->getUserByEmail($_POST["email"]);
+                    if (!$result)
                         $data["errors"] = "Invalid email or password.";
+                    else {
+                        if (password_verify($_POST["password"], $result->password)) {
+                            $_SESSION["user"] = $result;
+                            redirect("home");
+                        } else {
+                            $data["errors"] = "Invalid email or password.";
+                        }
                     }
+                } catch (Exception $e) {
+                    $data["errors"] = "Unknown error.";
                 }
-            } catch (Exception $e) {
-                $data["errors"] = "Unknown error.";
+            } else {
+                $data["errors"] = $loginForm->getErrors();
             }
         }
+        $data["title"] = "Login";
         $this->view("login", $data);
     }
 
@@ -47,23 +64,38 @@ class Auth
         redirect("auth/login");
     }
 
-    public function signup(): void
+    public function register(): void
     {
         $data = [];
+
+        $registerForm = new Form("", "POST", "Register");
+        $registerForm->addField("first_name", "first_name", "text", "First Name", true);
+        $registerForm->addField("last_name", "last_name", "text", "Last Name", true);
+        $registerForm->addField("email", "email", "email", "Email", true);
+        $registerForm->addField("contact_no", "contact_no", "text", "Contact No", true);
+        $registerForm->addField("password", "password", "password", "Password", true);
+        $registerForm->addField("confirm_password", "confirm_password", "password", "Confirm Password", true);
+        $data["form"] = $registerForm;
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
-            if ($user->validate($_POST)) {
-                $_POST['password'] = password_hash($_POST["password"], PASSWORD_DEFAULT);
-                try {
-                    $user->addUser($_POST);
-                    redirect("auth/login");
-                } catch (Exception $e) {
-                    $data["errors"] = "Unknown error.";
+            if ($registerForm->validate($_POST)) {
+                if ($_POST["password"] === $_POST["confirm_password"]) {
+                    $_POST['password'] = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                    try {
+                        $user->addUser($_POST);
+                        redirect("auth/login");
+                    } catch (Exception $e) {
+                        $data["errors"] = $user->getErrors();
+                    }
+                } else {
+                    $data["errors"] = "Passwords do not match.";
                 }
             } else {
-                $data["errors"] = $user->getErrors();
+                $data["errors"] = $registerForm->getErrors();
             }
         }
-        $this->view("signup", $data);
+        $data["title"] = "Register";
+        $this->view("register", $data);
     }
 }

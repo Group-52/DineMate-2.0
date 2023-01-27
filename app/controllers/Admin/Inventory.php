@@ -1,25 +1,30 @@
-
-
 <?php
+
+namespace controllers\admin;
+
+use core\Controller;
+use models\Inventory2Model;
+use models\InventoryModel;
 
 class Inventory
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
         $inv = new InventoryModel();
         $inventory = $inv->getInventory();
-        $this->view('inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
+        $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
     }
-    public function info()
+
+    public function info(): void
     {
         $inv2 = new Inventory2Model();
         $inventory2 = $inv2->getInventory();
-        $this->view('inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
+        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
     }
 
-    public function updateInventory()
+    public function updateInventory(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $m = new Inventory2Model();
@@ -43,12 +48,12 @@ class Inventory
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }
 
-    public function deleteInventory()
+    public function deleteInventory(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = json_decode(file_get_contents("php://input"), true);
             $id = $id['purchaseId'];
-            
+
             $m = new Inventory2Model();
             $m->deleteInventory($id);
 
@@ -56,7 +61,8 @@ class Inventory
         } else
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }
-    public function updateMain()
+
+    public function updateMain(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $m = new InventoryModel();
@@ -73,9 +79,8 @@ class Inventory
                     $m->updateInventory($id, buffer: $newValue);
                 } else if ($fieldName === 'reorder_level') {
                     $m->updateInventory($id, reorder: $newValue);
-                } 
-                else if ($fieldName === 'lead_time') {
-                    $m->updateInventory($id,lead: $newValue);
+                } else if ($fieldName === 'lead_time') {
+                    $m->updateInventory($id, lead: $newValue);
                 }
             }
             echo json_encode(array("status" => "success", "message" => "Data received successfully"));

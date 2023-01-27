@@ -1,14 +1,19 @@
 <?php
 
+namespace controllers\admin;
+
+
+use core\Controller;
+use models\Item;
+use models\Purchase;
+use models\Vendor;
+
 /**
  * Purchases Controller
  */
-
 class Purchases
 {
     use Controller;
-
-
 
     public function index(): void
     {
@@ -16,11 +21,11 @@ class Purchases
             redirect("admin/auth");
         }
 
-        $purchasemodel = new Purchase();
+        $purchaseModel = new Purchase();
         $v = new Vendor();
         $i = new Item();
         $data = [];
-        $data["purchases"] = $purchasemodel->getAllPurchases();
+        $data["purchases"] = $purchaseModel->getAllPurchases();
         $data["vendors"] = $v->getVendors();
         $data["items"] = $i->getItems();
 

@@ -1,12 +1,18 @@
-
-
 <?php
+
+namespace controllers\admin;
+
+use core\Controller;
+use models\Dish;
+use models\IngredientModel;
+use models\Item;
+use models\Unit;
 
 class Ingredients
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
         $d = new Dish();
         $dishes = $d->getDishes();
@@ -18,12 +24,12 @@ class Ingredients
         $units = $u->getUnits();
 
         $ing = new IngredientModel();
-        $ingredientlist = $ing->getAllIngredients();
+        $ingredientList = $ing->getAllIngredients();
 
-        $this->view('ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units'=>$units,'ingredientlist'=>$ingredientlist]);
+        $this->view('admin/ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units' => $units, 'ingredientList' => $ingredientList]);
     }
 
-    public function add()
+    public function add(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $m = new IngredientModel();
@@ -41,7 +47,7 @@ class Ingredients
 
     }
 
-    public function delete()
+    public function delete(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $m = new IngredientModel();
@@ -50,13 +56,13 @@ class Ingredients
             $dish = $data['dish'];
             $ingredient = $data['ingredient'];
 
-            $m->deleteIngredient($dish,$ingredient);
+            $m->deleteIngredient($dish, $ingredient);
             echo json_encode(array("status" => "success", "message" => "Data received successfully"));
         } else
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }
 
-    public function edit()
+    public function edit(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $m = new IngredientModel();
@@ -67,7 +73,7 @@ class Ingredients
             $amount = $data['quantity'];
             $unit = $data['unit'];
 
-            $m->updateIngredient($dish,$ingredient,$amount,$unit);
+            $m->updateIngredient($dish, $ingredient, $amount, $unit);
             echo json_encode(array("status" => "success", "message" => "Data received successfully"));
         } else
             echo json_encode(array("status" => "error", "message" => "Invalid request"));

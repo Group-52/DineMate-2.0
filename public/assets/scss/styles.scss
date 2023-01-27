@@ -20,13 +20,9 @@ body {
   font-size: 16px;
   color: $primary-text;
   background-color: $bg-color;
+  overflow-x: hidden;
 }
 
-.container {
-  max-width: 100%;
-  padding: 0 15px;
-  margin: 0 auto;
-}
 
 /*
   Login
@@ -110,4 +106,68 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+
+.welcome {
+  padding: 5rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.footer {
+  border-top: 1px solid $border;
+}
+
+/**
+ * Home Page Search
+ */
+#home-search {
+  z-index: 4;
+  transition: margin-top 0.3s ease-in-out;
+
+  + * {
+    overflow: hidden;
+  }
+
+  + .search-modal {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 0;
+    transition: height 0.3s ease-in-out;
+    background-color: white;
+
+    .modal-close {
+      position: fixed;
+      top: 1.5rem;
+      right: 3rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      visibility: hidden;
+    }
+  }
+
+  &:focus-within, &.open {
+    margin-top: 2rem;
+  }
+
+  &:focus-within + .search-modal,
+  &.open + .search-modal {
+    height: 100vh;
+
+    .modal-close {
+      visibility: visible;
+    }
+  }
+
+  + .search-modal > .search-modal-container {
+    margin-top: 6rem;
+    width: 100%;
+    height: 100%;
+  }
 }

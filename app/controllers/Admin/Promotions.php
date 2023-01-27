@@ -1,4 +1,10 @@
 <?php
+
+namespace controllers\admin;
+
+use core\Controller;
+use models\Promotion;
+
 class Promotions
 {
     use Controller;
