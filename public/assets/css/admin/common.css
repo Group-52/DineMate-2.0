@@ -1,0 +1,52 @@
+/* Style for pencil icon */
+.fa-pencil-square-o {
+    cursor: pointer;
+    /* Make the icon look clickable */
+    color: #3498db;
+    /* Change the color of the icon */
+}
+
+.fa-pencil-square-o:hover {
+    color: #2980b9;
+    /* Change the color of the icon on hover */
+}
+
+.fa-pencil-square-o:active {
+    transform: scale(0.9);
+    /* Scale the icon down slightly */
+}
+
+/* Style for the trash can icon */
+.fa-trash {
+    cursor: pointer;
+    /* Make the icon look clickable */
+    color: #ff0000;
+    /* Change the color of the icon */
+}
+
+/* Style for the trash can icon when hovered */
+.fa-trash:hover {
+    color: #c0392b;
+    /* Change the color of the icon on hover */
+}
+
+/* Style for the trash can icon when clicked */
+.fa-trash:active {
+    transform: scale(0.9);
+    /* Scale the icon down slightly */
+}
+
+/* Make extra table columns for edit icons be invisible */
+.edit-icons {
+    display: none;
+}
+
+/* give blue glowing border 
+Can use to indicate selected rows */
+.rowinform {
+    border: 3px solid #3498db;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
