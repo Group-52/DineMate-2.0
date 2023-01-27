@@ -71,7 +71,7 @@ form {
   width: 500px;
   margin: 0 auto;
   padding: 20px;
-  border: 2px solid #588c7e;
+  border: none;
 }
 
 label {
@@ -102,11 +102,11 @@ button {
   width: 50%;
   background-color:#588c7e;
   color: white;
-  padding: 20px 20px;
+  padding: 15px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  
+  float: right;
  
 }
 
