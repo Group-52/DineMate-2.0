@@ -53,7 +53,8 @@
             display: none;
         }
 
-        #edit-button, #finish-button {
+        #edit-button,
+        #finish-button {
             text-align: center;
             border-radius: 5px;
             margin: 10px;
@@ -171,7 +172,7 @@
                 <form class="ingredient-form">
                     <div class="form-group">
                         <label for="ingredient">Ingredient</label>
-                        <select id="ingredient" class="form-control">
+                        <select id="ingredient" class="form-control" required>
                             <option value="" disabled selected>Select an ingredient</option>
                             <?php foreach ($ingredients as $ingredient) : ?>
                                 <option value="<?= $ingredient->item_id ?>">
@@ -182,11 +183,11 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" step=0.001 id="quantity" class="form-control" />
+                        <input type="number" step=0.001 id="quantity" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="unit">Unit</label>
-                        <select id="unit" class="form-control">
+                        <select id="unit" class="form-control" required>
                             <option value="" disabled selected>Select a unit</option>
                             <?php foreach ($units as $unit) : ?>
                                 <option value="<?= $unit->unit_id ?>">
@@ -213,15 +214,15 @@
         ingredientNames[ingredient.item_id] = ingredient
     });
 
-    console.log("ingredientNames")
-    console.log(ingredientNames);
+    // console.log("ingredientNames")
+    // console.log(ingredientNames);
     var units = <?php echo json_encode($units); ?>;
     var unitNames = {};
     units.forEach(unit => {
         unitNames[unit.unit_id] = unit
     });
-    console.log("unitNames")
-    console.log(unitNames);
+    // console.log("unitNames")
+    // console.log(unitNames);
 
 
     const dishLinks = document.querySelectorAll('.dish-link');
@@ -310,8 +311,8 @@
 
             event.preventDefault();
 
-            console.log("Adding below");
-            console.log(data);
+            // console.log("Adding below");
+            // console.log(data);
 
             fetch("<?= ROOT ?>/admin/ingredients/add", {
                     method: "POST",
@@ -372,6 +373,7 @@
                 tbody.appendChild(tr);
 
                 DeleteOnTrashClick2(tr);
+                editOnClick(tr);
 
                 ingredientCell.setAttribute('data-ing-id', data.ingredient);
                 unitCell.setAttribute('data-unit-id', unitid);
@@ -380,8 +382,7 @@
                 // makeNonEditable();
             }
         } else if (event.target.textContent == "Save") {
-            console.log("Updating below");
-            console.log(data);
+
             // send the data to the server to delete the ingredient from the dish
             fetch("<?= ROOT ?>/admin/ingredients/edit", {
                     method: "POST",
@@ -462,6 +463,9 @@
         editIcons.forEach(editIcon => {
             editIcon.style.display = "none";
         });
+
+        // make ingredient field editable
+        document.getElementById("ingredient").disabled = false;
 
         // make finish button invisible
         document.getElementById("finish-button").style.display = "none";
@@ -548,9 +552,8 @@
         if (!something)
             var pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
         else
-            var pencilIcons = something.querySelectorAll('.ingredients-list .fa-pencil-square-o');
+            var pencilIcons = something.querySelectorAll('.fa-pencil-square-o');
 
-        pencilIcons = document.querySelectorAll('.ingredients-list .fa-pencil-square-o');
         pencilIcons.forEach(pencilIcon => {
             pencilIcon.addEventListener("click", function(event) {
                 event.preventDefault();
