@@ -7,7 +7,7 @@ use core\Model;
 /**
  * Inventory Model
  */
-class InventoryModel extends Model
+class Inventory extends Model
 {
     public function __construct()
     {

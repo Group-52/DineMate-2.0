@@ -8,7 +8,7 @@ use core\Model;
  * Inventory2 Model
  *  This database table corresponds to all the purchases and corresponding reductions in stock
  */
-class Inventory2Model extends Model
+class InventoryDetail extends Model
 {
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Inventory2Model extends Model
             'item_id',
             'amount_remaining',
             'special_notes',
-            'expiryrisk',
+            'expiry_risk',
             'last_used'
         ];
     }
@@ -45,19 +45,19 @@ class Inventory2Model extends Model
     // Update a single inventory item
     public function updateInventory($pid, $amount = null, $notes = null, $risk = null)
     {
-        $data2 = [];
+        $data = [];
 
         if ($amount != null) {
-            $data2['amount_remaining'] = $amount;
+            $data['amount_remaining'] = $amount;
         }
         if ($notes != null) {
-            $data2['special_notes'] = $notes;
+            $data['special_notes'] = $notes;
         }
         if ($risk != null) {
-            $data2['expiryrisk'] = $risk;
+            $data['expiry_risk'] = $risk;
         }
 
-        $this->update($data2)
+        $this->update($data)
             ->where("pid", $pid)
             ->execute();
     }
@@ -75,7 +75,7 @@ class Inventory2Model extends Model
 
         if ($temp->amount_remaining != 0) {
             // reduce from inventory before deleting
-            $inv = new InventoryModel();
+            $inv = new Inventory();
             $inv->adjustAmount($temp->item_id, $temp->amount_remaining, "reduce");
         }
 

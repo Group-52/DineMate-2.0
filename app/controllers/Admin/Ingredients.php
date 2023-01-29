@@ -4,7 +4,7 @@ namespace controllers\admin;
 
 use core\Controller;
 use models\Dish;
-use models\IngredientModel;
+use models\Ingredient;
 use models\Item;
 use models\Unit;
 
@@ -23,7 +23,7 @@ class Ingredients
         $u = new Unit();
         $units = $u->getUnits();
 
-        $ing = new IngredientModel();
+        $ing = new Ingredient();
         $ingredientList = $ing->getAllIngredients();
 
         $this->view('admin/ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units' => $units, 'ingredientList' => $ingredientList]);
@@ -32,7 +32,7 @@ class Ingredients
     public function add(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m = new IngredientModel();
+            $m = new Ingredient();
 
             $data = json_decode(file_get_contents("php://input"), true);
             $dishId = $data['dish'];
@@ -50,7 +50,7 @@ class Ingredients
     public function delete(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m = new IngredientModel();
+            $m = new Ingredient();
 
             $data = json_decode(file_get_contents("php://input"), true);
             $dish = $data['dish'];
@@ -65,7 +65,7 @@ class Ingredients
     public function edit(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m = new IngredientModel();
+            $m = new Ingredient();
 
             $data = json_decode(file_get_contents("php://input"), true);
             $dish = $data['dish'];

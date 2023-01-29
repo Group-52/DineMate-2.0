@@ -7,7 +7,7 @@ use core\Model;
 /**
  * Ingredient Model
  */
-class IngredientModel extends Model
+class Ingredient extends Model
 {
     public function __construct()
     {
@@ -77,17 +77,17 @@ class IngredientModel extends Model
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->fetchAll();
-        $ingredientlist = [];
+        $ingredientList = [];
         foreach ($l as $i) {
-            $ingredientlist[$i->dish_id][] = $i;
+            $ingredientList[$i->dish_id][] = $i;
         }
-        return $ingredientlist;
+        return $ingredientList;
     }
 
     // delete an ingredient
     public function deleteIngredient($dish, $ingredient)
     {
-        return $this->delete()
+        $this->delete()
             ->where("item_id", $ingredient)
             ->and("dish_id", $dish)
             ->execute();

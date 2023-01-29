@@ -3,8 +3,7 @@
 namespace controllers\admin;
 
 use core\Controller;
-use models\Inventory2Model;
-use models\InventoryModel;
+use models\InventoryDetail;
 
 class Inventory
 {
@@ -12,14 +11,14 @@ class Inventory
 
     public function index(): void
     {
-        $inv = new InventoryModel();
+        $inv = new \models\Inventory();
         $inventory = $inv->getInventory();
         $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
     }
 
     public function info(): void
     {
-        $inv2 = new Inventory2Model();
+        $inv2 = new InventoryDetail();
         $inventory2 = $inv2->getInventory();
         $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
     }
@@ -27,7 +26,7 @@ class Inventory
     public function updateInventory(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m = new Inventory2Model();
+            $m = new InventoryDetail();
 
             $data = json_decode(file_get_contents("php://input"), true);
             for ($i = 0; $i < count($data); $i++) {
@@ -54,7 +53,7 @@ class Inventory
             $id = json_decode(file_get_contents("php://input"), true);
             $id = $id['purchaseId'];
 
-            $m = new Inventory2Model();
+            $m = new InventoryDetail();
             $m->deleteInventory($id);
 
             echo json_encode(array("status" => "success", "message" => "Data received successfully", "id" => $id));
@@ -65,7 +64,7 @@ class Inventory
     public function updateMain(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $m = new InventoryModel();
+            $m = new \models\Inventory();
 
             $data = json_decode(file_get_contents("php://input"), true);
             for ($i = 0; $i < count($data); $i++) {
