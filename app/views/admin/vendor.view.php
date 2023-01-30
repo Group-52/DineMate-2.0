@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Vendors Details</title>
-    <style>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
+    <!-- <style>
         .table {
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
@@ -44,7 +47,7 @@
             height: 100px;
             background: #FF4546;
         }
-    </style>
+    </style> -->
 
 </head>
 
@@ -78,9 +81,9 @@
     </tbody>
 </table>
 <br>
-<button type="submit" name="add"><a href="<?= ROOT ?>/vendors/addVendor">+ NEW VENDOR</a></button>
+<button type="submit" name="add"><a href="<?= ROOT ?>/admin/vendors/addVendor">+ NEW VENDOR</a></button>
 <br>
-<a href="<?= ROOT ?>/loginK/logout">Logout</a>
+<a href="<?= ROOT ?>/admin/auth/logout">Logout</a>
 </body>
 
 </html>
