@@ -14,14 +14,14 @@
 <body>
 <h3>View Order></h3><br>
 <div>
-    <input type="text" placeholder="Search..">
-    <select>
-        <option name="Dine-in" value="Dine-in">Dine-in</option>
-        <option name="Take-away" value="Take-away">Take-away</option>
-        <option  name="Bulk" value="Bulk">Bulk</option>
+    
+    <select name="type" id="type">
+        <option  value="Dine-in">Dine-in</option>
+        <option  value="Take-away">Take-away</option>
+        <option  value="Bulk">Bulk</option>
     </select>
 
-    <select>
+    <select id="status">
         <option value="Pending">Pending</option>
         <option value="Accepted">Accepted</option>
         <option value="Cancelled">Cancelled</option>
@@ -152,3 +152,69 @@ select {
 
 
     </style>
+    
+<!--     
+    <script>
+  function filterOptions(value) {
+    // Get the select element
+    let select = document.getElementById("filterSelect");
+    // Remove all current options
+   // select.innerHTML = "";
+    // Add the desired options back
+    switch (value) {
+      case "Dine-in":
+        select.innerHTML += <option name="Dine-in" value="Dine-in">Dine-in</option>
+        break;
+      case "Take-away":
+        select.innerHTML += <option name="Take-away" value="Take-away">Take-away</option>
+        break;
+      case "Bulk":
+        select.innerHTML += <option  name="Bulk" value="Bulk">Bulk</option>
+
+        break;
+    }
+  }
+ </script> -->
+
+
+<!-- <script>
+    document.querySelector("#filterSelect").addEventListener("change", function() {
+        let typeFilter = this.value;
+        let statusFilter = document.querySelector("select:nth-child(2)").value;
+        let tableRows = document.querySelectorAll("table tr:not(:first-child)");
+
+        tableRows.forEach(function(row) {
+            let type = row.querySelector("td:nth-child(6)").textContent;
+            let status = row.querySelector("td:nth-child(7)").textContent;
+            if (type === typeFilter || typeFilter === "All") {
+                if (status === statusFilter || statusFilter === "All") {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+
+    document.querySelector("select:nth-child(2)").addEventListener("change", function() {
+        let typeFilter = document.querySelector("#filterSelect").value;
+        let statusFilter = this.value;
+        let tableRows = document.querySelectorAll("table tr:not(:first-child)");
+
+        tableRows.forEach(function(row) {
+            let type = row.querySelector("td:nth-child(6)").textContent;
+            let status = row.querySelector("td:nth-child(7)").textContent;
+            if (status === statusFilter || statusFilter === "All") {
+                if (type === typeFilter || typeFilter === "All") {
+                    row.style.display = "table-row";
+                } else {
+                    row.style.display = "none";
+                }
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+</script> --> -->
