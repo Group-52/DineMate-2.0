@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <head>
@@ -84,7 +83,7 @@
 <br>
 <button type="submit" name="add"><a href="<?= ROOT ?>/admin/vendors/addVendor">+ NEW VENDOR</a></button>
 <br>
-<a href="<?= ROOT ?>/loginK/logout">Logout</a>
+<a href="<?= ROOT ?>/admin/auth/logout">Logout</a>
 </body>
 
 </html>
