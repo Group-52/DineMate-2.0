@@ -29,7 +29,7 @@ class Purchases
         $data["vendors"] = $v->getVendors();
         $data["items"] = $i->getItems();
 
-        $this->view("purchases", $data);
+        $this->view("admin/purchases", $data);
     }
 
     public function addPurchase(): void

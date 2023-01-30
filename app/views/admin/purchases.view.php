@@ -11,6 +11,7 @@
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+    <div class="w-100 h-100 p-5">
     <table>
         <thead>
         <tr>
@@ -110,7 +111,7 @@
             </div>
             <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
         </form>
-
+                    </div>
     </div>
 </div>
 
