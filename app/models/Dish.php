@@ -50,7 +50,7 @@ class Dish extends Model
         $l = $this->select()->fetchAll();
         $dishes = [];
         foreach ($l as $d) {
-            $dishes[] = $d;
+            $dishes[$d->dish_id] = $d;
         }
         return $dishes;
     }

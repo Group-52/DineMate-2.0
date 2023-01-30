@@ -41,5 +41,10 @@ class Vendor extends Model
     {
         $this->insert($data);
     }
+
+    public function deleteVendor($data)
+    {
+       
+    }
 }
 
