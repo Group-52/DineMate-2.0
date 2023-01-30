@@ -104,7 +104,7 @@
 
 
     var dishes = <?php echo json_encode($dishes); ?>;
-    var ingredientlist = <?php echo json_encode($ingredientlist); ?>;
+    var ingredientlist = <?php echo json_encode($ingredientList); ?>;
     var ingredients = <?php echo json_encode($ingredients); ?>;
     var ingredientNames = {};
     ingredients.forEach(ingredient => {
@@ -131,6 +131,7 @@
 
     // Add event listeners to all the dish links to show the dish details and change the image and list all it's ingredients
     dishLinks.forEach(link => {
+
       link.addEventListener('click', e => {
         e.preventDefault();
 
@@ -149,6 +150,7 @@
         const imgname = link.getAttribute('data-imgurl');
         const imageUrl = baseUrl + imgname;
         dishImage.style.backgroundImage = `url(${imageUrl})`;
+        console.log(dishes)
         dishName.textContent = dishes[id].dish_name;
 
         // get the ingredients of the dish
