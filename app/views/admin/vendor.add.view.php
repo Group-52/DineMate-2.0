@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
+    <!-- <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css"> -->
     <title>Add Vendor</title>
 </head>
 
@@ -56,7 +59,7 @@
             <input type="number" name="contact_no" placeholder="Contact No">
         </div>
 
-        <button type="submit" name="save"><a class="link" href="<?= ROOT ?>/vendors">Save</a></button>
+        <button type="submit" name="save"><a class="link" href="<?= ROOT ?>admin/vendors">Save</a></button>
     </div>
 </form>
 </body>
