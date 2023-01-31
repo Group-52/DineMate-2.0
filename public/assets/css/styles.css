@@ -3198,4 +3198,10 @@ a {
   height: 100%;
 }
 
+#ing-form,
+#edit-button,
+#finish-button {
+  display: none;
+}
+
 /*# sourceMappingURL=styles.css.map */

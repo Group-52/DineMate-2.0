@@ -5,12 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const baseUrl = `${ASSETS}/images/dishes/`;
 
-  const urls = [
-    `${ROOT}/api/dishes`,
-    `${ROOT}/api/items`,
-    `${ROOT}/api/ingredients`,
-    `${ROOT}/api/units`,
-  ];
+  const urls = [`${ROOT}/api/dishes`, `${ROOT}/api/items`, `${ROOT}/api/units`];
 
   let dishes;
   let ingredientList;
@@ -26,8 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchData().then((data) => {
     dishes = data[0]["dishes"] ?? [];
     ingredients = data[1]["items"] ?? [];
-    ingredientList = data[2]["ingredients"] ?? [];
-    units = data[3]["units"] ?? [];
+    units = data[2]["units"] ?? [];
 
     const ingredientNames = {};
     if (ingredients && ingredients.length > 0) {
@@ -45,58 +39,66 @@ document.addEventListener("DOMContentLoaded", () => {
     // add event listener to select ingredient
     dishSelect.addEventListener("change", (e) => {
       const selectedOption = dishSelect.options[dishSelect.selectedIndex];
-      document.getElementById("ing-form").style.display = "inline";
-      document.getElementById("edit-button").style.display = "inline";
+      fetch(`${ROOT}/api/ingredients`)
+        .then((response) => response.json())
+        .then((data) => {
+          ingredientList = data["ingredients"];
+          document.getElementById("ing-form").style.display = "inline";
+          document.getElementById("edit-button").style.display = "inline";
 
-      clearForm();
-      makeNonEditable();
+          clearForm();
+          makeNonEditable();
 
-      const id = selectedOption.getAttribute("data-id");
-      // set the dish id in the form
-      document
-        .querySelector(".ingredient-form")
-        .setAttribute("data-dish-id", id);
+          const id = selectedOption.getAttribute("data-id");
+          // set the dish id in the form
+          document
+            .querySelector(".ingredient-form")
+            .setAttribute("data-dish-id", id);
 
-      const imgName = selectedOption.getAttribute("data-imgurl");
-      const imageUrl = baseUrl + imgName;
-      dishImage.src = imageUrl;
+          const imgName = selectedOption.getAttribute("data-imgurl");
+          const imageUrl = baseUrl + imgName;
+          dishImage.src = imageUrl;
 
-      // get the ingredients of the dish
-      let currIngredients = ingredientList[id];
+          // get the ingredients of the dish
+          let currIngredients = ingredientList[id];
 
-      // display all the ingredients of the dish below the image in the table
-      dishIngredients.innerHTML = "";
+          // display all the ingredients of the dish below the image in the table
+          dishIngredients.innerHTML = "";
 
-      // if no ingredients are added yet
-      if (!currIngredients) {
-        dishIngredients.innerHTML = `
+          // if no ingredients are added yet
+          if (!currIngredients) {
+            dishIngredients.innerHTML = `
                 <tr>
                     <td colspan="5">No ingredients added yet</td>
                 </tr>
             `;
-      } else {
-        currIngredients.forEach((ingredient) => {
-          dishIngredients.innerHTML += `
+          } else {
+            currIngredients.forEach((ingredient) => {
+              dishIngredients.innerHTML += `
             <tr>
                 <td class="edit-icons" style="display:none"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></tdi>
                 <td data-ing-id = "${ingredient.item_id}" >${
-            ingredient.item_name
-          }</td>
+                ingredient.item_name
+              }</td>
                 <td>${ingredient.quantity}</td>
                 <td data-unit-id="${ingredient.unit}">${
-            unitNames[ingredient.unit].unit_name
-          }</td>
+                unitNames[ingredient.unit].unit_name
+              }</td>
                 <td class="trash-icons" style="display:none"><i class="fa fa-trash trash-icon"></i></td>
             </tr>
           `;
+            });
+
+            // Add event listener to all edit icons to edit the ingredient
+            editOnClick();
+
+            // Add event listener to all trash icons to delete the ingredient
+            DeleteOnTrashClick();
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
         });
-
-        // Add event listener to all edit icons to edit the ingredient
-        editOnClick();
-
-        // Add event listener to all trash icons to delete the ingredient
-        DeleteOnTrashClick();
-      }
     });
 
     // Add event listener to the form to add a new ingredient or update dish
@@ -140,14 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // add the ingredient to the table below the image
 
-          // if the table is empty, remove the "no ingredients added yet" row
-          if (
-            dishIngredients.children[0]?.children[0]?.innerHTML ===
-              "No ingredients added yet" ||
-            dishIngredients.children.length === 0
-          ) {
-            dishIngredients.innerHTML = "";
-          }
           // if the table is not empty, add the ingredient to the table
           let ingredient_id = document.getElementById("ingredient").value;
           let unit_id = document.getElementById("unit").value;
@@ -176,6 +170,15 @@ document.addEventListener("DOMContentLoaded", () => {
           trashCell.classList.add("trash-icons");
           trashCell.innerHTML = `<i class="fa fa-trash trash-icon" ></i>`;
           tr.appendChild(trashCell);
+
+          // if the table is empty, remove the "no ingredients added yet" row
+          if (
+            dishIngredients.children[0]?.children[0]?.innerHTML ===
+              "No ingredients added yet" ||
+            dishIngredients.children.length === 0
+          ) {
+            dishIngredients.innerHTML = "";
+          }
 
           // add the table row to the table
           dishIngredients.appendChild(tr);
@@ -213,13 +216,13 @@ document.addEventListener("DOMContentLoaded", () => {
           clearForm();
 
           // change the table row to the new values
-          var tablerow = document.querySelector(".rowinform");
+          var tablerow = document.querySelector(".row-in-form");
           tablerow.children[1].textContent =
             ingredientNames[ingredient].item_name;
           tablerow.children[2].textContent = quantity;
           tablerow.children[3].textContent = unitNames[unit].unit_name;
 
-          RowInForm();
+          rowInForm();
         }
       });
 
@@ -228,6 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .getElementById("finish-button")
       .addEventListener("click", function (event) {
         event.preventDefault();
+        rowInForm();
         makeNonEditable();
       });
 
@@ -375,11 +379,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function editOnClick(something = null) {
       let pencilIcons;
       if (!something)
-        pencilIcons = document.querySelectorAll(
-          ".ingredients-list .fa-pencil-square-o"
-        );
+        pencilIcons = document.querySelectorAll(".fa-pencil-square-o");
       else pencilIcons = something.querySelectorAll(".fa-pencil-square-o");
 
+      console.log(pencilIcons);
       pencilIcons.forEach((pencilIcon) => {
         pencilIcon.addEventListener("click", function (event) {
           event.preventDefault();
@@ -395,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
           let unit_id = tablerow.children[3].getAttribute("data-unit-id");
 
           // highlight the row that is being edited
-          RowInForm(tablerow);
+          rowInForm(tablerow);
 
           // autofill the form with the ingredient data
           document.getElementById("ingredient").value = ingredient;
@@ -410,15 +413,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Highlight the row that is being edited
-    function RowInForm(row = null) {
-      // remove the rowinform class from all rows
-      const rows = document.querySelectorAll(".rowinform");
+    function rowInForm(row = null) {
+      // remove the row-in-form class from all rows
+      const rows = document.querySelectorAll(".row-in-form");
       rows.forEach((row) => {
-        row.classList.remove("rowinform");
+        row.classList.remove("row-in-form");
       });
 
       // add the rowinform class to the row that is being edited
-      if (row) row.classList.add("rowinform");
+      if (row) row.classList.add("row-in-form");
     }
   });
 });

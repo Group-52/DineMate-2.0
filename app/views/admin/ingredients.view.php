@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
