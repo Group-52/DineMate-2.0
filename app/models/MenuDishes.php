@@ -12,20 +12,20 @@ class MenuDishes extends Model
         'dish_id'
     ];
 
-    public function getMenuDishesByMenu(): array
-    {
-        $m = new Menu();
-        $menus = $m->getMenus();
-        $m_ids = array();
-
-        foreach ($menus as $menu) {
-            $m_ids[$menu->menu_id] = $this->getMenuDishes($menu->menu_id);
-        }
-        return $m_ids;
-    }
-
     #get all menu dishes and sort and separate by menu and make an array of arrays of menu dishes
+    // public function getMenuDishesByMenu(): array
+    // {
+    //     $m = new Menu();
+    //     $menus = $m->getMenus();
+    //     $m_ids = array();
 
+    //     foreach ($menus as $menu) {
+    //         $m_ids[$menu->menu_id] = $this->getMenuDishes($menu->menu_id);
+    //     }
+    //     return $m_ids;
+    // }
+
+    // get all dishes for a menu
     public function getMenuDishes(int $menu_id, int $num = 100, int $offset = 0): array
     {
         $d = new Dish();

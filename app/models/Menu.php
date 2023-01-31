@@ -50,7 +50,7 @@ class Menu extends Model
         $menus = $this->getMenus();
         $menudishes = array();
         foreach ($menus as $m) {
-            $menudishes[$m->menu_id] = $dpm->getDishesforMenu($m->menu_id);
+            $menudishes[$m->menu_id] = $dpm->getMenuDishes($m->menu_id);
         }
         return $menudishes;
     }
