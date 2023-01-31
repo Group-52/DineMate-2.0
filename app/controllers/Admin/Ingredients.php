@@ -26,6 +26,6 @@ class Ingredients
         $ing = new Ingredient();
         $ingredientList = $ing->getIngredients();
 
-        $this->view('admin/ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units' => $units, 'ingredientList' => $ingredientList]);
+        $this->view('admin/ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units' => $units, 'ingredientList' => $ingredientList, 'controller' => 'ingredients']);
     }
 }

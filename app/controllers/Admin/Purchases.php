@@ -28,6 +28,7 @@ class Purchases
         $data["purchases"] = $purchaseModel->getAllPurchases();
         $data["vendors"] = $v->getVendors();
         $data["items"] = $i->getItems();
+        $data["controller"]= "purchases";
 
         $this->view("admin/purchases", $data);
     }
