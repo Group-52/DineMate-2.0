@@ -24,6 +24,10 @@
             text-align: center;
             width: 100%;
         }
+        #dish-add-form{
+            width: 50%;
+            margin: auto;
+        }
     </style>
 </head>
 
@@ -36,7 +40,9 @@
             <h1>
                 Add a Dish
             </h1>
+        <div id="dish-add-form">
 
+        
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -64,6 +70,7 @@
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">Save</button>
             </form>
+            </div>
 
         </div>
     </div>
