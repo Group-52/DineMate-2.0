@@ -33,14 +33,18 @@ class Ingredient extends Model
     }
 
     // get ingredients of a dish
-    public function getIngredients($dish): array
+    public function getIngredients(): array
     {
-        return $this->select(["ingredients.*", "items.item_name", "units.unit_name", "dishes.dish_name"])
+        $ingredients = $this->select(["ingredients.*", "items.item_name", "units.unit_name", "dishes.dish_name"])
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
-            ->where("ingredients.dish_id", $dish)
             ->fetchAll();
+        $ingredientList = [];
+        foreach ($ingredients as $ingredient) {
+            $ingredientList[$ingredient->dish_id][] = $ingredient;
+        }
+        return $ingredientList;
     }
 
     // get all dishes that use an ingredient
@@ -71,17 +75,13 @@ class Ingredient extends Model
     }
 
     // get all ingredients of each dish
-    public function getAllIngredients(): array
+    public function getDishIngredients(int $dish_id): array
     {
-        $l = $this->select(["ingredients.*", "items.item_name", "units.unit_name", 'units.unit_id'])
+        return $this->select(["ingredients.*", "items.item_name", "units.unit_name", 'units.unit_id'])
+            ->where("ingredients.dish_id", $dish_id)
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->fetchAll();
-        $ingredientList = [];
-        foreach ($l as $i) {
-            $ingredientList[$i->dish_id][] = $i;
-        }
-        return $ingredientList;
     }
 
     // delete an ingredient

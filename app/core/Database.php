@@ -83,4 +83,12 @@ trait Database
         return $this->execute()->fetch();
     }
 
+    /**
+     * Get database query (for debugging)
+     */
+    public function getQuery(): string
+    {
+        return $this->query;
+    }
+
 }

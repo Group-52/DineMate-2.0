@@ -4,7 +4,7 @@
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
+    <link rel= "stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
 </head>
 
 <body class="dashboard">

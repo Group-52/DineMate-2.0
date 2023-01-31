@@ -6,4 +6,8 @@
 <!-- styles -->
 <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
 <script src="https://kit.fontawesome.com/d2b9586342.js" crossorigin="anonymous"></script>
+<script>
+  const ROOT = '<?= ROOT ?>';
+  const ASSETS = '<?= ASSETS ?>';
+</script>
 <script src="<?= ROOT ?>/assets/js/admin.js"></script>

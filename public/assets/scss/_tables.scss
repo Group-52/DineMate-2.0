@@ -4,7 +4,7 @@
   border-collapse: collapse;
   width: 100%;
 
-  th {
+  th, td {
     padding: 0.5rem 0;
     border-bottom: 1px solid $border;
     font-weight: normal;
@@ -77,5 +77,9 @@
     td {
       padding: 2rem 0;
     }
+  }
+
+  .edit-icons, .trash-icons {
+    border: none;
   }
 }

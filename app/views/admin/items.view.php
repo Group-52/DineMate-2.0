@@ -13,6 +13,7 @@
             <a class="btn btn-primary text-uppercase fw-bold" href="items/create">+ Create Item</a>
         </div>
         <div>
+            <!-- TODO add filters and bulk actions and actions to each item  -->
             <form action="" method="GET">
                 <div class="row">
                     <div class="form-search col-10">
