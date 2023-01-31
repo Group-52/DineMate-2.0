@@ -43,7 +43,7 @@ class Cart
                     $cart->addToCart($user_id, $item_id);
                     $this->json([
                         'status' => 'success',
-                        'message' => 'Item added to cart',
+                        'message' => 'Items added to cart',
                         'cart_count' => $cart->getNoOfItems($user_id)
                     ]);
                 } catch (\Exception $e) {
@@ -77,7 +77,7 @@ class Cart
                 $cart->deleteFromCart($user_id, $item_id);
                 $this->json([
                     'status' => 'success',
-                    'message' => 'Item deleted from cart',
+                    'message' => 'Items deleted from cart',
                     'cart_count' => $cart->getNoOfItems($user_id)
                 ]);
             } catch (\Exception $e) {
@@ -106,7 +106,7 @@ class Cart
                 $cart->editCartItemQty($user_id, $item_id, $item_qty);
                 $this->json([
                     'status' => 'success',
-                    'message' => 'Item edited from cart',
+                    'message' => 'Items edited from cart',
                     'cart_count' => $cart->getNoOfItems($user_id)
                 ]);
             } catch (\Exception $e) {

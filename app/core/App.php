@@ -63,8 +63,16 @@ class App
         }
 
         if (!$this->controller) {
-            $this->controller = "controllers\\" . "_404";
-            $path = $controllerPath . "_404.php";
+            $this->controller = "controllers\\";
+            $path = $controllerPath;
+            if ($this->module) {
+                $this->controller .= $this->module . '\\';
+                $path .= $this->module . "/";
+            } else {
+                $this->controller = "controllers\\" . "_404";
+            }
+            $this->controller .= "_404";
+            $path .= "_404.php";
             include $path;
             $this->controller = new $this->controller;
         }

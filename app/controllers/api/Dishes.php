@@ -9,7 +9,7 @@ class Dishes
 {
     use Controller;
 
-    public function all(): void
+    public function index(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $dish = new Dish();

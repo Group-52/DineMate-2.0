@@ -5,7 +5,7 @@ namespace models;
 use core\Model;
 
 /**
- * Item Model
+ * Items Model
  */
 class Item extends Model
 {
