@@ -2,76 +2,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>
-
-    </title>
+    <?php
+    include VIEWS . "/partials/home/head.partial.php" ?>
     <style>
-        img {
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
             width: 200px;
-            height: 200px;
+            height: 150px;
+            margin: 10px;
         }
 
-        /* add css for table
-         */
-        table {
-            border-collapse: collapse;
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            padding: 2px 16px;
+        }
+
+        .card img {
+            object-fit: cover;
             width: 100%;
+            height: 200px;
+            border-radius: 10px;
         }
 
-        th, td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        th {
-            background-color: #4CAF50;
-            color: white;
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+            max-width: 1200px;
         }
 
     </style>
 </head>
 
-<body>
+<body class="dashboard">
+    <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+    <div class="dashboard-container">
+        <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+        <div class="w-100 h-100 p-5">
+        <div class="card-container">
 
-<table>
-    <tr>
-        <th> id</th>
-        <th> name</th>
-        <th> description</th>
-        <th> start_time</th>
-        <th> end_time</th>
-        <th> image_url</th>
-        <th> all_day</th>
-    </tr>
+            <?php /**  @var $menu_items MenuCard[] */
+            if (isset($menulist) && sizeof($menulist) > 0) : ?>
+                <?php foreach ($menulist as $m) : ?>
 
-    <?php
+                    <div class="card" data-menu-id=<?= $m->menu_id ?>>
+                        <a href ="<?=ROOT?>/admin/menus/id/<?= $m->menu_id ?>">
+                            <img src="<?= ASSETS ?>/images/menus/<?= $m->image_url ?>" alt="<?= $m->menu_name ?>" style="width:100%">
+                        </a>
+                            <div class="container">
+                                <h4><b><?= $m->menu_name ?></b></h4>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif ?>
+        </div>
 
-    if (isset($menulist)) {
-        foreach ($menulist as $menu) {
-            echo "<tr>";
-            echo "<td>" . $menu->menu_id . "</td>";
-            echo "<td>" . $menu->menu_name . "</td>";
-            echo "<td>" . $menu->description . "</td>";
-            echo "<td>" . $menu->start_time . "</td>";
-            echo "<td>" . $menu->end_time . "</td>";
-            echo "<td>" . $menu->image_url . "</td>";
-            echo "<td>" . $menu->all_day . "</td>";
-            echo "</tr>";
-        }
-    }
-    ?>
-</table>
-<br>
-<br>
+        <a href="<?= ROOT ?>/admin/menus/add" class="btn btn-primary">Add Menu</a>
+    </div>
+</div>
 
-<a href="<?php echo ROOT; ?>">Index</a>
-<a href="<?php echo ROOT; ?>/admin/menus/addMenu">Add Menu</a>
 </body>
 
 </html>
