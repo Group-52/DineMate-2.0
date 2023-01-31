@@ -35,6 +35,11 @@ class Menus
 
         $this->view('admin/menu.update', $data);
     }
+    public function add(): void
+    {
+        $data['controller'] = 'menus';
+        $this->view('admin/menu.add', $data);
+    }
 
 }
 

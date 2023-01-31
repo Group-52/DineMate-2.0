@@ -1,6 +1,7 @@
 <div id="sidebar" class="sidebar p-5 pt-1">
+
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "home") echo " active" ?>"
-       href="<?= ROOT ?>/admin">
+       href="<?= ROOT ?>/admin/dashboard">
         <i class="fa-solid fa-house d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Dashboard</span>
     </a>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "items") echo " active" ?>"
@@ -18,6 +19,12 @@
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "menus") echo " active" ?>"
        href="<?= ROOT ?>/admin/menus">
         <i class="fa-solid fa-utensils"></i><span class="sidebar-text">&nbsp;&nbsp;Menus</span>
+    </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "purchases") echo " active" ?>" href="<?= ROOT ?>/admin/purchases">
+        <i class="fa-solid fa-shopping-cart d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Purchases</span>
+     </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "dishes") echo " active" ?>" href="<?= ROOT ?>/admin/dishes">
+    <i class="fa-solid fa-bowl-rice d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Dishes</span>
     </a>
 
 
