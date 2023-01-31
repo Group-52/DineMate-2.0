@@ -23,5 +23,9 @@
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "purchases") echo " active" ?>" href="<?= ROOT ?>/admin/purchases">
         <i class="fa-solid fa-shopping-cart d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Purchases</span>
      </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "dishes") echo " active" ?>" href="<?= ROOT ?>/admin/dishes">
+    <i class="fa-solid fa-bowl-rice d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Dishes</span>
+    </a>
+
 
 </div>

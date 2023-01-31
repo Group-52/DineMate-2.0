@@ -16,8 +16,9 @@ class Dishes
     {
         $dish = new Dish();
         $results['dish_list'] = $dish->getDishes();
+        $results['controller'] = 'dishes';
 
-        $this->view('dishes', $results);
+        $this->view('admin/dishes', $results);
 
     }
 
@@ -52,10 +53,10 @@ class Dishes
                 'image_url' => $target_file
             ]);
 
-            redirect('dishes');
+            redirect('admin/dishes');
 
         }
-        $this->view('dishes.add');
+        $this->view('admin/dishes.add');
     }
 
 }
