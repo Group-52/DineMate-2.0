@@ -61,12 +61,14 @@
   * Navs
   */
 
+$nav-height: 4rem;
 .nav {
   display: flex;
   flex-wrap: wrap;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   background: #ffffffaa;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(2rem);
+  height: $nav-height;
   z-index: 2;
 
   #sidebar-open {
@@ -112,16 +114,17 @@
   // sidebar
   &.nav-home .sidebar {
     position: absolute;
-    z-index: 5;
-    top: 0;
+    z-index: 1;
+    top: $nav-height;
     right: -100%;
     display: flex;
     flex-direction: column;
     flex: 0 0 20rem;
-    height: 100vh;
+    height: calc(100vh - $nav-height);
     background-color: $bg-color;
     font-weight: 400;
-    transition: all 0.2s ease-in-out;
+    transition: right 0.3s ease-in-out;
+    box-shadow: 0 2rem 0.25rem 0.25rem rgba(0, 0, 0, 0.1);
 
     &.open {
       right: 0;
@@ -144,16 +147,6 @@
       white-space: nowrap;
       text-decoration: none;
 
-    }
-
-    #sidebar-close {
-      position: absolute;
-      top: 0.5rem;
-      right: 1.5rem;
-      padding: 1rem;
-      font-size: 1.5rem;
-      color: $secondary-text;
-      cursor: pointer;
     }
   }
 
@@ -187,9 +180,8 @@
 .menu-item-card {
   position: relative;
   background-color: white;
-  margin-bottom: 1rem;
   overflow: hidden;
-  height: 20rem;
+  height: 18rem;
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.5s;
@@ -249,6 +241,7 @@
     .card-title {
       font-weight: 600;
       color: $headings;
+      text-overflow: ellipsis;
     }
 
     .card-prices {
@@ -261,19 +254,21 @@
         font-size: 0.75rem;
         text-decoration: line-through;
         color: $secondary-text;
+        white-space: nowrap;
       }
 
       .card-price-new {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: bold;
         color: $secondary-color;
+        white-space: nowrap;
       }
     }
 
   }
 
   &:hover {
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 
     .add-to-cart {
       opacity: 1;
@@ -285,7 +280,7 @@
     height: 10rem;
 
     .card-img-wrapper {
-      flex: 0 0 33%;
+      flex: 0 0 40%;
       border-radius: 0 1rem 1rem 0;
     }
 

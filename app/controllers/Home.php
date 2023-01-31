@@ -23,7 +23,7 @@ class Home
         # Get Menu From Database
         $menus = (new Menu())->getMenus();
         foreach ($menus as $menu) {
-            $data['menus'][$menu->menu_id] = new \components\Menu($menu, 3);
+            $data['menus'][$menu->menu_id] = new \components\Menu($menu, 4);
         }
 
         $this->view('home', $data);

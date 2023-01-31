@@ -10,17 +10,16 @@
   flex-wrap: wrap;
   align-items: stretch;
   align-content: stretch;
-  justify-content: space-between;
 }
 
 $columns: (1: 8.333333%, 2: 16.666667%, 3: 25%, 4: 33.333333%, 5: 41.666667%, 6: 50%, 7: 58.333333%, 8: 66.666667%, 9: 75%, 10: 83.333333%, 11: 91.666667%, 12: 100%);
 @each $column, $width in $columns {
   .col-#{$column} {
     flex: 0 0 $width;
-    max-width: calc($width - 15px);
+    max-width: $width;
   }
   .col-offset-#{$column} {
-    margin-left: calc($width - 15px);
+    margin-left: $width;
   }
 }
 
@@ -30,10 +29,10 @@ $viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
     @media (min-width: $vp-width) {
       .col-#{$type}-#{$column} {
         flex: 0 0 $width;
-        max-width: calc($width - 15px);
+        max-width: $width;
       }
       .col-offset-#{$type}-#{$column} {
-        margin-left: calc($width - 15px);
+        margin-left: $width;
       }
     }
   }

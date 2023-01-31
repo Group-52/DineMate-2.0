@@ -6,7 +6,7 @@
             </div>
             <div class="col-offset-lg-6"></div>
             <div class="col-lg-3 col-6 p-5">
-                <div class="row">
+                <div class="row justify-content-space-between">
                     <a class="link" href="">About</a>
                     <a class="link" href="">Privacy Policy</a>
                     <a class="link" href="">Terms</a>

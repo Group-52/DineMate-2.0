@@ -20,20 +20,17 @@
         </div>
     <?php endif ?>
     <div class="container py-5">
-        <div class='row flex-column flex-lg-row'>
+        <div class='grid-lg-4 grid-md-2 grid-1 grid-gap-2'>
             <?php /**  @var $menu_items MenuCard[] */
             if (isset($menu_items) && sizeof($menu_items) > 0) : ?>
                 <?php foreach ($menu_items as $menu_item) : ?>
-                    <div class='col-12 col-lg-4'>
-                        <?php $menu_item->render(); ?>
-                    </div>
+                    <?php $menu_item->render(); ?>
                 <?php endforeach; ?>
             <?php endif ?>
         </div>
 
     </div>
 </div>
-
 <?php include VIEWS . "/partials/home/footer.partial.php"; ?>
 </body>
 </html>

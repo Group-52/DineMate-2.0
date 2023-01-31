@@ -101,6 +101,6 @@
         </div>
     </div>
 </div>
-<script src="<?= ASSETS ?>/js/ingredients.js"></script>
+<script src="<?= ASSETS ?>/js/admin/ingredients.js"></script>
 </body>
 </html>

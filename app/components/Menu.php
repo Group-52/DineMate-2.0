@@ -49,7 +49,7 @@ class Menu
     public function html(): string
     {
         $html = "<div class='menu mb-3'>";
-        $html .= "<div class='row'>";
+        $html .= "<div class='row justify-content-space-between'>";
         $html .= "<div>";
         $html .= "<div class='d-flex flex-column justify-content-space-between mb-2'>";
         $html .= "<h2 class='menu-title'>{$this->name}</h2>";
@@ -63,9 +63,9 @@ class Menu
         $html .= "<div class='d-flex align-items-center'>";
         $html .= "<a href='menu/id/{$this->id}' class='btn btn-primary text-uppercase'>View More</a>";
         $html .= "</div></div>";
-        $html .= "<div class='row flex-column flex-lg-row'>";
+        $html .= "<div class='grid-lg-4 grid-md-2 grid-1 grid-gap-2'>";
         foreach ($this->menu_items as $menu_item) {
-            $html .= "<div class='col-12 col-lg-4'>";
+            $html .= "<div>";
             $html .= $menu_item->html();
             $html .= "</div>";
         }

@@ -2,27 +2,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle sidebar
   const sidebar = document.getElementById("sidebar");
   const sidebarOpen = document.getElementById("sidebar-open");
-  const sidebarClose = document.getElementById("sidebar-close");
-  if (sidebar && sidebarOpen && sidebarClose) {
-    const sidebarState = localStorage.getItem("sidebarState") || "closed";
-    sidebar.classList.add(sidebarState);
+  if (sidebar && sidebarOpen) {
     sidebarOpen.onclick = () => {
-      sidebar.classList.add("open");
-      sidebar.classList.remove("closed");
-      localStorage.setItem(
-        "sidebarState",
-        sidebar.classList.contains("open") ? "open" : "closed"
-      );
-    };
-    sidebarClose.onclick = () => {
-      sidebar.classList.add("closed");
-      sidebar.classList.remove("open");
-      localStorage.setItem(
-        "sidebarState",
-        sidebar.classList.contains("open") ? "open" : "closed"
-      );
+      sidebar.classList.toggle("open");
     };
   }
+  document.onclick = (e) => {
+    if (
+      !sidebar.contains(e.target) &&
+      e.target.id !== "sidebar" &&
+      e.target.id !== "sidebar-open"
+    ) {
+      sidebar.classList.remove("open");
+    }
+  };
 
   // Add to cart
   const addToCartButtons = document.querySelectorAll(".add-to-cart");
@@ -61,16 +54,16 @@ document.addEventListener("DOMContentLoaded", () => {
             searchResults.innerHTML = "";
             data.dishes.forEach((dish) => {
               searchResults.innerHTML += `
-              <div class="col-lg-6 col-12">
+              <div>
               <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
-              <div class='menu-item-card horizontal rounded-sm shadow'>
+              <div class='menu-item-card rounded-sm shadow'>
               <div class='card-img-wrapper'>
               <img src='${ASSETS}/images/dishes/${
                 dish.image_url
               }' class='card-img' alt='${dish.dish_name}'>
               </div>
               <div class='card-body'>
-              <h2 class='card-title'>${dish.dish_name}</h2>
+              <h3 class='card-title'>${dish.dish_name}</h3>
               <div class='card-prices'>
               ${
                 dish.old_price != null

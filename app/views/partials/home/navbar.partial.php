@@ -23,7 +23,10 @@ use models\Cart;
             <div id="home-search-modal" class="search-modal">
                 <i class="fa-solid fa-x modal-close" id="home-modal-close"></i>
                 <div class="search-modal-container container">
-                    <div id="home-search-results" class="row justify-content-start"></div>
+                    <div class="search-modal-filter">
+
+                    </div>
+                    <div id="home-search-results" class="grid-lg-4 grid-md-2 grid-1 grid-gap-2"></div>
                 </div>
             </div>
         </div>
@@ -48,9 +51,8 @@ use models\Cart;
             <?php endif; ?>
         </div>
     </div>
-    <div id="sidebar" class="sidebar p-5 pt-1 shadow">
-        <i class="fa-solid fa-x" id="sidebar-close"></i>
-        <div class="sidebar-items mt-3">
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-items px-5 pt-5 pb-3 bg-grey">
             <div class="sidebar-user">
                 <div class="display-4">
                     <?= (isset($_SESSION["user"])) ? $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name : "" ?>
@@ -59,6 +61,8 @@ use models\Cart;
                     View Profile
                 </div>
             </div>
+        </div>
+        <div class="sidebar-items px-5">
             <div class="sidebar-item">
                 <i class="fa-solid fa-burger"></i>
                 <span class="sidebar-text">My Orders</span>

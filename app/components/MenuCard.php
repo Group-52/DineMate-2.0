@@ -59,7 +59,7 @@ class MenuCard
         $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
         $html .= "</button>";
         $html .= "<div class='card-body'>";
-        $html .= "<h2 class='card-title'>{$this->name}</h2>";
+        $html .= "<h3 class='card-title'>{$this->name}</h2>";
         $html .= "<div class='card-prices'>";
         if ($this->old_price) {
             $html .= "<span class='card-price-old'>LKR {$this->old_price}</span>";
