@@ -43,10 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchField = document.getElementById("home-search-field");
   const searchResults = document.getElementById("home-search-results");
   const modalClose = document.getElementById("home-modal-close");
+  const html = document.querySelector("html");
   searchField.onkeyup = () => {
     const query = searchField.value;
     if (query.length > 0) {
       searchContainer.classList.add("open");
+      html.style.overflow = "hidden";
       fetch(`${ROOT}/api/dishes/search?name=${query}`)
         .then((res) => res.json())
         .then((data) => {
@@ -79,12 +81,14 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch((error) => console.log(error));
     } else {
       searchContainer.classList.remove("open");
+      html.style.overflow = "";
       searchResults.innerHTML = "";
     }
   };
 
   modalClose.onclick = () => {
     searchContainer.classList.remove("open");
+    html.style.overflow = "";
     searchResults.innerHTML = "";
     searchField.value = "";
   };

@@ -3,8 +3,8 @@
 use models\Cart;
 
 ?>
-<nav class="nav nav-home px-3 position-sticky top-0 left-0">
-    <div class="d-flex flex-wrap justify-content-space-between w-100">
+<nav class="nav nav-home px-3 left-0">
+    <div class="d-flex justify-content-space-between w-100">
         <div class="nav-brand">
             <div class="nav-items">
                 <div class="nav-item">
@@ -12,15 +12,15 @@ use models\Cart;
                 </div>
             </div>
         </div>
-        <div class="nav-items w-50">
-            <div id="home-search" class="form-search">
+        <div class="d-flex flex-column nav-items w-100">
+            <div id="home-search" class="form-search order-md-0 order-1">
                 <input type="text" class="form-control" name="query"
                        placeholder="Search items" id="home-search-field">
                 <button class="form-search-icon" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
-            <div id="home-search-modal" class="search-modal">
+            <div id="home-search-modal" class="search-modal order-md-1 order-0">
                 <i class="fa-solid fa-x modal-close" id="home-modal-close"></i>
                 <div class="search-modal-container container">
                     <div class="search-modal-filter">
