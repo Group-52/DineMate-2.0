@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Draw a line chart with random data
     drawLineChart();
 
+    drawPieChart();
+
 });
 
 function drawBarChart() {
@@ -87,5 +89,28 @@ function drawLineChart() {
                 }]
             }
         }
+    });
+}
+function drawPieChart(){
+    var ctx = document.getElementById("myPieChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: [
+              'Chillie Parata',
+              'Burger',
+              'Salad'
+            ],
+            datasets: [{
+              label: 'My First Dataset',
+              data: [300, 50, 100],
+              backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+              ],
+              hoverOffset: 4
+            }]
+          }
     });
 }
