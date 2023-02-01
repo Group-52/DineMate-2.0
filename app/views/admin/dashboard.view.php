@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>World population</title>
+  <title>Admin</title>
   <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -58,9 +58,10 @@
         <canvas id="myPieChart" width="1600" height="900"></canvas>
       </div>
 
-
+      <div class="card">
+        <canvas id="myStackedLineChart" width="1600" height="900"></canvas>
+      </div>
     </div>
-  </div>
 
 
 </body>
