@@ -39,49 +39,58 @@
             text-align: center;
         }
 
+        #add-dish-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
     </style>
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/common.css">
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
 </head>
 
 <body class="dashboard">
-<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
-<div class="dashboard-container">
-    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
-    <div class="w-100 h-100 p-5">
-        
+    <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+    <div class="dashboard-container">
+        <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+        <div class="w-100 h-100 p-5">
+            <div class="dashboard-header">
 
-    <table>
-        <tr>
-            <th>Dish ID</th>
-            <th>Picture</th>
-            <th>Name</th>
-            <th>Preparation Time</th>
-            <th>Net Price</th>
-            <th>Selling Price</th>
-            <th>Description</th>
-        </tr>
-        
-        <?php
-        if (isset($dish_list)) {
-            foreach ($dish_list as $dish) {
-                echo "<tr data-dish-id='" . $dish->dish_id . "'>";
-                echo "<td>" . $dish->dish_id . "</td>";
-                echo "<td><div class='dishpic'><img alt='" . $dish->dish_name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'></div></td>";
-                echo "<td>" . $dish->dish_name . "</td>";
-                echo "<td>" . $dish->prep_time . "</td>";
-                echo "<td>" . $dish->net_price . "</td>";
-                echo "<td>" . $dish->selling_price . "</td>";
-                echo "<td>" . $dish->description . "</td>";
-                echo "</tr>";
-            }
-        }
-        ?>
-    </table>
-    <a class="btn btn-primary" href="<?php echo ROOT ?>/admin/dishes/addDish">Add Dish</a>    
-    
-</div>
-</div>
+                <h1 class="display-3 active">Dishes</h1>
+            </div>
+
+
+            <table>
+                <tr>
+                    <th>Dish ID</th>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Preparation Time</th>
+                    <th>Net Price</th>
+                    <th>Selling Price</th>
+                    <th>Description</th>
+                </tr>
+
+                <?php
+                if (isset($dish_list)) {
+                    foreach ($dish_list as $dish) {
+                        echo "<tr data-dish-id='" . $dish->dish_id . "'>";
+                        echo "<td>" . $dish->dish_id . "</td>";
+                        echo "<td><div class='dishpic'><img alt='" . $dish->dish_name . "'src='" . ASSETS . "/images/dishes/" . $dish->image_url . "'></div></td>";
+                        echo "<td>" . $dish->dish_name . "</td>";
+                        echo "<td>" . $dish->prep_time . "</td>";
+                        echo "<td>" . $dish->net_price . "</td>";
+                        echo "<td>" . $dish->selling_price . "</td>";
+                        echo "<td>" . $dish->description . "</td>";
+                        echo "</tr>";
+                    }
+                }
+                ?>
+            </table>
+            <a class="btn btn-primary" id="add-dish-button" href="<?php echo ROOT ?>/admin/dishes/addDish">Add Dish</a>
+
+        </div>
+    </div>
 </body>
 
 </html>

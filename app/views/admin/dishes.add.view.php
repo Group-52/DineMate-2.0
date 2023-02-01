@@ -43,7 +43,7 @@
         <div id="dish-add-form">
 
         
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" action="<?= ROOT ?>/admin/dishes/addDish">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control">
