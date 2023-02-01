@@ -59,3 +59,26 @@ td {
     border: 1px solid #ccc;
     border-top: none;
   }
+
+  #promo-form {
+    width: 30%;
+    margin: 10px;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+#add-promo-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+#discount-form, #free_dish-form, #spending_bonus-form{
+    display: none;
+}
