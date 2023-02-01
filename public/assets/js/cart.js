@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (item) =>
           `
           <tr>
-          <td class="td-img"><img src="${ASSETS}/images/dishes/${
+          <td class="not-mobile td-img"><img src="${ASSETS}/images/dishes/${
             item["image_url"]
           }"
             alt="${item["dish_name"]}"></td>
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td class="fw-bold">LKR ${
             item["selling_price"] * item["quantity"]
           }</td>
-          <td>
+          <td class="cart-trash-icon">
               <i class="fa-solid fa-trash cart-delete p-1 pointer" data-id="${
                 item["dish_id"]
               }"></i>
@@ -115,12 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
           cartTable.innerHTML = `
           <thead>
           <tr>
-            <th></th>
+            <th class="not-mobile"></th>
             <th>Item</th>
             <th>Unit Price</th>
             <th>Qty</th>
             <th>Price</th>
-            <th></th>
+            <th class="cart-trash-icon"></th>
           </tr>
           </thead>
           `;
@@ -128,9 +128,11 @@ document.addEventListener("DOMContentLoaded", () => {
           if (cart.length > 0) {
             cartTable.innerHTML += `
             <tr class="display-6" id="cart-total">
-              <td colSpan="4" class="text-right">Total</td>
+              <td class="not-mobile"></td>
+              <td class="text-right">Total</td>
+              <td colspan="2"></td>
               <td class="fw-bold secondary">LKR ${getTotalPrice(cart)}</td>
-              <td></td>
+              <td class="cart-trash-icon"></td>
             `;
           }
           cartCount.innerHTML = cart.length.toString();

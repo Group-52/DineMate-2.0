@@ -50,15 +50,17 @@
             </tr>
             </thead>
             <?php if (isset($items) && !empty($items)) : ?>
+                <tbody>
                 <?php foreach ($items as $item) : ?>
                     <tr>
                         <?php foreach ($item as $col): ?>
-                            <th><?= $col ?></th>
+                            <td><?= $col ?></td>
                         <?php endforeach ?>
                     </tr>
                 <?php endforeach ?>
+                </tbody>
             <?php else: ?>
-                <th colspan="6" class="text-center">No Records Found</th>
+                <th colspan="5" class="text-center">No Records Found</th>
             <?php endif ?>
         </table>
         <script>

@@ -9,11 +9,11 @@
 <div class="wrapper">
     <?php include VIEWS . "/partials/home/navbar.partial.php"; ?>
     <div class="container my-5">
-        <h1 class="display-4">Cart</h1>
+        <h1 class="display-4">My Cart</h1>
         <table id="cart-table" class="table cart"></table>
     </div>
     <div class="text-center">
-        <button class="btn btn-primary text-uppercase">Checkout</button>
+        <a href="<?= ROOT ?>/checkout" class="btn btn-primary text-uppercase">Checkout</a>
     </div>
 </div>
 <?php include VIEWS . "/partials/home/footer.partial.php"; ?>

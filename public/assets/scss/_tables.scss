@@ -28,6 +28,7 @@
         padding-top: 0.5rem;
       }
     }
+
     tr:last-child {
       td {
         padding-bottom: 0.5rem;
@@ -69,6 +70,10 @@
       width: 100%;
       object-fit: cover;
     }
+  }
+
+  .cart-trash-icon {
+    width: 1rem;
   }
 
   #cart-total {

@@ -30,9 +30,12 @@ class Cart extends Model
     }
 
     // Get the cart items of a specific customer
-    public function getCartItems(): bool|array
+    public function getCartItems($user_id = null): bool|array
     {
-        $cartItems = $this->select()->where('user_id', $_SESSION["user"]->user_id)->fetchAll();
+        if ($user_id == null) {
+            $user_id = $_SESSION['user']->user_id;
+        }
+        $cartItems = $this->select()->where('user_id', $user_id)->fetchAll();
         $items = [];
         foreach ($cartItems as $item) {
             $dish = (new Dish)->getDishById($item->dish_id);
@@ -42,9 +45,12 @@ class Cart extends Model
         return $items;
     }
 
-    public function getNoOfItems($id): int
+    public function getNoOfItems($user_id = null): int
     {
-        $cart = $this->count("*")->where('user_id', $id)->fetch();
+        if ($user_id == null) {
+            $user_id = $_SESSION['user']->user_id;
+        }
+        $cart = $this->count("*")->where('user_id', $user_id)->fetch();
         return $cart->{'COUNT(*)'};
     }
 

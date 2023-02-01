@@ -42,6 +42,17 @@
     line-height: 1.5;
   }
 
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  &:disabled:hover {
+    color: $bg-color;
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+
   @each $value in (success, warning, danger) {
     &.btn-success {
       color: $bg-color;

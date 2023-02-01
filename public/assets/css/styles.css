@@ -2803,6 +2803,18 @@ a.link:hover {
   grid-gap: 96px;
 }
 
+@media (min-width: 768px) {
+  .only-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .not-mobile {
+    display: none;
+  }
+}
+
 .body-min-vh-100 {
   min-height: 100vh;
   display: flex;
@@ -4226,6 +4238,15 @@ select.form-control {
   font-size: 1rem;
   line-height: 1.5;
 }
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+.btn:disabled:hover {
+  color: #FFFFFF;
+  background-color: #FF4546;
+  border-color: #FF4546;
+}
 .btn.btn-success {
   color: #FFFFFF;
   background-color: #29A645;
@@ -4642,6 +4663,9 @@ select.form-control {
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+.table .cart-trash-icon {
+  width: 1rem;
 }
 .table #cart-total {
   border-top: 1px solid #C0C0C0;

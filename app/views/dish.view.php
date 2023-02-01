@@ -22,10 +22,18 @@
                     <div class="secondary display-5 fw-bold">LKR <?= $dish->selling_price ?></div>
                     <form action="<?= ROOT ?>/cart/add" method="post">
                         <input type="hidden" name="dish_id" value="<?= $dish->dish_id ?>">
-                        <input type="number" step="1" min="1" max="10" class="form-control text-center my-3"
-                               placeholder="Qty" name="quantity"
-                               value="1" style="width: auto" required>
-                        <button type="submit" class="btn btn-primary text-uppercase">Add to Cart</button>
+                        <?php if (isset($cartQty)) : ?>
+                            <input type="number" step="1" min="1" max="10" class="form-control text-center my-3"
+                                   placeholder="Qty" name="quantity"
+                                   value="<?php echo ($cartQty == 0) ? 1 : $cartQty ?>"
+                                   style="width: auto" required
+                                <?php echo ($cartQty == 0) ? "" : "readonly" ?>
+                            >
+                            <button type="submit"
+                                    class="btn btn-primary text-uppercase"<?php echo ($cartQty == 0) ? "" : "disabled" ?>>
+                                <?php echo ($cartQty == 0) ? " Add to Cart " : "Added to Cart" ?>
+                            </button>
+                        <?php endif ?>
                     </form>
                 </div>
                 <div class="col-offset-lg-1"></div>
