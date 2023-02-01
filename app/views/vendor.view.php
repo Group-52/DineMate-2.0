@@ -1,81 +1,73 @@
-
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Vendors Details</title>
-    <style>
-        .table {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-        
-        .table tr:nth-child(even){background-color: #f2f2f2;}
-
-        .table tr:hover {background-color: #ddd;}
-
-        .table th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            color: black;
-        }
-
-        button {
-            background-color:#FF4546;
-            color: white;
-            padding: 10px 10px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 10%;
-            float: right;
-            text-decoration: none;
-
-        }
-        img{
-            width: 100px;
-            height: 100px;
-            background: #FF4546;
-        }
-    </style>
-    
+    <?php include VIEWS . "/partials/home/head.partial.php" ?>
 </head>
-
-<body>
-    <h2>Vendors</h2>
-    
-    <table class="table">
-        <thead class="table-dark">
+<body class="dashboard">
+<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+<div class="dashboard-container">
+    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+    <div class="w-100 h-100 p-5">
+        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+            <h1 class="display-3">Vendors</h1>
+            <a class="btn btn-primary text-uppercase fw-bold" href="vendors/create">+ New Vendors</a>
+        </div>
+        <div>
+            <!-- TODO add filters and bulk actions and actions to each item  -->
+            <form action="" method="GET">
+                <div class="row">
+                    <div class="form-search col-10">
+                        <input type="text" class="form-control" name="query" placeholder="Search items"
+                               value="<?= $query ?? "" ?>">
+                        <button class="form-search-icon" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <!-- <div class="pl-2 col-2">
+                        <select class="form-control" name="category">
+                            <option value="">Filter</option>
+                            <?php if (isset($categories) && is_array($categories)): ?>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?= $category->category_name ?>"
+                                        <?= (isset($category_name) && $category->category_name == $category_name) ? " selected" : "" ?>>
+                                        <?= $category->category_name ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif ?>
+                        </select>
+                    </div> -->
+                </div>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
             <tr>
-                <th scope="col">VendorID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Address</th>
-                <th scope="col">Company</th>
-                <th scope="col">Contact No</th>
+                <th>#Id</th>
+                <th>Name</th>
+                <th>Contact No</th>
+                <th>Address</th>
+                <th>Company</th>
             </tr>
-        </thead>
-    
-    <tbody>
-        <?php if (isset($Vendor)) {
-            foreach ($Vendor as $v1) {
-                echo "<tr>";
-                echo "<td>" . $v1->vendor_id . "</td>";
-                echo "<td>" . $v1->vendor_name. "</td>";
-                echo "<td>" . $v1->address . "</td>";
-                echo "<td>" . $v1->company . "</td>";
-                echo "<td>" . $v1->contact_no . "</td>";
-                echo "</tr>";
-            }
-        }
-        ?>
-        </tbody>
-    </table>
-    <br>
-        <button type="submit" name="add"><a href="<?=ROOT?>/vendors/addVendor">+ NEW VENDOR</a></button><br>
-        <a href="<?=ROOT?>/loginK/logout">Logout</a>   
+            </thead>
+            <?php if (isset($vendors) && !empty($vendors)) : ?>
+                <?php foreach ($vendors as $vendor) : ?>
+                    <tr>
+                        <?php foreach ($vendor as $col): ?>
+                            <th><?= $col ?></th>
+                        <?php endforeach ?>
+                    </tr>
+                <?php endforeach ?>
+            <?php else: ?>
+                <th colspan="6" class="text-center">No Records Found</th>
+            <?php endif ?>
+        </table>
+        <!-- <script>
+          const category = document.querySelector('select[name="category"]');
+          category.onchange = function () {
+            this.form.submit();
+          }
+        </script> -->
+    </div>
+</div>
 </body>
-
 </html>

@@ -1,63 +1,56 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
-        <title>Add Vendor</title>
-    </head>
-
-    <style>
-        input[type=text], input[type=number], input[type=date] {
-            width: 50%;
-            padding: 20px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            height:5%
-        }
-
-        button {
-            background-color:green;
-            color: white;
-            padding: 10px 10px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 10%;
-            float: right;
-            text-decoration: none;
-
-        }
-    </style>
-
-    <body>
-        <h2>Vendors> New Vendor</h2>
-        <form action = "" method = "POST"> 
-            <div class="row">
-                <div class="col">
-                    <label for="name"><b>Name</b></label><br>
-                    <input type = "text" name = "name" placeholder = "Name" required>
-                </div>
-
-                <div class="col">
-                    <label for="address"><b>Address</b></label><br>
-                    <input type = "text" name = "address" placeholder = "Address" required>
-                </div>
-
-                <div class="col">
-                    <label for="company"><b>Company</b></label><br>
-                    <input type = "text" name = "company" placeholder = "Company">
-                </div>
-
-                <div class="col">
-                    <label for="contact_no"><b>Contact No</b></label><br>
-                    <input type = "number" name = "contact_no" placeholder = "Contact No">
-                </div>
-
-                <button type="submit" name="save"><a class="link" href="<?= ROOT ?>/vendors">Save</a></button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+</head>
+<body class="dashboard">
+<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+<div class="dashboard-container">
+    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+    <div class="w-100 h-100 p-5">
+        <form action="" method="POST">
+            <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+                <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/vendors">Vendors</a> > New Vendor</h1>
+                <button class="btn btn-success text-uppercase fw-bold" type="submit">Save Vendor</button>
             </div>
+            <div class="form-group">
+                <label class="label" for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name">
+            </div>
+            <div class="form-group">
+                <label class="label" for="address">Address</label>
+                <input class="form-control" type="text" name="address" id="address">
+            </div>
+            <div class="form-group">
+                <label class="label" for="company">Company</label>
+                <input class="form-control" name="company" id="company">
+            </div>
+            <div class="form-group">
+                <label class="label" for="contact_no">Contact No</label>
+                <input class="form-control" name="contact_no" id="contact_no">
+            </div>
+            <!-- <div class="form-group">
+                <label class="label" for="unit">Unit</label>
+                <select class="form-control" name="unit" id="unit">
+                    <option value="">Select Unit</option>
+                    <?php if (isset($units)) : ?>
+                        <?php foreach ($units as $unit): ?>
+                            <option value="<?= $unit->unit_id ?>"><?= $unit->unit_name ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
+            </div> -->
+            <!-- <div class="form-group">
+                <label class="label" for="category">Category</label>
+                <select class="form-control" name="category" id="category">
+                    <option value="">Select Category</option>
+                    <?php foreach ($data["categories"] as $category): ?>
+                        <option value="<?= $category->category_id ?>"><?= $category->category_name ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div> -->
         </form>
-    </body>
+    </div>
+</div>
+</body>
 </html>
