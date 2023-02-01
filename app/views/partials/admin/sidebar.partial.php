@@ -26,6 +26,9 @@
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "dishes") echo " active" ?>" href="<?= ROOT ?>/admin/dishes">
     <i class="fa-solid fa-bowl-rice d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Dishes</span>
     </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "promotions") echo " active" ?>" href="<?= ROOT ?>/admin/promotions">
+        <i class="fa-solid fa-percent d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Promotions</span>
+    </a>
 
 
 </div>

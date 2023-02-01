@@ -46,8 +46,8 @@
                         Select image to upload:
                         <input class="form-control" type="file" name="fileToUpload" id="fileToUpload">
                     </div>
-
-                <input type="submit" name="submit" value="Save">
+                
+                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
             </form>
 
         </div>

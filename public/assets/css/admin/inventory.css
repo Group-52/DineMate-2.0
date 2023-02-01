@@ -37,3 +37,20 @@ td {
 .visible {
     display: block;
 }
+
+#editButton{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+#updateButton{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+#switch-button{
+    /* position: fixed; */
+    bottom: 20px;
+    left: 20px;
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>World population</title>
+  <title>Admin</title>
   <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -44,23 +44,33 @@
   <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
   <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
-    <div class="w-100 h-100 p-5 card-container">
+    <div class="w-100 h-100 p-5">
+      <div class="dashboard-header">
 
-      <div class="card">
-
-        <canvas id="myBarChart" width="1600" height="900"></canvas>
+        <h1 class="display-3 active">Dashboard</h1>
       </div>
-      <div class="card">
+      <div class="card-container">
 
-        <canvas id="myLineChart" width="1600" height="900"></canvas>
+
+        <div class="card">
+
+          <canvas id="myBarChart" width="1600" height="900"></canvas>
+        </div>
+        <div class="card">
+
+          <canvas id="myLineChart" width="1600" height="900"></canvas>
+        </div>
+        <div class="card">
+          <canvas id="myPieChart" width="1600" height="900"></canvas>
+        </div>
+
+        <div class="card">
+          <canvas id="myStackedLineChart" width="1600" height="900"></canvas>
+        </div>
       </div>
-      <div class="card">
-        <canvas id="myPieChart" width="1600" height="900"></canvas>
-      </div>
-
-
     </div>
   </div>
+
 
 
 </body>

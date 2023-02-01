@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
+  <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+  <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+  <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
 </head>
+
 <body class="dashboard">
-<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
-<div class="dashboard-container">
+  <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+  <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <h1>Inventory</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>Purchase ID</th>
-                <th>Name</th>
-                <th>Amount Remaining</th>
-                <th> Expiry Risk</th>
-                <th> Special Notes</th>
-                <th>Last Used</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php if (isset($inventory2)) : ?>
-                <?php foreach ($inventory2 as $item) : ?>
-                    <tr data-item-id="<?= $item->item_id ?>" data-purchase-id="<?= $item->pid ?>">
-                        <td data-field-name="pid"><?= $item->pid ?></td>
-                        <td data-field-name="item_name"><?= $item->item_name ?></td>
-                        <td data-field-name="amount_remaining"><?= $item->amount_remaining ?></td>
-                        <td>
-                            <input type="checkbox" disabled=true data-field-name="expiryrisk" name="expiryrisk"
-                                   value="<?= $item->expiry_risk ?>" <?= $item->expiry_risk ? "checked" : "" ?>>
-                        </td>
+      <div class="dashboard-header">
 
-                        <td data-field-name="special_notes"><?= $item->special_notes ?></td>
-                        <td data-field-name="last_used"><?= $item->last_used ?></td>
-                        <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-            </tbody>
-        </table>
-        <a href="<?= ROOT ?>/admin/inventory">Back</a>
-        <a href=# onclick="makeEditable()" id="editButton">Edit</a>
-        <a href=# onclick="updateInventory()" style="display:none" id="updateButton">Update</a>
+        <h1 class="display-3 active">Batches</h1>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Purchase ID</th>
+            <th>Name</th>
+            <th>Amount Remaining</th>
+            <th> Expiry Risk</th>
+            <th> Special Notes</th>
+            <th>Last Used</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if (isset($inventory2)) : ?>
+            <?php foreach ($inventory2 as $item) : ?>
+              <tr data-item-id="<?= $item->item_id ?>" data-purchase-id="<?= $item->pid ?>">
+                <td data-field-name="pid"><?= $item->pid ?></td>
+                <td data-field-name="item_name"><?= $item->item_name ?></td>
+                <td data-field-name="amount_remaining"><?= $item->amount_remaining ?></td>
+                <td>
+                  <input type="checkbox" disabled=true data-field-name="expiryrisk" name="expiryrisk" value="<?= $item->expiry_risk ?>" <?= $item->expiry_risk ? "checked" : "" ?>>
+                </td>
+
+                <td data-field-name="special_notes"><?= $item->special_notes ?></td>
+                <td data-field-name="last_used"><?= $item->last_used ?></td>
+                <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
+      </table>
+      <a href="<?= ROOT ?>/admin/inventory" id="switch-button" class="btn btn-primary">Back</a>
+      <a href=# onclick="makeEditable()" id="editButton" class='btn btn-primary'>Edit</a>
+      <a href=# onclick="updateInventory()" style="display:none" id="updateButton" class='btn btn-primary'>Update</a>
     </div>
-</div>
+  </div>
 </body>
 
 
@@ -57,7 +61,7 @@
   // Stuff to do when the edit button is clicked
   function makeEditable() {
     let i;
-// Hide the edit button
+    // Hide the edit button
     document.querySelector("#editButton").style.display = "none";
     // Show the update button
     document.querySelector("#updateButton").style.display = "block";
@@ -72,7 +76,7 @@
 
     // Make the expiry risk checkboxes 1 or 0 when checked or unchecked
     for (i = 0; i < checkboxes.length; i++) {
-      checkboxes[i].addEventListener("change", function () {
+      checkboxes[i].addEventListener("change", function() {
         if (this.checked) {
           this.value = "1";
         } else {
@@ -82,7 +86,7 @@
       // Make the expiry risk checkboxes editable
       checkboxes[i].disabled = false;
       // Add an event listener to each checkbox to set the data-changed attribute to true
-      checkboxes[i].addEventListener("change", function () {
+      checkboxes[i].addEventListener("change", function() {
         this.setAttribute("data-changed", true);
       });
     }
@@ -92,7 +96,7 @@
     for (i = 0; i < cells.length; i++) {
       cells[i].setAttribute("contenteditable", "true");
       cells[i].classList.add("editable");
-      cells[i].addEventListener("input", function () {
+      cells[i].addEventListener("input", function() {
         this.setAttribute("data-changed", true);
       })
     }
@@ -101,7 +105,7 @@
 
   function makeUneditable() {
     let i;
-// Show the edit button
+    // Show the edit button
     document.querySelector("#editButton").style.display = "block";
     // Hide the update button
     document.querySelector("#updateButton").style.display = "none";
@@ -116,7 +120,7 @@
     const checkboxes = document.querySelectorAll("input[name='expiryrisk']");
     for (i = 0; i < checkboxes.length; i++) {
       checkboxes[i].disabled = true;
-      checkboxes[i].removeEventListener("change", function () {
+      checkboxes[i].removeEventListener("change", function() {
         this.setAttribute("data-changed", true);
       });
     }
@@ -134,7 +138,7 @@
     let pid;
     let row;
     let i;
-// Collect data from editable cells
+    // Collect data from editable cells
     const cells = document.querySelectorAll(".editable");
     const data = [];
 
@@ -195,8 +199,8 @@
   const trashIcons = document.querySelectorAll(".fa-trash");
 
   // Attach click event listener to each trash can icon
-  trashIcons.forEach(function (trashIcon) {
-    trashIcon.addEventListener("click", function (event) {
+  trashIcons.forEach(function(trashIcon) {
+    trashIcon.addEventListener("click", function(event) {
       // Get the purchase ID from the parent tr element
       const purchaseId = this.parentNode.parentNode.getAttribute("data-purchase-id")
 
@@ -220,7 +224,7 @@
           tableRow.style.height = "0";
           tableRow.classList.add("shrink");
 
-          setTimeout(function () {
+          setTimeout(function() {
             tableRow.remove();
           }, 300);
         })

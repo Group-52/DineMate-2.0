@@ -1,3 +1,9 @@
+img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+}
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -23,41 +29,13 @@ td {
     text-align: center;
 }
 
-.editable {
-    border: 2px solid green;
-}
-
-/* Style for the trash can icon */
-.fa-trash {
-    cursor: pointer;
-    /* Make the icon look clickable */
-    color: #ff0000;
-    /* Change the color of the icon */
-}
-
-/* Style for the trash can icon when hovered */
-.fa-trash:hover {
-    color: #c0392b;
-    /* Change the color of the icon on hover */
-}
-
-/* Style for the trash can icon when clicked */
-.fa-trash:active {
-    transform: scale(0.9);
-    /* Scale the icon down slightly */
-}
-
-.form-control {
-    width: 100%;
-}
-
-#add-purchase-button {
+#add-dish-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
 }
 
-#Addform {
+#dish-add-form {
     width: 30%;
     margin: 10px;
     display: none;

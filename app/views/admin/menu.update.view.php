@@ -64,6 +64,11 @@
             justify-content: left;
             max-width: 1200px;
         }
+        #edit-menu-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
     </style>
 
 </head>
@@ -135,7 +140,7 @@
                         
                     </div>
                 </div>
-                <button type="button" id="edit_menu_button" class="btn btn-primary">Edit</button>
+                <button type="button" id="edit-menu-button" class="btn btn-primary">Edit</button>
 
 
             </div>

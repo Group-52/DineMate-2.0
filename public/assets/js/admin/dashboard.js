@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     drawPieChart();
 
+    drawStackedLineChart();
+
 });
 
 function drawBarChart() {
@@ -18,7 +20,7 @@ function drawBarChart() {
             labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             datasets: [{
                 label: '# of Dishes',
-                data: [12, 19, 3, 5, 2, 3,15],
+                data: [12, 19, 3, 5, 2, 3, 15],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -91,26 +93,86 @@ function drawLineChart() {
         }
     });
 }
-function drawPieChart(){
+function drawPieChart() {
     var ctx = document.getElementById("myPieChart").getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: [
-              'Chillie Parata',
-              'Burger',
-              'Salad'
+                'Chillie Parata',
+                'Burger',
+                'Salad'
             ],
             datasets: [{
-              label: 'My First Dataset',
-              data: [300, 50, 100],
-              backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-              ],
-              hoverOffset: 4
+                label: 'My First Dataset',
+                data: [300, 50, 100],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
             }]
-          }
+        }
+    });
+}
+
+function drawStackedLineChart() {
+
+    var ctx = document.getElementById("myStackedLineChart").getContext("2d");
+
+    // Random data
+    var RevenueData = []
+    var ProfitData = []
+    var CostData = []
+    for (var i = 0; i < 12; i++) {
+        RevenueData.push(Math.floor(Math.random() * 100) + 1);
+        CostData.push(Math.floor(Math.random() * 100) + 1);
+        ProfitData.push(RevenueData[i] - CostData[i]);
+    }
+
+
+    // Define the data
+    var data = {
+      labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      datasets: [
+        {
+          label: "Revenue",
+          backgroundColor: "rgba(255, 99, 132, 0.2)",
+          borderColor: "rgba(255, 99, 132, 1)",
+          data: RevenueData,
+          stack: "Stack 1"
+        },
+        {
+          label: "Profit",
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          data: ProfitData,
+          stack: "Stack 1"
+        },
+        {
+          label: "Cost",
+          backgroundColor: "rgba(255, 206, 86, 0.2)",
+          borderColor: "rgba(255, 206, 86, 1)",
+          data: CostData,
+          stack: "Stack 1"
+        }
+      ]
+    };
+  
+    // Define chart options
+    var options = {
+      scales: {
+        yAxes: [{
+          stacked: true
+        }]
+      }
+    };
+  
+    // Create the chart
+    var myStackedLineChart = new Chart(ctx, {
+      type: "line",
+      data: data,
+      options: options
     });
 }

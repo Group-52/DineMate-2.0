@@ -4,6 +4,7 @@ namespace controllers\admin;
 
 use core\Controller;
 use models\Promotion;
+use models\Dish;
 
 class Promotions
 {
@@ -12,11 +13,21 @@ class Promotions
     public function index(): void
     {
 
-        $p = new Promotion();
-        $promos = $p->getpromos();
+        $data = [];
+        $data['controller'] = 'promotions';
 
-        $this->view('promotions', [
-            'promos' => $promos
-        ]);
+        $p = new Promotion();
+        $d = new Dish();
+
+        $data['dishes'] = $d->getDishes();
+
+        $data['discount'] = $p->getDiscounts();
+
+        $data['spending_bonus'] = $p->getSpendingBonus();
+
+        $data['free_dish'] = $p->getFreeDish();
+
+
+        $this->view('admin/promotions', $data);
     }
 }
