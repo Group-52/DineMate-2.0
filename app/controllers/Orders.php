@@ -41,7 +41,8 @@ class Orders
         
 
         $dish = new Dish();
-        $dishes = $dish->getDishById($order_id);
+        $dishes = $dish->getDishById(34);
+        print_r($results);die();
         $this->view('payment', $results);
 
     }

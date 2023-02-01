@@ -55,7 +55,7 @@
             echo "<td>" . $order->type . "</td>";
             echo "<td>" . $order->status . "</td>";
             echo "<td><a class='edit-icon-link' href='orders/edit/" . $order->order_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
-            echo "<td><a class='edit-icon-link' href='orders/payment/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
+            echo "<td><a class='edit-icon-link' href='payments/index/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
             echo "</tr>";
         }
     }
@@ -153,68 +153,48 @@ select {
 
     </style>
     
-<!--     
+    
     <script>
-  function filterOptions(value) {
-    // Get the select element
-    let select = document.getElementById("filterSelect");
-    // Remove all current options
-   // select.innerHTML = "";
-    // Add the desired options back
-    switch (value) {
-      case "Dine-in":
-        select.innerHTML += <option name="Dine-in" value="Dine-in">Dine-in</option>
-        break;
-      case "Take-away":
-        select.innerHTML += <option name="Take-away" value="Take-away">Take-away</option>
-        break;
-      case "Bulk":
-        select.innerHTML += <option  name="Bulk" value="Bulk">Bulk</option>
-
-        break;
-    }
-  }
- </script> -->
+//    function filterOptions(value) {
+//     // Get the select element
+//     let select = document.getElementById("type");
+//     // Remove all current options
+//     select.innerHTML = "";
+//     // Add the desired options back
+//     switch (value) {
+//       case "Dine-in":
+//         select.innerHTML += '<option name="Dine-in" value="Dine-in">Dine-in</option>';
+//         break;
+//       case "Take-away":
+//         select.innerHTML += '<option name="Take-away" value="Take-away">Take-away</option>';
+//         break;
+//       case "Bulk":
+//         select.innerHTML += '<option  name="Bulk" value="Bulk">Bulk</option>';
+//         break;
+//     }
+// }
 
 
-<!-- <script>
-    document.querySelector("#filterSelect").addEventListener("change", function() {
-        let typeFilter = this.value;
-        let statusFilter = document.querySelector("select:nth-child(2)").value;
-        let tableRows = document.querySelectorAll("table tr:not(:first-child)");
 
-        tableRows.forEach(function(row) {
-            let type = row.querySelector("td:nth-child(6)").textContent;
-            let status = row.querySelector("td:nth-child(7)").textContent;
-            if (type === typeFilter || typeFilter === "All") {
-                if (status === statusFilter || statusFilter === "All") {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            } else {
-                row.style.display = "none";
-            }
-        });
-    });
 
-    document.querySelector("select:nth-child(2)").addEventListener("change", function() {
-        let typeFilter = document.querySelector("#filterSelect").value;
-        let statusFilter = this.value;
-        let tableRows = document.querySelectorAll("table tr:not(:first-child)");
+  let orders = [
+  { type: "Dine-in", name: "type" },
+  { type: "Take-away", name:  "type" },
+  { type: "Bulk", name:  "type" },
+  { type: "Dine-in", name:  "type" }
+];
 
-        tableRows.forEach(function(row) {
-            let type = row.querySelector("td:nth-child(6)").textContent;
-            let status = row.querySelector("td:nth-child(7)").textContent;
-            if (status === statusFilter || statusFilter === "All") {
-                if (type === typeFilter || typeFilter === "All") {
-                    row.style.display = "table-row";
-                } else {
-                    row.style.display = "none";
-                }
-            } else {
-                row.style.display = "none";
-            }
-        });
-    });
-</script> --> -->
+function filterOptions(value) {
+  // Get the select element
+  let select = document.getElementById("type");
+  // Remove all current options
+  select.innerHTML = "";
+  // Filter the data based on the passed in value
+  let filteredOrders = orders.filter(order => order.type === value);
+  // Add the filtered data to the select element
+  filteredOrders.forEach(order => {
+    select.innerHTML += `<option value="${order.name}">${order.name}</option>`;
+  });
+}
+
+</script>

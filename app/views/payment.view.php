@@ -33,14 +33,15 @@
 
 
 <tbody>
+  <?php show($dish);?>
 
-    <?php if (isset($orderDishes)) 
-           foreach ($orderDishes as $orderDish) {
+    <?php if (isset($dish)) 
+           foreach ($dish as $orderDish) {
                 echo '<tr>';
-                echo '<td>' . $order_dish->dish_name . '</td>';
-                echo '<td>' . $order_dish->quantity . '</td>';
-                echo '<td>' . $order_dish->unit_price . '</td>';
-                echo '<td>' . $order_dish->quantity * $order_dish->unit_price . '</td>';
+                echo '<td>' . $orderDish->dish_name . '</td>';
+                echo '<td>' . $orderDish->quantity . '</td>';
+                echo '<td>' . $orderDish->unit_price . '</td>';
+                echo '<td>' . $orderDish->quantity * $orderDish->unit_price . '</td>';
                 echo '</tr>';
            
            }

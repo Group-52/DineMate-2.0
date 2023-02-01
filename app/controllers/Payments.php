@@ -1,15 +1,20 @@
 <?php
 
 
-class Order_dishes
+class Payments
 {
     use Controller;
 
     public function index($order_id)
     {
-        $order_dish = new OrderDishModel();
-        $orderDishes = $order_dish->getOrderDish($order_id);
-        $this->view('order_dishes', ['order_dishes' => $orderDishes, 'controller' => 'orderDishes']);
+
+        $order = new Order;
+        $results['order'] = $order->getOrder($order_id);
+
+
+        $orderDish = new  Payment();
+        $results['dish'] = $orderDish->getOrderDish($order_id);
+        $this->view('payment', $results);
    
     }
 }

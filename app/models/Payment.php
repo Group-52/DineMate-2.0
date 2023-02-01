@@ -1,6 +1,6 @@
 <?php
 
-class OrderDishModel extends Model
+class Payment extends Model
 {
     public function __construct()
     {
@@ -11,18 +11,20 @@ class OrderDishModel extends Model
             "quantity"
         ];
     }
-
-    public function getOrderDish() :array
+     //view order dishes
+    public function getOrderDish($order_id) :array
      {
-        $orderDishes = $this->select(["order_dishes.*","dishes.dish_name","dishes.selling_price"])
+        
+        $res = $this->select(["order_dishes.*","dishes.dish_name","dishes.selling_price"])
         ->join("dishes", "order_dishes.dish_id", "dishes.dish_id")
-        //->where("order_dishes.order_id", $order_id)
+        ->where("order_dishes.order_id", $order_id)
         ->fetchAll();
+        return $res;
 
-        $orderDishtList = [];
-        foreach ($orderDishes as $orderDish) {
-            $orderDishtList[$orderDish->dish_id][] = $orderDish;
-        }
-        return  $orderDishtList;
+        // $orderDishtList = [];
+        // foreach ($orderDishes as $orderDish) {
+        //     $orderDishtList[$orderDish->dish_id][] = $orderDish;
+        // }
+        // return  $orderDishtList;
         }
     }
