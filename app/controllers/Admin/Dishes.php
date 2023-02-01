@@ -34,7 +34,7 @@ class Dishes
 
             
             // Check if image field is empty
-            if ($_FILES['fileToUpload']['size'] != 0 && $_FILES['fileToUpload']['error'] != 0) {                
+            if ($file['size'] != 0) {                
                 $target_dir = '../public/assets/images/dishes/';
     
                 if (isImage($file) && isValidSize($file, 5000000) && isImageType($file)) {
