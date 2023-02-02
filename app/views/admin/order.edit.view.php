@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,21 +10,21 @@
 <body>
 
 <?php if (isset($order)): ?>
-    <h1>Order #<?= $order->order_id ?></h1>
+    <h2>Order #<?= $order->order_id ?></h2>
     <form method="POST">
-        <label>Order ID</label> <br>
+        <label>Order ID</label> 
         <input type="text" name="order_id" value="<?= $order->order_id ?>" readonly><br>
-        <label>Guest ID</label> <br>
+        <br><label>Guest ID</label> 
         <input type="text" name="reg_customer_id" value="<?= $order->reg_customer_id ?? $guest_id ?? "" ?>"
                readonly><br>
-        <label>Request</label> <br>
+       <br> <label>Request</label> 
         <input type="text" name="request" value="<?= $order->request ?>"><br>
-        <label>Quantity</label> <br>
+       <br> <label>Quantity</label>
         <input type="number" name="quantity" value="<?= $order->quantity ?>"><br>
-        <label>Time Placed</label> <br>
+        <br><label>Time Placed</label> 
         <input type="datetime-local" name="time_placed" value="<?= $order->time_placed ?>"><br>
 
-        <label>Type</label> <br>
+        <br><label>Type</label> 
         <?php
         $order_types = ["Dine-In", "Takeaway"];
         ?>
@@ -34,7 +34,7 @@
             <?php endforeach; ?>
         </select> <br>
 
-        <label>Status</label> <br>
+       <br> <label>Status</label>
         <?php
         $statuses = ["Pending", "Accepted", "Cancelled", "Completed"];
         ?>
@@ -44,9 +44,9 @@
             <?php endforeach; ?>
         </select> <br>
 
-        <label>Scheduled Time</label> <br>
+       <br> <label>Scheduled Time</label> 
         <input type="datetime-local" name="scheduled_time" value="<?= $order->scheduled_time ?>"><br>
-        <label>Table ID</label> <br>
+       <br> <label>Table ID</label> 
         <input type="text" name="table_id" value="<?= $order->table_id ?>"><br>
         <button>Update</button>
     </form>
@@ -56,3 +56,4 @@
 <?php endif; ?>
 
 </body>
+</html>
