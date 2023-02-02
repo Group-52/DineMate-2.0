@@ -1,16 +1,4 @@
-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 5px;
-}
-
-#add-dish-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}
-
-#dish-add-form {
+#item-form {
     width: 30%;
     margin: 10px;
     display: none;
@@ -23,3 +11,4 @@ img {
     overflow-y: auto;
     max-height: 80%;
 }
+

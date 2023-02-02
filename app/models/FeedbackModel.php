@@ -4,7 +4,7 @@ namespace models;
 
 use core\Model;
 
-class Feedback extends Model
+class FeedbackModel extends Model
 {
 
     public function __construct()
@@ -26,7 +26,9 @@ class Feedback extends Model
      */
     public function getFeedback(): bool|array
     {
-        $l = $this->select()->fetchAll();
+        $l = $this->select(["feedback.*","reg_users.first_name","reg_users.last_name"])
+        ->join("reg_users", "reg_users.user_id", "feedback.reg_customer_id")
+        ->fetchAll();
         $fb = array();
         foreach ($l as $f) {
             $fb[$f->feedback_id] = $f;

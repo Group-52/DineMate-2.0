@@ -6,6 +6,7 @@
     <title>Update Menu</title>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
     <style>
         table {
             border-collapse: collapse;

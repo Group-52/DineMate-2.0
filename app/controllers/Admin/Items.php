@@ -27,6 +27,7 @@ class Items
         $data["categories"] = (new Category())->select()->fetchAll();
         $data["query"] = $_GET["query"] ?? "";
         $data["category_name"] = $_GET["category"] ?? "";
+        $data["units"] = (new Unit())->select()->fetchAll();
 
         $data["controller"] = $this->controller;
         $this->view("admin/items", $data);
@@ -50,7 +51,7 @@ class Items
             if ($item->validate($_POST)) {
                 try {
                     $item->insert([
-                        "name" => $_POST["name"],
+                        "item_name" => $_POST["name"],
                         "brand" => $_POST["brand"] ?? null,
                         "description" => $_POST["description"] ?? null,
                         "unit" => $_POST["unit"],

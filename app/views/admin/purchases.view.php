@@ -9,6 +9,7 @@
     include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/purchases.css">
+    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
 
 </head>
 
