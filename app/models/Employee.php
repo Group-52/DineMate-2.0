@@ -5,19 +5,27 @@ namespace models;
 use core\Model;
 
 /**
- * Vendors Model
+ * Employees Model
  */
-class Vendor extends Model
+class Employee extends Model
 {
     public function __construct()
     {
-        $this->table = "vendors";
+        $this->table = "employees";
         $this->columns = [
-            "vendor_id",
-            "vendor_name",
-            "company",
+            "emp_id",
+            "first_name",
+            "last_name",
+            "username",
+            "salary",
             "contact_no",
+            "NIC",
+            "date_employed",
+            "role",
             "email",
+            "password",
+            "last_login",
+            "DOB"
         ];
     }
 
@@ -29,11 +37,11 @@ class Vendor extends Model
     public function validate(array $data): bool
     {
         $this->errors = [];
-        if (empty($data["vendor_name"])) {
-            $this->errors["vendor_name"] = "Name is required.";
+        if (empty($data["username"])) {
+            $this->errors["username"] = "Name is required.";
         }
-        if (empty($data["company"])) {
-            $this->errors["company"] = "company is required.";
+        if (empty($data["NIC"])) {
+            $this->errors["NIC"] = "NIC is required.";
         }
         return empty($this->errors);
     }
@@ -50,9 +58,9 @@ class Vendor extends Model
     //         ->fetchAll();
     // }
 
-    public function getVendors(): array
+    public function getEmployees(): array
     {
-        return $this->select(["vendor_id", "vendor_name", "company"])
+        return $this->select(["emp_id", "first_name", "last_name", "role", "salary", "DOB", "contact_no", "NIC"])
             ->fetchAll();
     }
 }
