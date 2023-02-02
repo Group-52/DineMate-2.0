@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/common.css">
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/dishes.css">
+    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
     <script src="<?= ROOT ?>/assets/js/admin/dishes.js"></script>
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
 </head>

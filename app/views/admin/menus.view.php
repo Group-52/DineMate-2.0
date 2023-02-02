@@ -4,43 +4,8 @@
 <head>
     <?php
     include VIEWS . "/partials/home/head.partial.php" ?>
-    <style>
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-            width: 200px;
-            height: 150px;
-            margin: 10px;
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .container {
-            padding: 2px 16px;
-        }
-
-        .card img {
-            object-fit: cover;
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-        }
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: left;
-            max-width: 1200px;
-        }
-
-        #add-menu-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-    </style>
+    <link rel = "stylesheet" href = "<?= ROOT ?>/assets/css/admin/menus.css">
+    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
 </head>
 
 <body class="dashboard">
