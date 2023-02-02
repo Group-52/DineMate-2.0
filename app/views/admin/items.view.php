@@ -14,7 +14,7 @@
         <div class="w-100 h-100 p-5">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
                 <h1 class="display-3">Items</h1>
-                <a class="btn btn-primary text-uppercase fw-bold" href="items/create">+ Create Item</a>
+                <a class="btn btn-primary text-uppercase fw-bold" href="items/create" id="add-item-button">+ Create Item</a>
             </div>
             <div>
                 <!-- TODO add filters and bulk actions and actions to each item  -->
@@ -41,7 +41,7 @@
                     </div>
                 </form>
             </div>
-            <div id="item-table>
+            <div id="item-table">
         <table class=" table">
                 <thead>
                     <tr>

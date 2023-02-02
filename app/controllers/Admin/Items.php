@@ -64,6 +64,5 @@ class Items
             }
         }
         $data["controller"] = $this->controller;
-        $this->view("admin/items.create", $data);
     }
 }
