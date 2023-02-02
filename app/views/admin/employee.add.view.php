@@ -1,48 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Add Employee</title>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
 </head>
-
-<body>
-<h2>Employee> New Employee</h2>
-<button type="submit" name="save"><a href="#">Save</a></button>
-
-<form action="" method="POST">
-    <div class="row">
-        <div class="col">
-            <label for="name"><b>Name</b></label><br>
-            <input type="text" name="name" placeholder="Name" required>
-        </div>
-
-        <div class="col">
-            <label for="role"><b>Role</b></label><br>
-            <input type="text" name="role" placeholder="Role" required>
-        </div>
-
-        <div class="col">
-            <label for="salary"><b>Salary</b></label><br>
-            <input type="text" name="salary" placeholder="Salary">
-        </div>
-
-        <div class="col">
-            <label for="DOB"><b>Date Of Birth</b></label><br>
-            <input type="date" name="DOB" placeholder="DOB">
-        </div>
-
-        <div class="col">
-            <label for="contact_no"><b>Contact No</b></label><br>
-            <input type="number" name="contact_no" placeholder="Contact No">
-        </div>
-
-        <div class="col">
-            <label for="NIC"><b>NIC</b></label><br>
-            <input type="text" name="NIC" placeholder="NIC">
-        </div>
-
+<body class="dashboard">
+<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+<div class="dashboard-container">
+    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+    <div class="w-100 h-100 p-5">
+        <form action="" method="POST">
+            <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+                <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/employees">Employees</a> > New Employee
+                </h1>
+                <button class="btn btn-success text-uppercase fw-bold" type="submit">Save Employee</button>
+            </div>
+            <div class="form-group">
+                <label class="label" for="name">Name</label>
+                <input class="form-control" type="text" name="name" id="name">
+            </div>
+            <div class="form-group">
+                <label class="label" for="role">Role</label>
+                <input class="form-control" type="text" name="role" id="role">
+            </div>
+            <div class="form-group">
+                <label class="label" for="salary">Salary</label>
+                <input class="form-control" name="salary" id="salary">
+            </div>
+            <div class="form-group">
+                <label class="label" for="DOB">Date of Birth</label>
+                <input class="form-control" name="DOB" id="DOB">
+            </div>
+            <div class="form-group">
+                <label class="label" for="contact_no">Contact No</label>
+                <input class="form-control" name="contact_no" id="contact_no">
+            </div>
+            <div class="form-group">
+                <label class="label" for="NIC">NIC</label>
+                <input class="form-control" name="NIC" id="NIC">
+            </div>
+        </form>
     </div>
-</form>
+</div>
 </body>
 </html>
