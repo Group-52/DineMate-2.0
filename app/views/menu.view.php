@@ -10,13 +10,15 @@
     <?php include VIEWS . "/partials/home/navbar.partial.php" ?>
 
     <?php if (isset($menu)) : ?>
-        <div class="welcome mb-3"
-             style="background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 30%, rgba(255, 255, 255, 0) 98.75%),
-                     url(<?php echo ASSETS . "/images/menus/" . $menu->image_url ?? '<?= ASSETS ?>/images/home/banner.jpg' ?>) no-repeat center center;
-                     background-size: cover;"
-        >
-            <h1 class="display-3"><?= $menu->menu_name ?></h1>
-            <p class="lead"><?= $menu->description ?></p>
+        <div class="banner mb-3">
+            <img class="banner-bg-img"
+                 src="<?php echo ASSETS . "/images/menus/" . $menu->image_url ?? ASSETS . '/images/home/banner.jpg' ?>"
+                 alt="banner">
+            <div class="banner-bg-gradient"></div>
+            <div class="banner-text display-3">
+                <h1 class="display-3"><?= $menu->menu_name ?></h1>
+                <p class="lead"><?= $menu->description ?></p>
+            </div>
         </div>
     <?php endif ?>
     <div class="container py-5">

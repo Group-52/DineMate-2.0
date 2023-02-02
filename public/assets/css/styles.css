@@ -4364,12 +4364,12 @@ select.form-control {
   white-space: nowrap;
   text-decoration: none;
 }
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .nav.nav-home .sidebar {
     top: calc(-100vh + 4rem);
   }
 }
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .nav.nav-home {
     position: fixed;
     top: auto;
@@ -4442,7 +4442,7 @@ select.form-control {
   width: 100%;
   height: 100%;
 }
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   .nav #home-search {
     width: 3rem;
   }
@@ -4764,8 +4764,42 @@ a {
   justify-content: center;
 }
 
-.welcome {
-  padding: 5rem;
+.banner {
+  position: relative;
+  height: 15rem;
+}
+.banner .banner-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5rem;
+}
+.banner .banner-bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%, rgba(255, 255, 255, 0) 100%);
+}
+@media (max-width: 768px) {
+  .banner .banner-bg-gradient {
+    background: rgba(255, 255, 255, 0.8);
+  }
+}
+.banner .banner-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .pointer {

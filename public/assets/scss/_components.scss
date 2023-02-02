@@ -166,12 +166,12 @@ $nav-height: 4rem;
 
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
       top: calc(-100vh + $nav-height);
     }
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 768px) {
     &.nav-home {
       position: fixed;
       top: auto;
@@ -260,7 +260,7 @@ $nav-height: 4rem;
     width: 50%;
     margin: 0 auto;
 
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
       & {
         width: 3rem;
 
