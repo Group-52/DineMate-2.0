@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/common.css">
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/feedback.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
 
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
 </head>
@@ -40,7 +40,15 @@
                         <?php foreach ($feedback_list as $f) : ?>
                             <tr data-id="<?= $f->feedback_id ?>">
                                 <td><?= $f->order_id ?></td>
-                                <td><?= $f->rating ?></td>
+                                <td>
+                                    <?php for ($i = 0; $i < $f->rating; $i++) : ?>
+                                        <span class="fa fa-star"></span>
+                                    <?php endfor; ?>
+                                    <?php for ($i = 0; $i < 5 - $f->rating; $i++) : ?>
+                                        <span class="fa fa-star-o"></span>
+                                    <?php endfor; ?>
+                                </td>
+
                                 <td><?= $f->description ?></td>
                                 <td><?= $f->time_placed ?></td>
                                 <td><?= $f->first_name . " " . $f->last_name ?></td>

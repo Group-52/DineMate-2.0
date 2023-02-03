@@ -38,7 +38,7 @@ class Menus
     public function add(): void
     {
         $data['controller'] = 'menus';
-        $this->view('admin/menu.add', $data);
+        // TODO- Process adding menu (POST REQEUST)
     }
 
 }

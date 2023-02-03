@@ -6,6 +6,7 @@
     include VIEWS . "/partials/home/head.partial.php" ?>
     <link rel = "stylesheet" href = "<?= ROOT ?>/assets/css/admin/menus.css">
     <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
+    <script src="<?= ROOT ?>/assets/js/admin/menus.js"></script>
 </head>
 
 <body class="dashboard">
@@ -35,7 +36,39 @@
                 <?php endif ?>
             </div>
 
-            <a href="<?= ROOT ?>/admin/menus/add" class="btn btn-primary" id="add-menu-button">Add Menu</a>
+            <a href="" class="btn btn-primary" id="add-menu-button">Add Menu</a>
+            <div id="menu-add-form">
+            <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="name"><b>Name</b></label><br>
+                        <input class="form-control" type="text" name="name" placeholder="Name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description"><b>Description</b></label><br>
+                        <input class="form-control" type="text" name="description" placeholder="Description" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fromtime"><b>From Time</b></label><br>
+                        <input class="form-control" type="time" name="fromtime" placeholder="From Time">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totime"><b>To Time</b></label><br>
+                        <input class="form-control" type="time" name="totime" placeholder="To Time">
+                    </div>
+
+                    <div class="form-group">
+
+                        Select image to upload:
+                        <input class="form-control" type="file" name="fileToUpload" id="fileToUpload">
+                    </div>
+                
+                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
+                <button type= "button" class="btn btn-primary" id="cancel-button">Cancel</button>
+            </form>
+</div>
         </div>
     </div>
 
