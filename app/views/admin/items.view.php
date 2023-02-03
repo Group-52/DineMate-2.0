@@ -4,6 +4,7 @@
 <head>
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/items.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/items.js"></script>
 </head>
 
@@ -42,27 +43,27 @@
                 </form>
             </div>
             <div id="item-table">
-        <table class=" table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Unit</th>
-                        <th>Category</th>
-                    </tr>
-                </thead>
-                <?php if (isset($items) && !empty($items)) : ?>
-                    <?php foreach ($items as $item) : ?>
+                <table class=" table">
+                    <thead>
                         <tr>
-                            <?php foreach ($item as $col) : ?>
-                                <th><?= $col ?></th>
-                            <?php endforeach ?>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Unit</th>
+                            <th>Category</th>
                         </tr>
-                    <?php endforeach ?>
-                <?php else : ?>
-                    <th colspan="6" class="text-center">No Records Found</th>
-                <?php endif ?>
+                    </thead>
+                    <?php if (isset($items) && !empty($items)) : ?>
+                        <?php foreach ($items as $item) : ?>
+                            <tr>
+                                <?php foreach ($item as $col) : ?>
+                                    <th><?= $col ?></th>
+                                <?php endforeach ?>
+                            </tr>
+                        <?php endforeach ?>
+                    <?php else : ?>
+                        <th colspan="6" class="text-center">No Records Found</th>
+                    <?php endif ?>
                 </table>
             </div>
             <div id="item-form" class="overlay">

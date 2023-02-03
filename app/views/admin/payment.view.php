@@ -11,7 +11,9 @@
     <?php if (isset($order)) : ?>
     <div class="w-100 h-100 p-5">
         <div class="container">
-            <h2>Payment ></h2><br>
+        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+                <h1 class="display-3">Payment</h1>
+            </div>
             <h3>Order ID: #<?= $order->order_id ?></h3>
             <h3>Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3><br><br>
             <h3>order Details</h3><br><br>
@@ -37,8 +39,8 @@
                     echo '<tr>';
                     echo '<td>' . $orderDish->dish_name . '</td>';
                     echo '<td>' . $orderDish->quantity . '</td>';
-                    echo '<td>' . $orderDish->unit_price . '</td>';
-                    echo '<td>' . $orderDish->quantity * $orderDish->unit_price . '</td>';
+                    echo '<td>' . $orderDish->selling_price . '</td>';
+                    echo '<td>' . $orderDish->quantity * $orderDish->selling_price . '</td>';
                     echo '</tr>';
 
                 }
@@ -62,7 +64,6 @@
 </div>
 </body>
 </html>
-<?php include "partials/dashboard.footer.php" ?>
 
 <style>
     table {

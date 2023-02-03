@@ -1,15 +1,21 @@
-<?php include "partials/dashboard.header.php" ?>
 <!DOCTYPE html>
 
 
 <head>
+<?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>viewOrders</title>
 </head>
 
-<body>
-<h3>View Order></h3><br>
+<body class="dashboard">
+  <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+  <div class="dashboard-container">
+    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+    <div class="w-100 h-100 p-5">
+      <div class="dashboard-header">
+        <h1 class="display-3 active">Orders</h1>
+      </div>
 <div>
 
     <select name="type" id="type">
@@ -37,6 +43,8 @@
         <th>Request</th>
         <th>Type</th>
         <th>Status</th>
+        <th></th>
+        <th></th>
     </tr>
 
 
@@ -60,12 +68,13 @@
     ?>
 
 </table>
-
+</div>
+</div>
 
 </body>
-</div>
+
 </html>
-<?php include "partials/dashboard.footer.php" ?>
+
 
 
 
