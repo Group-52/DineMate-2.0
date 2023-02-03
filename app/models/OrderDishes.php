@@ -17,7 +17,7 @@ class OrderDishes extends Model
     }
 
     // get all dishes in an order
-    public function getOrderDish($order_id): array
+    public function getOrderDishes($order_id): array
     {
 
         return $this->select(["order_dishes.*", "dishes.dish_name", "dishes.selling_price", "dishes.prep_time","dishes.image_url"])
@@ -40,6 +40,15 @@ class OrderDishes extends Model
             "dish_id" => $dish_id,
             "quantity" => $quantity
         ]);
+    }
 
+    // update quantity of a dish in an order
+    public function updateOrderDish($order_id, $dish_id, $quantity)
+    {
+        $this->update([
+            "quantity" => $quantity
+        ])
+        ->where("order_id", $order_id)
+        ->and("dish_id", $dish_id)->execute();
     }
 }

@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/common.css">
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/feedback.css">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
 
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
 </head>
@@ -26,7 +25,7 @@
             </div>
 
             <div id="feedback-table">
-                <table>
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Order ID</th>

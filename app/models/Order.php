@@ -16,7 +16,6 @@ class Order extends Model
             "request",
             "time_placed",
             "type",
-            "quantity",
             "status",
             "scheduled_time",
             "table_id"
@@ -37,5 +36,10 @@ class Order extends Model
     public function editOrder($order)
     {
         $this->update($order)->where("order_id", $order['order_id'])->execute();
+    }
+
+    public function getDishes($order){
+        $order_dishes = new OrderDishes();
+        return $order_dishes->getOrderDishes($order);
     }
 }

@@ -8,7 +8,6 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/promotions.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
     <script src="<?= ASSETS ?>/js/admin/promotions.js"></script>
     <title>Promotions</title>
 </head>
