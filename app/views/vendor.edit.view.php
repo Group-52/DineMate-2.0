@@ -39,7 +39,7 @@
             </div>
         </form>
     <?php else: ?>
-    <h1>Order not found</h1>
+    <h1>Vendor not found</h1>
     <?php endif; ?>
     </div>
 </div>
