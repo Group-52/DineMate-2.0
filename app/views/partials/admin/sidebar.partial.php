@@ -29,6 +29,14 @@
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "promotions") echo " active" ?>" href="<?= ROOT ?>/admin/promotions">
         <i class="fa-solid fa-percent d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Promotions</span>
     </a>
-
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "vendors") echo " active" ?>" href="<?= ROOT ?>/admin/vendors">
+        <i class="fa-solid fa-store d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Vendors</span>
+    </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "feedback") echo " active" ?>" href="<?= ROOT ?>/admin/feedback">
+        <i class="fa-solid fa-comment-dots d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Feedback</span>
+    </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "orders") echo " active" ?>" href="<?= ROOT ?>/admin/orders">
+        <i class="fa-solid fa-shopping-bag d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Orders</span>
+    </a>
 
 </div>
