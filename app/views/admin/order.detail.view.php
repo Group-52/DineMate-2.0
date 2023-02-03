@@ -4,7 +4,6 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/order.detail.css">
     <script src="<?= ASSETS ?>/js/admin/order.detail.js"></script>
@@ -36,7 +35,7 @@
             <?php endif; ?>
             <h3>Time Placed: <?= $order->time_placed ?></h3>
             <br>
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Dish</th>

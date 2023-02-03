@@ -6,32 +6,7 @@
     <title>Update Menu</title>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            color: #588c7e;
-            font-family: monospace;
-            font-size: 25px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #588c7e;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2
-        }
-
-        td {
-            padding: 10px;
-            text-align: center;
-        }
         /* trash */
         .trash-icon {
             display: none;
@@ -83,7 +58,7 @@
             <div class='row'>
                 <div class='col-6'>
                     <div id="menu-items">
-                        <table>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>ID</th>

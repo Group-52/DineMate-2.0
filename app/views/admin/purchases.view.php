@@ -9,7 +9,6 @@
     include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/purchases.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
 
 </head>
 
@@ -22,7 +21,7 @@
 
                 <h1 class="display-3 active">Purchases</h1>
             </div>
-            <table id="purchase-table">
+            <table id="purchase-table" class="table">
                 <thead>
                     <tr>
                         <th>Purchase ID</th>
