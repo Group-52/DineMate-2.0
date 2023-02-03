@@ -5,66 +5,47 @@ namespace controllers\admin;
 use core\Controller;
 use Exception;
 use models\Employee;
-// use models\Item;
-// use models\Unit;
 
 /**
- * Items Controller
+ * Employee Controller
  */
+
 class Employees
 {
     use Controller;
 
-    private string $controller = "employees";
-
-    public function index(): void
+    public function index()
     {
-        if (!isset($_SESSION["user"])) {
-            redirect("admin/auth");
-        }
-        $data = [];
-        // $data["items"] = (new Item())->itemsSearch($_GET);
-        // $data["categories"] = (new Category())->select()->fetchAll();
-        // $data["query"] = $_GET["query"] ?? "";
-        // $data["category_name"] = $_GET["category"] ?? "";
-
-        $data["controller"] = $this->controller;
-        $this->view("admin/employee", $data);
+        $vendor = new Employee;
+        $results['employee'] = $vendor->getEmployee();      
+        $this->view('admin/employee', $results);
     }
 
-    public function create(): void
+    public function addEmployee(): void
     {
-        /** TODO
-         * Add form component
-         */
+        if(isset($_POST['save'])){
+			$first_name = $_POST['first_name'];
+			$last_name = $_POST['last_name'];
+			$role = $_POST['role'];
+            $salary = $_POST['salary'];
+            // $DOB = $_POST['DOB'];
+			$contact_no = $_POST['contact_no'];
+            $NIC = $_POST['NIC'];
 
-        if (!isset($_SESSION["user"])) {
-            redirect("admin/auth");
-        }
+			$vendor = new Employee;
+			$vendor ->addEmployee([
+				'first_name'=> $first_name,
+				'last_name'=> $last_name,
+				'role'=> $role,
+                'salary'=> $salary,
+                // 'DOB'=> $DOB,
+                'contact_no'=> $contact_no,
+                'NIC'=> $NIC
+			]);
 
-        $data = [];
-        // $data["categories"] = (new Category())->select()->fetchAll();
-        // $data["units"] = (new Unit())->select()->fetchAll();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $employee = new employee();
-            if ($employee->validate($_POST)) {
-                try {
-                    $employee->insert([
-                        "first_name" => $_POST["first_name"],
-                        "last_name" => $_POST["last_name"],
-                        "role" => $_POST["role"] ?? null,
-                        "salary" => $_POST["salary"] ?? null,
-                        "DOB" => $_POST["DOB"] ?? null,
-                        "contact_no" => $_POST["contact_no"] ?? null,
-                        "NIC" => $_POST["NIC"] ?? null
-                    ]);
-                    redirect("admin/employees");
-                } catch (Exception $e) {
-                    $data["error"] = "Unknown error.";
-                }
-            }
+            redirect('admin/employees');
+
         }
-        $data["controller"] = $this->controller;
-        $this->view("admin/employee.add", $data);
+        $this->view('admin/employee.add');
     }
 }
