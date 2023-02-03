@@ -4,9 +4,9 @@
 <head>
     <?php
     include VIEWS . "/partials/home/head.partial.php" ?>
-    <link rel = "stylesheet" href = "<?= ROOT ?>/assets/css/admin/menus.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
-    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/menus.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ROOT ?>/assets/js/admin/menus.js"></script>
 </head>
 
@@ -39,7 +39,7 @@
 
             <a href="" class="btn btn-primary" id="add-menu-button">Add Menu</a>
             <div id="menu-add-form" class="overlay">
-            <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
+                <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name"><b>Name</b></label><br>
                         <input class="form-control" type="text" name="name" placeholder="Name" required>
@@ -61,15 +61,14 @@
                     </div>
 
                     <div class="form-group">
-
                         Select image to upload:
-                        <input class="form-control" type="file" name="fileToUpload" id="fileToUpload">
+                        <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" class="form-control">
                     </div>
-                
-                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
-                <button type= "button" class="btn btn-primary" id="cancel-button">Cancel</button>
-            </form>
-</div>
+
+                    <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
+                    <button type="button" class="btn btn-primary" id="cancel-button">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 

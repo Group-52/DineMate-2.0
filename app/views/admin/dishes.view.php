@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label for="fileToUpload">Select image to upload:</label>
-                        <input type="file" name="fileToUpload" id="fileToUpload">
+                        <input type="file" name="fileToUpload" id="fileToUpload" class='form-control'>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Save</button>
                     <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
