@@ -60,7 +60,7 @@
             echo "<td>" . $order->type . "</td>";
             echo "<td>" . $order->status . "</td>";
             echo "<td><a class='edit-icon-link' href='orders/edit/" . $order->order_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
-            echo "<td><a class='edit-icon-link' href='payments/index/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
+            echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
             echo "</tr>";
         }
     }

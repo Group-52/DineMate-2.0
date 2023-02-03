@@ -10,27 +10,21 @@ class Orders
 {
     use Controller;
 
+
+
+    // public function detail(): void
+    // {
+    //     $order = new Order;
+    //     $results['order_list'] = $order->getOrders();
+    //     $this->view('admin/order.detail');
+    // }
+
     public function index(): void
-    {
-        $order = new Order;
-        $results['order_list'] = $order->getOrders();
-        $this->view('admin/order', $results);
-    }
-
-    public function detail(): void
-    {
-        $order = new Order;
-        $results['order_list'] = $order->getOrders();
-        $this->view('admin/order.detail');
-    }
-
-    public function dineth(): void
     {
         $order = new Order;
         $results['order_list'] = $order->getOrders();
         $this->view('admin/order.chef', $results);
     }
-
 
     public function edit($order_id): void
     {
@@ -50,16 +44,6 @@ class Orders
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
         $this->view('admin/order.detail', $data);
-    }
-
-    public function payment($order_id): void
-    {
-        $order = new Order;
-        $results['order'] = $order->getOrder($order_id);
-        $dish = new Dish();
-        $results['dish'] = $dish->getDishById(34);
-        $this->view('admin/payment', $results);
-
     }
 }
 
