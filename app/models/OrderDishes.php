@@ -40,6 +40,15 @@ class OrderDishes extends Model
             "dish_id" => $dish_id,
             "quantity" => $quantity
         ]);
+    }
 
+    // update quantity of a dish in an order
+    public function updateOrderDish($order_id, $dish_id, $quantity)
+    {
+        $this->update([
+            "quantity" => $quantity
+        ])
+        ->where("order_id", $order_id)
+        ->and("dish_id", $dish_id)->execute();
     }
 }

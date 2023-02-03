@@ -16,7 +16,6 @@ class Order extends Model
             "request",
             "time_placed",
             "type",
-            "quantity",
             "status",
             "scheduled_time",
             "table_id"

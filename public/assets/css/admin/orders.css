@@ -20,3 +20,13 @@
 #circle:active{
   transform:scale(0.8);
 }
+
+.filter{
+  width: 700px;
+}
+.filter *{
+  display: inline;
+  float: left;
+  padding: 5px;
+  margin:5px;
+}

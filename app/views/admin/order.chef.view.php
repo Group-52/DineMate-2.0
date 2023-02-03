@@ -20,19 +20,25 @@
                 <h1 class="display-3 active">Orders</h1>
             </div>
             <div>
+                <div class="filter">
+                    <div>
+                        <select name="type" id="type" class="form-control">
+                            <option value="Dine-in">Dine-in</option>
+                            <option value="Take-away">Take-away</option>
+                            <option value="Bulk">Bulk</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select id="status" class="form-control">
+                            <option value="Pending">Pending</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
 
-                <select name="type" id="type">
-                    <option value="Dine-in">Dine-in</option>
-                    <option value="Take-away">Take-away</option>
-                    <option value="Bulk">Bulk</option>
-                </select>
 
-                <select id="status">
-                    <option value="Pending">Pending</option>
-                    <option value="Accepted">Accepted</option>
-                    <option value="Cancelled">Cancelled</option>
-                    <option value="Completed">Completed</option>
-                </select>
             </div>
             <br>
 
@@ -51,20 +57,32 @@
                 <tbody>
                     <?php if (isset($order_list)) : ?>
                         <?php foreach ($order_list as $order) : ?>
-                            <tr>
+                            <tr data-order-id="<?= $order->order_id ?>">
                                 <td><?= $order->order_id ?></td>
                                 <td><?= $order->reg_customer_id ?? $order->guest_id ?></td>
                                 <td><?= $order->time_placed ?></td>
                                 <td><?= $order->scheduled_time ?>
-                                <?php if($order->scheduled_time == null || $order->scheduled_time == "") :
-                                    echo "-";
-                                endif; ?>
+                                    <?php if ($order->scheduled_time == null || $order->scheduled_time == "") :
+                                        echo "-";
+                                    endif; ?>
 
                                 </td>
-                                <td><?= substr($order->request, 0, 30); if (strlen($order->request) > 30) : echo "..."; endif; ?></td>
-                                <td><?= $order->type ?></td>
+                                <td><?= substr($order->request, 0, 30);
+                                    if (strlen($order->request) > 30) : echo "...";
+                                    endif; ?></td>
                                 <td>
-                                    <div data-status="<?= $order->status ?>"id="circle" class="pending"></div>
+                                    <?php
+                                    if ($order->type == "dine-in")
+                                        echo "<img src='" . ASSETS . "/favicons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
+                                    else if ($order->type == "takeaway")
+                                        echo "<img src='" . ASSETS . "/favicons/fastcart.png' alt='take-away' width='30' height='30'>";
+                                    else if ($order->type == "bulk")
+                                        echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
+                                    ?>
+
+                                </td>
+                                <td>
+                                    <div data-status="<?= $order->status ?>" id="circle" class="pending"></div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -75,6 +93,7 @@
         </div>
     </div>
 </body>
+
 </html>
 
 <script>
