@@ -24,6 +24,13 @@ class Orders
         $this->view('admin/order.detail');
     }
 
+    public function dineth(): void
+    {
+        $order = new Order;
+        $results['order_list'] = $order->getOrders();
+        $this->view('admin/order.chef', $results);
+    }
+
 
     public function edit($order_id): void
     {
