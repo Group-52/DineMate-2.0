@@ -44,6 +44,13 @@ class Orders
         }
         $this->view('admin/order.edit', $results);
     }
+    public function id($order_id): void
+    {
+        $order = new Order;
+        $data['dishes'] = $order->getDishes($order_id);
+        $data['order'] = $order->getOrder($order_id);
+        $this->view('admin/order.detail', $data);
+    }
 
     public function payment($order_id): void
     {

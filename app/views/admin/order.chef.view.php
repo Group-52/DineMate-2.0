@@ -84,7 +84,7 @@
 
                                 </td>
                                 <td>
-                                    <div data-status="<?= $order->status ?>" id="circle" class="pending"></div>
+                                    <div data-order-status="<?= $order->status ?>" id="circle" class="pending"></div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -92,8 +92,16 @@
                 </tbody>
 
             </table>
+            <div class="popup">
+                <p>
+                    Are you sure this order is completed?
+                </p>
+                <div class="popup-button-div">
+                    <button class="btn btn-success" id="confirm">Yes</button>
+                    <button class="btn btn-danger" id="cancel">No</button>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

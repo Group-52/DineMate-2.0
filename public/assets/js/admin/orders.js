@@ -1,28 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  var confirm_button = document.querySelector('#confirm');
+  var cancel_button = document.querySelector('#cancel');
+  
+  confirm_button.addEventListener('click', function (event) {
+    document.querySelector('.popup').style.display = 'none';
+  });
+  
+  cancel_button.addEventListener('click', function (event) {
+    const popup = document.querySelector('.popup')
+    popup.style.display = 'none';
+    // reset status of order to previous status
+    let oid = popup.getAttribute('data-order-id');
 
+    let row = document.querySelector(`tr[data-order-id="${oid}"]`);
+    let circle = row.querySelector('#circle');
+    circle.setAttribute('data-order-status', "accepted");
+    circle.style.backgroundColor = "yellow";
+  });
+
+  function displayPopup(c) {
+
+    const popup = document.querySelector('.popup')
+    popup.style.display = 'flex';
+    popup.setAttribute('data-order-id', c.parentElement.parentElement.getAttribute('data-order-id'));
+    popup.setAttribute('data-order-status', c.getAttribute('data-order-status'));
+    
+  }
 
   const circles = document.querySelectorAll('#circle');
 
   // set initial color of circle based on status
   circles.forEach(circle => {
-    var s = circle.getAttribute('data-status');
+    var s = circle.getAttribute('data-order-status');
     switch (s) {
       case "pending":
-        circle.style.backgroundColor = "transparent";
-        circle.style.borderColor = "black";
+        circle.style.backgroundColor = "transparent"
         break;
       case "accepted":
-        circle.style.backgroundColor = "yellow";
-        circle.style.borderColor = "black";
+        circle.style.backgroundColor = "yellow"
         break;
-      case "completed":
-        circle.style.backgroundColor = "lightgreen";
-        circle.style.borderColor = "black";
+      case "completed":        
+        circle.style.backgroundColor = "lightgreen"
         break;
       case "rejected":
-        circle.style.backgroundColor = "red";
-        circle.style.borderColor = "black";
+        circle.style.backgroundColor = "red"
         break;
     }
   });
@@ -30,33 +52,30 @@ document.addEventListener("DOMContentLoaded", () => {
   // change color of circle based on status
   circles.forEach(circle => {
     circle.addEventListener('click', function () {
-      var status = circle.getAttribute('data-status');
+      var status = circle.getAttribute('data-order-status');
 
       switch (status) {
         case "pending":
           circle.style.backgroundColor = "yellow";
-          circle.style.borderColor = "black";
-          circle.setAttribute('data-status', 'accepted');
+          circle.setAttribute('data-order-status', 'accepted');
           break;
-        case "accepted":
-          circle.style.backgroundColor = "lightgreen";
-          circle.style.borderColor = "black";
-          circle.setAttribute('data-status', 'completed');
+          case "accepted":
+            circle.style.backgroundColor = "lightgreen";
+            circle.setAttribute('data-order-status', 'completed');
+            displayPopup(circle);
           break;
         case "completed":
           circle.style.backgroundColor = "red";
-          circle.style.borderColor = "black";
-          circle.setAttribute('data-status', 'rejected');
+          circle.setAttribute('data-order-status', 'rejected');
           break;
         case "rejected":
           circle.style.backgroundColor = "transparent";
-          circle.style.borderColor = "black";
-          circle.setAttribute('data-status', 'pending');
+          circle.setAttribute('data-order-status', 'pending');
           break;
       }
       // get order id and status
       let oid = circle.parentElement.parentElement.getAttribute('data-order-id');
-      status = circle.getAttribute('data-status');
+      status = circle.getAttribute('data-order-status');
       let data = { "order_id": oid, "status": status };
       // use fetch to send data to server
       fetch(`${ROOT}/api/orders/update`, {
@@ -84,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let id = orderId.parentElement.getAttribute('data-order-id');
     orderId.addEventListener('click', function () {
       // redirect to order details page
-      window.location.href = `${ROOT}/admin/orders/${id}`;
+      window.location.href = `${ROOT}/admin/orders/id/${id}`;
     });
   });
 

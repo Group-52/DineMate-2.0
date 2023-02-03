@@ -37,4 +37,9 @@ class Order extends Model
     {
         $this->update($order)->where("order_id", $order['order_id'])->execute();
     }
+
+    public function getDishes($order){
+        $order_dishes = new OrderDishes();
+        return $order_dishes->getOrderDishes($order);
+    }
 }
