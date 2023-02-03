@@ -55,7 +55,7 @@
                 </table>
             </div>
             <a class="btn btn-primary" id="add-dish-button" href="<?php echo ROOT ?>/admin/dishes/addDish">Add Dish</a>
-            <div id="dish-add-form">
+            <div id="dish-add-form" class="overlay">
 
 
                 <form method="post" enctype="multipart/form-data" action="<?= ROOT ?>/admin/dishes/addDish">

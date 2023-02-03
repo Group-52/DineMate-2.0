@@ -116,7 +116,7 @@
             </div>
             <a class="btn btn-primary" id="add-promo-button" href="">Add Promotion</a>
 
-            <div id="promo-form">
+            <div id="promo-form" class="overlay">
                 <form>
                     <div class="form-group">
                         <label for="promo-type">Promotion Type</label>

@@ -65,7 +65,7 @@
                 <?php endif ?>
                 </table>
             </div>
-            <div id="item-form">
+            <div id="item-form" class="overlay">
                 <form action="<?= ROOT ?>/admin/items/create" method="POST">
 
                     <div class="form-group">

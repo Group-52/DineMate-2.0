@@ -6,6 +6,7 @@
     include VIEWS . "/partials/home/head.partial.php" ?>
     <link rel = "stylesheet" href = "<?= ROOT ?>/assets/css/admin/menus.css">
     <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/tables.css">
+    <link rel = "stylesheet" href = "<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ROOT ?>/assets/js/admin/menus.js"></script>
 </head>
 
@@ -37,7 +38,7 @@
             </div>
 
             <a href="" class="btn btn-primary" id="add-menu-button">Add Menu</a>
-            <div id="menu-add-form">
+            <div id="menu-add-form" class="overlay">
             <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name"><b>Name</b></label><br>

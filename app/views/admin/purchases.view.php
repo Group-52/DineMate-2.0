@@ -63,7 +63,7 @@
             <button class="btn btn-primary" id="add-purchase-button">Add Purchase</button>
 
 
-            <div id="Addform">
+            <div id="Addform" class="overlay">
 
                 <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST" onsubmit="return false">
                     <div class="form-group">
