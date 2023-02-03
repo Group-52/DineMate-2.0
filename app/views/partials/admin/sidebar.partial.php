@@ -38,5 +38,13 @@
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "orders") echo " active" ?>" href="<?= ROOT ?>/admin/orders">
         <i class="fa-solid fa-shopping-bag d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Orders</span>
     </a>
+    <!-- for employees and customers -->
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "users") echo " active" ?>" href="<?= ROOT ?>/admin/users">
+        <i class="fa-solid fa-users d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Users</span>
+    </a>
+    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "employees") echo " active" ?>" href="<?= ROOT ?>/admin/employees">
+    <i class="fas fa-users-cog d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Employees</span>
+    </a>
+    
 
 </div>
