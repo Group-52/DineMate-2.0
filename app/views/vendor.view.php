@@ -14,13 +14,18 @@
         </div>
         
         <table class="table">
+        <thead class="table-dark">
             <tr>
                 <th scope="col">VendorID</th>
                 <th scope="col">Name</th>
                 <th scope="col">Address</th>
                 <th scope="col">Company</th>
                 <th scope="col">Contact No</th>
+                <th scope="col">Action</th>
             </tr>
+            </thead>
+    
+    <tbody>
     
         <?php if (isset($Vendor)) {
             foreach ($Vendor as $v1) {
@@ -30,10 +35,11 @@
                 echo "<td>" . $v1->address . "</td>";
                 echo "<td>" . $v1->company . "</td>";
                 echo "<td>" . $v1->contact_no . "</td>";
-                echo "</tr>";
+                echo "<td><a class='edit-icon-link' href='vendors/edit/" . $v1->vendor_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
             }
         }
         ?>
+        </tbody>
         </table>
     </div>
 </div>

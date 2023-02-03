@@ -13,6 +13,7 @@ class Vendor extends Model
     {
         $this->table = "vendors";
         $this->columns = [
+            "vendor_id",
             "vendor_name",
             "address",
             "company",
@@ -43,4 +44,10 @@ class Vendor extends Model
     {
         $this->insert($data);
     }
+
+    public function editVendor($vendor): void
+    {
+        $this->update($vendor)->where("vendor_id", $vendor['vendor_id'])->execute();
+    }
 }
+

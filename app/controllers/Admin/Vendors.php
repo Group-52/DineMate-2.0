@@ -39,4 +39,17 @@ class Vendors
         }
         $this->view('admin/vendor.add');
     }
+
+    public function edit($vendor_id): void
+    {
+        $vendor = new Vendor;
+        $results['vendor'] = $vendor->getVendors($vendor_id);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            show($_POST);
+            $vendor = new Vendor;
+            $vendor->editVendor($_POST);
+            redirect('admin/vendors');
+        }
+        $this->view('admin/vendor.edit', $results);
+    }
 }
