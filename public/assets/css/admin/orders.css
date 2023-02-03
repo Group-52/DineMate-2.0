@@ -30,3 +30,9 @@
   padding: 5px;
   margin:5px;
 }
+  
+/* make id field look clickable */
+.order-id-field{
+  cursor:pointer;
+  transform:scale(0.99);
+}

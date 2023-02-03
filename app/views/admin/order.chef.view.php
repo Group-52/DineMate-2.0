@@ -23,17 +23,19 @@
                 <div class="filter">
                     <div>
                         <select name="type" id="type" class="form-control">
-                            <option value="Dine-in">Dine-in</option>
-                            <option value="Take-away">Take-away</option>
-                            <option value="Bulk">Bulk</option>
+                            <option value="all">All</option>
+                            <option value="dine-in">Dine-in</option>
+                            <option value="takeaway">Take-away</option>
+                            <option value="bulk">Bulk</option>
                         </select>
                     </div>
                     <div>
                         <select id="status" class="form-control">
-                            <option value="Pending">Pending</option>
-                            <option value="Accepted">Accepted</option>
-                            <option value="Cancelled">Cancelled</option>
-                            <option value="Completed">Completed</option>
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="accepted">Accepted</option>
+                            <option value="rejected">Cancelled</option>
+                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </div>
@@ -57,8 +59,8 @@
                 <tbody>
                     <?php if (isset($order_list)) : ?>
                         <?php foreach ($order_list as $order) : ?>
-                            <tr data-order-id="<?= $order->order_id ?>">
-                                <td><?= $order->order_id ?></td>
+                            <tr data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>" data-order-status="<?= $order->status ?>">
+                                <td class="order-id-field"><?= $order->order_id ?></td>
                                 <td><?= $order->reg_customer_id ?? $order->guest_id ?></td>
                                 <td><?= $order->time_placed ?></td>
                                 <td><?= $order->scheduled_time ?>
@@ -95,58 +97,3 @@
 </body>
 
 </html>
-
-<script>
-    //    function filterOptions(value) {
-    //     // Get the select element
-    //     let select = document.getElementById("type");
-    //     // Remove all current options
-    //     select.innerHTML = "";
-    //     // Add the desired options back
-    //     switch (value) {
-    //       case "Dine-in":
-    //         select.innerHTML += '<option name="Dine-in" value="Dine-in">Dine-in</option>';
-    //         break;
-    //       case "Take-away":
-    //         select.innerHTML += '<option name="Take-away" value="Take-away">Take-away</option>';
-    //         break;
-    //       case "Bulk":
-    //         select.innerHTML += '<option  name="Bulk" value="Bulk">Bulk</option>';
-    //         break;
-    //     }
-    // }
-
-
-
-
-    let orders = [{
-            type: "Dine-in",
-            name: "type"
-        },
-        {
-            type: "Take-away",
-            name: "type"
-        },
-        {
-            type: "Bulk",
-            name: "type"
-        },
-        {
-            type: "Dine-in",
-            name: "type"
-        }
-    ];
-
-    function filterOptions(value) {
-        // Get the select element
-        let select = document.getElementById("type");
-        // Remove all current options
-        select.innerHTML = "";
-        // Filter the data based on the passed in value
-        let filteredOrders = orders.filter(order => order.type === value);
-        // Add the filtered data to the select element
-        filteredOrders.forEach(order => {
-            select.innerHTML += `<option value="${order.name}">${order.name}</option>`;
-        });
-    }
-</script>
