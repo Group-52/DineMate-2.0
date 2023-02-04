@@ -16,3 +16,11 @@
     background-color: #dc3545;
     border-color: #dc3545;
 }
+
+#accept-button,
+#reject-button {
+    display: none;
+}
+.order-status {
+ width: 200px;
+}

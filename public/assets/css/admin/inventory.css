@@ -25,7 +25,6 @@
     right: 20px;
 }
 #switch-button{
-    /* position: fixed; */
+    position: fixed;
     bottom: 20px;
-    left: 20px;
 }

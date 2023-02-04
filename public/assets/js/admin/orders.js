@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var confirm_button = document.querySelector('#confirm');
   var cancel_button = document.querySelector('#cancel');
-  
+
   confirm_button.addEventListener('click', function (event) {
     document.querySelector('.popup').style.display = 'none';
+    let popup = document.querySelector('.popup');
+    updateOrderStatus(popup.getAttribute('data-order-id'), "completed");
   });
-  
+
   cancel_button.addEventListener('click', function (event) {
     const popup = document.querySelector('.popup')
     popup.style.display = 'none';
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let circle = row.querySelector('#circle');
     circle.setAttribute('data-order-status', "accepted");
     circle.style.backgroundColor = "yellow";
+    // updateOrderStatus(oid, "accepted");
   });
 
   function displayPopup(c) {
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.style.display = 'flex';
     popup.setAttribute('data-order-id', c.parentElement.parentElement.getAttribute('data-order-id'));
     popup.setAttribute('data-order-status', c.getAttribute('data-order-status'));
-    
+
   }
 
   const circles = document.querySelectorAll('#circle');
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "accepted":
         circle.style.backgroundColor = "yellow"
         break;
-      case "completed":        
+      case "completed":
         circle.style.backgroundColor = "lightgreen"
         break;
       case "rejected":
@@ -59,10 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
           circle.style.backgroundColor = "yellow";
           circle.setAttribute('data-order-status', 'accepted');
           break;
-          case "accepted":
-            circle.style.backgroundColor = "lightgreen";
-            circle.setAttribute('data-order-status', 'completed');
-            displayPopup(circle);
+        case "accepted":
+          circle.style.backgroundColor = "lightgreen";
+          circle.setAttribute('data-order-status', 'completed');
+          displayPopup(circle);
           break;
         case "completed":
           circle.style.backgroundColor = "red";
@@ -76,24 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // get order id and status
       let oid = circle.parentElement.parentElement.getAttribute('data-order-id');
       status = circle.getAttribute('data-order-status');
-      let data = { "order_id": oid, "status": status };
-      // use fetch to send data to server
-      fetch(`${ROOT}/api/orders/update`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }).then(response => {
-        return response.json();
-      }
-      ).then(data => {
-        console.log(data);
-      }
-      ).catch(err => {
-        console.log(err);
-      }
-      );
+      // update order status in database
+      if (status !== "completed") {
+        updateOrderStatus(oid, status);
+      }      
     });
   });
 
@@ -111,11 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let typeFilter = document.getElementById("type");
   let statusFilter = document.getElementById("status");
   let rows = document.querySelectorAll("tbody tr");
-  
+
   typeFilter.addEventListener("change", function () {
 
     let typeValue = this.value.toLowerCase();
-    
+
     for (let i = 0; i < rows.length; i++) {
       let orderType = rows[i].getAttribute("data-order-type");
       console.log(`orderType: ${orderType}, typeValue: ${typeValue}`)
@@ -128,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-  
+
   statusFilter.addEventListener("change", function () {
     let statusValue = this.value.toLowerCase();
 
@@ -144,5 +133,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+
+  // function to do ajax call to update order status
+  function updateOrderStatus(oid, status) {
+    let data = { "order_id": oid, "status": status };
+    fetch(`${ROOT}/api/orders/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      return response.json();
+    }
+    ).then(data => {
+      console.log(data);
+    }
+    ).catch(err => {
+      console.log(err);
+    }
+    );
+  }
 
 });

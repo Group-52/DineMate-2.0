@@ -42,55 +42,56 @@
 
             </div>
             <br>
+            <div id="order-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Id</th>
+                            <th>Time Placed</th>
+                            <th>Scheduled Time</th>
+                            <th>Request</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (isset($order_list)) : ?>
+                            <?php foreach ($order_list as $order) : ?>
+                                <tr data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>" data-order-status="<?= $order->status ?>">
+                                    <td class="order-id-field"><?= $order->order_id ?></td>
+                                    <td><?= $order->reg_customer_id ?? $order->guest_id ?></td>
+                                    <td><?= $order->time_placed ?></td>
+                                    <td><?= $order->scheduled_time ?>
+                                        <?php if ($order->scheduled_time == null || $order->scheduled_time == "") :
+                                            echo "-";
+                                        endif; ?>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer Id</th>
-                        <th>Time Placed</th>
-                        <th>Scheduled Time</th>
-                        <th>Request</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (isset($order_list)) : ?>
-                        <?php foreach ($order_list as $order) : ?>
-                            <tr data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>" data-order-status="<?= $order->status ?>">
-                                <td class="order-id-field"><?= $order->order_id ?></td>
-                                <td><?= $order->reg_customer_id ?? $order->guest_id ?></td>
-                                <td><?= $order->time_placed ?></td>
-                                <td><?= $order->scheduled_time ?>
-                                    <?php if ($order->scheduled_time == null || $order->scheduled_time == "") :
-                                        echo "-";
-                                    endif; ?>
+                                    </td>
+                                    <td><?= substr($order->request, 0, 30);
+                                        if (strlen($order->request) > 30) : echo "...";
+                                        endif; ?></td>
+                                    <td>
+                                        <?php
+                                        if ($order->type == "dine-in")
+                                            echo "<img src='" . ASSETS . "/favicons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
+                                        else if ($order->type == "takeaway")
+                                            echo "<img src='" . ASSETS . "/favicons/fastcart.png' alt='take-away' width='30' height='30'>";
+                                        else if ($order->type == "bulk")
+                                            echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
+                                        ?>
 
-                                </td>
-                                <td><?= substr($order->request, 0, 30);
-                                    if (strlen($order->request) > 30) : echo "...";
-                                    endif; ?></td>
-                                <td>
-                                    <?php
-                                    if ($order->type == "dine-in")
-                                        echo "<img src='" . ASSETS . "/favicons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
-                                    else if ($order->type == "takeaway")
-                                        echo "<img src='" . ASSETS . "/favicons/fastcart.png' alt='take-away' width='30' height='30'>";
-                                    else if ($order->type == "bulk")
-                                        echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
-                                    ?>
+                                    </td>
+                                    <td>
+                                        <div data-order-status="<?= $order->status ?>" id="circle" class="pending"></div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
 
-                                </td>
-                                <td>
-                                    <div data-order-status="<?= $order->status ?>" id="circle" class="pending"></div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-
-            </table>
+                </table>
+            </div>
             <div class="popup">
                 <p>
                     Are you sure this order is completed?
