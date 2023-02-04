@@ -12,7 +12,7 @@
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-employees-center justify-content-space-between w-100">
             <h1 class="display-3">Employees</h1>
-            <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee">+ New Employee</a>
+            <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee" id="add-employee-button">+ New Employee</a>
         </div>
     
         <div id="employee-table">
@@ -44,7 +44,8 @@
                 // echo "<td>" . $e1->DOB . "</td>";
                 echo "<td>" . $e1->contact_no . "</td>";
                 echo "<td>" . $e1->NIC . "</td>";
-                echo "<td><a class='edit-icon-link' href='employees/edit/" . $e1->emp_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+                // echo "<td><a class='edit-icon-link' href='employees/edit/" . $e1->emp_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+                echo "<td><a class='edit-icon-link' href='employees/edit/" . $e1->emp_id . "'>edit</a></td>";
             }
         }
         ?>

@@ -17,7 +17,7 @@ class Employees
     public function index()
     {
         $employee = new Employee;
-        $results['employee'] = $employee->getEmployee();      
+        $results['employee'] = $employee->getEmployees();      
         $this->view('admin/employee', $results);
     }
 

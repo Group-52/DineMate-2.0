@@ -42,10 +42,16 @@ class Employee extends Model
         return false;
     }
 
-    public function getEmployee(): bool|array
+    public function getEmployees(): bool|array
     {
         return $this->select()->fetchAll();
     }
+
+    public function getEmployee($emp_id): object|false
+    {
+        return $this->select()->where("emp_id", $emp_id)->fetch();
+    }
+
 
     public function addEmployee($data): void
     {
