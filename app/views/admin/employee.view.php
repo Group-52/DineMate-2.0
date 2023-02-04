@@ -75,7 +75,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="salary">Salary</label>
-                <input class="form-control" type="number" name="salary" id="salary">
+                <input class="form-control" type="number" name="salary" id="salary" required>
             </div>
             <!-- <div class="form-group">
                 <label class="label" for="DOB">Date of Birth</label>
@@ -83,11 +83,11 @@
             </div> -->
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" type="number" name="contact_no" id="contact_no">
+                <input class="form-control" type="number" name="contact_no" id="contact_no" required>
             </div>
             <div class="form-group">
                 <label class="label" for="NIC">NIC</label>
-                <input class="form-control" type="text" name="NIC" id="NIC">
+                <input class="form-control" type="text" name="NIC" id="NIC" required>
             </div>
             <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Employee</button>
             <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
