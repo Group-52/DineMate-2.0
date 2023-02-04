@@ -20,6 +20,7 @@ class Vendors
     public function addVendor(): void
     {
         if(isset($_POST['save'])){
+            $vendor_id = $_POST['vendor_id'];
 			$name = $_POST['name'];
 			$address = $_POST['address'];
 			$company = $_POST['company'];
@@ -27,6 +28,7 @@ class Vendors
 
 			$vendor = new Vendor;
 			$vendor ->addVendor([
+                'vendor_id' => $vendor_id,
 				'name'=> $name,
 				'address'=> $address,
 				'company'=> $company,
@@ -42,7 +44,7 @@ class Vendors
     public function edit($vendor_id): void
     {
         $vendor = new Vendor;
-        $results['vendor'] = $vendor->getVendors($vendor_id);
+        $results['v1'] = $vendor->getVendors($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             show($_POST);
             $vendor = new Vendor;
