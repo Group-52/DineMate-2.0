@@ -62,24 +62,8 @@
 </body>
 
 <style>
-    .align-vendors-start {
-    align-items: start;
-    }
-
-    .align-vendors-end {
-    align-items: end;
-    }
-
     .align-vendors-center {
     align-items: center;
-    }
-
-    .align-vendors-baseline {
-    align-items: baseline;
-    }
-
-    .align-vendors-stretch {
-    align-items: stretch;
     }
 </style>
 </html>
