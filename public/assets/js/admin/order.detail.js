@@ -12,12 +12,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // when select option value is changed then update status of order
     os.addEventListener('change', function () {
-        updateOrderStatus(oid, os.value);
+        if (os.value != 'completed')
+            updateOrderStatus(oid, os.value);
         if (os.value == 'pending') {
             toggleButtons('visible');
         } else {
             toggleButtons('invisible');
         }
+
     });
 
 
@@ -45,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // make ajax call to update status
         updateOrderStatus(oid, 'rejected');
-
 
     });
     // function to make buttons visible/invisible
@@ -79,5 +80,43 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         );
     }
+
+    function displayPopup() {
+
+        let id = document.querySelector('.order-id').getAttribute('data-order-id');
+        let status = document.querySelector('.order-status').getAttribute('data-order-status');
+
+        const popup = document.querySelector('.popup')
+        popup.style.display = 'flex';
+        popup.setAttribute('data-order-id', id);
+        popup.setAttribute('data-order-status', status);
+
+    }
+    let confirmButton = document.querySelector('#confirm');
+    confirmButton.addEventListener('click', function () {
+        const popup = document.querySelector('.popup');
+        popup.style.display = 'none';
+
+        // change order status to completed
+        updateOrderStatus(oid, 'completed');
+    });
+    let cancelButton = document.querySelector('#cancel');
+    cancelButton.addEventListener('click', function () {
+        const popup = document.querySelector('.popup');
+        popup.style.display = 'none';
+        // reset order status to accepted
+        os.value = "accepted";
+        os.setAttribute('data-order-status', "accepted");
+
+    });
+
+    // call display popup function when order status is changed to completed
+    os.addEventListener('change', function () {
+        if (os.value == 'completed') {
+            displayPopup();
+        }
+    }
+    );
+
 
 });

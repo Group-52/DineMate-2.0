@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   confirm_button.addEventListener('click', function (event) {
     document.querySelector('.popup').style.display = 'none';
+    let popup = document.querySelector('.popup');
+    updateOrderStatus(popup.getAttribute('data-order-id'), "completed");
   });
 
   cancel_button.addEventListener('click', function (event) {
@@ -17,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let circle = row.querySelector('#circle');
     circle.setAttribute('data-order-status', "accepted");
     circle.style.backgroundColor = "yellow";
-    updateOrderStatus(oid, "accepted");
+    // updateOrderStatus(oid, "accepted");
   });
 
   function displayPopup(c) {
@@ -78,8 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
       let oid = circle.parentElement.parentElement.getAttribute('data-order-id');
       status = circle.getAttribute('data-order-status');
       // update order status in database
-      updateOrderStatus(oid, status);
-      
+      if (status !== "completed") {
+        updateOrderStatus(oid, status);
+      }      
     });
   });
 
