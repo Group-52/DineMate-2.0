@@ -21,7 +21,7 @@ class Vendors
     {
         if(isset($_POST['save'])){
             $vendor_id = $_POST['vendor_id'];
-			$name = $_POST['name'];
+			$vendor_name = $_POST['vendor_name'];
 			$address = $_POST['address'];
 			$company = $_POST['company'];
 			$contact_no = $_POST['contact_no'];
@@ -29,7 +29,7 @@ class Vendors
 			$vendor = new Vendor;
 			$vendor ->addVendor([
                 'vendor_id' => $vendor_id,
-				'name'=> $name,
+				'vendor_name'=> $vendor_name,
 				'address'=> $address,
 				'company'=> $company,
                 'contact_no'=> $contact_no

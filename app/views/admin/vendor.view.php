@@ -49,7 +49,7 @@
             
             <div class="form-group">
                 <label class="label" for="name">Name</label>
-                <input class="form-control" type="text" name="name" id="name" required>
+                <input class="form-control" type="text" name="vendor_name" id="vendor_name" required>
             </div>
             <div class="form-group">
                 <label class="label" for="address">Address</label>
@@ -57,13 +57,14 @@
             </div>
             <div class="form-group">
                 <label class="label" for="company">Company</label>
-                <input class="form-control" name="company" id="company" required>
+                <input class="form-control" type="text" name="company" id="company" required>
             </div>
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
                 <input class="form-control" type="number" name="contact_no" id="contact_no" required>
             </div>
             <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Vendor</button>
+            <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
         </form>
     </div>
     </div>
