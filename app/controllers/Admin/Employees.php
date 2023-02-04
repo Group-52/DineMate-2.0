@@ -33,8 +33,8 @@ class Employees
 			$contact_no = $_POST['contact_no'];
             $NIC = $_POST['NIC'];
 
-			$vendor = new Employee;
-			$vendor ->addEmployee([
+			$employee = new Employee;
+			$employee ->addEmployee([
 				'first_name'=> $first_name,
 				'last_name'=> $last_name,
 				'role'=> $role,
