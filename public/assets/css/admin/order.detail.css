@@ -21,3 +21,6 @@
 #reject-button {
     display: none;
 }
+.order-status {
+ width: 200px;
+}

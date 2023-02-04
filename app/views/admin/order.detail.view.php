@@ -19,7 +19,7 @@
                 <h1 class="display-3 active">Order Details</h1>
             </div>
 
-            <h2><span class="order-id" data-order-id= "<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span></h2>
+            <h2><span class="order-id" data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span></h2>
             <h3>Request: <br><?= $order->request ?></h3>
             <h3>Order Type: <?php
                             if ($order->type == "dine-in")
@@ -29,11 +29,21 @@
                             else if ($order->type == "bulk")
                                 echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
                             ?></h3>
-            <h3>Order Status: <span data-order-status="<?= $order->status ?>" class="order-status"> <?= ucfirst($order->status) ?></span></h3>
+            <h3>Order Status:
+                <div class='form-group'>
+                <select data-order-status="<?= $order->status ?>" class="order-status form-control">
+                    <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending</option>
+                    <option value="accepted" <?= ($order->status == 'accepted') ? 'selected' : '' ?>>Accepted</option>
+                    <option value="rejected" <?= ($order->status == 'rejected') ? 'selected' : '' ?>>Rejected</option>
+                    <option value="completed" <?= ($order->status == 'completed') ? 'selected' : '' ?>>Completed</option>
+                </select>
+                
+            </h3>
+
             <?php if ($order->scheduled_time != null) : ?>
                 <h3>Scheduled Time: <?= $order->scheduled_time ?></h3>
             <?php endif; ?>
-            <h3>Time Placed: <?= $order->time_placed ?></h3>
+            <h3><?= $order->time_placed ?></h3>
             <br>
             <div id="order-details-table">
                 <table class="table">

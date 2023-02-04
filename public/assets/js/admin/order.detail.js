@@ -7,18 +7,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // make buttons visible
     if (status == 'pending') {
-        ab.style.display = 'block';
-        rb.style.display = 'block';
+        toggleButtons('visible');
     }
+
+    // when select option value is changed then update status of order
+    os.addEventListener('change', function () {
+        updateOrderStatus(oid, os.value);
+        if (os.value == 'pending') {
+            toggleButtons('visible');
+        } else {
+            toggleButtons('invisible');
+        }
+    });
 
 
     // change status of order
     ab.addEventListener('click', function () {
         // change visible status of order
-        os.innerHTML = 'Accepted';
+        os.value = 'accepted';
+
         // make both buttons invisible
-        ab.style.display = 'none';
-        rb.style.display = 'none';
+        toggleButtons('invisible');
 
         os.setAttribute('data-order-status', 'accepted');
 
@@ -28,10 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     rb.addEventListener('click', function () {
         // change visible status of order
-        os.innerHTML = 'Rejected';
+        os.value = 'rejected';
         // make both buttons invisible
-        ab.style.display = 'none';
-        rb.style.display = 'none';
+        toggleButtons('invisible');
 
         os.setAttribute('data-order-status', 'rejected');
 
@@ -40,6 +48,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     });
+    // function to make buttons visible/invisible
+    function toggleButtons(x) {
+        if (x == 'visible') {
+            ab.style.display = 'block';
+            rb.style.display = 'block';
+        } else {
+            ab.style.display = 'none';
+            rb.style.display = 'none';
+        }
+    }
 
     // function to do ajax call to update order status
     function updateOrderStatus(oid, status) {
