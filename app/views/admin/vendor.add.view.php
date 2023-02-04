@@ -9,48 +9,49 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <form action="" method="POST">
-            <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+            <div class="dashboard-header d-flex flex-row align-vendors-center justify-content-space-between w-100">
                 <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/vendors">Vendors</a> > New Vendor</h1>
-                <button class="btn btn-success text-uppercase fw-bold" type="submit">Save Vendor</button>
+                <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" href="<?= ROOT ?>/admin/vendors">Save Vendor</button>
             </div>
             <div class="form-group">
                 <label class="label" for="name">Name</label>
-                <input class="form-control" type="text" name="name" id="name">
+                <input class="form-control" type="text" name="name" id="name" required>
             </div>
             <div class="form-group">
                 <label class="label" for="address">Address</label>
-                <input class="form-control" type="text" name="address" id="address">
+                <input class="form-control" type="text" name="address" id="address" required>
             </div>
             <div class="form-group">
                 <label class="label" for="company">Company</label>
-                <input class="form-control" name="company" id="company">
+                <input class="form-control" name="company" id="company" required>
             </div>
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" name="contact_no" id="contact_no">
+                <input class="form-control" type="number" name="contact_no" id="contact_no" required>
             </div>
-            <!-- <div class="form-group">
-                <label class="label" for="unit">Unit</label>
-                <select class="form-control" name="unit" id="unit">
-                    <option value="">Select Unit</option>
-                    <?php if (isset($units)) : ?>
-                        <?php foreach ($units as $unit): ?>
-                            <option value="<?= $unit->unit_id ?>"><?= $unit->unit_name ?></option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
-            </div> -->
-            <!-- <div class="form-group">
-                <label class="label" for="category">Category</label>
-                <select class="form-control" name="category" id="category">
-                    <option value="">Select Category</option>
-                    <?php foreach ($data["categories"] as $category): ?>
-                        <option value="<?= $category->category_id ?>"><?= $category->category_name ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div> -->
         </form>
     </div>
 </div>
 </body>
+<style>
+.align-vendors-start {
+  align-items: start;
+}
+
+.align-vendors-end {
+  align-items: end;
+}
+
+.align-vendors-center {
+  align-items: center;
+}
+
+.align-vendors-baseline {
+  align-items: baseline;
+}
+
+.align-vendors-stretch {
+  align-items: stretch;
+}
+</style>
 </html>
