@@ -44,7 +44,7 @@ class Vendors
     public function edit($vendor_id): void
     {
         $vendor = new Vendor;
-        $results['v1'] = $vendor->getVendors($vendor_id);
+        $results['v1'] = $vendor->getVendor($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             show($_POST);
             $vendor = new Vendor;

@@ -40,6 +40,11 @@ class Vendor extends Model
         return $this->select()->fetchAll();
     }
 
+    public function getVendor($vendor_id): object|false
+    {
+        return $this->select()->where("vendor_id", $vendor_id)->fetch();
+    }
+
     public function addVendor($data): void
     {
         $this->insert($data);
