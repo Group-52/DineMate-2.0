@@ -13,22 +13,29 @@ class Orders
     {
         // implement later
         return;
-
     }
 
     public function update(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $od = new Order();
-            $od->editOrder($_POST);
-            $this->json([
-                'status' => 'success'
-            ]);
-        } else {
-            $this->json([
-                'status' => 'error',
-                'message' => 'Invalid request method'
-            ]);
+        if (isset($_SESSION['user'])) {
+            try {
+                $post = json_decode(file_get_contents('php://input'));
+                $order_id = $post->order_id;
+                $status = $post->status;
+
+                $od = new \models\Order();
+
+                $od->changeStatus($order_id, $status);
+                $this->json([
+                    'status' => 'success',
+                    'message' => 'Order status changed'
+                ]);
+            } catch (\Exception $e) {
+                $this->json([
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ]);
+            }
         }
     }
 }

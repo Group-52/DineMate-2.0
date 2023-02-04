@@ -19,7 +19,7 @@
                 <h1 class="display-3 active">Order Details</h1>
             </div>
 
-            <h2>#<?= $order->order_id ?></h2>
+            <h2><span class="order-id" data-order-id= "<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span></h2>
             <h3>Request: <br><?= $order->request ?></h3>
             <h3>Order Type: <?php
                             if ($order->type == "dine-in")
@@ -29,35 +29,37 @@
                             else if ($order->type == "bulk")
                                 echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
                             ?></h3>
-            <h3>Order Status: <?= $order->status ?> </h3>
+            <h3>Order Status: <span data-order-status="<?= $order->status ?>" class="order-status"> <?= ucfirst($order->status) ?></span></h3>
             <?php if ($order->scheduled_time != null) : ?>
                 <h3>Scheduled Time: <?= $order->scheduled_time ?></h3>
             <?php endif; ?>
             <h3>Time Placed: <?= $order->time_placed ?></h3>
             <br>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Dish</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (isset($dishes)) : ?>
-                        <?php foreach ($dishes as $od) : ?>
-                            <tr>
-                                <td><?= $od->dish_name ?></td>
-                                <td><?= $od->quantity ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
+            <div id="order-details-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Dish</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (isset($dishes)) : ?>
+                            <?php foreach ($dishes as $od) : ?>
+                                <tr>
+                                    <td><?= $od->dish_name ?></td>
+                                    <td><?= $od->quantity ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
             <div id="button-div">
-                <button class="btn btn-danger" value="rejected" id="accept-button">Reject</button>
-                <button class="btn btn-success" value="accepted" id="reject-button">Accept</button>
+                <button class="btn btn-danger" value="rejected" id="reject-button">Reject</button>
+                <button class="btn btn-success" value="accepted" id="accept-button">Accept</button>
             </div>
         </div>
     </div>
