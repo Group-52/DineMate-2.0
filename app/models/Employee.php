@@ -51,4 +51,9 @@ class Employee extends Model
     {
         $this->insert($data);
     }
+
+    public function editEmployee($data)
+    {
+        $this->update($data)->where("emp_id", $data['emp_id'])->execute();
+    }
 }

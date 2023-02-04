@@ -24,7 +24,14 @@
             </div>
             <div class="form-group">
                 <label class="label" for="role">Role</label>
-                <input class="form-control" type="text" name="role" id="role">
+                <!-- <input class="form-control" type="text" name="role" id="role"> -->
+                <select class="form-control" name="role" id="role">
+                        <option value="0">----</option>
+                        <option value="1">Chef</option>
+                        <option value="2">General Manager</option>
+                        <option value="3">Cashier</option>
+                        <option value="4">Inventory Manager</option>
+                </select>
             </div>
             <div class="form-group">
                 <label class="label" for="salary">Salary</label>

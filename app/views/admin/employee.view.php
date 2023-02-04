@@ -12,7 +12,8 @@
             <h1 class="display-3">Employees</h1>
             <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee">+ New Employee</a>
         </div>
-        
+        <div>
+        </div>
         <table class="table">
         <thead class="table-dark">
             <tr>
@@ -41,6 +42,7 @@
                 // echo "<td>" . $e1->DOB . "</td>";
                 echo "<td>" . $e1->contact_no . "</td>";
                 echo "<td>" . $e1->NIC . "</td>";
+                echo "<td><a class='edit-icon-link' href='vendors/edit/" . $e1->emp_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
             }
         }
         ?>

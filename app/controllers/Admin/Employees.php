@@ -17,8 +17,8 @@ class Employees
 
     public function index()
     {
-        $vendor = new Employee;
-        $results['employee'] = $vendor->getEmployee();      
+        $employee = new Employee;
+        $results['employee'] = $employee->getEmployee();      
         $this->view('admin/employee', $results);
     }
 
@@ -48,5 +48,18 @@ class Employees
 
         }
         $this->view('admin/employee.add');
+    }
+
+    public function edit($emp_id): void
+    {
+        $employee = new Employee;
+        $results['e1'] = $employee->getEmployee($emp_id);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            show($_POST);
+            $employee = new Employee;
+            $employee->editEmployee($_POST);
+            redirect('admin/employees');
+        }
+        $this->view('admin/employee.edit', $results);
     }
 }
