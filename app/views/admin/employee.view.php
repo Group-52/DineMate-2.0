@@ -8,24 +8,25 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+        <div class="dashboard-header d-flex flex-row align-employee-center justify-content-space-between w-100">
             <h1 class="display-3">Employees</h1>
             <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee">+ New Employee</a>
         </div>
         <div>
         </div>
+        <div id="employee-table">
         <table class="table">
-        <thead class="table-dark">
+        <thead>
             <tr>
-                <th scope="col">#Id</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Role</th>
-                <th scope="col">Salary</th>
-                <!-- <th scope="col">DOB</th> -->
-                <th scope="col">Contact No</th>
-                <th scope="col">NIC</th>
-                <th scope="col">Action</th>
+                <th>#Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Role</th>
+                <th>Salary</th>
+                <!-- <th>DOB</th> -->
+                <th>Contact No</th>
+                <th>NIC</th>
+                <th>Action</th>
             </tr>
             </thead>
     

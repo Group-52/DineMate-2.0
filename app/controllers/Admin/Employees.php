@@ -3,7 +3,6 @@
 namespace controllers\admin;
 
 use core\Controller;
-use Exception;
 use models\Employee;
 use models\Role;
 
