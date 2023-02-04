@@ -81,9 +81,19 @@ Can use to indicate selected rows */
     justify-content: center;
     padding: 20px;
     margin: 20px;
-  }
-  
+}
 
-  .popup-button-div{
+
+.popup-button-div {
     margin: 5px 5px;
-  }
+}
+
+
+/* Temporary*/
+td {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}

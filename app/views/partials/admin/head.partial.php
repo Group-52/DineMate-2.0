@@ -4,7 +4,8 @@
 <meta name="description" content="<?= APP_DESC ?>">
 
 <!-- styles -->
-<link rel="stylesheet" href="<?= ROOT ?>/assets/css/styles.css">
+<link rel="stylesheet" href="<?= ASSETS ?>/css/styles.css">
+<link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
 <script src="https://kit.fontawesome.com/d2b9586342.js" crossorigin="anonymous"></script>
 <script>
   const ROOT = '<?= ROOT ?>';
