@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="vendor_id">Vendor Id</label>
-                <input class="form-control" type="text" name="vendor_id" value="<?= $v1->vendor_id ?>">
+                <input class="form-control" type="text" name="vendor_id" value="<?= $v1->vendor_id ?>" readonly>
             </div>
             <div class="form-group">
                 <label class="label" for="vendor_name">Vendor Name</label>
@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="company">Company</label>
-                <input class="form-control" type="text" name="company" value="<?= $v1->company ?>">
+                <input class="form-control" type="text" name="company" value="<?= $v1->company ?>" readonly>
             </div>
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
