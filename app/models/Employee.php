@@ -52,7 +52,6 @@ class Employee extends Model
         return $this->select()->where("emp_id", $emp_id)->fetch();
     }
 
-
     public function addEmployee($data): void
     {
         $this->insert($data);
@@ -61,5 +60,10 @@ class Employee extends Model
     public function editEmployee($data)
     {
         $this->update($data)->where("emp_id", $data['emp_id'])->execute();
+    }
+
+    public function deleteEmployee($data)
+    {
+        $this->delete($data)->where("emp_id", $data['emp_id'])->execute();
     }
 }
