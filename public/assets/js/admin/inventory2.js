@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     editbutton.addEventListener("click", makeEditable);
     var finishbutton = document.querySelector("#finish-button");
     finishbutton.addEventListener("click", makeUneditable);
-
+    const fieldNames = ['expiry_risk', 'amount_remaining', 'special_notes'];
 
     function makeEditable() {
         // Hide the edit button
@@ -45,15 +45,24 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateInventory(icon) {
 
         var data = [];
+        let newValue;
 
         // collect data from the row
         let row = icon.parentNode.parentNode;
         let cells = row.querySelectorAll('td');
         let id = row.getAttribute("data-purchase-id");
-        for (i = 0; i < cells.length; i++) {
+        for (let i = 0; i < cells.length; i++) {
             const fieldName = cells[i].getAttribute("data-field-name");
             if (fieldName) {
-                newValue = cells[i].innerHTML;
+                console.log(`${i}}: ${fieldName}`)
+                if (fieldName == 'expiry_risk') {
+                    newValue = cells[i].querySelector('select').value;
+                }
+                else if (fieldName == 'special_notes') {
+                    newValue = cells[i].querySelector('input').value;
+                }
+                else
+                    newValue = cells[i].querySelector('input').value;
                 data.push({
                     pid: id,
                     fieldName: fieldName,
@@ -61,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
         }
+        // console.log(data);
 
         // Send data to server
         let fetchRes = fetch(
@@ -136,10 +146,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const cells = row.querySelectorAll('td');
             cells.forEach(cell => {
-                if (cell.dataset.fieldName === 'special_notes' || cell.dataset.fieldName === 'amount_remaining') {
+                if (fieldNames.includes(cell.dataset.fieldName)) {
                     cell.classList.add('editable');
 
-                    const currentValue = cell.textContent;
+                    var currentValue = cell.textContent;
                     cell.innerHTML = '';
 
                     if (cell.dataset.fieldName === 'amount_remaining') {
@@ -147,15 +157,34 @@ document.addEventListener("DOMContentLoaded", function () {
                         input.type = 'number';
                         input.value = currentValue;
                         cell.appendChild(input);
-                    } else {
+                        input.classList.add('newly-editable');
+                    } else if (cell.dataset.fieldName === 'special_notes') {
                         const input = document.createElement('input');
                         input.type = 'text';
                         input.value = currentValue;
+                        input.classList.add('newly-editable');
+                        cell.appendChild(input);
+                    }
+                    else if (cell.dataset.fieldName === 'expiry_risk') {
+                        const input = document.createElement('select');
+                        input.innerHTML = `<option value="1">Yes</option>
+                        <option value="0">No</option> `;
+                        input.value = (currentValue == 'No') ? 0 : 1;
+                        input.classList.add('newly-editable');
                         cell.appendChild(input);
                     }
                 }
             });
         });
+    });
+
+    // Attack click eevent listener to each tick icon to update the database
+    const tickIcons = document.querySelectorAll('.tick-icon');
+    tickIcons.forEach(icon => {
+        icon.addEventListener('click', function (event) {
+            updateInventory(event.target);
+        });
+
     });
 
     // Attach click event listener to each tick and cross icon to make the cell uneditable and trash and pencil icon appear
@@ -174,26 +203,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const cells = row.querySelectorAll('td');
             cells.forEach(cell => {
-                if (cell.dataset.fieldName === 'special_notes' || cell.dataset.fieldName === 'amount_remaining') {
-                    cell.classList.remove('editable');
+                if (fieldNames.includes(cell.dataset.fieldName)) {
 
-                    const input = cell.querySelector('input');
-                    cell.textContent = input.value;
+                    if (cell.dataset.fieldName === 'expiry_risk') {
+                        const input = cell.querySelector('select');
+                        cell.textContent = input.value == 1 ? 'Yes' : 'No';
+                    }
+                    else if (cell.dataset.fieldName === 'special_notes') {
+                        const input = cell.querySelector('input');
+                        cell.textContent = input.value;
+                    }
+                    else if (cell.dataset.fieldName === 'amount_remaining') {
+                        const input = cell.querySelector('input');
+                        cell.textContent = input.value;
+                    }
+                    cell.classList.remove('editable');
                 }
             });
         });
     }
     );
-
-    // Attack click eevent listener to each tick icon to update the database
-    const tickIcons = document.querySelectorAll('.tick-icon');
-    tickIcons.forEach(icon => {
-        icon.addEventListener('click', function (event) {
-            updateInventory(event.target);
-        });
-
-    });
-
 
 
 });

@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
   <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
   <script src="<?= ASSETS ?>/js/admin/inventory2.js"></script>
-  <!-- <script src="<?= ASSETS ?>/js/admin/inventory2copy.js"></script> -->
-
 </head>
 
 <body class="dashboard">
@@ -40,7 +38,7 @@
                 <td ><?= $item->pid ?></td>
                 <td ><?= $item->item_name ?></td>
                 <td data-field-name="amount_remaining"><?= $item->amount_remaining ?></td>
-                <td data-field-name="expiry_risk"><?= $item->expiry_risk ? "Yes" : "No" ?> </td>
+                <td data-field-name="expiry_risk"><?= $item->expiry_risk ? "Yes" : "No" ?></td>
                 <td data-field-name="special_notes"><?= $item->special_notes ?></td>
                 <td ><?= $item->last_used ?></td>
                 <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>

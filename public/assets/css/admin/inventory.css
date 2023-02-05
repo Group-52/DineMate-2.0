@@ -23,3 +23,8 @@ td:has(.cross-icon) {
 #finish-button {
     display: none;
 }
+.newly-editable {
+    border : 2px rgb(182, 182, 170) solid;
+    border-radius: 5px;
+    text-align: center;
+}
