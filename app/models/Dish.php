@@ -47,7 +47,7 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        $l = $this->select()->fetchAll();
+        $l = $this->select()->orderBy("dish_name")->fetchAll();
         $dishes = [];
         foreach ($l as $d) {
             $dishes[$d->dish_id] = $d;
