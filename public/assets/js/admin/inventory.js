@@ -56,23 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const cells = document.querySelectorAll(".editable");
         const data = [];
 
-        //Collect checkboxes that were changed
-        const checkboxes = document.querySelectorAll("input[name='expiryrisk']");
-        for (i = 0; i < checkboxes.length; i++) {
-            row = checkboxes[i].parentNode.parentNode;
-            pid = row.getAttribute("data-purchase-id");
-            newValue = checkboxes[i].value;
-            console.log(`pid: ${pid}, newValue: ${newValue}, data-changed: ${checkboxes[i].hasAttribute('data-changed')}`)
-            if (checkboxes[i].hasAttribute('data-changed')) {
-                data.push({
-                    pid: pid,
-                    fieldName: 'expiryrisk',
-                    newValue: newValue
-                });
-            }
-        }
 
-        // Collect data from other grid cells that were changed
+        // Collect data from grid cells that were changed
         for (i = 0; i < cells.length; i++) {
             row = cells[i].parentNode;
             pid = row.getAttribute("data-purchase-id");
@@ -116,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // make tick and cross icon visible
             event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'inline-block';
             event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'inline-block';
-            // make all pencil icon invisible
+            // make the pencil icon invisible
             event.target.parentNode.style.display = 'none';
 
             const row = event.target.parentNode.parentNode;
@@ -133,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     const input = document.createElement('input');
                     input.type = 'number';
                     input.value = currentValue;
+                    input.classList.add('newly-editable');
                     cell.appendChild(input);
 
                 }

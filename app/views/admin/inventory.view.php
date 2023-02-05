@@ -57,4 +57,3 @@
 </body>
 
 </html>
-<!-- <script src="<?= ASSETS ?>/js/admin/inventory.js"></script> -->

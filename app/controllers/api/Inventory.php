@@ -24,7 +24,7 @@ class Inventory
                     $m->updateInventory($pid, $newValue);
                 } else if ($fieldName === 'special_notes') {
                     $m->updateInventory($pid, null, $newValue);
-                } else if ($fieldName === 'expiryrisk') {
+                } else if ($fieldName === 'expiry_risk') {
                     $m->updateInventory($pid, null, null, $newValue);
                 }
             }
