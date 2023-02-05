@@ -21,11 +21,11 @@
             </div>
             <div class="form-group">
                 <label class="label" for="first_name">First Name</label>
-                <input class="form-control" type="text" name="first_name" value="<?= $e1->first_name ?>">
+                <input class="form-control" type="text" name="first_name" value="<?= $e1->first_name ?>" readonly>
             </div>
             <div class="form-group">
                 <label class="label" for="last_name">Last Name</label>
-                <input class="form-control" type="text" name="last_name" value="<?= $e1->last_name ?>">
+                <input class="form-control" type="text" name="last_name" value="<?= $e1->last_name ?>" readonly>
             </div>
             <div class="form-group">
                 <label class="label" for="role">Role</label>
@@ -43,7 +43,7 @@
             </div>
             <!-- <div class="form-group">
                 <label class="label" for="DOB">Date of Birth</label>
-                <input class="form-control" name="DOB" value="<?= $e1->DOB ?>">
+                <input class="form-control" name="DOB" value="<?= $e1->DOB ?>" readonly>
             </div> -->
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="NIC">NIC</label>
-                <input class="form-control" name="NIC" value="<?= $e1->NIC ?>">
+                <input class="form-control" name="NIC" value="<?= $e1->NIC ?>" readonly>
             </div>
         </form>
     <?php else: ?>
@@ -62,7 +62,7 @@
 </body>
 
 <style>
-    .align-vendors-center {
+    .align-employees-center {
     align-items: center;
     }
 </style>
