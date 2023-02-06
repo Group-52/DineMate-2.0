@@ -37,7 +37,7 @@
               <tr data-item-id="<?= $item->item_id ?>" data-purchase-id="<?= $item->pid ?>">
                 <td ><?= $item->pid ?></td>
                 <td ><?= $item->item_name ?></td>
-                <td data-field-name="amount_remaining"><?= $item->amount_remaining ?></td>
+                <td data-field-name="amount_remaining" data-unit="<?=$item->abbreviation?>"><?= $item->amount_remaining ?> <?=$item->abbreviation?></td>
                 <td data-field-name="expiry_risk"><?= $item->expiry_risk ? "Yes" : "No" ?></td>
                 <td data-field-name="special_notes"><?= $item->special_notes ?></td>
                 <td ><?= $item->last_used ?></td>

@@ -26,8 +26,9 @@ class InventoryDetail extends Model
     // get a single inventory item
     public function getInventoryItem($pid): object|bool
     {
-        return $this->select(["inventory2.*", "items.item_name"])
+        return $this->select(["inventory2.*", "items.item_name", "units.*"])
             ->join("items", "items.item_id", "inventory2.item_id")
+            ->join("units", "items.unit", "units.unit_id")
             ->where("pid", $pid)
             ->fetch();
     }
@@ -36,8 +37,9 @@ class InventoryDetail extends Model
     // Get all inventory data from database
     public function getInventory(): array
     {
-        return $this->select(["inventory2.*", "items.item_name"])
+        return $this->select(["inventory2.*", "items.item_name","units.*"])
             ->join("items", "items.item_id", "inventory2.item_id")
+            ->join("units", "items.unit", "units.unit_id")
             ->fetchAll();
     }
 

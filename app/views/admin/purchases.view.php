@@ -47,7 +47,7 @@
                                 <td><?= $purchase->item_name ?></td>
                                 <td><?= $purchase->purchase_date ?></td>
                                 <td><?= $purchase->vendor_name ?></td>
-                                <td><?= $purchase->quantity ?></td>
+                                <td><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
                                 <td><?= $purchase->brand ?></td>
                                 <td><?= $purchase->expiry_date ?></td>
                                 <td><?= $purchase->cost ?></td>
