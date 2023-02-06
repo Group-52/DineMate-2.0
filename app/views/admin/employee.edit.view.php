@@ -4,7 +4,7 @@
 <?php include VIEWS . "/partials/admin/head.partial.php" ?>
 </head>
 <body class="dashboard">
-<?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+<!-- <?php include VIEWS . "/partials/admin/navbar.partial.php" ?> -->
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
