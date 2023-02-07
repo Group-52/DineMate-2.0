@@ -53,4 +53,12 @@ class Vendors
         }
         $this->view('admin/vendor.edit', $results);
     }
+
+    public function delete($vendor_id): void
+    {
+        $vendor = new Vendor;
+        $results['v1'] = $vendor->deleteVendor($vendor_id);
+        redirect('admin/vendors'); 
+            
+    }
 }

@@ -54,5 +54,9 @@ class Vendor extends Model
     {
         $this->update($vendor)->where("vendor_id", $vendor['vendor_id'])->execute();
     }
-}
 
+    public function deleteVendor($data)
+    {
+        $this->delete()->where("vendor_id", $data)->execute();
+    }
+}

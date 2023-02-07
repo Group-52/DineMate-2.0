@@ -23,7 +23,6 @@
                 <th>Address</th>
                 <th>Company</th>
                 <th>Contact No</th>
-                <th>Action</th>
             </tr>
             </thead>
     
@@ -38,6 +37,7 @@
                 echo "<td>" . $v1->company . "</td>";
                 echo "<td>" . $v1->contact_no . "</td>";
                 echo "<td><a class='edit-icon-link' href='vendors/edit/" . $v1->vendor_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+                echo "<td><a class='cart-trash-icon' href='vendors/delete/" . $v1->vendor_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'</i></a></td>";
             }
         }
         ?>
