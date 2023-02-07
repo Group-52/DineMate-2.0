@@ -18,7 +18,8 @@
             <form action="" method="GET">
                 <div class="row">
                     <div class="form-search col-10">
-                        <input type="text" class="form-control" name="" placeholder="Search" value="">
+                        <!-- <input type="text" class="form-control" name="" placeholder="Search" value=""> -->
+                        <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                         <button class="form-search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                     <div class="pl-2 col-2">
@@ -83,7 +84,7 @@
             <div class="form-group">
                 <label class="label" for="role">Role</label>
                 <select class="form-control" name="role" id="role">
-                        <option value="0">----</option>
+                        <option type="hidden" value="0">----</option>
                         <option value="1">Chef</option>
                         <option value="2">General Manager</option>
                         <option value="3">Cashier</option>
