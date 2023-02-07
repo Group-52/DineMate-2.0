@@ -61,4 +61,14 @@ class Employees
         }
         $this->view('admin/employee.edit', $results);
     }
+
+    public function delete($emp_id): void
+    {
+        $employee = new Employee;
+        $results['e1'] = $employee->deleteEmployee($emp_id);
+        
+        redirect('admin/employees');
+        
+            
+    }
 }

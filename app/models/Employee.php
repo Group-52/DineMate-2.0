@@ -64,6 +64,8 @@ class Employee extends Model
 
     public function deleteEmployee($data)
     {
-        $this->delete($data)->where("emp_id", $data['emp_id'])->execute();
+    
+    
+        $this->delete()->where("emp_id", $data)->execute();
     }
 }
