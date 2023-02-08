@@ -22,7 +22,7 @@
                         <button class="form-search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
                     <div class="pl-2 col-2">
-                        <select class="form-control" name="role">
+                        <select class="form-control" name="role"  id="myInput2"  onchange="filter()">
                             <option value="0">Filter Role</option>
                             <option value="1">Chef</option>
                             <option value="2">General Manager</option>

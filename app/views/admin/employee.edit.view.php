@@ -30,7 +30,19 @@
             <div class="form-group">
                 <label class="label" for="role">Role</label>
                 <select class="form-control" name="role" value="<?= $e1->role ?>" readonly>
-                        <option value="0" hidden>----</option >
+                <?php if (($e1->role) == 1) {
+                    echo '<option value="1" selected hidden>Chef</option >';
+                } 
+                else if (($e1->role) == 2){
+                    echo '<option value="2" selected hidden>General Manager</option >';
+                }
+                else if (($e1->role) == 3){
+                    echo '<option value="3" selected hidden>Cashier</option >';
+                }
+                else if (($e1->role) == 4){
+                    echo '<option value="4" selected hidden>Inventory Manager</option >';
+                }?>
+                        
                         <option value="1">Chef</option>
                         <option value="2">General Manager</option>
                         <option value="3">Cashier</option>
