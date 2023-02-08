@@ -28,6 +28,7 @@ class Employees
 			$last_name = $_POST['last_name'];
 			$role = $_POST['role'];
             $salary = $_POST['salary'];
+            $username = $_POST['username'];
             // $DOB = $_POST['DOB'];
 			$contact_no = $_POST['contact_no'];
             $NIC = $_POST['NIC'];
@@ -38,6 +39,7 @@ class Employees
 				'last_name'=> $last_name,
 				'role'=> $role,
                 'salary'=> $salary,
+                'username'=> $username,
                 // 'DOB'=> $DOB,
                 'contact_no'=> $contact_no,
                 'NIC'=> $NIC
