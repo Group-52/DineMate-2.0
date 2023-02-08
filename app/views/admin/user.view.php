@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/user.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/users.css">
     <script src="<?= ASSETS ?>/js/admin/user.js"></script>
     <title>Users</title>
 </head>
@@ -34,7 +34,7 @@
                                 <th scope="col">Guest ID</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last Name</th>
-                                <th scope="col">Contact</th>
+                                <th scope="col">Contact No</th>
                                 <th scope="col">Email</th>
                             </tr>
                         </thead>
@@ -61,7 +61,7 @@
                                 <th scope="col">User ID</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last Name</th>
-                                <th scope="col">Contact</th>
+                                <th scope="col">Contact No</th>
                                 <th scope="col">Email</th>
                             </tr>
                         </thead>
@@ -74,6 +74,33 @@
                                         <td><?= $r1->last_name ?></td>
                                         <td><?= $r1->contact_no ?></td>
                                         <td><?= $r1->email ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="blocklist" class="tabcontent">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">User ID</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Reason</th>
+                                <th scope="col">Date/Time</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <?php if (isset($block)) : ?>
+                                <?php foreach ($block as $b1) : ?>
+                                    <tr>
+                                        <td><?= $b1->user_id ?></td>
+                                        <td><?= $b1->first_name ?></td>
+                                        <td><?= $b1->last_name ?></td>
+                                        <td><?= $b1->reason ?></td>
+                                        <td><?= $b1->date ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
