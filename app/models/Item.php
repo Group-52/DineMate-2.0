@@ -53,6 +53,7 @@ class Item extends Model
     public function getItems(): array
     {
         return $this->select(["item_id", "item_name", "description"])
+            ->orderBy("item_name")
             ->fetchAll();
     }
 }

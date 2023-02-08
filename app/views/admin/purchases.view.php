@@ -9,6 +9,7 @@
     include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/purchases.css">
+    <script src="<?= ASSETS ?>/js/admin/purchases.js"></script>
 
 </head>
 
@@ -64,7 +65,7 @@
 
             <div id="Addform" class="overlay">
 
-                <form action="<?= ROOT ?>/admin/purchases/addPurchase" method="POST" onsubmit="return false">
+                <form action="<?= ROOT ?>/admin/purchases/add" method="POST">
                     <div class="form-group">
                         <label for="purchase_date">Purchase Date</label>
                         <input type="date" name="purchase_date" id="purchase_date" placeholder="Purchase Date" class="form-control">
@@ -124,46 +125,5 @@
     </div>
 
 </body>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-
-        // get all the elements
-        const addButton = document.querySelector('#add-purchase-button');
-        const form = document.querySelector('#Addform');
-        const table = document.querySelector('#purchase-table');
-        const submitButton = document.querySelector('#submit-button');
-        const cancelButton = document.querySelector('#cancel-button');
-
-
-        // make form visible when add button is clicked
-        addButton.addEventListener('click', () => {
-            form.style.display = 'block';
-            table.style.filter = 'blur(5px)';
-
-            // focus on first input
-            document.querySelector('#purchase_date').focus();
-
-            // make add button invisible
-            addButton.style.display = 'none';
-        });
-
-        // make form invisible when submit button is clicked
-        submitButton.addEventListener('click', () => {
-            form.style.display = 'none';
-            table.style.filter = 'blur(0)';
-
-            // make add button visible
-            addButton.style.display = 'block';
-        });
-
-        // make form invisible when cancel button is clicked
-        cancelButton.addEventListener('click', () => {
-            form.style.display = 'none';
-            table.style.filter = 'blur(0)';
-            addButton.style.display = 'block';
-        });
-    });
-</script>
 
 </html>

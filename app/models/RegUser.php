@@ -45,5 +45,10 @@ class RegUser extends Model
             "contact_no" => $data["contact_no"]
         ]);
     }
+
+    public function getReg(): bool|array
+    {
+        return $this->select()->fetchAll();
+    }
 }
 
