@@ -18,7 +18,6 @@
             <form action="" method="GET">
                 <div class="row">
                     <div class="form-search col-10">
-                        <!-- <input type="text" class="form-control" name="" placeholder="Search" value=""> -->
                         <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                         <button class="form-search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </div>
