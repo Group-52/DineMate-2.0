@@ -26,10 +26,10 @@ class Inventory extends Model
     // Get all inventory data from database
     public function getInventory(): array
     {
-        return $this->select(["inventory.*", "items.item_name"])
+        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
+            ->join("units", "units.unit_id", "items.unit")
             ->fetchAll();
-
     }
 
     // update inventory

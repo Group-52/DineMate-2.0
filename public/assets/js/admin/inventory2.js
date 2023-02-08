@@ -54,23 +54,26 @@ document.addEventListener("DOMContentLoaded", function () {
         for (let i = 0; i < cells.length; i++) {
             const fieldName = cells[i].getAttribute("data-field-name");
             if (fieldName) {
-                console.log(`${i}}: ${fieldName}`)
                 if (fieldName == 'expiry_risk') {
                     newValue = cells[i].querySelector('select').value;
                 }
                 else if (fieldName == 'special_notes') {
                     newValue = cells[i].querySelector('input').value;
+                    if (newValue == '')
+                        newValue = null;
                 }
-                else
+                else if (fieldName == 'amount_remaining') {
                     newValue = cells[i].querySelector('input').value;
+                    newValue = newValue == '' ? '0' : newValue;
+                }
                 data.push({
                     pid: id,
                     fieldName: fieldName,
                     newValue: newValue
                 });
+                console.log("Gonna send this data to server: ", data);
             }
         }
-        // console.log(data);
 
         // Send data to server
         let fetchRes = fetch(
@@ -152,11 +155,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     var currentValue = cell.textContent;
                     cell.innerHTML = '';
 
+                    // Add input element to the cell and set the value to the current value
                     if (cell.dataset.fieldName === 'amount_remaining') {
                         const input = document.createElement('input');
+                        currentValue = currentValue.replace(/[^0-9.]/g, "");
+                        currentValue = parseFloat(currentValue);
                         input.type = 'number';
                         input.value = currentValue;
                         cell.appendChild(input);
+                        let unit = " " + cell.getAttribute('data-unit');
+                        cell.append(unit);
                         input.classList.add('newly-editable');
                     } else if (cell.dataset.fieldName === 'special_notes') {
                         const input = document.createElement('input');
@@ -201,21 +209,26 @@ document.addEventListener("DOMContentLoaded", function () {
             const row = event.target.parentNode.parentNode;
             row.classList.remove('row-in-form');
 
+            // Remove the input element from the cell and set the value to the current value
             const cells = row.querySelectorAll('td');
             cells.forEach(cell => {
                 if (fieldNames.includes(cell.dataset.fieldName)) {
 
                     if (cell.dataset.fieldName === 'expiry_risk') {
-                        const input = cell.querySelector('select');
+                        let input = cell.querySelector('select');
                         cell.textContent = input.value == 1 ? 'Yes' : 'No';
                     }
                     else if (cell.dataset.fieldName === 'special_notes') {
-                        const input = cell.querySelector('input');
+                        let input = cell.querySelector('input');
+                        if (!input.value)
+                            input.value = "";
                         cell.textContent = input.value;
                     }
                     else if (cell.dataset.fieldName === 'amount_remaining') {
-                        const input = cell.querySelector('input');
-                        cell.textContent = input.value;
+                        let input = cell.querySelector('input');
+                        if (input.value == "" || input.value == null)
+                            input.value = 0;
+                        cell.textContent = input.value + " " + cell.getAttribute('data-unit');
                     }
                     cell.classList.remove('editable');
                 }

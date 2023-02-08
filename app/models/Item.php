@@ -52,7 +52,9 @@ class Item extends Model
 
     public function getItems(): array
     {
-        return $this->select(["item_id", "item_name", "description"])
+        return $this->select(["item_id", "item_name", "description","units.abbreviation, categories.category_name"])
+            ->join("units", "unit", "unit_id")
+            ->join("categories", "category", "category_id")
             ->orderBy("item_name")
             ->fetchAll();
     }
