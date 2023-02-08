@@ -23,7 +23,7 @@
             <div id="user-tables">
                 <div class="tab">
                     <button class="tablinks btn btn-success" onclick="openTab(event, 'guest')">Guest User</button>
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'customer')">Customer</button>
+                    <button class="tablinks btn btn-success" onclick="openTab(event, 'register')">Register User</button>
                     <button class="tablinks btn btn-success" onclick="openTab(event, 'blocklist')">Blocklist User</button>
                 </div>
 
@@ -47,6 +47,33 @@
                                         <td><?= $g1->last_name ?></td>
                                         <td><?= $g1->contact_no ?></td>
                                         <td><?= $g1->email ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="register" class="tabcontent">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">User ID</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Contact</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <?php if (isset($reg)) : ?>
+                                <?php foreach ($reg as $r1) : ?>
+                                    <tr>
+                                        <td><?= $r1->user_id ?></td>
+                                        <td><?= $r1->first_name ?></td>
+                                        <td><?= $r1->last_name ?></td>
+                                        <td><?= $r1->contact_no ?></td>
+                                        <td><?= $r1->email ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>

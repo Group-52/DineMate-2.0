@@ -4,7 +4,7 @@ namespace controllers\admin;
 
 use core\Controller;
 use models\Guest;
-// use models\Dish;
+use models\RegUser;
 
 /**
  * Class Guests
@@ -16,8 +16,8 @@ class Users
     public function index(): void
     {
         $guest = new Guest;
-        // $d = new Dish();
-        // $results['dishes'] = $d->getDishes();
+        $r = new RegUser();
+        $results['reg'] = $r->getReg();
         $results['guest'] = $guest->getGuest();      
         $this->view('admin/user', $results);
     }
