@@ -40,8 +40,7 @@
         <thead>
             <tr>
                 <th>#Id</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Role</th>
                 <th>Salary</th>
                 <!-- <th>DOB</th> -->
@@ -55,8 +54,7 @@
             foreach ($employee as $e1) {
                 echo "<tr>";
                 echo "<td>" . $e1->emp_id . "</td>";
-                echo "<td>" . $e1->first_name. "</td>";
-                echo "<td>" . $e1->last_name . "</td>";
+                echo "<td>" . $e1->first_name." ". $e1->last_name ."</td>";
                 echo "<td>" . $e1->role . "</td>";
                 echo "<td>" . $e1->salary . "</td>";
                 // echo "<td>" . $e1->DOB . "</td>";
