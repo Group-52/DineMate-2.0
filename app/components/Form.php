@@ -90,24 +90,54 @@ class Form
     {
         $html = "<form class='w-100' action='{$this->action}' method='{$this->method}'>";
         foreach ($this->fields as $field) {
-            $html .= "<div class='form-group'>";
-            if (!empty($field["label"])) {
-                $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . " for='{$field['id']}'>{$field['label']}</label>";
-            }
-            $html .= "<input type='{$field['type']}' name='{$field['name']}' id='{$field['id']}' class='form-control' value='{$field['value']}' " . (($field['required']) ? "required" : "");
-            if (!empty($field["placeholder"])) {
-                $html .= " placeholder='{$field['placeholder']}'";
-            }
-            if (!empty($field["options"])) {
-                foreach ($field["options"] as $option => $value) {
-                    $html .= " {$option}='{$value}'";
-                }
-            }
-            $html .= ">";
-            $html .= "</div>";
+            $html .= $this->getHtml($field);
         }
         $html .= "<button type='submit' class='btn btn-primary btn-lg text-uppercase w-100'>{$this->submitText}</button>";
         $html .= "</form>";
         return $html;
+    }
+
+    public function htmlFields(): array
+    {
+        $fields = [];
+        foreach ($this->fields as $field) {
+            $html = $this->getHtml($field);
+            $fields[] = $html;
+        }
+        return $fields;
+    }
+
+    public function htmlField($id): string
+    {
+        return $this->getHtml($this->fields[$id]);
+    }
+
+    /**
+     * @param mixed $field
+     * @return string
+     */
+    public function getHtml(mixed $field): string
+    {
+        $html = "<div class='form-group'>";
+        if (!empty($field["label"])) {
+            $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . " for='{$field['id']}'>{$field['label']}</label>";
+        }
+        $html .= "<input type='{$field['type']}' name='{$field['name']}' id='{$field['id']}' class='form-control' value='{$field['value']}' " . (($field['required']) ? "required" : "");
+        if (!empty($field["placeholder"])) {
+            $html .= " placeholder='{$field['placeholder']}'";
+        }
+        if (!empty($field["options"])) {
+            foreach ($field["options"] as $option => $value) {
+                $html .= " {$option}='{$value}'";
+            }
+        }
+        $html .= ">";
+        $html .= "</div>";
+        return $html;
+    }
+
+    public function countFields(): int
+    {
+        return count($this->fields);
     }
 }

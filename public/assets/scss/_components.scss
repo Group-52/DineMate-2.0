@@ -14,7 +14,7 @@
   font-weight: 600;
   text-decoration: none;
   line-height: 1.5;
-  border-radius: 0;
+  border-radius: 0.25rem;
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -317,6 +317,7 @@ $nav-height: 4rem;
   display: flex;
   flex-direction: column;
   transition: box-shadow 0.5s;
+  border: 1px solid $border;
 
   .card-img-wrapper {
     overflow: hidden;

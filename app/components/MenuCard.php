@@ -50,7 +50,7 @@ class MenuCard
      */
     public function html(): string
     {
-        $html = "<div class='menu-item-card rounded-sm shadow'>";
+        $html = "<div class='menu-item-card rounded-sm'>";
         $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
         $html .= "<div class='card-img-wrapper'>";
         $html .= "<img src=" . ASSETS . "/images/dishes/{$this->image_url} class='card-img' alt='{$this->name}'>";
@@ -58,6 +58,7 @@ class MenuCard
         $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($this->inCart() ? "disabled" : "") . ">";
         $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
         $html .= "</button>";
+        $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
         $html .= "<div class='card-body'>";
         $html .= "<h3 class='card-title'>{$this->name}</h2>";
         $html .= "<div class='card-prices'>";
@@ -65,7 +66,7 @@ class MenuCard
             $html .= "<span class='card-price-old'>LKR {$this->old_price}</span>";
         }
         $html .= "<div class='card-price-new'>LKR {$this->new_price}</div>";
-        $html .= "</div></div></div>";
+        $html .= "</div></div></a></div>";
         return $html;
     }
 

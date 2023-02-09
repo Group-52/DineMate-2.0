@@ -7,11 +7,7 @@ const DB_USER = "root";
 const DB_PASS = "";
 const DB_DRIVER = "";
 
-if ($_SERVER["SERVER_NAME"] == "localhost") {
-    define("ROOT", "http://localhost/DineMate");
-} else {
-    define("ROOT", "https://www.DineMate.com");
-}
+const ROOT = "/DineMate";
 
 const ASSETS = ROOT . "/assets";
 
@@ -25,3 +21,8 @@ const DEBUG = true;
 
 const LOG_ERRORS = true;
 const ERROR_LOG = "/tmp/php-error.log";
+
+/** Email */
+const EMAIL = "dinematesl@gmail.com";
+const PASS = "hxrgftesoknqsynv";
+const PORT = 587;
