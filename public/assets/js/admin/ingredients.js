@@ -77,13 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
               dishIngredients.innerHTML += `
             <tr>
                 <td class="edit-icons" style="display:none"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></tdi>
-                <td data-ing-id = "${ingredient.item_id}" >${
-                ingredient.item_name
-              }</td>
+                <td data-ing-id = "${ingredient.item_id}" >${ingredient.item_name
+                }</td>
                 <td>${ingredient.quantity}</td>
-                <td data-unit-id="${ingredient.unit}">${
-                unitNames[ingredient.unit].unit_name
-              }</td>
+                <td data-unit-id="${ingredient.unit}">${unitNames[ingredient.unit].unit_name
+                }</td>
                 <td class="trash-icons" style="display:none"><i class="fa fa-trash trash-icon"></i></td>
             </tr>
           `;
@@ -174,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // if the table is empty, remove the "no ingredients added yet" row
           if (
             dishIngredients.children[0]?.children[0]?.innerHTML ===
-              "No ingredients added yet" ||
+            "No ingredients added yet" ||
             dishIngredients.children.length === 0
           ) {
             dishIngredients.innerHTML = "";
@@ -407,7 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("quantity").value = quantity;
 
           // focus on the form
-          document.getElementById("ingredient").focus();
+          document.getElementById("quantity").focus();
         });
       });
     }

@@ -4810,12 +4810,6 @@ a {
   border-top: 1px solid #C0C0C0;
 }
 
-#ing-form,
-#edit-button,
-#finish-button {
-  display: none;
-}
-
 .bg-grey {
   background-color: #fafafa;
 }

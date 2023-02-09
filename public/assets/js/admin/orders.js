@@ -2,13 +2,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   var confirm_button = document.querySelector('#confirm');
   var cancel_button = document.querySelector('#cancel');
+  const rows = document.querySelectorAll('tbody tr');
 
+  // if confirm button is clicked, update order status to completed
   confirm_button.addEventListener('click', function (event) {
     document.querySelector('.popup').style.display = 'none';
     let popup = document.querySelector('.popup');
     updateOrderStatus(popup.getAttribute('data-order-id'), "completed");
+    // unblur all rows
+    rows.forEach(row => {
+      row.style.filter = 'blur(0)';
+    }
+    );
+
   });
 
+  // if cancel button is clicked, remove popup and reset circle color and data-order-status
   cancel_button.addEventListener('click', function (event) {
     const popup = document.querySelector('.popup')
     popup.style.display = 'none';
@@ -19,15 +28,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let circle = row.querySelector('#circle');
     circle.setAttribute('data-order-status', "accepted");
     circle.style.backgroundColor = "yellow";
-    // updateOrderStatus(oid, "accepted");
+    // unblur all rows
+    rows.forEach(row => {
+      row.style.filter = 'blur(0)';
+    }
+    );
   });
 
   function displayPopup(c) {
 
+    let oid = c.parentElement.parentElement.getAttribute('data-order-id');
     const popup = document.querySelector('.popup')
     popup.style.display = 'flex';
-    popup.setAttribute('data-order-id', c.parentElement.parentElement.getAttribute('data-order-id'));
+    popup.setAttribute('data-order-id', oid);
     popup.setAttribute('data-order-status', c.getAttribute('data-order-status'));
+    // blur all other rows
+    rows.forEach(row => {
+      if (row.getAttribute('data-order-id') !== oid) {
+        row.style.filter = 'blur(5px)';
+      }
+    });
 
   }
 
@@ -82,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // update order status in database
       if (status !== "completed") {
         updateOrderStatus(oid, status);
-      }      
+      }
     });
   });
 
@@ -99,8 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // filter orders by type and status
   let typeFilter = document.getElementById("type");
   let statusFilter = document.getElementById("status");
-  let rows = document.querySelectorAll("tbody tr");
-
   typeFilter.addEventListener("change", function () {
 
     let typeValue = this.value.toLowerCase();

@@ -3,65 +3,62 @@
 namespace controllers\admin;
 
 use core\Controller;
-use Exception;
 use models\Vendor;
-// use models\Item;
-// use models\Unit;
+// vendor class
 
-/**
- * Items Controller
- */
 class Vendors
 {
     use Controller;
 
-    private string $controller = "vendors";
-
-    public function index(): void
+    public function index()
     {
-        if (!isset($_SESSION["user"])) {
-            redirect("admin/auth");
-        }
-        $data = [];
-        // $data["items"] = (new Item())->itemsSearch($_GET);
-        // $data["categories"] = (new Category())->select()->fetchAll();
-        // $data["query"] = $_GET["query"] ?? "";
-        // $data["category_name"] = $_GET["category"] ?? "";
-
-        $data["controller"] = $this->controller;
-        $this->view("admin/vendor", $data);
+        $vendor = new Vendor;
+        $results['Vendor'] = $vendor->getVendors();      
+        $this->view('admin/vendor', $results);
     }
 
-    public function create(): void
+    public function addVendor(): void
     {
-        /** TODO
-         * Add form component
-         */
+        if(isset($_POST['save'])){
+            $vendor_id = $_POST['vendor_id'];
+			$vendor_name = $_POST['vendor_name'];
+			$address = $_POST['address'];
+			$company = $_POST['company'];
+			$contact_no = $_POST['contact_no'];
 
-        if (!isset($_SESSION["user"])) {
-            redirect("admin/auth");
+			$vendor = new Vendor;
+			$vendor ->addVendor([
+                'vendor_id' => $vendor_id,
+				'vendor_name'=> $vendor_name,
+				'address'=> $address,
+				'company'=> $company,
+                'contact_no'=> $contact_no
+			]);
+
+            redirect('admin/vendors');
+
         }
+        $this->view('admin/vendor.add');
+    }
 
-        $data = [];
-        // $data["categories"] = (new Category())->select()->fetchAll();
-        // $data["units"] = (new Unit())->select()->fetchAll();
+    public function edit($vendor_id): void
+    {
+        $vendor = new Vendor;
+        $results['v1'] = $vendor->getVendor($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $item = new vendor();
-            if ($item->validate($_POST)) {
-                try {
-                    $item->insert([
-                        "name" => $_POST["name"],
-                        "address" => $_POST["address"] ?? null,
-                        "company" => $_POST["company"] ?? null,
-                        "contact_no" => $_POST["contact_no"]
-                    ]);
-                    redirect("admin/vendors");
-                } catch (Exception $e) {
-                    $data["error"] = "Unknown error.";
-                }
-            }
+            show($_POST);
+            $vendor = new Vendor;
+            $vendor->editVendor($_POST);
+            redirect('admin/vendors');
         }
-        $data["controller"] = $this->controller;
-        $this->view("admin/vendor.add", $data);
+        $this->view('admin/vendor.edit', $results);
+    }
+
+    public function delete($vendor_id): void
+    {
+        $vendor = new Vendor;
+        $results['v1'] = $vendor->deleteVendor($vendor_id);
+        redirect('admin/vendors'); 
+            
     }
 }

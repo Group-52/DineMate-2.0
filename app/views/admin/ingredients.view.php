@@ -3,6 +3,7 @@
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/ingredients.css">
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
@@ -14,7 +15,7 @@
             <h1 class="display-3">Ingredients</h1>
         </div>
         <div class="mb-3">
-            <div class="form-group">
+            <div class="form-group" style="width: 300px">
                 <label for="dish-select">Dish</label>
                 <select id="dish-select" class="form-control">
                     <option value="" disabled selected>Select a dish</option>
