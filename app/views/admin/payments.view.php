@@ -2,162 +2,97 @@
 
 
 <head>
-<?php include VIEWS . "/partials/admin/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>viewOrders</title>
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/orders.css">
+    <script src="<?= ASSETS ?>/js/admin/orders.js"></script>
+    <title>payment</title>
 </head>
 
 <body class="dashboard">
-  <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
-  <div class="dashboard-container">
-    <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
-    <div class="w-100 h-100 p-5">
-      <div class="dashboard-header">
-        <h1 class="display-3 active">Orders</h1>
-      </div>
-<div>
-
-    <select name="type" id="type">
-        <option  value="Dine-in">Dine-in</option>
-        <option  value="Take-away">Take-away</option>
-        <option  value="Bulk">Bulk</option>
-    </select>
-
-    <select id="status">
-        <option value="Pending">Pending</option>
-        <option value="Accepted">Accepted</option>
-        <option value="Cancelled">Cancelled</option>
-        <option value="Completed">Completed</option>
-    </select>
+    <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+    <div class="dashboard-container">
+        <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+        <div class="w-100 h-100 p-5">
+            <div class="dashboard-header">
+                <h1 class="display-3 active">Payment</h1>
+            </div>
+            <div>
+            <div class="filter">
+                    <div>
+                        <select name="type" id="type" class="form-control">
+                            <option value="all">Type</option>
+                            <option value="dine-in">Dine-in</option>
+                            <option value="takeaway">Take-away</option>
+                            <option value="bulk">Bulk</option>
+                        </select>
+                    </div>
 </div>
-<br>
 
-<table>
+  
 
-    <tr>
-        <th>Order ID</th>
-        <th>Customer_id</th>
-        <th>Time Placed</th>
-        <th>Scheduled Time</th>
-        <th>Request</th>
-        <th>Type</th>
-        <th>Status</th>
-        <th></th>
-        <th></th>
-    </tr>
+                </div>
+            <br>
+            <div id="order-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Id</th>
+                            <th>Time Placed</th>
+                            <th>Scheduled Time</th>
+                            <th>Request</th>
+                            <th>Type</th>
+                            <!-- <th>Status</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
 
+         <?php
+         if (isset($order_list)) {
+         foreach ($order_list as $order) {
+             if ($order->status == "completed") {
 
-    <?php
-    if (isset($order_list)) {
-        foreach ($order_list as $order) {
-            echo "<tr>";
-            echo "<td>" . $order->order_id . "</td>";
-            echo "<td>" . $order->reg_customer_id ?? $order->guest_id . "</td>";
-            echo "<td>" . $order->time_placed . "</td>";
-            echo "<td>" . $order->scheduled_time . "</td>";
-            echo "<td>" . $order->request . "</td>";
-            echo "<td>" . $order->type . "</td>";
-            echo "<td>" . $order->status . "</td>";
-            echo "<td><a class='edit-icon-link' href='orders/edit/" . $order->order_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+             echo "<tr>";
+             echo "<td>" . $order->order_id . "</td>";
+             echo "<td>" . $order->reg_customer_id ?? $order->guest_id . "</td>";
+             echo "<td>" . $order->time_placed . "</td>";
+             echo "<td>" . $order->scheduled_time . "</td>";
+             echo "<td>" . $order->request . "</td>";
+             echo "<td>";
+              if ($order->type == "dine-in") {
+                echo "<img src='" . ASSETS . "/favicons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
+              } else if ($order->type == "takeaway") {
+                echo "<img src='" . ASSETS . "/favicons/fastcart.png' alt='take-away' width='30' height='30'>";
+              } else if ($order->type == "bulk") {
+                echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
+              }
+            echo "</td>";
             echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
             echo "</tr>";
+             }
+         }
         }
-    }
-
     ?>
+              </tr>
+              
+                         
+         </tbody>
 
-</table>
-</div>
-</div>
-
-</body>
-
-</html>
-
-
+     </table>
+ </div> 
+      
 
 
-<style type="text/css">
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            color: #588c7e;
-            font-family: monospace;
-            font-size: 15px;
-            text-align: left;
-        }
 
-        th {
-            background-color: #588c7e;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2
-        }
-
-        td {
-            padding: 10px;
-            text-align: center;
-        }
-
-        .editable {
-            border: 2px solid green;
-        }
-
-        .fa-edit {
-            cursor: pointer;
-            color: #588c7e ;
-        }
-
-        .fa-edit:hover {
-            color: #c0392b;
-        }
-
-        .fa-edit:active {
-            transform: scale(0.9);
-        }
-
-        .fa-cash-register {
-            cursor: pointer;
-            color:  #588c7e;
-        }
-
-        .fa-cash-register:hover {
-            color: #c0392b;
-        }
-
-        .fa-cash-register:active {
-            transform: scale(0.9);
-        }
-
-        .shrink {
-            transition: height 2s ease-out;
-        }
+  
 
 
 
 
-input[type="text"] {
-    padding: 10px 10px;
-    margin: 4px 0;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-}
 
-select {
-    margin: 0 10px;
-    padding: 10px 10px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-}
-
-
-    </style>
 
 
     <script>
@@ -183,24 +118,24 @@ select {
 
 
 
-  let orders = [
-  { type: "Dine-in", name: "type" },
-  { type: "Take-away", name:  "type" },
-  { type: "Bulk", name:  "type" },
-  { type: "Dine-in", name:  "type" }
-];
+//   let orders = [
+//   { type: "Dine-in", name: "type" },
+//   { type: "Take-away", name:  "type" },
+//   { type: "Bulk", name:  "type" },
+//   { type: "Dine-in", name:  "type" }
+// ];
 
-function filterOptions(value) {
-  // Get the select element
-  let select = document.getElementById("type");
-  // Remove all current options
-  select.innerHTML = "";
-  // Filter the data based on the passed in value
-  let filteredOrders = orders.filter(order => order.type === value);
-  // Add the filtered data to the select element
-  filteredOrders.forEach(order => {
-    select.innerHTML += `<option value="${order.name}">${order.name}</option>`;
-  });
-}
+// function filterOptions(value) {
+//   // Get the select element
+//   let select = document.getElementById("type");
+//   // Remove all current options
+//   select.innerHTML = "";
+//   // Filter the data based on the passed in value
+//   let filteredOrders = orders.filter(order => order.type === value);
+//   // Add the filtered data to the select element
+//   filteredOrders.forEach(order => {
+//     select.innerHTML += `<option value="${order.name}">${order.name}</option>`;
+//   });
+// }
 
-</script>
+// </script>

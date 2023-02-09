@@ -38,7 +38,7 @@
             <?php foreach ($inventory as $item) : ?>
               <tr data-item-id="<?= $item->item_id ?>">
                 <td><?= $item->item_name ?></td>
-                <td><?= $item->amount_remaining ?></td>
+                <td><?= $item->amount_remaining ?> <?=$item->abbreviation?></td>
                 <td><?= $item->last_updated ?></td>
                 <td data-field-name="max_stock_level"><?= $item->max_stock_level ?></td>
                 <td data-field-name="buffer_stock_level"><?= $item->buffer_stock_level ?></td>

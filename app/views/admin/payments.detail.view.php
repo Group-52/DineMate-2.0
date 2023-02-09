@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/orders.css">
+    <script src="<?= ASSETS ?>/js/admin/orders.js"></script>
+    <title>viewOrders</title>
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
