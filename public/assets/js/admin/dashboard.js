@@ -19,7 +19,7 @@ function drawBarChart() {
         data: {
             labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             datasets: [{
-                label: '# of Dishes',
+                label: '',
                 data: [12, 19, 3, 5, 2, 3, 15],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',

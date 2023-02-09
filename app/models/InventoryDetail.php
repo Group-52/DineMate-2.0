@@ -63,6 +63,19 @@ class InventoryDetail extends Model
             ->fetchAll();
     }
 
+    // get non zero inventory with items set to expire in the next x weeks or less in order of expiry date
+    public function expiring($weeks): array
+    {
+        return $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
+            ->join("items", "items.item_id", "inventory2.item_id")
+            ->join("units", "items.unit", "units.unit_id")
+            ->join("purchases", "purchases.purchase_id", "inventory2.pid")
+            ->where("amount_remaining",0, ">")
+            ->where("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
+            ->orderBy("purchases.expiry_date", "ASC")
+            ->fetchAll();
+    }
+
     // Make sure to give named arguments
     // Update a single inventory item
     public function updateInventory($pid, $amount = null, $notes = null, $risk = null)

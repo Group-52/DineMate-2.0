@@ -12,7 +12,7 @@
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       transition: 0.3s;
       width: 400px;
-      height: 250px;
+      height: 270px;
       margin: 10px;
     }
 
@@ -37,6 +37,23 @@
       justify-content: left;
       max-width: 1200px;
     }
+
+    .table-in-card {
+      margin: 10px;
+      padding: 0 10px 10px 10px;
+    }
+    .card-title{
+      padding: 5px;
+    }
+
+    .card h3 {
+      text-align: center;
+    }
+    .btn {
+      /* make left margin 10px and bottom negative 5 */
+      margin: 10px 0 0 10px;
+    }
+
   </style>
 </head>
 
@@ -53,20 +70,69 @@
 
 
         <div class="card">
-
+        <h3 class="card-title">Order Frequency</h3>
           <canvas id="myBarChart" width="1600" height="900"></canvas>
         </div>
         <div class="card">
-
+          <h3 class="card-title">Customers</h3>
           <canvas id="myLineChart" width="1600" height="900"></canvas>
         </div>
         <div class="card">
+        <h3 class="card-title">Best Selling Dishes</h3>
           <canvas id="myPieChart" width="1600" height="900"></canvas>
         </div>
 
         <div class="card">
+        <h3 class="card-title">Finances</h3>
           <canvas id="myStackedLineChart" width="1600" height="900"></canvas>
         </div>
+
+        <div class="card">
+        <h3 class="card-title">Expiry Risk</h3>
+          <div class="table-in-card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Amount Remaining</th>
+                  <th>Expiry Date</th>
+                </tr>
+              </thead>
+              <tbody id="expiry-risk-items">
+                <?php foreach ($data['expiringitems'] as $item) : ?>
+                  <tr>
+                    <td><?= $item->item_name ?></td>
+                    <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
+                    <td><?= $item->expiry_date ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+          <a href="<?= ROOT ?>/admin/inventory/info" class="btn btn-primary">View More</a>
+        </div>
+
+        <div class="card">
+        <h3 class="card-title">Low Stock</h3>
+          <div class="table-in-card">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Amount Remaining</th>
+                </tr>
+              </thead>
+              <tbody id="low-stock-items">
+                <?php foreach ($data['lowstockitems'] as $item) : ?>
+                  <tr>
+                    <td><?= $item->item_name ?></td>
+                    <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+          <a href="<?= ROOT ?>/admin/inventory" class="btn btn-primary">View More</a>
       </div>
     </div>
   </div>

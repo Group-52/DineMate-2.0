@@ -32,6 +32,16 @@ class Inventory extends Model
             ->fetchAll();
     }
 
+    // Get items that are below the reorder level
+    public function getReorderItems(): array
+    {
+        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
+            ->join("items", "items.item_id", "inventory.item_id")
+            ->join("units", "units.unit_id", "items.unit")
+            ->where("amount_remaining", "reorder_level","<=")
+            ->fetchAll();
+    }
+
     // update inventory
     public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null)
     {
