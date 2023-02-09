@@ -32,12 +32,32 @@ class InventoryDetail extends Model
             ->where("pid", $pid)
             ->fetch();
     }
+    // get all purchases with given itemid and order by date and remove a given amount from the oldest. If the amount is greater than the amount_remaining, then remove the amount_remaining and continue with the next oldest purchase
+    public function reduce($itemid, $quantity, $unitid)
+    {
+        $purchases = $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
+            ->join("items", "items.item_id", "inventory2.item_id")
+            ->join("units", "items.unit", "units.unit_id")
+            ->join("purchases", "purchases.purchase_id", "inventory2.pid")
+            ->where("item_id", $itemid)
+            ->orderBy("purchases.expiry_date", "ASC")
+            ->fetchAll();
+        foreach ($purchases as $purchase) {
+            if ($quantity >= $purchase->amount_remaining) {
+                $quantity -= $purchase->amount_remaining;
+                $this->updateInventory($purchase->pid, 0);
+            } else {
+                $this->updateInventory($purchase->pid, $purchase->amount_remaining - $quantity);
+                break;
+            }
+        }
+    }
 
 
     // Get all inventory data from database
     public function getInventory(): array
     {
-        return $this->select(["inventory2.*", "items.item_name","units.*"])
+        return $this->select(["inventory2.*", "items.item_name", "units.*"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->fetchAll();
@@ -84,7 +104,5 @@ class InventoryDetail extends Model
         $this->delete()
             ->where("pid", $pid)
             ->execute();
-
     }
-
 }
