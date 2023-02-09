@@ -24,7 +24,7 @@ class Mailer
     public function send($to, $subject, $body): bool
     {
         try {
-            $this->mailer->setFrom("dinematesl@gmail.com", "DineMate");
+            $this->mailer->setFrom(EMAIL, APP_NAME);
             $this->mailer->addAddress($to);
             $this->mailer->Subject = $subject;
             $this->mailer->Body = $body;
