@@ -32,7 +32,7 @@ class Ingredient extends Model
         $this->insert($data);
     }
 
-    // get ingredients of a dish
+    // get all rows
     public function getIngredients(): array
     {
         $ingredients = $this->select(["ingredients.*", "items.item_name", "units.unit_name", "dishes.dish_name"])
@@ -74,7 +74,7 @@ class Ingredient extends Model
             ->execute();
     }
 
-    // get all ingredients of each dish
+    // get all ingredients of a dish
     public function getDishIngredients(int $dish_id): array
     {
         return $this->select(["ingredients.*", "items.item_name", "units.unit_name", 'units.unit_id'])
