@@ -44,7 +44,7 @@
                             <th>Scheduled Time</th>
                             <th>Request</th>
                             <th>Type</th>
-                            <!-- <th>Status</th> -->
+                            <th>  </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +69,7 @@
                 echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
               }
             echo "</td>";
-            echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true' style='color: #dc3545;'  ></i></a></td>";
+            echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-credit-card' aria-hidden='true' style='color: #dc3529;'  ></i></a></td>";
             echo "</tr>";
              }
          }
@@ -89,7 +89,7 @@
   
 
 
-<script>
+<script class="payment">
 
 
  let typeFilter = document.getElementById("type");
