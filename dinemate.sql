@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2023 at 12:55 PM
+-- Generation Time: Feb 09, 2023 at 01:59 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -206,24 +206,47 @@ CREATE TABLE `ingredients` (
 --
 
 INSERT INTO `ingredients` (`dish_id`, `item_id`, `quantity`, `unit`) VALUES
+(33, 2, 0.5, 1),
 (33, 3, 0.036, 8),
 (33, 10, 0.109, 6),
+(33, 13, 100, 7),
 (34, 7, 0.006, 3),
+(34, 11, 100, 4),
+(34, 17, 200, 1),
 (35, 2, 8767, 2),
 (35, 10, 7, 3),
+(35, 20, 50, 3),
+(36, 3, 0.017, 1),
 (36, 7, 535, 2),
+(36, 9, 200, 4),
+(36, 19, 100, 3),
 (37, 3, 0.008, 1),
 (37, 7, 87, 1),
 (37, 10, 0.008, 1),
+(37, 16, 0.5, 1),
+(37, 18, 1, 5),
 (38, 7, 6, 9),
 (38, 9, 5, 9),
+(38, 12, 1, 6),
 (39, 10, 78, 1),
+(39, 14, 1, 5),
 (40, 3, 876, 1),
 (40, 7, 78, 5),
 (40, 9, 76, 1),
+(40, 15, 1, 4),
 (41, 3, 98, 8),
+(41, 9, 100, 9),
+(41, 11, 200, 7),
 (42, 3, 0.005, 3),
-(42, 7, 0.004, 8);
+(42, 7, 0.004, 8),
+(42, 10, 10, 2),
+(42, 19, 150, 3),
+(43, 10, 20, 2),
+(43, 19, 200, 3),
+(46, 7, 200, 5),
+(46, 11, 100, 4),
+(46, 16, 0.009, 10),
+(46, 17, 0.004, 7);
 
 -- --------------------------------------------------------
 
@@ -246,20 +269,20 @@ CREATE TABLE `inventory` (
 --
 
 INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `reorder_level`, `lead_time`) VALUES
-(2, 43, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(3, 430, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(7, 45630, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(9, 10, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(10, 10, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(11, 430, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(12, 45630, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(13, 483, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(14, 45680, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(15, 63, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(16, 90, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(17, 30, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(18, 40.19, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(19, 20, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL);
+(2, 43, '2023-02-05 11:54:49', 115, 97, 44, 20),
+(3, 0, '2023-02-05 11:54:49', 149, 70, 64, 15),
+(7, 45, '2023-02-05 11:54:49', 109, 91, 89, 18),
+(9, 10, '2023-02-05 11:54:49', 159, 72, 58, 10),
+(10, 10, '2023-02-05 11:54:49', 183, 51, 67, 19),
+(11, 430, '2023-02-05 11:52:20', 176, 53, 26, 11),
+(12, 45, '2023-02-05 11:52:20', 173, 55, 43, 11),
+(13, 59, '2023-02-05 11:52:20', 195, 62, 54, 13),
+(14, 94, '2023-02-05 11:52:20', 168, 61, 28, 18),
+(15, 27, '2023-02-05 11:52:20', 195, 60, 32, 11),
+(16, 90, '2023-02-05 11:52:20', 129, 51, 41, 12),
+(17, 20, '2023-02-05 11:52:20', 134, 52, 39, 10),
+(18, 40, '2023-02-05 11:52:20', 143, 55, 35, 16),
+(19, 0, '2023-02-05 11:52:20', 165, 67, 82, 18);
 
 -- --------------------------------------------------------
 
@@ -281,26 +304,22 @@ CREATE TABLE `inventory2` (
 --
 
 INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`, `expiry_risk`, `last_used`) VALUES
-(71, 15, 43, NULL, 0, '2023-02-05 11:52:20'),
-(72, 13, 430, NULL, 0, '2023-02-05 11:52:20'),
-(73, 14, 45630, NULL, 0, '2023-02-05 11:52:20'),
+(71, 15, 7, 'Jesus made this ', 1, '2023-02-06 12:29:07'),
+(72, 13, 6, 'Frozen Milk', 0, '2023-02-06 12:29:11'),
+(73, 14, 44, NULL, 1, '2023-02-06 11:15:20'),
 (74, 15, 10, NULL, 0, '2023-02-05 11:52:20'),
 (75, 16, 50, NULL, 0, '2023-02-05 11:52:20'),
-(76, 17, 10, NULL, 0, '2023-02-05 11:52:20'),
 (77, 18, 40, NULL, 0, '2023-02-05 11:52:20'),
-(78, 19, 20, NULL, 0, '2023-02-05 11:52:20'),
 (79, 13, 43, NULL, 0, '2023-02-05 11:52:20'),
 (80, 11, 430, NULL, 0, '2023-02-05 11:52:20'),
-(81, 12, 45630, NULL, 0, '2023-02-05 11:52:20'),
+(81, 12, 45, 'Die', 0, '2023-02-05 11:56:52'),
 (82, 13, 10, NULL, 0, '2023-02-05 11:52:20'),
 (83, 14, 50, NULL, 0, '2023-02-05 11:52:20'),
 (84, 15, 10, NULL, 0, '2023-02-05 11:52:20'),
 (85, 16, 40, NULL, 0, '2023-02-05 11:52:20'),
 (86, 17, 20, NULL, 0, '2023-02-05 11:52:20'),
-(87, 18, 0.19, NULL, 0, '2023-02-05 11:52:20'),
 (92, 2, 43, NULL, 0, '2023-02-05 11:54:49'),
-(88, 3, 430, NULL, 0, '2023-02-05 11:54:49'),
-(89, 7, 45630, NULL, 0, '2023-02-05 11:54:49'),
+(89, 7, 45, NULL, 0, '2023-02-05 11:56:52'),
 (90, 9, 10, NULL, 0, '2023-02-05 11:54:49'),
 (91, 10, 10, NULL, 0, '2023-02-05 11:54:49');
 
@@ -442,12 +461,12 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`order_id`, `reg_customer_id`, `guest_id`, `request`, `time_placed`, `type`, `status`, `scheduled_time`, `table_id`) VALUES
 (1, 2, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu faucibus tellus, a viverra risus. Aliquam non velit id dolor vulputate consequat a nec felis. Phasellus nec dolor at ante aliquam lacinia. Vestibulum egestas rhoncus est, dapibus pellentesque dolor placerat a. Suspendisse eget metus sit amet massa elementum mollis. Phasellus sagittis faucibus lacinia. Maecenas in vestibulum mauris, ac tempor sapien', '2022-12-16 09:35:02', 'dine-in', 'completed', NULL, 5),
-(2, 2, NULL, 'Chill', '2023-02-02 12:14:34', 'takeaway', 'rejected', NULL, NULL),
-(3, 2, NULL, 'Need lots of food', '2023-02-03 11:47:28', 'bulk', 'accepted', '13:16:38', NULL),
-(4, 6, NULL, 'Need the food to be ready by 1 PM', '2023-02-03 07:30:00', 'takeaway', 'pending', NULL, NULL),
-(5, 1, NULL, 'No dairy products', '2023-02-03 08:30:00', 'dine-in', 'accepted', '15:00:00', 2),
-(6, 1, NULL, 'Need the food to be extra hot', '2023-02-03 04:30:00', 'takeaway', 'rejected', NULL, NULL),
-(7, 2, NULL, 'Allergic to nuts', '2023-02-03 05:30:00', 'dine-in', 'pending', '12:00:00', 1),
+(2, 2, NULL, 'Chill', '2023-02-02 12:14:34', 'takeaway', 'accepted', NULL, NULL),
+(3, 2, NULL, 'Need lots of food', '2023-02-03 11:47:28', 'bulk', 'rejected', '13:16:38', NULL),
+(4, 6, NULL, 'Need the food to be ready by 1 PM', '2023-02-03 07:30:00', 'takeaway', 'rejected', NULL, NULL),
+(5, 1, NULL, 'No dairy products', '2023-02-03 08:30:00', 'dine-in', 'completed', '15:00:00', 2),
+(6, 1, NULL, 'Need the food to be extra hot', '2023-02-03 04:30:00', 'takeaway', 'completed', NULL, NULL),
+(7, 2, NULL, 'Allergic to nuts', '2023-02-03 05:30:00', 'dine-in', 'accepted', '12:00:00', 1),
 (8, 3, NULL, 'Need separate containers for sauces', '2023-02-03 06:30:00', 'bulk', 'rejected', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -583,28 +602,28 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(71, 15, 43, 7, NULL, '2023-02-01', NULL, 423, 0, 0, 423),
-(72, 13, 430, 10, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(73, 14, 45630, 12, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(74, 15, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(75, 16, 50, 7, NULL, '2023-02-01', NULL, 5000, 0, 0, 5000),
-(76, 17, 10, 12, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(77, 18, 40, 10, NULL, '2023-02-01', NULL, 430, 0, 0, 430),
-(78, 19, 20, 13, NULL, '2023-02-01', NULL, 2000, 0, 0, 2000),
-(79, 13, 43, 4, NULL, '2023-02-01', NULL, 423, 0, 0, 423),
-(80, 11, 430, 7, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(81, 12, 45630, 9, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(82, 13, 10, 7, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(83, 14, 50, 4, NULL, '2023-02-01', NULL, 5000, 0, 0, 5000),
-(84, 15, 10, 9, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(85, 16, 40, 7, NULL, '2023-02-01', NULL, 430, 0, 0, 430),
-(86, 17, 20, 10, NULL, '2023-02-01', NULL, 2000, 0, 0, 2000),
-(87, 18, 0.19, 13, 'XD', '2023-02-09', '2023-03-11', 43, 4, 4, 43),
-(88, 3, 430, 10, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(89, 7, 45630, 12, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(90, 9, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(91, 10, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(92, 2, 43, 7, NULL, '2023-02-01', NULL, 423, 0, 0, 423);
+(71, 15, 43, 7, NULL, '2023-02-01', '2023-09-14', 423, 0, 0, 423),
+(72, 13, 430, 10, NULL, '2023-02-01', '2023-07-16', 4230, 0, 0, 4230),
+(73, 14, 45630, 12, NULL, '2023-02-01', '2023-06-25', 42330, 0, 0, 43230),
+(74, 15, 10, 10, NULL, '2023-02-01', '2023-09-13', 1000, 0, 0, 1000),
+(75, 16, 50, 7, 'Samba rice cultivated in Tartarus', '2023-02-01', '2023-12-17', 5000, 0, 0, 5000),
+(76, 17, 10, 12, NULL, '2023-02-01', '2023-08-10', 1000, 0, 0, 1000),
+(77, 18, 40, 10, NULL, '2023-02-01', '2024-01-20', 430, 0, 0, 430),
+(78, 19, 20, 13, NULL, '2023-02-01', '2023-05-09', 2000, 0, 0, 2000),
+(79, 13, 43, 4, NULL, '2023-02-01', '2023-07-04', 423, 0, 0, 423),
+(80, 11, 430, 7, NULL, '2023-02-01', '2023-05-18', 4230, 0, 0, 4230),
+(81, 12, 45630, 9, NULL, '2023-02-01', '2023-04-07', 42330, 0, 0, 43230),
+(82, 13, 10, 7, NULL, '2023-02-01', '2023-02-07', 1000, 0, 0, 1000),
+(83, 14, 50, 4, NULL, '2023-02-01', '2023-08-16', 5000, 0, 0, 5000),
+(84, 15, 10, 9, NULL, '2023-02-01', '2023-09-15', 1000, 0, 0, 1000),
+(85, 16, 40, 7, NULL, '2023-02-01', '2023-07-27', 430, 0, 0, 430),
+(86, 17, 20, 10, NULL, '2023-02-01', '2023-08-19', 2000, 0, 0, 2000),
+(87, 18, 0.19, 13, 'XD', '2023-02-09', '2023-05-12', 43, 4, 4, 43),
+(88, 3, 430, 10, NULL, '2023-02-01', '2023-10-20', 4230, 0, 0, 4230),
+(89, 7, 45630, 12, NULL, '2023-02-01', '2023-10-31', 42330, 0, 0, 43230),
+(90, 9, 10, 10, NULL, '2023-02-01', '2023-08-30', 1000, 0, 0, 1000),
+(91, 10, 10, 10, NULL, '2023-02-01', '2023-09-20', 1000, 0, 0, 1000),
+(92, 2, 43, 7, NULL, '2023-02-01', '2023-07-08', 423, 0, 0, 423);
 
 --
 -- Triggers `purchases`
@@ -692,15 +711,15 @@ CREATE TABLE `units` (
 --
 
 INSERT INTO `units` (`unit_id`, `unit_name`, `abbreviation`, `type`) VALUES
-(1, 'kilogram', 'kg', 'mass'),
+(1, 'kilograms', 'kg', 'mass'),
 (2, 'grams', 'g', 'mass'),
-(3, 'mililiter', 'ml', 'volume'),
+(3, 'mililiters', 'ml', 'volume'),
 (4, 'litres', 'l', 'volume'),
 (5, 'packets', 'pkts', 'discrete'),
 (6, 'bottles', 'btls', 'discrete'),
-(7, 'ounce', 'oz', 'mass'),
+(7, 'ounces', 'oz', 'mass'),
 (8, 'pounds', 'lb', 'mass'),
-(9, 'cups', NULL, 'volume'),
+(9, 'cups', 'cups', 'volume'),
 (10, 'pieces', 'pcs', 'discrete'),
 (11, 'meters', 'm', 'length'),
 (12, 'teaspoons', 'tsp', 'volume');
@@ -759,10 +778,8 @@ CREATE TABLE `vendors` (
 
 INSERT INTO `vendors` (`vendor_id`, `vendor_name`, `address`, `company`, `contact_no`, `email`) VALUES
 (1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL),
-(3, 'Scarlett Johansson', '1234 Main St', 'Marvel Studios', '555-555-5555', 'scarlettjohansson@marvel.com'),
 (4, 'Scarlett Johansson', '1234 Main St', 'Marvel Studios', '555-555-5555', 'scarlettjohansson@marvel.com'),
 (5, 'Brie Larson', '5678 Elm St', 'Marvel Studios', '555-555-5556', 'brielarson@marvel.com'),
-(6, 'Elizabeth Olsen', '91011 Oak Ave', 'Marvel Studios', '555-555-5557', 'elizabetholsen@marvel.com'),
 (7, 'Gwyneth Paltrow', '121314 Pine Blvd', 'Marvel Studios', '555-555-5558', 'gwynethpaltrow@marvel.com'),
 (8, 'Tessa Thompson', '151617 Cedar Rd', 'Marvel Studios', '555-555-5559', 'tessathompson@marvel.com'),
 (9, 'Zehra Modi', '181910 Maple Ln', 'Bharatiya Janata Party', '555-555-5560', 'zehratiya@bjp.com'),
@@ -1035,7 +1052,7 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
