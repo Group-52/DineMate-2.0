@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 05, 2023 at 12:55 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
+-- Generation Time: Feb 09, 2023 at 10:39 PM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,17 @@ CREATE TABLE `carts` (
   `user_id` int(11) NOT NULL,
   `dish_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`user_id`, `dish_id`, `quantity`) VALUES
+(10, 37, 6),
+(10, 40, 7),
+(10, 41, 10),
+(11, 40, 3);
 
 -- --------------------------------------------------------
 
@@ -42,7 +52,7 @@ CREATE TABLE `carts` (
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categories`
@@ -53,9 +63,7 @@ INSERT INTO `categories` (`category_id`, `category_name`) VALUES
 (2, 'Spices'),
 (3, 'Grains'),
 (4, 'Vegetables'),
-(5, 'Fruits'),
-(6, 'Bakery'),
-(7, 'Dairy');
+(5, 'Fruits');
 
 -- --------------------------------------------------------
 
@@ -71,7 +79,7 @@ CREATE TABLE `dishes` (
   `description` varchar(500) NOT NULL,
   `prep_time` int(11) NOT NULL,
   `image_url` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `dishes`
@@ -102,26 +110,22 @@ CREATE TABLE `employees` (
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
   `username` varchar(100) NOT NULL,
-  `salary` float NOT NULL,
+  `salary` double NOT NULL,
   `contact_no` varchar(20) NOT NULL,
   `NIC` varchar(20) NOT NULL,
   `date_employed` date NOT NULL,
   `role` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(512) NOT NULL,
+  `password` varchar(500) NOT NULL,
   `last_login` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `employees`
 --
 
 INSERT INTO `employees` (`emp_id`, `first_name`, `last_name`, `username`, `salary`, `contact_no`, `NIC`, `date_employed`, `role`, `email`, `password`, `last_login`) VALUES
-(1, 'Janet', 'Pym', 'jp', 100000, '0724573075', '1234567890', '2012-11-09', 1, 'jp@xmail.com', 'janet', '2022-12-01 18:30:00'),
-(2, 'ron', 'weasley', 'rw@xmail.com', 0, '3', '', '0000-00-00', 2, 'rw@xmail.com', '$2y$10$SNBMsJ6bqPV/61kRqwbH2eETa7pYDObU9r0bfPQWCkvAQ4xEOQcBC', '2022-12-16 04:47:16'),
-(3, 'hermione', 'granger', 'hg@xmail.com', 0, '1', '', '0000-00-00', 2, 'hg@xmail.com', '$2y$10$XZiLEyvBtcEQhr6LydKwXO4wXg5UjoSQxQ.Z8v26JuFU5WchxXUNW', '2022-12-16 05:33:41'),
-(4, 'Nipun', 'Weerasiri', 'nipun', 0, '', '', '0000-00-00', 4, 'nipun@email.com', '$2y$10$Mza4PDo2jJyWnhPTBY.tH.XO65n4keDIpEu0iHH1q43gdNSy/Hd1K', '2022-12-16 09:48:17'),
-(5, 'hf', 'uhauf', 'hu@gmail.com', 0, '3243', '', '0000-00-00', 2, 'hu@gmail.com', '$2y$10$Qi8iSg3weRpDOz.1H2fEAOk2eM6ncwVaLr.SxxubfuHhkhfN.Pa8C', '2022-12-16 09:54:19');
+(4, 'Nipun', 'Weerasiri', 'nipun', 0, '', '', '0000-00-00', 4, 'nipun@email.com', '$2y$10$Mza4PDo2jJyWnhPTBY.tH.XO65n4keDIpEu0iHH1q43gdNSy/Hd1K', '2022-12-16 09:48:17');
 
 -- --------------------------------------------------------
 
@@ -137,25 +141,7 @@ CREATE TABLE `feedback` (
   `rating` tinyint(4) NOT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `time_placed` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`feedback_id`, `reg_customer_id`, `guest_id`, `order_id`, `rating`, `description`, `time_placed`) VALUES
-(1, 2, NULL, 1, 3, 'Good stuff', '2023-02-02 12:15:46'),
-(13, 1, NULL, 1, 5, 'Great experience', '2023-02-05 11:49:48'),
-(14, 2, NULL, 2, 4, 'Satisfied with the service', '2023-02-05 11:49:48'),
-(15, 3, NULL, 3, 3, 'Could have been better', '2023-02-05 11:49:48'),
-(16, 6, NULL, 4, 4, 'Fast and efficient', '2023-02-05 11:49:48'),
-(17, 1, NULL, 5, 5, 'Excellent service', '2023-02-05 11:49:48'),
-(18, 2, NULL, 6, 4, 'No complaints', '2023-02-05 11:49:48'),
-(19, 3, NULL, 7, 2, 'Not impressed', '2023-02-05 11:49:48'),
-(20, 6, NULL, 8, 5, 'Would definitely recommend', '2023-02-05 11:49:48'),
-(21, 1, NULL, 5, 4, 'Good job', '2023-02-05 11:49:48'),
-(22, 2, NULL, 7, 5, 'Outstanding service', '2023-02-05 11:49:48'),
-(23, 3, NULL, 4, 4, 'Very satisfied', '2023-02-05 11:49:48');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -171,7 +157,7 @@ CREATE TABLE `general_info` (
   `contact_no` varchar(20) DEFAULT NULL,
   `introduction` varchar(500) DEFAULT NULL,
   `image_url` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -186,7 +172,7 @@ CREATE TABLE `guest_users` (
   `contact_no` varchar(20) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -199,31 +185,16 @@ CREATE TABLE `ingredients` (
   `item_id` int(11) NOT NULL,
   `quantity` float NOT NULL,
   `unit` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `ingredients`
 --
 
 INSERT INTO `ingredients` (`dish_id`, `item_id`, `quantity`, `unit`) VALUES
-(33, 3, 0.036, 8),
-(33, 10, 0.109, 6),
-(34, 7, 0.006, 3),
-(35, 2, 8767, 2),
-(35, 10, 7, 3),
-(36, 7, 535, 2),
-(37, 3, 0.008, 1),
-(37, 7, 87, 1),
-(37, 10, 0.008, 1),
-(38, 7, 6, 9),
-(38, 9, 5, 9),
-(39, 10, 78, 1),
-(40, 3, 876, 1),
-(40, 7, 78, 5),
-(40, 9, 76, 1),
-(41, 3, 98, 8),
-(42, 3, 0.005, 3),
-(42, 7, 0.004, 8);
+(40, 2, 5, 1),
+(41, 2, 10, 4),
+(41, 3, 10, 4);
 
 -- --------------------------------------------------------
 
@@ -239,27 +210,17 @@ CREATE TABLE `inventory` (
   `buffer_stock_level` float DEFAULT NULL,
   `reorder_level` float DEFAULT NULL,
   `lead_time` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `inventory`
 --
 
 INSERT INTO `inventory` (`item_id`, `amount_remaining`, `last_updated`, `max_stock_level`, `buffer_stock_level`, `reorder_level`, `lead_time`) VALUES
-(2, 43, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(3, 430, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(7, 45630, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(9, 10, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(10, 10, '2023-02-05 11:54:49', NULL, NULL, NULL, NULL),
-(11, 430, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(12, 45630, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(13, 483, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(14, 45680, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(15, 63, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(16, 90, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(17, 30, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(18, 40.19, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL),
-(19, 20, '2023-02-05 11:52:20', NULL, NULL, NULL, NULL);
+(2, 60, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL),
+(3, 120, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL),
+(7, 559, '2023-01-25 14:07:00', NULL, 0, NULL, NULL),
+(9, 45714, '2023-01-25 14:07:00', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,35 +235,21 @@ CREATE TABLE `inventory2` (
   `special_notes` varchar(500) DEFAULT NULL,
   `expiry_risk` smallint(6) DEFAULT 0,
   `last_used` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `inventory2`
 --
 
 INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`, `expiry_risk`, `last_used`) VALUES
-(71, 15, 43, NULL, 0, '2023-02-05 11:52:20'),
-(72, 13, 430, NULL, 0, '2023-02-05 11:52:20'),
-(73, 14, 45630, NULL, 0, '2023-02-05 11:52:20'),
-(74, 15, 10, NULL, 0, '2023-02-05 11:52:20'),
-(75, 16, 50, NULL, 0, '2023-02-05 11:52:20'),
-(76, 17, 10, NULL, 0, '2023-02-05 11:52:20'),
-(77, 18, 40, NULL, 0, '2023-02-05 11:52:20'),
-(78, 19, 20, NULL, 0, '2023-02-05 11:52:20'),
-(79, 13, 43, NULL, 0, '2023-02-05 11:52:20'),
-(80, 11, 430, NULL, 0, '2023-02-05 11:52:20'),
-(81, 12, 45630, NULL, 0, '2023-02-05 11:52:20'),
-(82, 13, 10, NULL, 0, '2023-02-05 11:52:20'),
-(83, 14, 50, NULL, 0, '2023-02-05 11:52:20'),
-(84, 15, 10, NULL, 0, '2023-02-05 11:52:20'),
-(85, 16, 40, NULL, 0, '2023-02-05 11:52:20'),
-(86, 17, 20, NULL, 0, '2023-02-05 11:52:20'),
-(87, 18, 0.19, NULL, 0, '2023-02-05 11:52:20'),
-(92, 2, 43, NULL, 0, '2023-02-05 11:54:49'),
-(88, 3, 430, NULL, 0, '2023-02-05 11:54:49'),
-(89, 7, 45630, NULL, 0, '2023-02-05 11:54:49'),
-(90, 9, 10, NULL, 0, '2023-02-05 11:54:49'),
-(91, 10, 10, NULL, 0, '2023-02-05 11:54:49');
+(46, 7, 43, NULL, 0, '2023-02-02 05:55:21'),
+(47, 7, 430, NULL, 0, '2023-02-02 05:55:21'),
+(48, 9, 45630, NULL, 0, '2023-02-02 05:55:21'),
+(49, 3, 10, NULL, 0, '2023-02-02 05:55:21'),
+(50, 3, 50, NULL, 0, '2023-02-02 05:55:21'),
+(51, 2, 10, NULL, 0, '2023-02-02 05:55:21'),
+(52, 9, 40, NULL, 0, '2023-02-02 05:55:21'),
+(53, 2, 20, NULL, 0, '2023-02-02 05:55:21');
 
 --
 -- Triggers `inventory2`
@@ -310,9 +257,13 @@ INSERT INTO `inventory2` (`pid`, `item_id`, `amount_remaining`, `special_notes`,
 DELIMITER $$
 CREATE TRIGGER `update_amount_remaining` AFTER UPDATE ON `inventory2` FOR EACH ROW BEGIN
     IF NEW.amount_remaining < OLD.amount_remaining THEN
-        UPDATE inventory SET amount_remaining = amount_remaining - (OLD.amount_remaining - NEW.amount_remaining) WHERE item_id = NEW.item_id;
+        UPDATE inventory
+        SET amount_remaining = amount_remaining - (OLD.amount_remaining - NEW.amount_remaining)
+        WHERE item_id = NEW.item_id;
     ELSE
-		UPDATE inventory SET amount_remaining = amount_remaining + (NEW.amount_remaining - OLD.amount_remaining) WHERE item_id = NEW.item_id;
+        UPDATE inventory
+        SET amount_remaining = amount_remaining + (NEW.amount_remaining - OLD.amount_remaining)
+        WHERE item_id = NEW.item_id;
     END IF;
 END
 $$
@@ -338,7 +289,7 @@ CREATE TABLE `items` (
   `description` text DEFAULT NULL,
   `unit` int(50) NOT NULL,
   `category` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `items`
@@ -348,18 +299,7 @@ INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`) 
 (2, 'Dhal', 'always keep at hand', 1, 3),
 (3, 'Carrots', 'orange long cone', 1, 4),
 (7, 'Banana', 'Long and Yellow', 1, 5),
-(9, 'Sugar', 'Sweetest', 1, 2),
-(10, 'Salt', 'Can\'t live without', 1, 2),
-(11, 'Milk', 'From a cow', 4, 7),
-(12, 'Bread', 'A staple food', 1, 6),
-(13, 'Cheese', 'A dairy product', 1, 7),
-(14, 'Lemon', 'A citrus fruit', 1, 5),
-(15, 'Wine', 'A alcoholic drink', 4, 1),
-(16, 'Rice', 'Long grain Basmati Rice', 1, 3),
-(17, 'Tomatoes', 'Red and juicy', 1, 4),
-(18, 'Lemon', 'Citrus fruit', 5, 4),
-(19, 'Coffee', 'Arabica coffee beans', 1, 1),
-(20, 'Tea', 'Black tea leaves', 1, 1);
+(9, 'Sugar', 'Sweetest', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -370,12 +310,12 @@ INSERT INTO `items` (`item_id`, `item_name`, `description`, `unit`, `category`) 
 CREATE TABLE `menus` (
   `menu_id` int(11) NOT NULL,
   `menu_name` varchar(255) NOT NULL,
-  `description` varchar(200) NOT NULL,
+  `description` text NOT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
-  `image_url` varchar(200) DEFAULT NULL,
+  `image_url` text DEFAULT NULL,
   `all_day` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `menus`
@@ -394,29 +334,25 @@ INSERT INTO `menus` (`menu_id`, `menu_name`, `description`, `start_time`, `end_t
 CREATE TABLE `menu_dishes` (
   `menu_id` int(11) NOT NULL,
   `dish_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `menu_dishes`
 --
 
 INSERT INTO `menu_dishes` (`menu_id`, `dish_id`) VALUES
-(3, 33),
-(3, 42),
-(3, 36),
-(3, 43),
-(1, 38),
-(1, 39),
 (1, 37),
+(1, 38),
 (1, 40),
+(1, 41),
 (3, 33),
-(3, 42),
+(3, 34),
+(3, 35),
 (3, 36),
+(3, 42),
 (3, 43),
-(1, 38),
-(1, 39),
-(1, 37),
-(1, 40);
+(3, 46),
+(1, 39);
 
 -- --------------------------------------------------------
 
@@ -434,21 +370,14 @@ CREATE TABLE `orders` (
   `status` varchar(50) NOT NULL,
   `scheduled_time` time DEFAULT NULL,
   `table_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `orders`
 --
 
 INSERT INTO `orders` (`order_id`, `reg_customer_id`, `guest_id`, `request`, `time_placed`, `type`, `status`, `scheduled_time`, `table_id`) VALUES
-(1, 2, NULL, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu faucibus tellus, a viverra risus. Aliquam non velit id dolor vulputate consequat a nec felis. Phasellus nec dolor at ante aliquam lacinia. Vestibulum egestas rhoncus est, dapibus pellentesque dolor placerat a. Suspendisse eget metus sit amet massa elementum mollis. Phasellus sagittis faucibus lacinia. Maecenas in vestibulum mauris, ac tempor sapien', '2022-12-16 09:35:02', 'dine-in', 'completed', NULL, 5),
-(2, 2, NULL, 'Chill', '2023-02-02 12:14:34', 'takeaway', 'rejected', NULL, NULL),
-(3, 2, NULL, 'Need lots of food', '2023-02-03 11:47:28', 'bulk', 'accepted', '13:16:38', NULL),
-(4, 6, NULL, 'Need the food to be ready by 1 PM', '2023-02-03 07:30:00', 'takeaway', 'pending', NULL, NULL),
-(5, 1, NULL, 'No dairy products', '2023-02-03 08:30:00', 'dine-in', 'accepted', '15:00:00', 2),
-(6, 1, NULL, 'Need the food to be extra hot', '2023-02-03 04:30:00', 'takeaway', 'rejected', NULL, NULL),
-(7, 2, NULL, 'Allergic to nuts', '2023-02-03 05:30:00', 'dine-in', 'pending', '12:00:00', 1),
-(8, 3, NULL, 'Need separate containers for sauces', '2023-02-03 06:30:00', 'bulk', 'rejected', NULL, NULL);
+(1, 2, NULL, 'Cool', '2022-12-16 09:35:02', 'dinein', 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -460,26 +389,7 @@ CREATE TABLE `order_dishes` (
   `order_id` int(11) NOT NULL,
   `dish_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `order_dishes`
---
-
-INSERT INTO `order_dishes` (`order_id`, `dish_id`, `quantity`) VALUES
-(1, 33, 3),
-(1, 35, 1),
-(1, 40, 12),
-(1, 41, 2),
-(2, 34, 5),
-(2, 42, 7),
-(3, 35, 2),
-(3, 43, 5),
-(4, 36, 7),
-(5, 37, 4),
-(6, 38, 8),
-(7, 39, 6),
-(8, 40, 9);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -490,7 +400,19 @@ INSERT INTO `order_dishes` (`order_id`, `dish_id`, `quantity`) VALUES
 CREATE TABLE `order_promotions` (
   `order_id` int(11) NOT NULL,
   `promo_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `otp_reg_users`
+--
+
+CREATE TABLE `otp_reg_users` (
+  `user_id` int(11) NOT NULL,
+  `otp` int(6) NOT NULL,
+  `time_of_expiry` timestamp NOT NULL DEFAULT (current_timestamp() + interval 5 minute)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -500,11 +422,11 @@ CREATE TABLE `order_promotions` (
 
 CREATE TABLE `promotions` (
   `promo_id` int(11) NOT NULL,
-  `caption` varchar(500) DEFAULT NULL,
-  `type` varchar(50) NOT NULL,
+  `caption` text DEFAULT NULL,
+  `type` text NOT NULL,
   `status` tinyint(1) NOT NULL,
   `image_url` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `promotions`
@@ -525,7 +447,15 @@ CREATE TABLE `promo_buy1get1free` (
   `promo_id` int(11) NOT NULL,
   `dish1_id` int(11) NOT NULL,
   `dish2_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `promo_buy1get1free`
+--
+
+INSERT INTO `promo_buy1get1free` (`promo_id`, `dish1_id`, `dish2_id`) VALUES
+(3, 36, 35),
+(3, 36, 35);
 
 -- --------------------------------------------------------
 
@@ -537,14 +467,15 @@ CREATE TABLE `promo_discounts` (
   `promo_id` int(11) NOT NULL,
   `dish_id` int(11) NOT NULL,
   `discount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `promo_discounts`
 --
 
 INSERT INTO `promo_discounts` (`promo_id`, `dish_id`, `discount`) VALUES
-(1, 38, 3);
+(1, 37, 0.3),
+(1, 37, 0.3);
 
 -- --------------------------------------------------------
 
@@ -554,9 +485,17 @@ INSERT INTO `promo_discounts` (`promo_id`, `dish_id`, `discount`) VALUES
 
 CREATE TABLE `promo_spending_bonus` (
   `promo_id` int(11) NOT NULL,
-  `spent_amount` float NOT NULL,
-  `bonus_amount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `spent_amount` double NOT NULL,
+  `bonus_amount` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `promo_spending_bonus`
+--
+
+INSERT INTO `promo_spending_bonus` (`promo_id`, `spent_amount`, `bonus_amount`) VALUES
+(2, 2000, 400),
+(2, 2000, 400);
 
 -- --------------------------------------------------------
 
@@ -567,51 +506,37 @@ CREATE TABLE `promo_spending_bonus` (
 CREATE TABLE `purchases` (
   `purchase_id` int(11) NOT NULL,
   `item` int(11) NOT NULL,
-  `quantity` float NOT NULL,
-  `vendor` int(11) DEFAULT NULL,
+  `Quantity` double NOT NULL,
+  `vendor` int(11) NOT NULL,
   `brand` varchar(256) DEFAULT NULL,
-  `purchase_date` date DEFAULT current_timestamp(),
+  `purchase_date` date NOT NULL,
   `expiry_date` date DEFAULT NULL,
-  `cost` float NOT NULL,
-  `discount` float NOT NULL DEFAULT 0,
+  `cost` double NOT NULL,
+  `discount` double NOT NULL DEFAULT 0,
   `tax` float NOT NULL DEFAULT 0,
-  `final_price` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `final_price` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `purchases`
 --
 
-INSERT INTO `purchases` (`purchase_id`, `item`, `quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
-(71, 15, 43, 7, NULL, '2023-02-01', NULL, 423, 0, 0, 423),
-(72, 13, 430, 10, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(73, 14, 45630, 12, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(74, 15, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(75, 16, 50, 7, NULL, '2023-02-01', NULL, 5000, 0, 0, 5000),
-(76, 17, 10, 12, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(77, 18, 40, 10, NULL, '2023-02-01', NULL, 430, 0, 0, 430),
-(78, 19, 20, 13, NULL, '2023-02-01', NULL, 2000, 0, 0, 2000),
-(79, 13, 43, 4, NULL, '2023-02-01', NULL, 423, 0, 0, 423),
-(80, 11, 430, 7, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(81, 12, 45630, 9, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(82, 13, 10, 7, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(83, 14, 50, 4, NULL, '2023-02-01', NULL, 5000, 0, 0, 5000),
-(84, 15, 10, 9, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(85, 16, 40, 7, NULL, '2023-02-01', NULL, 430, 0, 0, 430),
-(86, 17, 20, 10, NULL, '2023-02-01', NULL, 2000, 0, 0, 2000),
-(87, 18, 0.19, 13, 'XD', '2023-02-09', '2023-03-11', 43, 4, 4, 43),
-(88, 3, 430, 10, NULL, '2023-02-01', NULL, 4230, 0, 0, 4230),
-(89, 7, 45630, 12, NULL, '2023-02-01', NULL, 42330, 0, 0, 43230),
-(90, 9, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(91, 10, 10, 10, NULL, '2023-02-01', NULL, 1000, 0, 0, 1000),
-(92, 2, 43, 7, NULL, '2023-02-01', NULL, 423, 0, 0, 423);
+INSERT INTO `purchases` (`purchase_id`, `item`, `Quantity`, `vendor`, `brand`, `purchase_date`, `expiry_date`, `cost`, `discount`, `tax`, `final_price`) VALUES
+(46, 7, 43, 1, NULL, '0000-00-00', NULL, 423, 0, 0, 423),
+(47, 7, 430, 1, NULL, '0000-00-00', NULL, 4230, 0, 0, 4230),
+(48, 9, 45630, 1, NULL, '0000-00-00', NULL, 42330, 0, 0, 43230),
+(49, 3, 10, 1, NULL, '0000-00-00', NULL, 1000, 0, 0, 1000),
+(50, 3, 50, 1, NULL, '0000-00-00', NULL, 5000, 0, 0, 5000),
+(51, 2, 10, 1, NULL, '0000-00-00', NULL, 1000, 0, 0, 1000),
+(52, 9, 40, 1, NULL, '0000-00-00', NULL, 430, 0, 0, 430),
+(53, 2, 20, 1, NULL, '0000-00-00', NULL, 2000, 0, 0, 2000);
 
 --
 -- Triggers `purchases`
 --
 DELIMITER $$
 CREATE TRIGGER `update_inventory` BEFORE INSERT ON `purchases` FOR EACH ROW BEGIN
-    IF EXISTS (SELECT 1 FROM inventory WHERE item_id = NEW.item) THEN
+    IF EXISTS(SELECT 1 FROM inventory WHERE item_id = NEW.item) THEN
         UPDATE inventory SET amount_remaining = amount_remaining + NEW.quantity WHERE item_id = NEW.item;
     ELSE
         INSERT INTO inventory (item_id, amount_remaining) VALUES (NEW.item, NEW.quantity);
@@ -621,7 +546,7 @@ $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `update_inventory2` AFTER INSERT ON `purchases` FOR EACH ROW BEGIN
-INSERT into inventory2 (pid, amount_remaining,item_id) VALUES (NEW.purchase_id, NEW.quantity, NEW.item);
+    INSERT into inventory2 (pid, amount_remaining, item_id) VALUES (NEW.purchase_id, NEW.quantity, NEW.item);
 END
 $$
 DELIMITER ;
@@ -640,18 +565,17 @@ CREATE TABLE `reg_users` (
   `email` varchar(100) NOT NULL,
   `password` varchar(512) NOT NULL,
   `registered_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `last_login` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp(),
+  `verified_email` tinyint(1) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reg_users`
 --
 
-INSERT INTO `reg_users` (`user_id`, `first_name`, `last_name`, `contact_no`, `email`, `password`, `registered_date`, `last_login`) VALUES
-(1, 'Clint', 'Barton', '555', 'cb@xmail.com', '$2y$10$tHdvolbPMWUhtVzFTe/U9upVSyxcJ.RxDA15aBbqmIBaGmr4XalKa', '2022-11-19 11:07:40', '2022-12-01 18:30:00'),
-(2, 'Bruce', 'Wayne', '1234', 'bw@xmail.com', '$2y$10$n2MLfG2NVoAyw5kM7WHrPePkaM9oVODNU8FYymBh68MZkt2YrlbdW', '2022-12-03 20:37:41', '2022-12-03 20:37:41'),
-(3, 'Thor', 'Odinson', '1234', 'to@xmail.com', '$2y$10$W5tNA5WjXlBjS6bE7tB7CehMFlmkE2mFsh1jZ5v75Tzc3fK1voi8G', '2022-12-04 07:32:30', '2022-12-04 07:32:30'),
-(6, 'Andrew', 'Tate', '1', 'at@xmail.com', '$2y$10$gqM/6DlLpjgtbUqLwL9lzetNEIGT6w6KV44aG4miDNhIl5WMRGHAu', '2022-12-15 05:39:19', '2022-12-15 05:39:19');
+INSERT INTO `reg_users` (`user_id`, `first_name`, `last_name`, `contact_no`, `email`, `password`, `registered_date`, `last_login`, `verified_email`) VALUES
+(10, 'Nipun', 'Weerasiri', '0703489775', 'nipunchamikara@yahoo.com', '$2y$10$cPuKs8x/V/F0CaomtJq8nOkarvuKIRfOL2cMZ5SQRTJoXuOZ3d8wi', '2023-01-08 19:23:09', '2023-01-08 19:23:09', 1),
+(11, 'Sandul', 'Renuja', '0775415464', 'sandulrenuja@gmail.com', '$2y$10$whGLeFNbZrcN/zWWgT2xYeJvt9QHFFQ7Y0xWWkX3iMZOr/PyxyILy', '2023-02-09 21:06:29', '2023-02-09 21:06:29', 1);
 
 -- --------------------------------------------------------
 
@@ -661,8 +585,8 @@ INSERT INTO `reg_users` (`user_id`, `first_name`, `last_name`, `contact_no`, `em
 
 CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL,
-  `role` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `role` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `roles`
@@ -685,7 +609,7 @@ CREATE TABLE `units` (
   `unit_name` varchar(20) NOT NULL,
   `abbreviation` varchar(10) DEFAULT NULL,
   `type` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `units`
@@ -700,10 +624,7 @@ INSERT INTO `units` (`unit_id`, `unit_name`, `abbreviation`, `type`) VALUES
 (6, 'bottles', 'btls', 'discrete'),
 (7, 'ounce', 'oz', 'mass'),
 (8, 'pounds', 'lb', 'mass'),
-(9, 'cups', NULL, 'volume'),
-(10, 'pieces', 'pcs', 'discrete'),
-(11, 'meters', 'm', 'length'),
-(12, 'teaspoons', 'tsp', 'volume');
+(9, 'cups', NULL, 'volume');
 
 -- --------------------------------------------------------
 
@@ -715,7 +636,7 @@ CREATE TABLE `unit_conversion` (
   `u1` int(11) DEFAULT NULL,
   `u2` int(11) DEFAULT NULL,
   `conversion_factor` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `unit_conversion`
@@ -725,18 +646,7 @@ INSERT INTO `unit_conversion` (`u1`, `u2`, `conversion_factor`) VALUES
 (1, 2, 1000),
 (4, 3, 1000),
 (7, 2, 28.3495),
-(8, 2, 453.592),
-(2, 7, 0.0353),
-(2, 7, 0.0353),
-(2, 8, 0.0022),
-(3, 9, 0.2366),
-(4, 9, 4.2268),
-(7, 8, 16),
-(5, 6, 6),
-(7, 1, 0.0283495),
-(8, 1, 0.453592),
-(9, 3, 236.588),
-(9, 4, 0.2366);
+(8, 2, 453.592);
 
 -- --------------------------------------------------------
 
@@ -751,25 +661,14 @@ CREATE TABLE `vendors` (
   `company` varchar(100) DEFAULT NULL,
   `contact_no` varchar(50) NOT NULL,
   `email` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `vendors`
 --
 
 INSERT INTO `vendors` (`vendor_id`, `vendor_name`, `address`, `company`, `contact_no`, `email`) VALUES
-(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL),
-(3, 'Scarlett Johansson', '1234 Main St', 'Marvel Studios', '555-555-5555', 'scarlettjohansson@marvel.com'),
-(4, 'Scarlett Johansson', '1234 Main St', 'Marvel Studios', '555-555-5555', 'scarlettjohansson@marvel.com'),
-(5, 'Brie Larson', '5678 Elm St', 'Marvel Studios', '555-555-5556', 'brielarson@marvel.com'),
-(6, 'Elizabeth Olsen', '91011 Oak Ave', 'Marvel Studios', '555-555-5557', 'elizabetholsen@marvel.com'),
-(7, 'Gwyneth Paltrow', '121314 Pine Blvd', 'Marvel Studios', '555-555-5558', 'gwynethpaltrow@marvel.com'),
-(8, 'Tessa Thompson', '151617 Cedar Rd', 'Marvel Studios', '555-555-5559', 'tessathompson@marvel.com'),
-(9, 'Zehra Modi', '181910 Maple Ln', 'Bharatiya Janata Party', '555-555-5560', 'zehratiya@bjp.com'),
-(10, 'Priyanka Gandhi', '212223 Rosewood Ave', 'Indian National Congress', '555-555-5561', 'priyankagandhi@inc.com'),
-(11, 'Nirmala Sitharaman', '242526 Cedar Ln', 'Bharatiya Janata Party', '555-555-5562', 'nirmalasitharaman@bjp.com'),
-(12, 'Sonia Gandhi', '272829 Elmwood St', 'Indian National Congress', '555-555-5563', 'soniagandhi@inc.com'),
-(13, 'Smriti Irani', '303132 Oakwood Dr', 'Bharatiya Janata Party', '555-555-5564', 'smritiirani@bjp.com');
+(1, 'Lana', 'Madrid, Spain', 'Rhoedes Inc.', '0724573075', NULL);
 
 --
 -- Indexes for dumped tables
@@ -870,8 +769,7 @@ ALTER TABLE `orders`
 -- Indexes for table `order_dishes`
 --
 ALTER TABLE `order_dishes`
-  ADD PRIMARY KEY (`order_id`,`dish_id`),
-  ADD KEY `dish_id` (`dish_id`);
+  ADD PRIMARY KEY (`order_id`,`dish_id`);
 
 --
 -- Indexes for table `order_promotions`
@@ -890,7 +788,6 @@ ALTER TABLE `promotions`
 -- Indexes for table `promo_buy1get1free`
 --
 ALTER TABLE `promo_buy1get1free`
-  ADD UNIQUE KEY `promo_id_2` (`promo_id`),
   ADD KEY `promo_id` (`promo_id`),
   ADD KEY `dish1_id` (`dish1_id`),
   ADD KEY `dish2_id` (`dish2_id`);
@@ -899,7 +796,6 @@ ALTER TABLE `promo_buy1get1free`
 -- Indexes for table `promo_discounts`
 --
 ALTER TABLE `promo_discounts`
-  ADD UNIQUE KEY `promo_id_2` (`promo_id`),
   ADD KEY `dish_id` (`dish_id`),
   ADD KEY `promo_id` (`promo_id`);
 
@@ -907,7 +803,6 @@ ALTER TABLE `promo_discounts`
 -- Indexes for table `promo_spending_bonus`
 --
 ALTER TABLE `promo_spending_bonus`
-  ADD UNIQUE KEY `promo_id_2` (`promo_id`),
   ADD KEY `promo_id` (`promo_id`);
 
 --
@@ -940,8 +835,8 @@ ALTER TABLE `units`
 -- Indexes for table `unit_conversion`
 --
 ALTER TABLE `unit_conversion`
-  ADD KEY `u1` (`u1`),
-  ADD KEY `u2` (`u2`);
+  ADD KEY `unit_conversion_ibfk_1` (`u1`),
+  ADD KEY `unit_conversion_ibfk_2` (`u2`);
 
 --
 -- Indexes for table `vendors`
@@ -957,25 +852,25 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `dishes`
 --
 ALTER TABLE `dishes`
-  MODIFY `dish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `dish_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `feedback`
 --
 ALTER TABLE `feedback`
-  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `feedback_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `guest_users`
@@ -987,7 +882,7 @@ ALTER TABLE `guest_users`
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -999,7 +894,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `promotions`
@@ -1011,13 +906,13 @@ ALTER TABLE `promotions`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `reg_users`
 --
 ALTER TABLE `reg_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -1029,13 +924,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `units`
 --
 ALTER TABLE `units`
-  MODIFY `unit_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `unit_id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `vendors`
 --
 ALTER TABLE `vendors`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -1100,8 +995,7 @@ ALTER TABLE `menu_dishes`
 -- Constraints for table `order_dishes`
 --
 ALTER TABLE `order_dishes`
-  ADD CONSTRAINT `order_dishes_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
-  ADD CONSTRAINT `order_dishes_ibfk_2` FOREIGN KEY (`dish_id`) REFERENCES `dishes` (`dish_id`);
+  ADD CONSTRAINT `order_dishes_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Constraints for table `order_promotions`
