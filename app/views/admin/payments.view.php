@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
@@ -23,7 +22,7 @@
             <div class="filter">
                     <div>
                         <select name="type" id="type" class="form-control">
-                            <option value="all">Type</option>
+                            <option value="all">All</option>
                             <option value="dine-in">Dine-in</option>
                             <option value="takeaway">Take-away</option>
                             <option value="bulk">Bulk</option>
@@ -70,7 +69,7 @@
                 echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
               }
             echo "</td>";
-            echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true'></i></a></td>";
+            echo "<td><a class='edit-icon-link' href='".ROOT."/admin/payments/id/" . $order->order_id . "'><i class='fa fa-cash-register money-icon' aria-hidden='true' style='color: #dc3545;'  ></i></a></td>";
             echo "</tr>";
              }
          }
@@ -90,52 +89,29 @@
   
 
 
+<script>
+
+
+ let typeFilter = document.getElementById("type");
+  let rows = document.querySelectorAll("tbody tr");
+
+  typeFilter.addEventListener("change", function () {
+
+    let typeValue = this.value.toLowerCase();
+
+    for (let i = 0; i < rows.length; i++) {
+      let orderType = rows[i].getAttribute("data-order-type");
+      console.log(`orderType: ${orderType}, typeValue: ${typeValue}`)
+      if (typeValue === "all") {
+        rows[i].style.display = "";
+      } else if (orderType !== typeValue) {
+        rows[i].style.display = "none";
+      } else {
+        rows[i].style.display = "";
+      }
+    }
+  });
 
 
 
-
-
-    <script>
-//    function filterOptions(value) {
-//     // Get the select element
-//     let select = document.getElementById("type");
-//     // Remove all current options
-//     select.innerHTML = "";
-//     // Add the desired options back
-//     switch (value) {
-//       case "Dine-in":
-//         select.innerHTML += '<option name="Dine-in" value="Dine-in">Dine-in</option>';
-//         break;
-//       case "Take-away":
-//         select.innerHTML += '<option name="Take-away" value="Take-away">Take-away</option>';
-//         break;
-//       case "Bulk":
-//         select.innerHTML += '<option  name="Bulk" value="Bulk">Bulk</option>';
-//         break;
-//     }
-// }
-
-
-
-
-//   let orders = [
-//   { type: "Dine-in", name: "type" },
-//   { type: "Take-away", name:  "type" },
-//   { type: "Bulk", name:  "type" },
-//   { type: "Dine-in", name:  "type" }
-// ];
-
-// function filterOptions(value) {
-//   // Get the select element
-//   let select = document.getElementById("type");
-//   // Remove all current options
-//   select.innerHTML = "";
-//   // Filter the data based on the passed in value
-//   let filteredOrders = orders.filter(order => order.type === value);
-//   // Add the filtered data to the select element
-//   filteredOrders.forEach(order => {
-//     select.innerHTML += `<option value="${order.name}">${order.name}</option>`;
-//   });
-// }
-
-// </script>
+</script>
