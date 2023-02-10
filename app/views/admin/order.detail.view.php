@@ -71,10 +71,20 @@
             <div id="button-div">
                 <button class="btn btn-danger" value="rejected" id="reject-button">Reject</button>
                 <button class="btn btn-success" value="accepted" id="accept-button">Accept</button>
+                <button class="btn btn-success" value="completed" id="complete-button">Complete</button>
             </div>
-            <div class="popup">
+            <div class="popup" id="complete-popup">
                 <p>
                     Are you sure this order is completed?
+                </p>
+                <div class="popup-button-div">
+                    <button class="btn btn-success" id="confirm">Yes</button>
+                    <button class="btn btn-danger" id="cancel">No</button>
+                </div>
+            </div>
+            <div class="popup" id="reject-popup">
+                <p>
+                    Are you sure you want to reject this order?
                 </p>
                 <div class="popup-button-div">
                     <button class="btn btn-success" id="confirm">Yes</button>

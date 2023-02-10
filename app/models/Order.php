@@ -27,6 +27,13 @@ class Order extends Model
     {
         return $this->select()->fetchAll();
     }
+    public function getValidOrders(): array|false
+    {
+        return $this->select()
+        ->where("status", "rejected","!=")
+        ->and("status", "completed","!=")
+        ->fetchAll();
+    }
 
     public function getOrder($order_id): object|false
     {

@@ -63,12 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
       case "accepted":
         circle.style.backgroundColor = "yellow"
         break;
-      case "completed":
-        circle.style.backgroundColor = "lightgreen"
-        break;
-      case "rejected":
-        circle.style.backgroundColor = "red"
-        break;
     }
   });
 
@@ -83,15 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
           circle.setAttribute('data-order-status', 'accepted');
           break;
         case "accepted":
-          circle.style.backgroundColor = "lightgreen";
-          circle.setAttribute('data-order-status', 'completed');
-          displayPopup(circle);
-          break;
-        case "completed":
-          circle.style.backgroundColor = "red";
-          circle.setAttribute('data-order-status', 'rejected');
-          break;
-        case "rejected":
           circle.style.backgroundColor = "transparent";
           circle.setAttribute('data-order-status', 'pending');
           break;
