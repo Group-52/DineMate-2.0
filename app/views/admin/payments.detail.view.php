@@ -38,13 +38,16 @@
             </tr>
             </thead>
             <tbody>
-            <?php if (isset($dishes))
+            <?php
+            $total = 0;
+            if (isset($dishes))
                 foreach ($dishes as $orderDish) {
                     echo '<tr>';
                     echo '<td>' . $orderDish->dish_name . '</td>';
                     echo '<td>' . $orderDish->quantity . '</td>';
                     echo '<td>' . $orderDish->selling_price . '</td>';
                     echo '<td>' . $orderDish->quantity * $orderDish->selling_price . '</td>';
+                    $total += $orderDish->quantity * $orderDish->selling_price;
                     echo '</tr>';
 
                 }
@@ -59,7 +62,7 @@
             <div >
                 <br><br><br>
                 <h3>Cash Payment</h3><br>
-                <label id="total" >Total Amount: </label><span class="payment" id="tot"> <?= $orderDish->quantity * $orderDish->selling_price ?> </span><br> 
+                <label id="total" >Total Amount: </label><span class="payment" id="tot"> <?= $total ?> </span><br> 
                 <label>Cash:</label> <input class="payment" onchange="balance()" type="text" id="Cash" name="Cash" placeholder="Enter Ammount"><br>
                 <label id="change" >Balance: </label>
 
