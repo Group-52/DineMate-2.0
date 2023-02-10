@@ -44,25 +44,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchResults = document.getElementById("home-search-results");
   const modalClose = document.getElementById("home-modal-close");
   const html = document.querySelector("html");
-  searchField.onkeyup = () => {
-    const query = searchField.value;
-    if (query.length > 0) {
-      searchContainer.classList.add("open");
-      html.style.overflow = "hidden";
-      fetch(`${ROOT}/api/dishes/search?name=${query}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "success") {
-            searchResults.innerHTML = "";
-            data.dishes.forEach((dish) => {
-              searchResults.innerHTML += `
+  if (searchField) {
+    searchField.onkeyup = () => {
+      const query = searchField.value;
+      if (query.length > 0) {
+        searchContainer.classList.add("open");
+        html.style.overflow = "hidden";
+        fetch(`${ROOT}/api/dishes/search?name=${query}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              searchResults.innerHTML = "";
+              data.dishes.forEach((dish) => {
+                searchResults.innerHTML += `
               <div>
               <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
-              <div class='menu-item-card rounded-sm shadow'>
+              <div class='menu-item-card rounded-sm'>
               <div class='card-img-wrapper'>
               <img src='${ASSETS}/images/dishes/${
-                dish.image_url
-              }' class='card-img' alt='${dish.dish_name}'>
+                  dish.image_url
+                }' class='card-img' alt='${dish.dish_name}'>
               </div>
               <div class='card-body'>
               <h3 class='card-title'>${dish.dish_name}</h3>
@@ -75,21 +76,30 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class='card-price-new'>LKR ${dish.selling_price}</div>
               </div></div></div></a></div>
               `;
-            });
-          }
-        })
-        .catch((error) => console.log(error));
-    } else {
+              });
+            }
+          })
+          .catch((error) => console.log(error));
+      } else {
+        searchContainer.classList.remove("open");
+        html.style.overflow = "";
+        searchResults.innerHTML = "";
+      }
+    };
+  }
+
+  if (modalClose) {
+    modalClose.onclick = () => {
       searchContainer.classList.remove("open");
       html.style.overflow = "";
       searchResults.innerHTML = "";
-    }
-  };
-
-  modalClose.onclick = () => {
-    searchContainer.classList.remove("open");
-    html.style.overflow = "";
-    searchResults.innerHTML = "";
-    searchField.value = "";
-  };
+      searchField.value = "";
+    };
+  }
+  navigator.serviceWorker &&
+    navigator.serviceWorker
+      .register(ROOT + "/service-worker.js")
+      .then(function (registration) {
+        console.log("Excellent, registered with scope: ", registration.scope);
+      });
 });

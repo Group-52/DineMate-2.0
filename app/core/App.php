@@ -68,8 +68,6 @@ class App
             if ($this->module) {
                 $this->controller .= $this->module . '\\';
                 $path .= $this->module . "/";
-            } else {
-                $this->controller = "controllers\\" . "_404";
             }
             $this->controller .= "_404";
             $path .= "_404.php";

@@ -21,7 +21,8 @@ class RegUser extends Model
             "password",
             "registered_date",
             "contact_no",
-            "last_login"
+            "last_login",
+            "verified_email"
         ];
     }
 

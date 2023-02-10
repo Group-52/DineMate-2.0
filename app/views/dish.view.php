@@ -19,7 +19,7 @@
                 <div class="col-offset-lg-1"></div>
                 <div class="col-lg-4 col-md-5 col-12 text-center">
                     <img src="<?php echo ASSETS . "/images/dishes/" . $dish->image_url ?>" alt="<?= $dish->dish_name ?>"
-                         class="img-fluid" style="max-height: 50vh; ">
+                         class="img-fluid rounded-sm" style="max-height: 50vh; ">
                 </div>
                 <div class="col-offset-lg-1"></div>
                 <div class="col-lg-5 col-md-7 col-12 d-flex flex-column justify-content-center p-3">

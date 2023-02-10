@@ -1,0 +1,20 @@
+{
+  "name": "vendor-name/dinemate",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "W D N C Weerasiri",
+      "email": "2020cs203@stu.ucsc.cmb.ac.lk"
+    }
+  ],
+  "config": {
+    "platform": {
+      "php": "8.1"
+    }
+  },
+  "require": {
+    "phpmailer/phpmailer": "^6.6"
+  }
+}
