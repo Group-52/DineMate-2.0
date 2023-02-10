@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const os = document.querySelector('.order-status');
     const oid = document.querySelector('.order-id').getAttribute('data-order-id');
     const status = os.getAttribute('data-order-status');
+    const blurbox = document.querySelector('.blur-container');
 
     // make buttons visible
     if (status == 'pending') {
@@ -128,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () {
         popup.style.display = 'flex';
         popup.setAttribute('data-order-id', id);
         popup.setAttribute('data-order-status', status);
+        blurbox.style.filter = 'blur(5px)';
     }
 
 
@@ -156,6 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
         else if (v == 'pending') {
             toggleButtons('visible');
         }
+        // unblur the background
+        blurbox.style.filter = 'none';
     });
 
 
@@ -169,6 +173,10 @@ document.addEventListener('DOMContentLoaded', function () {
         popup.style.display = 'flex';
         popup.setAttribute('data-order-id', id);
         popup.setAttribute('data-order-status', status);
+
+        // blur the entire background
+        blurbox.style.filter = 'blur(5px)';
+
     }
     //Buttons inside the popup for order rejection
     let confirmButton2 = document.querySelector('#reject-popup #confirm');
@@ -195,7 +203,10 @@ document.addEventListener('DOMContentLoaded', function () {
         else if (v == 'pending') {
             toggleButtons('visible');
         }
-        
+
+        // unblur the background
+        blurbox.style.filter = 'blur(0px)';
+
     });
 
     // call display popup function when order status is changed to completed

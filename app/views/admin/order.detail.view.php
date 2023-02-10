@@ -18,6 +18,7 @@
             <div class="dashboard-header">
                 <h1 class="display-3 active">Order Details</h1>
             </div>
+            <div class="blur-container">
 
             <h2><span class="order-id" data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span></h2><br>
             <h4>Request:    <?= $order->request ?></h4>
@@ -66,6 +67,7 @@
                     </tbody>
 
                 </table>
+            </div>
             </div>
 
             <div id="button-div">
