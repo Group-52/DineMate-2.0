@@ -74,11 +74,11 @@
                                     <td>
                                         <?php
                                         if ($order->type == "dine-in")
-                                            echo "<img src='" . ASSETS . "/favicons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
+                                            echo "<img src='" . ASSETS . "/icons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
                                         else if ($order->type == "takeaway")
-                                            echo "<img src='" . ASSETS . "/favicons/fastcart.png' alt='take-away' width='30' height='30'>";
+                                            echo "<img src='" . ASSETS . "/icons/fastcart.png' alt='take-away' width='30' height='30'>";
                                         else if ($order->type == "bulk")
-                                            echo "<img src='" . ASSETS . "/favicons/bulk.svg' alt='bulk' width='30' height='30'>";
+                                            echo "<img src='" . ASSETS . "/icons/bulk.svg' alt='bulk' width='30' height='30'>";
                                         ?>
 
                                     </td>
@@ -91,15 +91,6 @@
                     </tbody>
 
                 </table>
-            </div>
-            <div class="popup">
-                <p>
-                    Are you sure this order is completed?
-                </p>
-                <div class="popup-button-div">
-                    <button class="btn btn-success" id="confirm">Yes</button>
-                    <button class="btn btn-danger" id="cancel">No</button>
-                </div>
             </div>
         </div>
 </body>

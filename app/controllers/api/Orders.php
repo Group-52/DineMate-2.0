@@ -38,4 +38,48 @@ class Orders
             }
         }
     }
+
+    public function stream()
+    {
+        date_default_timezone_set("America/New_York");
+        header("Cache-Control: no-store");
+        header("Content-Type: text/event-stream");
+
+        $data = [
+            "order_id" => 1,
+            "status" => "pending",
+            "type" => "dine-in",
+            "time_placed" => "2020-12-12 12:12:12",
+            "scheduled_time" => "2020-12-12 12:12:12",
+            "request" => "Remove the shells",
+            "reg_customer_id" => 2,
+        ];
+    
+        while (true) {
+            // Every second, send a "ping" event.
+    
+            echo "event: ping\n";
+            $curDate = date("Y-m-d H:i:s");
+            echo 'data: {"time": "' . $curDate . '", "data": ' . json_encode($data) . '}';
+            echo "\n\n";
+    
+            // Send a simple message every 5 seconds.
+            static $counter = 0;
+            $counter++;
+    
+            if ($counter == 5) {
+                echo 'data: This is a message at time ' . $curDate . "\n\n";
+                $counter = 0;
+            }
+    
+            ob_end_flush();
+            flush();
+    
+            // Break the loop if the client aborted the connection (closed the page)
+            if (connection_aborted()) break;
+    
+            sleep(5);
+        }
+    }
+    
 }

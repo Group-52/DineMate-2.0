@@ -1,56 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  var confirm_button = document.querySelector('#confirm');
-  var cancel_button = document.querySelector('#cancel');
   const rows = document.querySelectorAll('tbody tr');
-
-  // if confirm button is clicked, update order status to completed
-  confirm_button.addEventListener('click', function (event) {
-    document.querySelector('.popup').style.display = 'none';
-    let popup = document.querySelector('.popup');
-    updateOrderStatus(popup.getAttribute('data-order-id'), "completed");
-    // unblur all rows
-    rows.forEach(row => {
-      row.style.filter = 'blur(0)';
-    }
-    );
-
-  });
-
-  // if cancel button is clicked, remove popup and reset circle color and data-order-status
-  cancel_button.addEventListener('click', function (event) {
-    const popup = document.querySelector('.popup')
-    popup.style.display = 'none';
-    // reset status of order to previous status
-    let oid = popup.getAttribute('data-order-id');
-
-    let row = document.querySelector(`tr[data-order-id="${oid}"]`);
-    let circle = row.querySelector('#circle');
-    circle.setAttribute('data-order-status', "accepted");
-    circle.style.backgroundColor = "yellow";
-    // unblur all rows
-    rows.forEach(row => {
-      row.style.filter = 'blur(0)';
-    }
-    );
-  });
-
-  function displayPopup(c) {
-
-    let oid = c.parentElement.parentElement.getAttribute('data-order-id');
-    const popup = document.querySelector('.popup')
-    popup.style.display = 'flex';
-    popup.setAttribute('data-order-id', oid);
-    popup.setAttribute('data-order-status', c.getAttribute('data-order-status'));
-    // blur all other rows
-    rows.forEach(row => {
-      if (row.getAttribute('data-order-id') !== oid) {
-        row.style.filter = 'blur(5px)';
-      }
-    });
-
-  }
-
   const circles = document.querySelectorAll('#circle');
 
   // set initial color of circle based on status
@@ -157,6 +107,96 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(err);
     }
     );
+  }
+
+
+  // Listening to server events to add new order
+  const evtSource = new EventSource(`${ROOT}/api/orders/stream`);
+  evtSource.addEventListener("ping", (event) => {
+    const newElement = document.createElement("tr");
+    const time = JSON.parse(event.data).time;
+    newElement.textContent = `ping at ${time}`;
+    // console.log(newElement);
+    let data = JSON.parse(event.data).data;
+    if (data.order_id) {
+      addRow(data);
+    }
+
+
+    console.log(data);
+
+  });
+
+  function addRow(order) {
+    var table = document.querySelector(".table");
+    var row = table.insertRow(-1);
+    row.setAttribute("data-order-id", order.order_id);
+    row.setAttribute("data-order-type", order.type);
+    row.setAttribute("data-order-status", order.status);
+
+    var orderIdCell = row.insertCell(0);
+    orderIdCell.innerHTML = order.order_id;
+    orderIdCell.classList.add("order-id-field");
+    var customerIdCell = row.insertCell(1);
+    customerIdCell.innerHTML = order.reg_customer_id ? order.reg_customer_id : order.guest_id;
+    var timePlacedCell = row.insertCell(2);
+    timePlacedCell.innerHTML = order.time_placed;
+    var scheduledTimeCell = row.insertCell(3);
+    scheduledTimeCell.innerHTML = order.scheduled_time ? order.scheduled_time : "-";
+    var requestCell = row.insertCell(4);
+    requestCell.innerHTML = order.request.length > 30 ? order.request.substring(0, 30) + "..." : order.request;
+    var typeCell = row.insertCell(5);
+    var typeImg = document.createElement("img");
+    typeImg.alt = order.type;
+    typeImg.width = "30";
+    typeImg.height = "30";
+    typeCell.appendChild(typeImg);
+    if (order.type == "dine-in") {
+      typeImg.src = `${ASSETS}/icons/table.png`;
+      if (order.table_id)
+        typeCell.appendChild(document.createTextNode(" " + order.table_id));
+    } else if (order.type == "takeaway") {
+      typeImg.src = `${ASSETS}/icons/fastcart.png`;
+    } else if (order.type == "bulk") {
+      typeImg.src = `${ASSETS}/icons/bulk.svg`;
+    }
+    var statusCell = row.insertCell(6);
+    var statusDiv = document.createElement("div");
+    statusDiv.setAttribute("data-order-status", order.status);
+    statusDiv.setAttribute("id", "circle");
+    statusDiv.setAttribute("class", "pending");
+    statusCell.appendChild(statusDiv);
+
+    // add event listener to new circle
+    statusDiv.addEventListener('click', function () {
+      var status = statusDiv.getAttribute('data-order-status');
+
+      switch (status) {
+        case "pending":
+          statusDiv.style.backgroundColor = "yellow";
+          statusDiv.setAttribute('data-order-status', 'accepted');
+          break;
+        case "accepted":
+          statusDiv.style.backgroundColor = "transparent";
+          statusDiv.setAttribute('data-order-status', 'pending');
+          break;
+      }
+      // get order id and status
+      let oid = statusDiv.parentElement.parentElement.getAttribute('data-order-id');
+      status = statusDiv.getAttribute('data-order-status');
+      // update order status in database
+      if (status !== "completed") {
+        updateOrderStatus(oid, status);
+      }
+    });
+
+    // add event listener to new order id field
+    orderIdCell.addEventListener('click', function () {
+      // redirect to order details page
+      window.location.href = `${ROOT}/admin/orders/id/${order.order_id}`;
+    }
+    );
+
   }
 
 });
