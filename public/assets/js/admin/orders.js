@@ -110,22 +110,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // Listening to server events to add new order
-  const evtSource = new EventSource(`${ROOT}/api/orders/stream`);
-  evtSource.addEventListener("ping", (event) => {
-    const newElement = document.createElement("tr");
-    const time = JSON.parse(event.data).time;
-    newElement.textContent = `ping at ${time}`;
-    // console.log(newElement);
-    let data = JSON.parse(event.data).data;
-    if (data.order_id) {
-      addRow(data);
-    }
-
-
-    console.log(data);
-
-  });
+  // // Listening to server events to add new order
+  // const evtSource = new EventSource(`${ROOT}/api/orders/stream`);
+  // evtSource.addEventListener("ping", (event) => {
+  //   const newElement = document.createElement("tr");
+  //   const time = JSON.parse(event.data).time;
+  //   newElement.textContent = `ping at ${time}`;
+  //   // console.log(newElement);
+  //   let data = JSON.parse(event.data).data;
+  //   if (data.order_id) {
+  //     addRow(data);
+  //   }
+  //   console.log(data);
+  // });
 
   function addRow(order) {
     var table = document.querySelector(".table");
