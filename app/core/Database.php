@@ -65,7 +65,7 @@ trait Database
     private function connect(): void
     {
         try {
-            $connection_string = "mysql:hostname=" . DB_HOST . ";dbname=" . DB_NAME;
+            $connection_string = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
             $this->db = new PDO($connection_string, DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
