@@ -21,7 +21,7 @@ const DB_PORT = 3306;
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
     define("ROOT", "/DineMate");
 } else {
-    define("ROOT", "/");
+    define("ROOT", "");
 }
 
 const ASSETS = ROOT . "/assets";
