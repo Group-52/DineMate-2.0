@@ -110,20 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // // Listening to server events to add new order
-  // const evtSource = new EventSource(`${ROOT}/api/orders/stream`);
-  // evtSource.addEventListener("ping", (event) => {
-  //   const newElement = document.createElement("tr");
-  //   const time = JSON.parse(event.data).time;
-  //   newElement.textContent = `ping at ${time}`;
-  //   // console.log(newElement);
-  //   let data = JSON.parse(event.data).data;
-  //   if (data.order_id) {
-  //     addRow(data);
-  //   }
-  //   console.log(data);
-  // });
-
   function addRow(order) {
     var table = document.querySelector(".table");
     var row = table.insertRow(-1);
@@ -195,5 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
   }
+
+
+  // Uses a websocket to receive data and add it to the table
+  var socket = new WebSocket("ws://localhost:8080");
+  socket.onmessage = function (event) {
+    var formData = JSON.parse(event.data);
+    console.log(formData);
+    addRow(formData);
+  };
 
 });
