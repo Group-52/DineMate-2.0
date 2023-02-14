@@ -1,0 +1,38 @@
+#circle{
+  background-color:transparent;
+  display:block;
+  height:40px;
+  width:40px;
+  border-radius:50%;
+  border:2px solid black;
+  margin:auto;
+  color:#fff;
+  line-height:50px;
+  text-align:center
+}
+/* make circle look clickable */
+#circle:hover{
+  cursor:pointer;
+  color:#fff;
+  transform:scale(0.9);
+}
+/* change size when clicked */
+#circle:active{
+  transform:scale(0.8);
+}
+
+.filter{
+  width: 700px;
+}
+.filter *{
+  display: inline;
+  float: left;
+  padding: 5px;
+  margin:5px;
+}
+  
+/* make id field look clickable */
+.order-id-field{
+  cursor:pointer;
+  transform:scale(0.99);
+}

@@ -1,23 +1,34 @@
 <?php
 
+namespace controllers;
+
+use core\Controller;
+use models\Menu;
+
 /**
  * Home Controller
  */
-
 class Home
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
+        if (!isset($_SESSION['user']->emp_id)) {
+            $data['user'] = $_SESSION['user'] ?? null;
 
-        $data['username'] = empty($_SESSION['user_id']) ? 'User' : $_SESSION['fname'];
+            /** TODO
+             * Get number of items in cart
+             */
+            # Get Menu From Database
+            $menus = (new Menu())->getMenus();
+            foreach ($menus as $menu) {
+                $data['menus'][$menu->menu_id] = new \components\Menu($menu, 4);
+            }
 
-        #get 5 dishes from database
-        $d = new Dish();
-        $data['dishes'] = $d->getDishes();
-        $m = new Menu();
-        $data['menus'] = $m->getMenus();
-        $this->view('home', $data);
+            $this->view('home', $data);
+        } else {
+            redirect("admin");
+        }
     }
 }

@@ -1,42 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php include VIEWS . "/partials/home/head.partial.php" ?>
 
-  <title>Signin Template · Bootstrap v5.1</title>
-  <style>
-    input {
-      padding: 15px;
-      margin: 10px;
-    }
-  </style>
-</head>
+<body style="background: #FF4546">
+<div class="vh-100 position-relative">
+    <div class="row h-100 p-5">
+        <div class="col-6 p-5 h-100 d-flex align-items-center">
+            <div class="col-offset-xl-2 col-xl-8 col-12">
+                <a href="<?= ROOT ?>/home">
+                    <img class="img-logo" src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="DineMate Logo">
+                </a>
+                <h1 class="display-3 mb-1">Login with DineMate</h1>
+                <?php if (isset($form)) : ?>
+                    <?php $form->render(); ?>
+                <?php endif; ?>
+                <div class="fw-bold text-right mt-3">
+                    Forgot <a class="link" href="#">Password</a>?
+                </div>
+                <div class="fw-bold text-right mt-3">
+                    Don't have an account? <a class="link" href="<?= ROOT ?>/auth/register">Register</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 p-5 h-100">
+            <img src="<?= ROOT ?>/assets/images/login/cover.jpg" alt="Login Cover" class="img-cover">
+        </div>
+    </div>
 
-<body>
-
-
-  <form method="post">
-
-    <?php if (!empty($errors)) : ?>
-        <?= is_array($errors) ? implode("<br>", $errors) : $errors?>
-    <?php endif; ?>
-
-    <h1>Please sign in</h1>
-
-    <input name = "email" type= "text" placeholder="Email" >
-    <input name = "password" type ="password" placeholder = "Password">
-    
-
-    <button type="submit">Sign in</button>
-    <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/auth/signup">Signup</a>
-
-  </form>
-
-
-
+    <div class="login-bg"></div>
+</div>
 </body>
-
 </html>

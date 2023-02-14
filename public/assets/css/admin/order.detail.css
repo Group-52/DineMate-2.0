@@ -1,0 +1,30 @@
+#button-div {
+    padding: 10px 0;
+    margin-top: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+}
+
+#button-div button {
+    max-width: 100%;
+    margin: 0 5px;
+}
+
+/* change on hover */
+.btn-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+#accept-button,
+#reject-button, #complete-button {
+    display: none;
+}
+#complete-button{
+    width:200px;
+}
+.order-status {
+ width: 200px;
+}

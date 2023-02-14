@@ -1,91 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Home page</title>
+    <?php use components\Menu;
 
-    <style>
-        input {
-            padding: 15px;
-            margin: 10px;
-        }
-
-        /* make cards float next to each other */
-        .card {
-            float: left;
-            margin: 10px;
-            width: 18rem;
-            height: 18rem;
-        }
-
-        /* make all card images same size */
-        .card-img-top {
-            width: 18rem;
-            height: 10rem;
-            object-fit: cover;
-        }
-
-        .dishrow,
-        .menurow {
-            display: block;
-            clear: both;
-        }
-    </style>
+    include VIEWS . "/partials/home/head.partial.php" ?>
 </head>
+<body class="body-min-vh-100">
+<div class="wrapper">
+    <?php include VIEWS . "/partials/home/navbar.partial.php"; ?>
 
-<body>
-
-<h4>Hi, <?= $username ?></h4>
-<div>
-
-
-    <a href="<?= ROOT ?>">Home</a>
-    <a href="<?= ROOT ?>/auth/login">Login</a>
-    <a href="<?= ROOT ?>/auth/logout">Logout</a>
-
+    <?php if (isset($item)) $item->render() ?>
+    <div class="banner mb-3">
+        <img class="banner-bg-img" src="<?= ASSETS ?>/images/home/banner.jpg" alt="banner">
+        <div class="banner-bg-gradient"></div>
+        <h1 class="banner-text display-3">Good
+            <?php
+            $hour = date('G');
+            if ($hour >= 5 && $hour < 12) {
+                echo "Morning";
+            } elseif ($hour >= 12 && $hour < 17) {
+                echo "Afternoon";
+            } else {
+                echo "Evening";
+            }
+            ?>, <?= $user->first_name ?? "User" ?></h1>
+    </div>
+    <div class="container">
+        <?php
+        /** @var $menus Menu[] */
+        if (isset($menus)) foreach ($menus as $menu) $menu->render() ?>
+    </div>
 </div>
-
-<h1> HOME PAGE</h1>
-<h2>
-    <a href="<?= ROOT ?>/dishes">View Dishes</a>
-</h2>
-
-
-<!-- generate all dishes -->
-
-<div class="dishrow">
-    <h3>Dishes</h3>
-    <?php if (isset($dishes)) : ?>
-        <?php foreach ($dishes as $dish) : ?>
-            <div class="card" style="width: 18rem;">
-                <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $dish->name ?></h5>
-                    <p class="card-text"><?= $dish->description ?></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
-
-<!-- generate all menus -->
-<div class="menurow">
-    <h3>Menus</h3>
-    <?php if (isset($menus)) : ?>
-        <?php foreach ($menus as $menu) : ?>
-            <div class="card" style="width: 18rem;">
-                <img src="<?= ASSETS ?>/images/menus/<?= $menu->imageurl ?>" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"><?= $menu->name ?></h5>
-                    <p class="card-text"></p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
-</div>
+<?php include VIEWS . "/partials/home/footer.partial.php"; ?>
 </body>
 </html>

@@ -1,0 +1,30 @@
+.editable {
+    border: 2px white solid;
+}
+
+.shrink {
+    transition: height 2s ease-out;
+}
+
+td:has(.trash-icon),
+td:has(.edit-icon),
+td:has(.tick-icon),
+td:has(.cross-icon) {
+    display: none;
+}
+
+.trash-icon,
+.edit-icon,
+.tick-icon,
+.cross-icon {
+    margin: 0 5px;
+}
+
+#finish-button {
+    display: none;
+}
+.newly-editable {
+    border : 2px rgb(182, 182, 170) solid;
+    border-radius: 5px;
+    text-align: center;
+}

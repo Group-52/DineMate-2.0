@@ -1,0 +1,99 @@
+/* Style for pencil icon */
+.fa-pencil-square-o {
+    cursor: pointer;
+    /* Make the icon look clickable */
+    color: #3498db;
+    /* Change the color of the icon */
+}
+
+.fa-pencil-square-o:hover {
+    color: #2980b9;
+    /* Change the color of the icon on hover */
+}
+
+.fa-pencil-square-o:active {
+    transform: scale(0.9);
+    /* Scale the icon down slightly */
+}
+
+/* Style for the trash can icon */
+.fa-trash {
+    cursor: pointer;
+    /* Make the icon look clickable */
+    color: #ff0000;
+    /* Change the color of the icon */
+}
+
+/* Style for the trash can icon when hovered */
+.fa-trash:hover {
+    color: #c0392b;
+    /* Change the color of the icon on hover */
+}
+
+/* Style for the trash can icon when clicked */
+.fa-trash:active {
+    transform: scale(0.9);
+    /* Scale the icon down slightly */
+}
+
+/* Make extra table columns for edit icons be invisible */
+.edit-icons {
+    display: none;
+}
+
+/* give blue glowing border 
+Can use to indicate selected rows */
+.row-in-form {
+    border: 3px solid #3498db;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.overlay {
+    width: 30%;
+    margin: 10px;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px gray;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin: 20px;
+}
+
+
+.popup-button-div {
+    margin: 5px 5px;
+}
+
+
+/* Temporary*/
+td {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}

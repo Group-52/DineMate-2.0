@@ -1,26 +1,42 @@
 <?php
 
+namespace core;
+
+use Exception;
+use PDO;
+use PDOException;
+use PDOStatement;
+
 /**
  * Database
  * Connects to the database.
  */
-
 trait Database
 {
+    protected string $query = "";
+    protected array $data = [];
     private ?PDO $db = null;
 
     /**
-     * Query the database.
-     * @param string $query
-     * @param array $data
-     * @return array | bool
+     * Fetch all rows from the query.
      */
-    public function query(string $query, array $data = []): bool|array
+    public function fetchAll(): array
+    {
+        return $this->execute()->fetchAll();
+    }
+
+    /**
+     * Execute the query.
+     * @return PDOStatement
+     */
+    public function execute(): PDOStatement
     {
         try {
-            $statement = $this->prepare($query);
-            $statement->execute($data);
-            return $statement->fetchAll();
+            $statement = $this->prepare($this->query);
+            $statement->execute($this->data);
+            $this->query = "";
+            $this->data = [];
+            return $statement;
         } catch (PDOException $e) {
             die($e->getMessage());
         }
@@ -31,7 +47,7 @@ trait Database
      * @param string $query
      * @return PDOStatement
      */
-    private function prepare(string $query): PDOStatement
+    protected function prepare(string $query): PDOStatement
     {
         try {
             if ($this->db == null) {
@@ -49,14 +65,30 @@ trait Database
     private function connect(): void
     {
         try {
-            $connection_string = "mysql:hostname=" . DBHOST . ";dbname=" . DBNAME;
-            $this->db = new PDO($connection_string, DBUSER, DBPASS, [
+            $connection_string = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
+            $this->db = new PDO($connection_string, DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
             ]);
         } catch (PDOException $e) {
             die($e->getMessage());
         }
+    }
+
+    /**
+     * Fetch a single row from the query.
+     */
+    public function fetch(): object|false
+    {
+        return $this->execute()->fetch();
+    }
+
+    /**
+     * Get database query (for debugging)
+     */
+    public function getQuery(): string
+    {
+        return $this->query;
     }
 
 }

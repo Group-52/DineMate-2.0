@@ -1,245 +1,244 @@
 <?php
 
+namespace core;
 /**
  * Base Model Trait
  */
-
 class Model
 {
     use Database;
 
     protected string $table = "";
-    protected string $primary_key = "";
     protected array $columns = [];
-    protected int $limit = 10;
-    protected int $offset = 0;
-    protected string $order_by = "";
-    protected string $order = "";
-    public array $errors = [];
+    protected array $errors = [];
 
     /**
-     * Get all records.
-     * @return bool|array
+     * Select rows from table
+     * @param array|string $column_list
+     * @return Model
      */
-    public function findAll(): false|array
+    public function select(array|string $column_list = "*"): Model
     {
-        try {
-            $query = $this->query("SELECT * FROM $this->table LIMIT $this->limit OFFSET $this->offset");
-            if ($this->order_by && $this->order) {
-                $query .= " ORDER BY $this->order_by $this->order";
+        if (empty($column_list)) {
+            $column_list = "*";
+        }
+        if (is_array($column_list)) {
+            for ($i = 0; $i < count($column_list); $i++) {
+                if (!str_contains($column_list[$i], ".")) {
+                    $column_list[$i] = $this->table . "." . $column_list[$i];
+                }
             }
-            return $query;
-        } catch (Exception $e) {
-            $this->errors[] = "Unknown error.";
+            $column_list = implode(", ", $column_list);
+        } else {
+            if (!str_contains($column_list, ".")) {
+                $column_list = $this->table . "." . $column_list;
+            }
         }
-        return false;
+
+        $this->query = "SELECT $column_list FROM $this->table";
+        return $this;
     }
 
-    /**
-     * Get a record by its primary key.
-     * @param int $id
-     * @return array | false
-     */
-    public function find(int $id): false|array
+    public function count(string $column): Model
     {
-        try {
-            return $this->query("SELECT * FROM $this->table WHERE $this->primary_key = ?", [$id]);
-        } catch (Exception) {
-            $this->errors[] = "Unknown error.";
-        }
-        return false;
+        $this->query = "SELECT COUNT($column) FROM $this->table";
+        return $this;
     }
 
     /**
-     * Get a record by multiple columns.
+     * Insert a row into table
      * @param array $data
-     * @param array $data_not
-     * @return false|array
+     * @return void
      */
-    public function findBy(array $data, array $data_not = []): false|array
+    public function insert(array $data): void
     {
-        try {
-
-            $query = "SELECT * FROM $this->table WHERE ";
-            $params = [];
-
-
-            foreach ($data as $key => $value) {
-                if (!in_array($key, $this->columns)) {
-                    unset($data[$key]);
-                } else {
-                    $query .= "$key = ? AND ";
-                    $params[] = $value;
-                }
+        foreach (array_keys($data) as $column) {
+            if (!in_array($column, $this->columns)) {
+                unset($data[$column]);
             }
-
-            foreach ($data_not as $key => $value) {
-                if (!in_array($key, $this->columns)) {
-                    unset($data[$key]);
-                } else {
-                    $query .= "$key != ? AND ";
-                    $params[] = $value;
-                }
-            }
-
-            $query = rtrim($query, "AND ");
-            $query .= " LIMIT $this->limit OFFSET $this->offset";
-
-            return $this->query($query, $params);
-
-        } catch (Exception) {
-
-            $this->errors[] = "Unknown error.";
-
         }
-        return false;
+        if (empty($data)) {
+            return;
+        }
+        $column_list = implode(", ", array_keys($data));
+        $value_list = "";
+        foreach ($data as $ignored) {
+            $value_list .= "?, ";
+        }
+        $value_list = rtrim($value_list, ", ");
+        $this->query = "INSERT INTO $this->table ($column_list) VALUES ($value_list)";
+        $this->data = array_values($data);
+        $this->execute();
     }
 
     /**
-     * Get a record by multiple columns with LIKE.
+     * Update a row in table
      * @param array $data
-     * @return false|array
+     * @return Model
      */
-    public function findLike(array $data): false|array
+    public function update(array $data): Model
     {
-        try {
-
-            $query = "SELECT * FROM $this->table WHERE ";
-            $params = [];
-
-            foreach ($data as $key => $value) {
-                if (!in_array($key, $this->columns)) {
-                    unset($data[$key]);
-                } else {
-                    $query .= "$key LIKE ? OR ";
-                    $params[] = "%$value%";
-                }
+        $column_list = "";
+        foreach (array_keys($data) as $column) {
+            if (!in_array($column, $this->columns)) {
+                unset($data[$column]);
             }
-
-            $query = rtrim($query, "OR ");
-            $query .= " LIMIT $this->limit OFFSET $this->offset";
-
-            return $this->query($query, $params);
-
-        } catch (Exception) {
-            $this->errors[] = "Unknown error.";
-
+            $column_list .= "$column = ?, ";
         }
-        return false;
-    }
-
-
-    /**
-     * Get a record by multiple columns with LIKE for a category
-     * @param array $like_data
-     * @param array $where_data
-     * @return false|array
-     */
-    public function findLikeWhere(array $like_data, array $where_data): false|array
-    {
-        try {
-
-            $query = "SELECT * FROM $this->table WHERE ";
-            $params = [];
-
-            foreach ($like_data as $key => $value) {
-                if (!in_array($key, $this->columns)) {
-                    unset($like_data[$key]);
-                } else {
-                    $query .= "$key LIKE ? OR ";
-                    $params[] = "%$value%";
-                }
-            }
-            $query = rtrim($query, "OR ");
-            foreach ($where_data as $key => $value) {
-                if (!in_array($key, $this->columns)) {
-                    unset($where_data[$key]);
-                } else {
-                    $query .= "$key = ? AND ";
-                    $params[] = $value;
-                }
-            }
-            $query = rtrim($query, "AND ");
-
-            $query .= " LIMIT $this->limit OFFSET $this->offset";
-
-            return $this->query($query, $params);
-
-        } catch (Exception) {
-            $this->errors[] = "Unknown error.";
-
+        if (empty($data)) {
+            return $this;
         }
-        return false;
+        $column_list = rtrim($column_list, ", ");
+        $this->query = "UPDATE $this->table SET $column_list";
+        $this->data = array_values($data);
+        return $this;
     }
 
     /**
-     * Insert a record.
-     * @param array $data
-     * @return array|bool
+     * Delete a row from table
+     * @return Model
      */
-    public function insert(array $data): bool|array
+    public function delete(): Model
     {
-        $query = "INSERT INTO $this->table (";
-        $params = [];
-
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $this->columns)) {
-                unset($data[$key]);
-            } else {
-                $query .= "$key, ";
-                $params[] = $value;
-            }
-        }
-
-        $query = rtrim($query, ", ");
-        $query .= ") VALUES (";
-
-        foreach ($data as $key => $value) {
-            $query .= "?, ";
-        }
-
-        $query = rtrim($query, ", ");
-        $query .= ")";
-
-        return $this->query($query, $params);
+        $this->query = "DELETE FROM $this->table";
+        return $this;
     }
 
     /**
-     * Update a record by its primary key.
-     * @param int $id
-     * @param array $data
-     * @return array|bool
+     * Where clause
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @return Model
      */
-    public function update(int $id, array $data): bool|array
+    public function where(string $column, string $value, string $operator = "="): Model
     {
-        $params = [];
-
-        $set = "";
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $this->columns)) {
-                unset($data[$key]);
-            } else {
-                $set .= "$key = ?, ";
-                $params[] = $value;
-            }
+        if (empty($column) || empty($value)) {
+            return $this;
         }
-
-        $set = rtrim($set, ", ");
-
-        $query = "UPDATE $this->table SET $set WHERE $this->primary_key = ?";
-        $params[] = $id;
-
-        return $this->query($query, $params);
+        $this->query .= " WHERE $column $operator ?";
+        $this->data[] = $value;
+        return $this;
     }
 
     /**
-     * Delete a record by its primary key.
-     * @param int $id
-     * @return array|bool
+     * And clause
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @return Model
      */
-    public function delete(int $id): bool|array
+    public function and(string $column, string $value, string $operator = "="): Model
     {
-        return $this->query("DELETE FROM $this->table WHERE $this->primary_key = ?", [$id]);
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " AND $column $operator ?";
+        $this->data[] = $value;
+        return $this;
     }
 
+    /**
+     * Or clause
+     * @param string $column
+     * @param string $operator
+     * @param string $value
+     * @return Model
+     */
+    public function or(string $column, string $value, string $operator = "="): Model
+    {
+        $this->query .= " OR $column $operator ?";
+        $this->data[] = $value;
+        return $this;
+    }
+
+    /**
+     * Order by clause
+     * @param string $column
+     * @param string $direction
+     * @return Model
+     */
+    public function orderBy(string $column, string $direction = "ASC"): Model
+    {
+        if (empty($column)) {
+            return $this;
+        }
+        $this->query .= " ORDER BY $column $direction";
+        return $this;
+    }
+
+    /**
+     * Limit clause
+     * @param int $limit
+     * @return Model
+     */
+    public function limit(int $limit): Model
+    {
+        $this->query .= " LIMIT $limit";
+        return $this;
+    }
+
+    /**
+     * Offset clause
+     * @param int $offset
+     * @return Model
+     */
+    public function offset(int $offset): Model
+    {
+        $this->query .= " OFFSET $offset";
+        return $this;
+    }
+
+    /**
+     * Join clause
+     */
+    public function join(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
+     * Left join clause
+     */
+
+    public function leftJoin(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " LEFT JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
+     * Right join clause
+     */
+
+    public function rightJoin(string $table, string $column1, string $column2, string $operator = "="): Model
+    {
+        $this->query .= " RIGHT JOIN $table ON $column1 $operator $column2";
+        return $this;
+    }
+
+    public function contains(array $columns, string $value): Model
+    {
+        if (empty($columns) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " WHERE (";
+        foreach ($columns as $column) {
+            $this->query .= $column . " LIKE ? OR ";
+            $this->data[] = "%$value%";
+        }
+        $this->query = rtrim($this->query, "OR ");
+        $this->query .= ")";
+        return $this;
+    }
+
+    /**
+     * Return errors
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
+    }
 }

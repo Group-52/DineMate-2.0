@@ -1,0 +1,4 @@
+RewriteEngine on
+
+# Rewrite all requests to public folder
+RewriteRule ^(.*) public/$1 [L]

@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
   align-items: stretch;
   align-content: stretch;
 }
@@ -25,14 +24,16 @@ $columns: (1: 8.333333%, 2: 16.666667%, 3: 25%, 4: 33.333333%, 5: 41.666667%, 6:
 }
 
 $viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
-@each $type, $width in $viewport-types {
+@each $type, $vp-width in $viewport-types {
   @each $column, $width in $columns {
-    .col-#{$type}-#{$column} {
-      flex: 0 0 $width;
-      max-width: $width;
-    }
-    .col-offset-#{$type}-#{$column} {
-      margin-left: $width;
+    @media (min-width: $vp-width) {
+      .col-#{$type}-#{$column} {
+        flex: 0 0 $width;
+        max-width: $width;
+      }
+      .col-offset-#{$type}-#{$column} {
+        margin-left: $width;
+      }
     }
   }
 }
@@ -90,10 +91,17 @@ $sizes: (0: 0, 1: 0.25rem, 2: 0.5rem, 3: 1rem, 4: 1.5rem, 5: 3rem);
   }
 }
 
-$display-types: (block, inline-block, inline, flex, inline-flex, grid, inline-grid);
+$display-types: (block, inline-block, inline, flex, inline-flex, grid, inline-grid, none);
 @each $type in $display-types {
   .d-#{$type} {
     display: $type !important;
+  }
+}
+
+$visibility-types: (visible, hidden, collapse);
+@each $type in $visibility-types {
+  .visible-#{$type} {
+    visibility: $type !important;
   }
 }
 
@@ -132,6 +140,28 @@ $position-sides: (top, right, bottom, left);
   }
   .#{$side}-auto {
     #{$side}: auto;
+  }
+}
+
+$container-widths: (
+        1400px: 1320px,
+        1200px: 1140px,
+        992px: 960px,
+        768px: 720px,
+        576px: 540px
+);
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1400px;
+  @each $breakpoint, $width in $container-widths {
+    @media (max-width: $breakpoint) {
+      max-width: $width;
+    }
   }
 }
 
@@ -178,3 +208,18 @@ $position-sides: (top, right, bottom, left);
   height: auto;
 }
 
+.rounded {
+  border-radius: 1rem;
+}
+
+.rounded-sm {
+  border-radius: 0.5rem;
+}
+
+.shadow {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.shadow-sm {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
