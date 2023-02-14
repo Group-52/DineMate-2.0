@@ -76,6 +76,7 @@ class Auth
         $registerForm->addField("password", "password", "password", "Password", true);
         $registerForm->addField("confirm_password", "confirm_password", "password", "Confirm Password", true);
         $data["form"] = $registerForm;
+        $data["page_titles"] = ["Your Details", "How can we contact you?", "Create a password"];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
@@ -84,7 +85,9 @@ class Auth
                     $_POST['password'] = password_hash($_POST["password"], PASSWORD_DEFAULT);
                     try {
                         $user->addUser($_POST);
-                        redirect("auth/login");
+                        $result = $user->getUserByEmail($_POST["email"]);
+                        $_SESSION["user"] = $result;
+                        redirect("profile/verify");
                     } catch (Exception $e) {
                         $data["errors"] = $user->getErrors();
                     }

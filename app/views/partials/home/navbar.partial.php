@@ -58,7 +58,7 @@ use models\Cart;
                     <?= (isset($_SESSION["user"])) ? $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name : "" ?>
                 </div>
                 <div class="secondary">
-                    View Profile
+                    <a class="link" href="<?= ROOT ?>/profile">View Profile</a>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ use models\Cart;
                 <span class="sidebar-text">My Promotions</span>
             </div>
             <a class="sidebar-item">
-                <a href="auth/logout">
+                <a href="<?= ROOT ?>/auth/logout">
                     <span class="secondary text-uppercase">Sign Out</span>
                 </a>
         </div>

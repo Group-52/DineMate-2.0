@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php use components\Form;
-
-    include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <script src="<?= ASSETS ?>/js/register.js"></script>
 </head>
 
 <body style="background: #FF4546">
@@ -16,9 +15,24 @@
                 </a>
                 <h1 class="display-3 mb-3">Register with DineMate</h1>
 
-                <?php
-                /** @var $form Form */
-                if (isset($form)) $form->render(); ?>
+                <?php if (isset($form) && isset($page_titles)) : ?>
+                    <form class="w-100 py-2" action="" method="POST">
+                        <?php for ($i = 0; $i < count($page_titles); $i++): ?>
+                            <div class="register-page" data-page="<?= $i + 1 ?>">
+                                <h1 class="display-4 mb-3"><?= $page_titles[$i] ?></h1>
+                                <?php echo $form->htmlField($i * 2); ?>
+                                <?php echo $form->htmlField($i * 2 + 1); ?>
+                            </div>
+                        <?php endfor; ?>
+                        <div class="form-group text-center grid-2 grid-gap-2">
+                            <button class="btn btn-primary btn-lg text-uppercase" id="prev-button">Previous</button>
+                            <button class="btn btn-primary btn-lg text-uppercase" id="next-button">Next</button>
+                            <button type="submit" class="btn btn-primary btn-lg text-uppercase" id="register-button">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                <?php endif ?>
 
                 <div class="fw-bold text-right mt-3">
                     Have an account? Login <a class="link" href="<?= ROOT ?>/auth/login">here</a>
