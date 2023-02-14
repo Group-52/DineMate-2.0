@@ -22,7 +22,7 @@ class Orders
     public function index(): void
     {
         $order = new Order;
-        $results['order_list'] = $order->getOrders();
+        $results['order_list'] = $order->getValidOrders();
         $this->view('admin/order.chef', $results);
     }
 

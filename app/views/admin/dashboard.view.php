@@ -42,18 +42,19 @@
       margin: 10px;
       padding: 0 10px 10px 10px;
     }
-    .card-title{
+
+    .card-title {
       padding: 5px;
     }
 
     .card h3 {
       text-align: center;
     }
+
     .btn {
       /* make left margin 10px and bottom negative 5 */
       margin: 10px 0 0 10px;
     }
-
   </style>
 </head>
 
@@ -70,7 +71,7 @@
 
 
         <div class="card">
-        <h3 class="card-title">Order Frequency</h3>
+          <h3 class="card-title">Order Frequency</h3>
           <canvas id="myBarChart" width="1600" height="900"></canvas>
         </div>
         <div class="card">
@@ -78,17 +79,17 @@
           <canvas id="myLineChart" width="1600" height="900"></canvas>
         </div>
         <div class="card">
-        <h3 class="card-title">Best Selling Dishes</h3>
+          <h3 class="card-title">Best Selling Dishes</h3>
           <canvas id="myPieChart" width="1600" height="900"></canvas>
         </div>
 
         <div class="card">
-        <h3 class="card-title">Finances</h3>
+          <h3 class="card-title">Finances</h3>
           <canvas id="myStackedLineChart" width="1600" height="900"></canvas>
         </div>
 
         <div class="card">
-        <h3 class="card-title">Expiry Risk</h3>
+          <h3 class="card-title">Expiry Risk</h3>
           <div class="table-in-card">
             <table class="table">
               <thead>
@@ -113,7 +114,7 @@
         </div>
 
         <div class="card">
-        <h3 class="card-title">Low Stock</h3>
+          <h3 class="card-title">Low Stock</h3>
           <div class="table-in-card">
             <table class="table">
               <thead>
@@ -133,9 +134,29 @@
             </table>
           </div>
           <a href="<?= ROOT ?>/admin/inventory" class="btn btn-primary">View More</a>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Order submit</h3>
+          <form id="f2" style="padding: 10px; margin: 10px">
+            <input type="number" name="order_id" placeholder="Order ID">
+            <input type="text" name="status" value="pending" disabled>
+            <input type="text" name="time_placed" value="2020-12-12 12:12:12" disabled>
+            <input type="text" name="request" placeholder="Request">
+            <input type="number" name="reg_customer_id" placeholder="Customer ID" value=<?= rand() ?> disabled>
+            <select name="type">
+              <option value="takeaway">Takeaway</option>
+              <option value="bulk">Bulk</option>
+              <option value="dine-in">Dine-in</option>
+            </select>
+
+
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+
+
       </div>
-    </div>
-  </div>
 
 
 

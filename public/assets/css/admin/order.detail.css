@@ -4,10 +4,11 @@
 
     display: flex;
     justify-content: space-between;
+    width: 40%;
 }
 
 #button-div button {
-    width: 100%;
+    max-width: 100%;
     margin: 0 5px;
 }
 
@@ -18,8 +19,11 @@
 }
 
 #accept-button,
-#reject-button {
+#reject-button, #complete-button {
     display: none;
+}
+#complete-button{
+    width:200px;
 }
 .order-status {
  width: 200px;
