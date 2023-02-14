@@ -26,7 +26,7 @@ class App
         $path = $controllerPath;
         if ($this->module) {
             // appends module name if it exists
-            $path .= ucfirst($this->module) . "/";
+            $path .= $this->module . "/";
         }
         $path .= ucfirst($url[0] ?? $this->controller) . ".php";
 
