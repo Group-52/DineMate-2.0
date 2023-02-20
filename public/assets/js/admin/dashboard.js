@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var socket = new WebSocket("ws://localhost:8080");
         socket.onopen = function () {
             var n = {
+                "event_type": "new_order",
                 "order_id": form.elements["order_id"].value,
                 "status": form.elements["status"].value,
                 "time_placed": form.elements["time_placed"].value,
