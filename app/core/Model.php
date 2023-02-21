@@ -122,6 +122,22 @@ class Model
     }
 
     /**
+     * Where clause
+     * @param string $column1
+     * @param string $operator
+     * @return Model
+     * Compare two columns
+     */
+    public function wherecolumn(string $column1, string $column2, string $operator = "="): Model
+    {
+        if (empty($column1) || empty($column2)) {
+            return $this;
+        }
+        $this->query .= " WHERE $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
      * And clause
      * @param string $column
      * @param string $operator

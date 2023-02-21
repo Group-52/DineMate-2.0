@@ -27,7 +27,7 @@
             <th>Amount Remaining</th>
             <th> Expiry Risk</th>
             <th> Special Notes</th>
-            <th>Last Used</th>
+            <th>Expiry Date</th>
             <th></th>
           </tr>
         </thead>
@@ -40,7 +40,7 @@
                 <td data-field-name="amount_remaining" data-unit="<?=$item->abbreviation?>"><?= $item->amount_remaining ?> <?=$item->abbreviation?></td>
                 <td data-field-name="expiry_risk"><?= $item->expiry_risk ? "Yes" : "No" ?></td>
                 <td data-field-name="special_notes"><?= $item->special_notes ?></td>
-                <td ><?= $item->last_used ?></td>
+                <td ><?= $item->expiry_date ?></td>
                 <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
                 <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
                 <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>

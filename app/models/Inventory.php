@@ -39,7 +39,17 @@ class Inventory extends Model
         return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
-            ->where("amount_remaining", "reorder_level","<=")
+            ->wherecolumn("inventory.amount_remaining", "inventory.reorder_level","<=")
+            ->fetchAll();
+    }
+
+    //  Get items that are below the buffer level
+    public function getBufferItems(): array
+    {
+        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
+            ->join("items", "items.item_id", "inventory.item_id")
+            ->join("units", "units.unit_id", "items.unit")
+            ->wherecolumn("amount_remaining", "buffer_stock_level","<=")
             ->fetchAll();
     }
 

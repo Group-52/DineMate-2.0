@@ -57,21 +57,23 @@ class InventoryDetail extends Model
     // Get all inventory data from database
     public function getInventory(): array
     {
-        return $this->select(["inventory2.*", "items.item_name", "units.*"])
+        return $this->select(["inventory2.*", "items.item_name", "units.*","purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
+            ->join("purchases", "purchases.purchase_id", "inventory2.pid")
             ->fetchAll();
     }
 
-    // get non zero inventory with items set to expire in the next x weeks or less in order of expiry date
+    // get non-zero inventory with items set to expire in the next x weeks or less in order of expiry date
     public function expiring($weeks): array
     {
         return $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->where("amount_remaining",0, ">")
-            ->where("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
+            ->where('inventory2.expiry_risk', 1)
+            ->or("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
+            ->and ("amount_remaining", 0, ">")
             ->orderBy("purchases.expiry_date", "ASC")
             ->fetchAll();
     }

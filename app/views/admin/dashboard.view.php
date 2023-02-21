@@ -5,57 +5,9 @@
   <title>Admin</title>
   <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/dashboard.css">
   <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-  <style>
-    .card {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      transition: 0.3s;
-      width: 400px;
-      height: 270px;
-      margin: 10px;
-    }
 
-    .card:hover {
-      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    }
-
-    .container {
-      padding: 2px 16px;
-    }
-
-    .card img {
-      object-fit: cover;
-      width: 100%;
-      height: 200px;
-      border-radius: 10px;
-    }
-
-    .card-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: left;
-      max-width: 1200px;
-    }
-
-    .table-in-card {
-      margin: 10px;
-      padding: 0 10px 10px 10px;
-    }
-
-    .card-title {
-      padding: 5px;
-    }
-
-    .card h3 {
-      text-align: center;
-    }
-
-    .btn {
-      /* make left margin 10px and bottom negative 5 */
-      margin: 10px 0 0 10px;
-    }
-  </style>
 </head>
 
 <body class="dashboard">
@@ -113,7 +65,7 @@
           <a href="<?= ROOT ?>/admin/inventory/info" class="btn btn-primary">View More</a>
         </div>
 
-        <div class="card">
+        <div class="card" style="height: fit-content">
           <h3 class="card-title">Low Stock</h3>
           <div class="table-in-card">
             <table class="table">
@@ -157,8 +109,6 @@
 
 
       </div>
-
-
 
 </body>
 
