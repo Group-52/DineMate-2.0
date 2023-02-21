@@ -80,7 +80,7 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" step=0.001 id="quantity" class="form-control" required>
+                        <input type="number" min="0.001" step=0.001 id="quantity" class="form-control" required oninput="validity.valid||(value='');">
                     </div>
                     <div class="form-group">
                         <label for="unit">Unit</label>

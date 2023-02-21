@@ -56,8 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .setAttribute("data-dish-id", id);
 
           const imgName = selectedOption.getAttribute("data-imgurl");
-          const imageUrl = baseUrl + imgName;
-          dishImage.src = imageUrl;
+          dishImage.src = baseUrl + imgName;
 
           // get the ingredients of the dish
           let currIngredients = ingredientList[id];
@@ -119,8 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
           unit: unit,
         };
 
+        // check if quantity is a number
+        let invalid = isNaN(quantity) || quantity === "";
+
         // check whether button is used for submitting form or updating
-        if (event.target.textContent === "Add") {
+        if (event.target.textContent === "Add" && !invalid) {
           event.preventDefault();
 
           fetch(`${ROOT}/api/ingredients/add`, {
@@ -193,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           clearForm();
           // makeNonEditable();
-        } else if (event.target.textContent === "Save") {
+        } else if (event.target.textContent === "Save" && !invalid) {
           // send the data to the server to delete the ingredient from the dish
           fetch(`${ROOT}/api/ingredients/edit`, {
             method: "POST",
