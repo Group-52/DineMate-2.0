@@ -29,6 +29,7 @@ class Inventory extends Model
         return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
+            ->orderBy("buffer_stock_level-amount_remaining", "DESC")
             ->fetchAll();
     }
 

@@ -6,6 +6,17 @@ document.addEventListener("DOMContentLoaded", function () {
     finishbutton.addEventListener("click", makeUneditable);
     const fieldNames = ['expiry_risk', 'amount_remaining', 'special_notes'];
 
+    // change color of row based on expiry risk
+    let rows = document.querySelectorAll('tr');
+    rows = Array.from(rows).slice(1);
+    rows.forEach(row => {
+        let td = row.querySelector('td[data-field-name="expiry_risk"]');
+        let expiryRisk = td.textContent;
+        if (expiryRisk == 'Yes') {
+            row.style.color = 'red';
+        }
+    });
+
     function makeEditable() {
         // Hide the edit button
         editbutton.style.display = "none";

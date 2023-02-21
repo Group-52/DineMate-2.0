@@ -6,8 +6,31 @@ document.addEventListener("DOMContentLoaded", function () {
     finishbutton.addEventListener("click", makeUneditable);
     const pencilIcons = document.querySelectorAll(".edit-icon");
 
-    const fieldNames = ['max_stock_level', 'buffer_stock_level', 'reorder_level', 'lead_time'];
+    let rows = document.querySelectorAll('tr');
+    rows = Array.from(rows).slice(1);
+    rows.forEach(row => {
+            // turn into floats and compare
+            const cells = row.querySelectorAll('td');
+            // get only numeric part of the amount_remaining
+            const amount_remaining = cells[1].textContent.split(' ')[0];
+            const max_stock_level = parseFloat(cells[3].textContent);
+            const buffer_stock_level = parseFloat(cells[4].textContent);
+            const reorder_level = parseFloat(cells[5].textContent);
 
+            if (amount_remaining < buffer_stock_level) {
+                row.style.color = 'red';
+            }else if (amount_remaining < reorder_level) {
+                row.style.color = '#c07906';
+            } else if (amount_remaining > max_stock_level) {
+                row.style.color = 'blue';
+            } else {
+                row.style.color = 'green';
+            }
+
+        }
+    );
+
+    const fieldNames = ['max_stock_level', 'buffer_stock_level', 'reorder_level', 'lead_time'];
 
 
     function makeEditable() {
@@ -88,34 +111,34 @@ document.addEventListener("DOMContentLoaded", function () {
     // Attach click event listener to each tick and cross icon to make the cell uneditable and pencil icon appear
     const editIcons = document.querySelectorAll('.edit-options');
     editIcons.forEach(icon => {
-        icon.addEventListener('click', function (event) {
-            // make tick and cross icon invisible
-            event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'none';
-            event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'none';
-            // make pencil icon visible
-            event.target.parentNode.parentNode.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
+            icon.addEventListener('click', function (event) {
+                // make tick and cross icon invisible
+                event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'none';
+                event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'none';
+                // make pencil icon visible
+                event.target.parentNode.parentNode.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
 
-            const row = event.target.parentNode.parentNode;
-            row.classList.remove('row-in-form');
+                const row = event.target.parentNode.parentNode;
+                row.classList.remove('row-in-form');
 
-            const cells = row.querySelectorAll('td');
-            cells.forEach(cell => {
-                if (fieldNames.includes(cell.dataset.fieldName)) {
-                    cell.classList.remove('editable');
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => {
+                    if (fieldNames.includes(cell.dataset.fieldName)) {
+                        cell.classList.remove('editable');
 
-                    const input = cell.querySelector('input');
-                    // if the icon is the cross icon, revert the value to the previous value
-                    if (icon.classList.contains('cross-icon')) {
-                        cell.textContent = cell.getAttribute('data-previous-value');
-                        cell.removeAttribute('data-previous-value');
+                        const input = cell.querySelector('input');
+                        // if the icon is the cross icon, revert the value to the previous value
+                        if (icon.classList.contains('cross-icon')) {
+                            cell.textContent = cell.getAttribute('data-previous-value');
+                            cell.removeAttribute('data-previous-value');
+                        }
+                        // else, update the value to the new value
+                        else
+                            cell.textContent = input.value;
                     }
-                    // else, update the value to the new value
-                    else
-                        cell.textContent = input.value;
-                }
+                });
             });
-        });
-    }
+        }
     );
 
     // Attach click event listener to each tick icon to update the database
@@ -152,14 +175,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Send data to server
         let fetchRes = fetch(
             `${ROOT}/api/inventory/updateMain`, {
-            method: "POST",
-            credentials: 'same-origin',
-            mode: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        });
+                method: "POST",
+                credentials: 'same-origin',
+                mode: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            });
 
         fetchRes.then(res => res.json())
             .catch(err => {
