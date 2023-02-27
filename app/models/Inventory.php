@@ -9,7 +9,7 @@ use core\Model;
  */
 class Inventory extends Model
 {
-    protected int $nrows=10;
+    protected int $nrows=5;
     public function __construct()
     {
         $this->table = "inventory";
@@ -24,16 +24,18 @@ class Inventory extends Model
         ];
     }
 
-    // Get all inventory data from database
+    // Get all inventory data from database with pagination
+//    give 0 as a parameter to not have pagination
     public function getInventory($page=1): array
     {
         $skip = ($page - 1) * $this->nrows;
-        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
+        $q = $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
-            ->join("units", "units.unit_id", "items.unit")
-            ->limit($this->nrows)
-            ->offset($skip)
-            ->fetchAll();
+            ->join("units", "units.unit_id", "items.unit");
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
     // Get items that are below the reorder level
