@@ -17,14 +17,16 @@ document.addEventListener("DOMContentLoaded", function () {
             const buffer_stock_level = parseFloat(cells[4].textContent);
             const reorder_level = parseFloat(cells[5].textContent);
 
+            const circle = cells[7].querySelector('#circle');
+            // change color of circle icon
             if (amount_remaining < buffer_stock_level) {
-                row.style.color = 'red';
+                circle.style.backgroundColor = '#EE4A1C';
             } else if (amount_remaining < reorder_level) {
-                row.style.color = '#c07906';
+                circle.style.backgroundColor = '#E5A113';
             } else if (amount_remaining > max_stock_level) {
-                row.style.color = 'blue';
+                circle.style.backgroundColor = '#138DE5';
             } else {
-                row.style.color = 'green';
+                circle.style.backgroundColor = 'lightgreen';
             }
 
         }

@@ -22,13 +22,17 @@ class Purchases
         }
 
         $purchaseModel = new Purchase();
+        $p = $_GET['page'] ?? 1;
+        $totalPages = $purchaseModel->getPages();
         $v = new Vendor();
         $i = new Item();
         $data = [];
-        $data["purchases"] = $purchaseModel->getAllPurchases();
+        $data["purchases"] = $purchaseModel->getAllPurchases($p);
         $data["vendors"] = $v->getVendors();
         $data["items"] = $i->getItems();
         $data["controller"]= "purchases";
+        $data["currentPage"]= $p;
+        $data["totalPages"]= $totalPages;
 
         $this->view("admin/purchases", $data);
     }
