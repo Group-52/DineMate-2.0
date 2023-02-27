@@ -28,3 +28,21 @@ td:has(.cross-icon) {
     border-radius: 5px;
     text-align: center;
 }
+
+.pagination {
+    margin: 5px;
+    padding: 10px;
+}
+.page-link {
+    margin: 5px;
+    padding: 5px;
+    color: #2980b9;
+}
+.page-item.active .page-link {
+    color: #f00; /* Active color */
+}
+.page-move{
+    color: black;
+}
+
+

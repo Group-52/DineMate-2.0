@@ -9,6 +9,7 @@ use core\Model;
  */
 class Inventory extends Model
 {
+    public int $nrows=5;
     public function __construct()
     {
         $this->table = "inventory";
@@ -24,13 +25,20 @@ class Inventory extends Model
     }
 
     // Get all inventory data from database
-    public function getInventory(): array
+    public function getInventory($page=1): array
     {
+        $skip = ($page - 1) * $this->nrows;
         return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
-            ->orderBy("buffer_stock_level-amount_remaining", "DESC")
+            ->limit($this->nrows)
+            ->offset($skip)
             ->fetchAll();
+    }
+    public function getInventoryCount()
+    {
+         $crow = $this->count('item_id')->fetch();
+         return ceil($crow->{'COUNT(item_id)'}/($this->nrows));
     }
 
     // Get items that are below the reorder level

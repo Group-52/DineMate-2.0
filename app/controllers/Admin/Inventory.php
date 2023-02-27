@@ -12,8 +12,11 @@ class Inventory
     public function index(): void
     {
         $inv = new \models\Inventory();
-        $inventory = $inv->getInventory();
-        $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
+        $p = $_GET['page'] ?? 1;
+        $totalPages = $inv->getInventoryCount();
+
+        $inventory = $inv->getInventory($p);
+        $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);
     }
 
     public function info(): void

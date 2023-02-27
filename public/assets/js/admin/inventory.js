@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (amount_remaining < buffer_stock_level) {
                 row.style.color = 'red';
-            }else if (amount_remaining < reorder_level) {
+            } else if (amount_remaining < reorder_level) {
                 row.style.color = '#c07906';
             } else if (amount_remaining > max_stock_level) {
                 row.style.color = 'blue';
@@ -147,6 +147,20 @@ document.addEventListener("DOMContentLoaded", function () {
         icon.addEventListener('click', function (event) {
             updateInventory(icon);
         });
+    });
+
+
+    // Get the current page number from the URL
+    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
+    const pages = document.querySelectorAll('.page-item');
+
+    pages.forEach(page => {
+        const pageLink = page.querySelector('.page-link');
+        const pageNumber = parseInt(pageLink.innerText);
+
+        if (pageNumber === currentPage) {
+            page.classList.add('active');
+        }
     });
 
 
