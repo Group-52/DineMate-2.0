@@ -13,7 +13,7 @@ class Inventory
     {
         $inv = new \models\Inventory();
         $p = $_GET['page'] ?? 1;
-        $totalPages = $inv->getInventoryCount();
+        $totalPages = $inv->getPages();
 
         $inventory = $inv->getInventory($p);
         $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);

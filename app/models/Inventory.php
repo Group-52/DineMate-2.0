@@ -9,7 +9,7 @@ use core\Model;
  */
 class Inventory extends Model
 {
-    public int $nrows=5;
+    protected int $nrows=10;
     public function __construct()
     {
         $this->table = "inventory";
@@ -34,11 +34,6 @@ class Inventory extends Model
             ->limit($this->nrows)
             ->offset($skip)
             ->fetchAll();
-    }
-    public function getInventoryCount()
-    {
-         $crow = $this->count('item_id')->fetch();
-         return ceil($crow->{'COUNT(item_id)'}/($this->nrows));
     }
 
     // Get items that are below the reorder level

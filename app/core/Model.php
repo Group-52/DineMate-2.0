@@ -11,6 +11,7 @@ class Model
     protected string $table = "";
     protected array $columns = [];
     protected array $errors = [];
+    protected int $nrows = 1000;
 
     /**
      * Select rows from table
@@ -43,6 +44,14 @@ class Model
     {
         $this->query = "SELECT COUNT($column) FROM $this->table";
         return $this;
+    }
+
+    // Get number of pages according to the offset
+    public function getPages(): int
+    {
+        $this->query = "SELECT COUNT(*) FROM $this->table";
+        $c = $this->fetch();
+        return ceil($c->{'COUNT(*)'}/$this->nrows);
     }
 
     /**
