@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var finishbutton = document.querySelector("#finish-button");
     finishbutton.addEventListener("click", makeUneditable);
     const pencilIcons = document.querySelectorAll(".edit-icon");
+    const trashIcons = document.querySelectorAll(".trash-icon");
+    const popup = document.querySelector(".popup");
+    const confirmButton = document.querySelector("#confirm");
+    const cancelButton = document.querySelector("#cancel");
+
 
     let rows = document.querySelectorAll('tr');
     rows = Array.from(rows).slice(1);
@@ -42,12 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
         finishbutton.style.display = "inline-block";
 
         // Show the trash can icon
-        const trashIcons = document.querySelectorAll(".trash-icon");
         for (let i = 0; i < trashIcons.length; i++) {
             trashIcons[i].parentNode.style.display = "inline-block";
         }
         // Show the pencil icon
-        const pencilIcons = document.querySelectorAll(".edit-icon");
         for (let i = 0; i < pencilIcons.length; i++) {
             pencilIcons[i].parentNode.style.display = "inline-block";
         }
@@ -60,12 +63,10 @@ document.addEventListener("DOMContentLoaded", function () {
         finishbutton.style.display = "none";
 
         // Hide the trash can icon
-        const trashIcons = document.querySelectorAll(".trash-icon");
         for (let i = 0; i < trashIcons.length; i++) {
             trashIcons[i].parentNode.style.display = "none";
         }
         // Hide the pencil icon
-        const pencilIcons = document.querySelectorAll(".edit-icon");
         for (let i = 0; i < pencilIcons.length; i++) {
             pencilIcons[i].parentNode.style.display = "none";
         }
@@ -77,13 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     pencilIcons.forEach(icon => {
         icon.addEventListener('click', function (event) {
+            let row = event.target.parentNode.parentNode;
             // make tick and cross icon visible
-            event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'inline-block';
-            event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'inline-block';
+            row.querySelector('.tick-icon').parentNode.style.display = 'inline-block';
+            row.querySelector('.cross-icon').parentNode.style.display = 'inline-block';
             // make the pencil icon invisible
             event.target.parentNode.style.display = 'none';
+            // make the trash icon invisible
+            row.querySelector('.trash-icon').parentNode.style.display = 'none';
 
-            const row = event.target.parentNode.parentNode;
             row.classList.add('row-in-form');
 
             const cells = row.querySelectorAll('td');
@@ -110,17 +113,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Attach click event listener to each tick icon to update the database
+    const tickIcons = document.querySelectorAll('.tick-icon');
+    tickIcons.forEach(icon => {
+        icon.addEventListener('click', function (event) {
+            updateInventory(icon);
+        });
+    });
+
     // Attach click event listener to each tick and cross icon to make the cell uneditable and pencil icon appear
     const editIcons = document.querySelectorAll('.edit-options');
     editIcons.forEach(icon => {
             icon.addEventListener('click', function (event) {
+                let row = event.target.parentNode.parentNode;
                 // make tick and cross icon invisible
-                event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'none';
-                event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'none';
+                row.querySelector('.tick-icon').parentNode.style.display = 'none';
+                row.querySelector('.cross-icon').parentNode.style.display = 'none';
                 // make pencil icon visible
-                event.target.parentNode.parentNode.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
+                row.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
+                // make trash icon visible
+                row.querySelector('.trash-icon').parentNode.style.display = 'inline-block';
 
-                const row = event.target.parentNode.parentNode;
                 row.classList.remove('row-in-form');
 
                 const cells = row.querySelectorAll('td');
@@ -142,14 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     );
-
-    // Attach click event listener to each tick icon to update the database
-    const tickIcons = document.querySelectorAll('.tick-icon');
-    tickIcons.forEach(icon => {
-        icon.addEventListener('click', function (event) {
-            updateInventory(icon);
-        });
-    });
 
 
     // Get the current page number from the URL
@@ -206,4 +211,38 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
     }
+//Attach event listener to trash icon to display popup
+    trashIcons.forEach(t => {
+        t.addEventListener('click', function (event) {
+            popup.style.display = 'block';
+            popup.setAttribute("data-item-id", t.parentNode.parentNode.getAttribute("data-item-id"));
+        });
+    });
+
+    //Attach event listener to cancel button to hide popup
+    cancelButton.addEventListener('click', function (event) {
+        popup.style.display = 'none';
+        popup.removeAttribute("data-item-id");
+    });
+   //Attach event listener to delete button to delete item from database
+    confirmButton.addEventListener('click', function (event) {
+        let id = popup.getAttribute("data-item-id");
+        popup.removeAttribute("data-item-id");
+        let fetchRes = fetch(
+            `${ROOT}/api/inventory/deleteMain`, {
+                method: "POST",
+                credentials: 'same-origin',
+                mode: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({itemid: id})
+            });
+        fetchRes.then(res => res.json())
+            .catch(err => {
+                console.log(err)
+            })
+        popup.style.display = 'none';
+        document.querySelector(`tr[data-item-id="${id}"]`).remove();
+    });
 });

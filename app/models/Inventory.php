@@ -38,6 +38,13 @@ class Inventory extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
+    public function deleteInventory($item_id):void
+    {
+        $this->delete()
+            ->where("item_id", $item_id)
+            ->execute();
+    }
+
     // Get items that are below the reorder level
     public function getReorderItems(): array
     {

@@ -51,6 +51,7 @@
                         <div id="circle" class="pending"></div>
                         </td>
                         <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
+                        <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
                         <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>
                         <td><i class="fa fa-times-circle cross-icon edit-options" aria-hidden="true"></i></td>
                     </tr>
@@ -58,34 +59,15 @@
             <?php endif; ?>
             </tbody>
         </table>
-        <!-- Pagination row -->
-
-        <div class="d-flex justify-content-center pagination">
-            <nav>
-                <div>
-
-                    <!--                    Previous button-->
-
-                    <?php if ($currentPage != 1) : ?>
-                        <span class="page-item">
-                                <a class="page-link page-move" href="?page=<?php echo $currentPage - 1; ?>">Previous</a>
-                        </span>
-                    <?php endif; ?>
-                    <!--                    Page numbers-->
-                    <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                        <span class="page-item <?php if ($currentPage == $i) echo 'active'; ?>">
-                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                        </span>
-                    <?php endfor; ?>
-                    <!--                    Next button-->
-                    <?php if ($currentPage != $totalPages) : ?>
-                        <span class="page-item">
-                          <a class="page-link page-move" href="?page=<?php echo $currentPage + 1; ?>"> Next </a>
-                        </span>
-                    <?php endif; ?>
-
-                </div>
-            </nav>
+        <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
+        <div class="popup" id="delete-popup">
+            <p>
+                Are you sure you want to delete this item from the inventory? New inventory entries will be created only upon purchase of new items
+            </p>
+            <div class="popup-button-div">
+                <button class="btn btn-success" id="confirm">Yes</button>
+                <button class="btn btn-danger" id="cancel">No</button>
+            </div>
         </div>
     </div>
 </div>
