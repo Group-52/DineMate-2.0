@@ -113,13 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Attach click event listener to each tick icon to update the database
-    const tickIcons = document.querySelectorAll('.tick-icon');
-    tickIcons.forEach(icon => {
-        icon.addEventListener('click', function (event) {
-            updateInventory(icon);
-        });
-    });
 
     // Attach click event listener to each tick and cross icon to make the cell uneditable and pencil icon appear
     const editIcons = document.querySelectorAll('.edit-options');
@@ -155,6 +148,13 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
     );
+    // Attach click event listener to each tick icon to update the database
+    const tickIcons = document.querySelectorAll('.tick-icon');
+    tickIcons.forEach(icon => {
+        icon.addEventListener('click', function (event) {
+            updateInventory(icon);
+        });
+    });
 
 
     // Get the current page number from the URL
