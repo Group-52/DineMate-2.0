@@ -2,6 +2,7 @@
 namespace controllers\api;
 use core\controller;
 use models\Purchase;
+use models\Vendor;
 
 class Purchases {
     use Controller;
@@ -26,6 +27,15 @@ class Purchases {
             $id = $data['purchase_id'];
             $purchaseModel->deletePurchase($id);
             echo json_encode(array("status" => "success", "message" => "Data deleted successfully"));
+        } else
+            echo json_encode(array("status" => "error", "message" => "Invalid request"));
+    }
+
+    public function getvendors():void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $data = (new Vendor())->getVendors();
+            echo json_encode(array("status" => "success", "data" => $data));
         } else
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }

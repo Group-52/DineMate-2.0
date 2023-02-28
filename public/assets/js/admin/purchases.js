@@ -130,8 +130,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.appendChild(input);
                     // store the previous value temporarily
                     cell.setAttribute('data-previous-value', input.value);
-
-
+                } else if (cell.dataset.fieldName === 'vendor') {
+                    let selectInput = document.createElement('select');
+                    currentVendor = cell.textContent;
+                    cell.setAttribute('data-previous-value', currentVendor);
+                    cell.innerHTML = '';
+                    cell.appendChild(selectInput);
+                    // Populate the select input with options dynamically
+                    fetch(`${ROOT}/api/purchases/getvendors`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Loop through the response data and create an option element for each vendor
+                            for (let j = 0; j < data.data.length; j++) {
+                                var vendor = data.data[j];
+                                var option = document.createElement('option');
+                                option.value = vendor.vendor_id;
+                                option.text = vendor.vendor_name;
+                                option.selected = vendor.vendor_name == currentVendor;
+                                selectInput.appendChild(option);
+                            }
+                        });
                 }
             });
         });
@@ -210,9 +228,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             cell.removeAttribute('data-previous-value');
                         }
                         // else, update the value to the new value
-                        else{
+                        else {
                             // check for null values and set to zero or input value otherwise
-                            if (cell.dataset.fieldName === 'cost' || cell.dataset.fieldName === 'final_price' || cell.dataset.fieldName === 'discount' || cell.dataset.fieldName === 'tax'){
+                            if (cell.dataset.fieldName === 'cost' || cell.dataset.fieldName === 'final_price' || cell.dataset.fieldName === 'discount' || cell.dataset.fieldName === 'tax') {
                                 if (input.value === '')
                                     cell.textContent = '0';
                                 else
@@ -224,16 +242,22 @@ document.addEventListener('DOMContentLoaded', () => {
                             else if (cell.dataset.fieldName === 'quantity' && input.value === '')
                                 cell.textContent = '0' + " " + cell.getAttribute('data-unit');
 
-                            if (cell.dataset.fieldName === 'purchase_date' || cell.dataset.fieldName === 'expiry_date' || cell.dataset.fieldName === 'brand'|| cell.dataset.fieldName === 'vendor')
+                            if (cell.dataset.fieldName === 'purchase_date' || cell.dataset.fieldName === 'expiry_date' || cell.dataset.fieldName === 'brand')
                                 cell.textContent = input.value;
-
                         }
+                    } else if (cell.dataset.fieldName === 'vendor') {
+                        cell.classList.remove('editable');
+                        const input = cell.querySelector('select');
+                        cell.textContent = input.options[input.selectedIndex].text;
+                        if (icon.classList.contains('cross-icon')) {
+                            cell.textContent = cell.getAttribute('data-previous-value');
+                        }
+                        cell.removeAttribute('data-previous-value');
                     }
                 });
             });
         }
     );
-
 
     function updatePurchase(event) {
         const row = event.target.parentNode.parentNode;
@@ -245,27 +269,36 @@ document.addEventListener('DOMContentLoaded', () => {
             if (fieldNames.includes(cell.dataset.fieldName)) {
                 const input = cell.querySelector('input');
                 // check if the value has been changed
-                if (input.value !== cell.getAttribute('data-previous-value')){
+                if (input.value !== cell.getAttribute('data-previous-value')) {
                     purchase[cell.dataset.fieldName] = input.value;
+                    cell.removeAttribute('data-previous-value');
+                }
+            } else if (cell.dataset.fieldName === 'vendor') {
+                const input = cell.querySelector('select');
+                if (input.options[input.selectedIndex].text !== cell.getAttribute('data-previous-value')) {
+                    purchase[cell.dataset.fieldName] = input.options[input.selectedIndex].value;
                     cell.removeAttribute('data-previous-value');
                 }
             }
         });
-        // console.log("Changes to be made: ")
-        // console.log(purchase);
-        const url = `${ROOT}/api/purchases/update`;
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(purchase)
-        };
-        let fetchRes = fetch(url, options);
-        fetchRes.then(res => res.json())
-            .catch(err => {
-                console.log(err)
-            })
+        // if there are changes to be made, send a POST request to the server
+        if (Object.keys(purchase).length > 1) {
+            console.log("Changes to be made: ")
+            console.log(purchase);
+            const url = `${ROOT}/api/purchases/update`;
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(purchase)
+            };
+            let fetchRes = fetch(url, options);
+            fetchRes.then(res => res.json())
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
 
 
