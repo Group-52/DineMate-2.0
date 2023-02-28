@@ -10,6 +10,7 @@ use core\Model;
  */
 class InventoryDetail extends Model
 {
+    protected int $nrows=5;
     public function __construct()
     {
         $this->table = "inventory2";
@@ -54,14 +55,20 @@ class InventoryDetail extends Model
     }
 
 
-    // Get all inventory data from database
-    public function getInventory(): array
+    // Get all inventory data from database with pagination
+// give 0 as a parameter to not have pagination
+    public function getInventory($page=1): array
     {
-        return $this->select(["inventory2.*", "items.item_name", "units.*","purchases.expiry_date"])
+        $skip = ($page - 1) * $this->nrows;
+        $q = $this->select(["inventory2.*", "items.item_name", "units.*","purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->fetchAll();
+            ->orderBy("purchases.expiry_date", "DESC");
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
     // get non-zero inventory with items set to expire in the next x weeks or less in order of expiry date

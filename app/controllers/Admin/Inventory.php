@@ -22,8 +22,10 @@ class Inventory
     public function info(): void
     {
         $inv2 = new InventoryDetail();
-        $inventory2 = $inv2->getInventory();
-        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
+        $p = $_GET['page'] ?? 1;
+        $totalPages = $inv2->getPages();
+        $inventory2 = $inv2->getInventory($p);
+        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2','currentPage'=>$p,'totalPages'=>$totalPages]);
     }
 
 }
