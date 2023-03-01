@@ -3,6 +3,16 @@ document.addEventListener("DOMContentLoaded", function () {
     var editbutton = document.querySelector("#edit-button");
     editbutton.addEventListener("click", makeEditable);
     var finishbutton = document.querySelector("#finish-button");
+    finishbutton.addEventListener('click', () => {
+        //     look for any rows with the cross icon visible and simulate a click on the cross icon
+        let crossIcons = document.querySelectorAll(".cross-icon");
+        crossIcons = Array.from(crossIcons);
+        crossIcons.forEach(icon => {
+            if (icon.parentNode.style.display !== 'none') {
+                icon.click();
+            }
+        });
+    });
     finishbutton.addEventListener("click", makeUneditable);
     const pencilIcons = document.querySelectorAll(".edit-icon");
     const trashIcons = document.querySelectorAll(".trash-icon");

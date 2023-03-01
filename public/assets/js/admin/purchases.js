@@ -17,6 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const fieldNames = ['purchase_date', 'item', 'quantity', 'brand', 'expiry_date', 'cost', 'discount', 'final_price', 'tax'];
 
     editbutton.addEventListener('click', makeEditable);
+    finishbutton.addEventListener('click', () => {
+    //     look for any rows with the cross icon visible and simulate a click on the cross icon
+        let crossIcons = document.querySelectorAll(".cross-icon");
+        crossIcons = Array.from(crossIcons);
+        crossIcons.forEach(icon => {
+            if (icon.parentNode.style.display !== 'none') {
+                icon.click();
+            }
+        });
+    });
     finishbutton.addEventListener('click', makeUneditable);
 
     // make form visible when add button is clicked
