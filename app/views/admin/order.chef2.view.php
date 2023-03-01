@@ -6,39 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/orders.css">
-    <style>
-        .card {
-            height: 180px;
-            margin-bottom: 20px;
-            margin-left: 10px;
-            margin-right: 10px;
-            width: 200px;
-            border: 3px solid black;
-            border-radius: 5px;
-        }
-
-        .card-header {
-            background-color: #f2f2f2;
-            padding: 10px;
-            font-weight: bold;
-            height: 50px;
-        }
-
-        .card-body {
-            padding: 10px;
-            height: 130px;
-            overflow: scroll;
-        }
-
-        .card-deck {
-            clear: both;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: left;
-        }
-
-    </style>
-    <script src="<?= ASSETS ?>/js/admin/orders.js"></script>
+     <script src="<?= ASSETS ?>/js/admin/orders.js"></script>
     <title>viewOrders</title>
 </head>
 <body class="dashboard">
