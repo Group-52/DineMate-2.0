@@ -6,6 +6,8 @@ use core\Model;
 
 class Order extends Model
 {
+    protected int $nrows = 15;
+
     public function __construct()
     {
         $this->table = "orders";
@@ -66,13 +68,19 @@ class Order extends Model
         return $this->select()->fetchAll();
     }
 
-    // Get all orders that are pending or accepted
-    public function getValidOrders(): array|false
+    // Get all orders that are pending or accepted with pagination
+
+    public function getValidOrders($page = 1): array|false
     {
-        return $this->select()
+        $q= $this->select()
             ->where("status", "rejected", "!=")
             ->and("status", "completed", "!=")
-            ->fetchAll();
+            ->orderBy("time_placed", "ASC");
+        $skip = ($page - 1) * $this->nrows;
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
     public function getOrder($order_id): object|false

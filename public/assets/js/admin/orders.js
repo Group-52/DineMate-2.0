@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const rows = document.querySelectorAll('tbody tr');
+    const cards = document.querySelectorAll('.card');
     const circles = document.querySelectorAll('#circle');
 
     // set initial color of circle based on status
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     break;
             }
             // get order id and status
-            let oid = circle.parentElement.parentElement.getAttribute('data-order-id');
+            let oid = circle.parentElement.parentElement.parentElement.getAttribute('data-order-id');
             status = circle.getAttribute('data-order-status');
             // update order status in database
             if (status !== "completed") {
@@ -41,50 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // add links to each order id field
-    const orderIds = document.querySelectorAll('.order-id-field');
-    orderIds.forEach(orderId => {
-        let id = orderId.parentElement.getAttribute('data-order-id');
-        orderId.addEventListener('click', function () {
-            // redirect to order details page
-            window.location.href = `${ROOT}/admin/orders/id/${id}`;
+    // card selection
+    cards.forEach(card => {
+        let id = card.getAttribute('data-order-id');
+        let cardbody = card.children[1];
+        // go to order details page
+        cardbody.addEventListener('click', function () {
+            location.href = `${ROOT}/admin/orders/id/${id}`;
         });
-    });
+        //when hovering over card, increase size of card
+        cardbody.addEventListener('mouseover', function () {
+            card.style.transform = "scale(1.05)";
+            cardbody.style.cursor = "pointer";
+        });
+        cardbody.addEventListener('mouseout', function () {
+            card.style.transform = "scale(1)";
+        });
 
-    // filter orders by type and status
-    let typeFilter = document.getElementById("type");
-    let statusFilter = document.getElementById("status");
-    typeFilter.addEventListener("change", function () {
-
-        let typeValue = this.value.toLowerCase();
-
-        for (let i = 0; i < rows.length; i++) {
-            let orderType = rows[i].getAttribute("data-order-type");
-            console.log(`orderType: ${orderType}, typeValue: ${typeValue}`)
-            if (typeValue === "all") {
-                rows[i].style.display = "";
-            } else if (orderType !== typeValue) {
-                rows[i].style.display = "none";
-            } else {
-                rows[i].style.display = "";
-            }
-        }
-    });
-
-    statusFilter.addEventListener("change", function () {
-        let statusValue = this.value.toLowerCase();
-
-        for (let i = 0; i < rows.length; i++) {
-            let statusCircle = rows[i].getAttribute("data-order-status");
-            console.log(`statusValue: ${statusValue}, statusCircle: ${statusCircle}`)
-            if (statusValue === "all") {
-                rows[i].style.display = "";
-            } else if (statusCircle !== statusValue) {
-                rows[i].style.display = "none";
-            } else {
-                rows[i].style.display = "";
-            }
-        }
     });
 
 
@@ -110,78 +83,128 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    function addRow(order) {
-        var table = document.querySelector(".table");
-        var row = table.insertRow(-1);
-        row.setAttribute("data-order-id", order.order_id);
-        row.setAttribute("data-order-type", order.type);
-        row.setAttribute("data-order-status", order.status);
+    function addCard(order) {
+        var cardDeck = document.querySelector(".card-deck");
 
-        var orderIdCell = row.insertCell(0);
-        orderIdCell.innerHTML = order.order_id;
-        orderIdCell.classList.add("order-id-field");
-        var customerIdCell = row.insertCell(1);
-        customerIdCell.innerHTML = order.reg_customer_id ? order.reg_customer_id : order.guest_id;
-        var timePlacedCell = row.insertCell(2);
-        timePlacedCell.innerHTML = order.time_placed;
-        var scheduledTimeCell = row.insertCell(3);
-        scheduledTimeCell.innerHTML = order.scheduled_time ? order.scheduled_time : "-";
-        var requestCell = row.insertCell(4);
-        requestCell.innerHTML = order.request.length > 30 ? order.request.substring(0, 30) + "..." : order.request;
-        var typeCell = row.insertCell(5);
+        var card = document.createElement("div");
+        card.classList.add("card");
+        card.setAttribute("data-order-id", order.order_id);
+        card.setAttribute("data-order-type", order.type);
+        card.setAttribute("data-order-status", order.status);
+
+        var cardHeader = document.createElement("div");
+        cardHeader.classList.add("card-header");
+
+        var headerContent = document.createElement("div");
+        headerContent.classList.add("d-flex", "justify-content-between");
+
+        var orderTime = document.createElement("div");
+        orderTime.innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
+        headerContent.appendChild(orderTime);
+        // add 5 tabspaces
+        headerContent.appendChild(document.createTextNode("\u00a0\u00a0\u00a0\u00a0\u00a0"));
+
+        var orderType = document.createElement("div");
         var typeImg = document.createElement("img");
-        typeImg.alt = order.type;
         typeImg.width = "30";
         typeImg.height = "30";
-        typeCell.appendChild(typeImg);
+        typeImg.alt = order.type;
         if (order.type == "dine-in") {
             typeImg.src = `${ASSETS}/icons/table.png`;
-            if (order.table_id)
-                typeCell.appendChild(document.createTextNode(" " + order.table_id));
         } else if (order.type == "takeaway") {
             typeImg.src = `${ASSETS}/icons/fastcart.png`;
         } else if (order.type == "bulk") {
             typeImg.src = `${ASSETS}/icons/bulk.svg`;
         }
-        var statusCell = row.insertCell(6);
-        var statusDiv = document.createElement("div");
-        statusDiv.setAttribute("data-order-status", order.status);
-        statusDiv.setAttribute("id", "circle");
-        statusDiv.setAttribute("class", "pending");
-        statusCell.appendChild(statusDiv);
+        orderType.appendChild(typeImg);
+        headerContent.appendChild(orderType);
 
-        // add event listener to new circle
-        statusDiv.addEventListener('click', function () {
-            var status = statusDiv.getAttribute('data-order-status');
+        if (order.type == "dine-in") {
+            var tableId = document.createElement("div");
+            tableId.innerHTML = order.table_id;
+            headerContent.appendChild(tableId);
+        }
+        // add 3 tabspaces
+        headerContent.appendChild(document.createTextNode("\u00a0\u00a0\u00a0"));
 
-            switch (status) {
-                case "pending":
-                    statusDiv.style.backgroundColor = "yellow";
-                    statusDiv.setAttribute('data-order-status', 'accepted');
-                    break;
-                case "accepted":
-                    statusDiv.style.backgroundColor = "transparent";
-                    statusDiv.setAttribute('data-order-status', 'pending');
-                    break;
-            }
-            // get order id and status
-            let oid = statusDiv.parentElement.parentElement.getAttribute('data-order-id');
-            status = statusDiv.getAttribute('data-order-status');
-            // update order status in database
-            if (status !== "completed") {
-                updateOrderStatus(oid, status);
+        var orderStatus = document.createElement("div");
+        orderStatus.setAttribute("data-order-status", order.status);
+        orderStatus.setAttribute("id", "circle");
+        orderStatus.addEventListener("click", function () {
+            if (order.status == "pending") {
+                orderStatus.setAttribute("data-order-status", "accepted");
+                updateOrderStatus(order.order_id, "confirmed");
+                orderStatus.style.backgroundColor = "#f1c40f";
+            } else if (order.status == "accepted") {
+                orderStatus.setAttribute("data-order-status", "pending");
+                updateOrderStatus(order.order_id, "ready");
+                orderStatus.style.backgroundColor = "#2ecc71";
             }
         });
+        headerContent.appendChild(orderStatus);
 
-        // add event listener to new order id field
-        orderIdCell.addEventListener('click', function () {
-                // redirect to order details page
-                window.location.href = `${ROOT}/admin/orders/id/${order.order_id}`;
-            }
-        );
+        cardHeader.appendChild(headerContent);
+        card.appendChild(cardHeader);
 
+        var cardBody = document.createElement("div");
+        cardBody.classList.add("card-body");
+
+        var orderDishes = order.order_dishes;
+        orderDishes.forEach(function (dish) {
+            var dishRow = document.createElement("div");
+            dishRow.style.display = "flex";
+            dishRow.style.justifyContent = "space-between";
+
+            var dishName = document.createElement("div");
+            dishName.style.flex = "1";
+            dishName.innerHTML = dish.dish_name;
+            dishRow.appendChild(dishName);
+
+            var dishQuantity = document.createElement("div");
+            dishQuantity.style.marginLeft = "auto";
+            dishQuantity.innerHTML = dish.quantity;
+            dishRow.appendChild(dishQuantity);
+            cardBody.appendChild(dishRow);
+        });
+
+        card.appendChild(cardBody);
+        cardDeck.insertBefore(card, cardDeck.firstChild);
     }
 
+    function formatOrderTime(scheduled_time, time_placed) {
+        const today = new Date().toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
+
+        if (!scheduled_time) {
+            const time = new Date(time_placed);
+            return time.toLocaleString('en-US', {
+                timeZone: 'Asia/Colombo',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+        } else {
+            const scheduledDate = new Date(scheduled_time);
+            const scheduledDay = scheduledDate.toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
+
+            if (scheduledDay === today) {
+                return scheduledDate.toLocaleString('en-US', {
+                    timeZone: 'Asia/Colombo',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: true
+                });
+            } else if (scheduledDay === today + 1) {
+                return 'tomorrow';
+            } else {
+                return scheduledDate.toLocaleString('en-US', {
+                    timeZone: 'Asia/Colombo',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                });
+            }
+        }
+    }
 
     // Uses a websocket to receive data and add it to the table
     var socket = new WebSocket("ws://localhost:8080");
@@ -189,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let d = JSON.parse(event.data);
         if (d.event_type === "new_order") {
             console.log(d);
-            addRow(d);
+            addCard(d);
         }
     };
 

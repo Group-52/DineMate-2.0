@@ -1,8 +1,8 @@
 #circle{
   background-color:transparent;
   display:block;
-  height:40px;
-  width:40px;
+  height:20px;
+  width:20px;
   border-radius:50%;
   border:2px solid black;
   margin:auto;
@@ -29,10 +29,4 @@
   float: left;
   padding: 5px;
   margin:5px;
-}
-  
-/* make id field look clickable */
-.order-id-field{
-  cursor:pointer;
-  transform:scale(0.99);
 }
