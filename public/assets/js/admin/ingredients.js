@@ -1,13 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    const dishSelect = document.getElementById("dish-select");
-    if (dishSelect) {
-        dishSelect.addEventListener("change", (event) => {
-            const dishId = event.target.value;
-            if (dishId) {
-                window.location.href = `${ROOT}/admin/ingredients/?d=${dishId}`;
-            }
+    document.querySelectorAll(".card").forEach((c) => {
+        c.addEventListener("click", (e) => {
+            let dishid = c.getAttribute("data-dish-id");
+            let url = `${ROOT}/admin/ingredients/?d=${dishid}`;
+            //     redirect to ingredients page
+            window.location.href = url;
         });
-    }
-
+    });
 });
