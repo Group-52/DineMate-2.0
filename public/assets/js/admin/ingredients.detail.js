@@ -187,8 +187,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // get the dish name and ingredient name
         let dish = table.getAttribute("data-dish");
         let ingredient = row.getAttribute("data-ingredient");
+
+        // animate the row to shrink and fade out
+        let height = row.offsetHeight;
+        row.style.transition = 'all 0.5s ease';
+        row.style.height = height + 'px';
+        row.style.opacity = '0';
+        setTimeout(function() {
+            row.remove();
+        }, 500);
+
+
         // delete the row
-        row.remove();
+        // row.remove();
         // delete the ingredient from the dish
         deleteIngredient(dish, ingredient);
     }
