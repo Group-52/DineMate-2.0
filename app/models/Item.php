@@ -58,4 +58,12 @@ class Item extends Model
             ->orderBy("item_name")
             ->fetchAll();
     }
+
+    public function getItemById($id): bool|object
+    {
+        return $this->select(["item_id", "item_name", "description", "unit", "category"])
+            ->where("item_id", $id)
+            ->fetch();
+    }
+
 }

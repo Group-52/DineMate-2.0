@@ -81,6 +81,11 @@
                 <?php endif; ?>
             </div>
         </div>
+        <div class="notification">
+            <span class="message">New Order</span>
+            <span class="close-icon">&times;</span>
+        </div>
+
         <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
     </div>
 </div>

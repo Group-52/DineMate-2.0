@@ -133,12 +133,12 @@ document.addEventListener("DOMContentLoaded", () => {
         orderStatus.addEventListener("click", function () {
             if (order.status == "pending") {
                 orderStatus.setAttribute("data-order-status", "accepted");
-                updateOrderStatus(order.order_id, "confirmed");
-                orderStatus.style.backgroundColor = "#f1c40f";
+                updateOrderStatus(order.order_id, "accepted");
+                orderStatus.style.backgroundColor = "yellow";
             } else if (order.status == "accepted") {
                 orderStatus.setAttribute("data-order-status", "pending");
-                updateOrderStatus(order.order_id, "ready");
-                orderStatus.style.backgroundColor = "#2ecc71";
+                updateOrderStatus(order.order_id, "pending");
+                orderStatus.style.backgroundColor = "white";
             }
         });
         headerContent.appendChild(orderStatus);
@@ -168,7 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         card.appendChild(cardBody);
-        cardDeck.insertBefore(card, cardDeck.firstChild);
+        // cardDeck.insertBefore(card, cardDeck.firstChild);
+        cardDeck.appendChild(card);
     }
 
     function formatOrderTime(scheduled_time, time_placed) {
@@ -206,6 +207,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Get the notification and close icon elements
+    const notification = document.querySelector('.notification');
+    const closeIcon = document.querySelector('.close-icon');
+    // Add an event listener to the close icon to hide the notification instantly
+    closeIcon.addEventListener('click', () => {
+        notification.classList.add('hide');
+    });
+
+
     // Uses a websocket to receive data and add it to the table
     var socket = new WebSocket("ws://localhost:8080");
     socket.onmessage = function (event) {
@@ -213,6 +223,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (d.event_type === "new_order") {
             console.log(d);
             addCard(d);
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
         }
     };
 

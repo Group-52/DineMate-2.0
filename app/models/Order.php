@@ -111,16 +111,16 @@ class Order extends Model
     // Complete the order by removing the ingredient amount from the inventory
     public function complete($order_id)
     {
-        $t1 = new OrderDishes();
-        $d = $t1->getOrderDishes($order_id);
+        $d = (new OrderDishes())->getOrderDishes($order_id);
         $t2 = new Ingredient();
         $t3 = new InventoryDetail();
+
         foreach ($d as $dish) {
             $ingredients = $t2->getDishIngredients($dish->dish_id);
             foreach ($ingredients as $ingredient) {
-                // remove from stock
-                // TODO add unit conversion
-                $t3->reduce($ingredient->item_id, $ingredient->quantity, $ingredient->unit);
+                $u1 = $ingredient->unit;
+                $q1 = $ingredient->quantity * $dish->quantity;
+                $t3->reduce($ingredient->item_id,$q1, $u1);
             }
         }
     }
