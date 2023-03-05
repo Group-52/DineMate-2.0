@@ -15,17 +15,21 @@ class Ingredients
     public function index(): void
     {
         $d = new Dish();
-        $dishes = $d->getDishes();
+        $data = [
+            'ingredients' => (new Item())->getItems(),
+            'units' => (new Unit())->getUnits(),
+            'controller' => 'ingredients',
+            'dishes' => $d->getdishes()
+        ];
 
-        $items = new Item();
-        $ingredients = $items->getItems();
+        $dish = $_GET['d'] ?? null;
 
-        $u = new Unit();
-        $units = $u->getUnits();
-
-        $ing = new Ingredient();
-        $ingredientList = $ing->getIngredients();
-
-        $this->view('admin/ingredients', ['ingredients' => $ingredients, 'dishes' => $dishes, 'units' => $units, 'ingredientList' => $ingredientList, 'controller' => 'ingredients']);
+        if ($dish) {
+            $data['dish'] = $d->getDishById($dish);
+            $data['dishIngredients'] = (new Ingredient)->getDishIngredients($dish);
+            $this->view('admin/ingredients.detail', $data);
+        } else {
+            $this->view('admin/ingredients', $data);
+        }
     }
 }
