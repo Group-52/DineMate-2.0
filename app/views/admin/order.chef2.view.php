@@ -17,26 +17,6 @@
         <div class="dashboard-header">
             <h1 class="display-3 active">Orders</h1>
         </div>
-<!--        <div>-->
-<!--            <div class="filter">-->
-<!--                <div>-->
-<!--                    <select name="type" id="type" class="form-control">-->
-<!--                        <option value="all">All</option>-->
-<!--                        <option value="dine-in">Dine-in</option>-->
-<!--                        <option value="takeaway">Take-away</option>-->
-<!--                        <option value="bulk">Bulk</option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <select id="status" class="form-control" style="width: 125px;">-->
-<!--                        <option value="all">All</option>-->
-<!--                        <option value="pending">Pending</option>-->
-<!--                        <option value="accepted">Accepted</option>-->
-<!--                    </select>-->
-<!--                </div>-->
-<!--            </div>-->
-<!---->
-<!--        </div>-->
         <br>
         <div id="order-table">
             <div class="card-deck">
@@ -49,11 +29,11 @@
                                     <div>
                                         <?php
                                         $formattedTime = formatOrderTime($order->scheduled_time,$order->time_placed);
-                                        echo "<div>$formattedTime</div>";
+                                        echo "<div class='time'>$formattedTime</div>";
                                         ?>
                                     </div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <div>
+                                    <div class="type-icon">
                                         <?php
                                         if ($order->type == "dine-in")
                                             echo "<img src='" . ASSETS . "/icons/table.png' alt='dine-in' width='30' height='30'> ";
@@ -70,7 +50,7 @@
                             </div>
                             <div class="card-body">
                                 <?php foreach ($order_dishes[$order->order_id] as $dish) : ?>
-                                    <div style="display: flex; justify-content: space-between;">
+                                    <div class="dish-component" style="display: flex; justify-content: space-between;">
                                         <div style="flex: 1;"><?= $dish->dish_name ?></div>
                                         <div style="margin-left: auto;"><?= $dish->quantity ?></div>
                                     </div>
@@ -114,3 +94,26 @@ function formatOrderTime($scheduled_time, $time_placed) {
 }
 
 ?>
+
+
+<div class="card dummy-card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between">
+            <div>
+                <div class="time"></div>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="type-icon">
+                    <img src='' alt='' width='30' height='30'>
+            </div>
+             <div></div>&nbsp;&nbsp;&nbsp;
+            <div id="circle"></div>
+        </div>
+    </div>
+    <div class="card-body">
+            <div class="dish-component" style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;"></div>
+                <div style="margin-left: auto;"></div>
+            </div>
+    </div>
+</div>
