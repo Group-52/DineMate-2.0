@@ -29,7 +29,8 @@ class OrderDishes extends Model
     // delete a dish from an order
     public function deleteOrderDish($order_id, $dish_id)
     {
-        $this->delete()->where("order_id", $order_id)->where("dish_id", $dish_id)->execute();
+        $this->delete()->where("order_id", $order_id)
+            ->and("dish_id", $dish_id)->execute();
     }
 
     // add a dish to an order

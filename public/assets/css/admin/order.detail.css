@@ -18,8 +18,8 @@
     border-color: #dc3545;
 }
 
-#accept-button,
-#reject-button, #complete-button {
+#finish-button,#accept-button,
+#reject-button, #complete-button,.input-row,.dummy-row {
     display: none;
 }
 #complete-button{
@@ -27,4 +27,12 @@
 }
 .order-status {
  width: 200px;
+}
+
+.editorderoption {
+   display: none;
+    width: 30px;
+}
+.quantity{
+    width: 30px;
 }

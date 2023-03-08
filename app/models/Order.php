@@ -69,7 +69,6 @@ class Order extends Model
     }
 
     // Get all orders that are pending or accepted with pagination
-
     public function getValidOrders($page = 1): array|false
     {
         $q= $this->select()
