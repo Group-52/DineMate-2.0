@@ -71,7 +71,7 @@ class Order extends Model
     // Get all orders that are pending or accepted with pagination
     public function getValidOrders($page = 1): array|false
     {
-        $q= $this->select()
+        $q = $this->select()
             ->where("status", "rejected", "!=")
             ->and("status", "completed", "!=")
             ->orderBy("time_placed", "ASC");
@@ -119,8 +119,57 @@ class Order extends Model
             foreach ($ingredients as $ingredient) {
                 $u1 = $ingredient->unit;
                 $q1 = $ingredient->quantity * $dish->quantity;
-                $t3->reduce($ingredient->item_id,$q1, $u1);
+                $t3->reduce($ingredient->item_id, $q1, $u1);
             }
         }
     }
+
+    //Get all orders ahead of this one for today
+    public function getOrdersAhead($order_id)
+    {
+        $o = $this->getOrder($order_id);
+        $q = $this->select()->where("time_placed", $o->time_placed, "<")
+            ->and("status", "completed", "!=")
+            ->and("status", "rejected", "!=")
+            ->orderBy("time_placed", "ASC")->fetchAll();
+
+        // if they are scheduled for a different day, they are not ahead
+        foreach ($q as $key => $order) {
+            if ($order->scheduled_time && date("Y-m-d", strtotime($order->scheduled_time)) != date("Y-m-d", strtotime($o->time_placed)))
+                unset($q[$key]);
+        }
+        return count($q);
+    }
+
+    //Get estimate of time for an order
+    public function getEstimate($order_id): int
+    {
+        $ods = (new OrderDishes())->getOrderDishes($order_id);
+        $t = [];
+        //Adjust prep time of dishes for quantity
+        foreach ($ods as $d) {
+            //multiples of 5 of dish quantity
+            $m = $d->quantity / 5;
+            // 20% of prep time
+            $p = $d->prep_time * 0.2;
+            $t[] = ceil($d->prep_time + $p * $m);
+        }
+        //get average time
+        $x = array_sum($t) / count($t);
+        //get max time
+        $m = max($t);
+        //weigh between average and max time
+        $x = ($x + $m) / 2;
+
+        //add 5 minutes for each order ahead of this one (account for no.of staff)
+        $staff = (new GeneralDetails())->getDetails()->kitchen_staff;
+        $staffcoeff = 5 - $staff;
+        if ($staffcoeff < 0)
+            $staffcoeff = 0;
+        $x += $this->getOrdersAhead($order_id) * $staffcoeff;
+
+        return ceil($x);
+    }
+
+
 }

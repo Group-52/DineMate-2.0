@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // hover effect
     document.querySelectorAll('.card-body').forEach(cardbody => {
         cardbody.addEventListener('mouseover', function (e) {
-            console.log("mouse over")
             cardbody.parentElement.style.transform = "scale(1.05)";
         });
         cardbody.addEventListener('mouseout', function (e) {
@@ -24,9 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // function to be called on card-body click
+    // function to be called on card-body click or any child of card-body
     function onCardBodyClick(e) {
-        let id = e.target.parentElement.getAttribute('data-order-id');
+        let id = e.target.closest('.card').getAttribute('data-order-id');
         location.href = `${ROOT}/admin/orders/id/${id}`;
     }
 
@@ -54,11 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
         updateOrderStatus(oid, status);
     }
 
-    // Use event delegation to add event listener to all circles
+    // Use event delegation to add event listeners
     document.querySelector('.card-deck').addEventListener('click', function (e) {
         if (e.target && e.target.id == 'circle') {
             onCircleClick(e);
-        } else if (e.target && e.target.classList.contains('card-body')) {
+        }
+        // else if target is card-body or a child of it
+        else if (e.target.matches('.card-body') || e.target.closest('.card-body')) {
             onCardBodyClick(e);
         }
     });
@@ -94,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-type", order.type);
         card.setAttribute("data-order-status", order.status);
 
+        card.querySelector('.id-strip').innerHTML = "#"+order.order_id +"&nbsp";
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
         let iconimg = card.querySelector('.type-icon').children[0];
         let url = ""
