@@ -5,12 +5,17 @@ namespace controllers\admin;
 
 use core\Controller;
 use models\Order;
-use models\Payment;
-use models\OrderDishes;
+use models\Menu;
+use models\MenuDishes;
+use models\Dish;
+
+
 
 class Payments
 {
     use Controller;
+
+    private string $controller = "items";
 
     public function index(): void
     {
@@ -27,10 +32,25 @@ class Payments
         $this->view('admin/payments.detail', $data);
     }
 
-//     public function pay($order_id): void
-//     {
-//         $order = new OrderDishes;
-//         $results['dishes'] = $order->getOrderDishes($order_id);
-//         $this->view('admin/payments', $results);
-//     }
+
+    public function addOrder(): void
+    {
+        $d = new Dish();
+        $m = new Menu();
+        $m2 = new MenuDishes();
+      
+       
+        $data['controller'] = 'menus';
+        $data['dishes'] = $d->getDishes();
+
+        $this->view('admin/payments.addOrder',$data);
+    }
+    
+
+    
+
+
+   
+
+   
 }

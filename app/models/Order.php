@@ -64,4 +64,23 @@ class Order extends Model
         }
 
     }
+
+    public function validate(array $data): bool
+    {
+        $this->errors = [];
+
+        if (empty($data['name']))
+            $this->errors['name'] = 'Name is required';
+
+        if (empty($this->errors))
+            return true;
+
+        return false;
+    }
+
+
+    public function addOrder($data): void
+    {
+        $this->insert($data);
+    }
 }
