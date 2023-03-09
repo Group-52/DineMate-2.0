@@ -15,13 +15,13 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div class="dashboard-header">
+        <div class="dashboard-header text-center">
 
-            <h1 class="display-3 active">Dashboard</h1>
+            <h1 class="display-3 active">DINEMATE</h1>
         </div>
         <div class="card-container">
             <div class="card">
-                <h3 class="card-title">Order Frequency</h3>
+                <h3 class="card-title">Popular Times</h3>
                 <canvas id="myBarChart" width="1600" height="900"></canvas>
             </div>
             <div class="card">
@@ -29,7 +29,7 @@
                 <canvas id="myLineChart" width="1600" height="900"></canvas>
             </div>
             <div class="card">
-                <h3 class="card-title">Best Selling Dishes</h3>
+                <h3 class="card-title">Menu Sales</h3>
                 <canvas id="myPieChart" width="1600" height="900"></canvas>
             </div>
 
@@ -44,8 +44,8 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Item Name</th>
-                            <th>Amount Remaining</th>
+                            <th>Item</th>
+                            <th>Amount</th>
                             <th>Expiry Date</th>
                         </tr>
                         </thead>
@@ -60,7 +60,6 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="<?= ROOT ?>/admin/inventory/info" class="btn btn-primary">View More</a>
             </div>
 
             <div class="card" style="height: fit-content">
@@ -69,8 +68,8 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Item Name</th>
-                            <th>Amount Remaining</th>
+                            <th>Item</th>
+                            <th>Amount</th>
                         </tr>
                         </thead>
                         <tbody id="low-stock-items">
@@ -83,7 +82,6 @@
                         </tbody>
                     </table>
                 </div>
-                <a href="<?= ROOT ?>/admin/inventory" class="btn btn-primary">View More</a>
             </div>
 
             <div class="card">
@@ -107,6 +105,9 @@
 
 
         </div>
+    </div>
+</div>
+
 
 </body>
 

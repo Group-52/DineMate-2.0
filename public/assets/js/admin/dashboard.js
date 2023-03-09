@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 "request": form.elements["request"].value,
                 "reg_customer_id": form.elements["reg_customer_id"].value,
                 "type": form.elements["type"].value,
-                "table_id":4,
+                "table_id": 4,
                 "order_dishes":
                     [
                         {
@@ -54,36 +54,35 @@ function drawBarChart() {
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            labels: ["6am", "", "", "9am", "", "", "12pm", "", "", "3pm", "", "", "6pm", "", "", "9pm", "", "", "12am", "", "", "3am", "", "", "6am"],
             datasets: [{
-                label: '',
-                data: [12, 19, 3, 5, 2, 3, 15],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 206, 86, 1)',
-                ],
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                data: [12, 19, 3, 5, 2, 4, 3, 12, 19, 3, 5, 2, 4, 3, 12, 19, 3, 5, 2, 4, 3, 12, 19, 3, 5, 2, 4, 3],
                 borderWidth: 1
             }]
         },
         options: {
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: -20,
+                    left: 10,
+                    right: 10
+                }
+            },
+            legend: {
+                display: false
+            },
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        display: false
+                    },
+                    gridLines: {
+                        drawBorder: false,
+                        display: false
                     }
                 }]
             }
@@ -120,11 +119,23 @@ function drawLineChart() {
             }]
         },
         options: {
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    top: 10,
+                    bottom: -15,
+                    left: 10,
+                    right: 10
+                }
+            },
             scales: {
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    display: false
                 }]
             }
         }
@@ -136,21 +147,24 @@ function drawPieChart() {
     var myChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: [
-                'Chillie Parata',
-                'Burger',
-                'Salad'
-            ],
+            labels: ["Indian","European","Savoury", "Dessert", "Beverage"],
             datasets: [{
+                borderColor: "rgba(0,0,0,0.1)",
+                backgroundColor: ["#007bff", "#dc3545", "#ffc107", "#28a745", "#17a2b8"],
                 label: 'My First Dataset',
-                data: [300, 50, 100],
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
-                ],
+                data: [200, 50, 100, 40, 120],
                 hoverOffset: 4
             }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    top: 10,
+                }
+            },
+            legend: {
+                'position': 'right'
+            }
         }
     });
 }
