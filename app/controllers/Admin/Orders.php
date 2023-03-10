@@ -5,25 +5,30 @@ namespace controllers\admin;
 use core\Controller;
 use models\Dish;
 use models\Order;
+use models\OrderDishes;
 
 class Orders
 {
     use Controller;
 
-
-
-    // public function detail(): void
-    // {
-    //     $order = new Order;
-    //     $results['order_list'] = $order->getOrders();
-    //     $this->view('admin/order.detail');
-    // }
-
     public function index(): void
     {
         $order = new Order;
-        $results['order_list'] = $order->getValidOrders();
-        $this->view('admin/order.chef', $results);
+        $od = new OrderDishes();
+        $p = $_GET['page'] ?? 1;
+        $totalPages = $order->getPages();
+        $ol = $order->getValidOrders($p);
+        $dish_list = [];
+          foreach ($ol as $o) {
+            $dish_list[$o->order_id] = $od->getOrderDishes($o->order_id);
+          }
+
+        $results['order_list'] = $ol;
+        $results['order_dishes'] = $dish_list;
+        $results['controller'] = "orders";
+        $results['currentPage'] = $p;
+        $results['totalPages'] = $totalPages;
+        $this->view('admin/order.chef2', $results);
     }
 
 

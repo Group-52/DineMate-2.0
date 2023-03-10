@@ -16,12 +16,31 @@ document.addEventListener('DOMContentLoaded', function () {
         var socket = new WebSocket("ws://localhost:8080");
         socket.onopen = function () {
             var n = {
+                "event_type": "new_order",
                 "order_id": form.elements["order_id"].value,
                 "status": form.elements["status"].value,
                 "time_placed": form.elements["time_placed"].value,
                 "request": form.elements["request"].value,
                 "reg_customer_id": form.elements["reg_customer_id"].value,
-                "type": form.elements["type"].value
+                "type": form.elements["type"].value,
+                "table_id":4,
+                "order_dishes":
+                    [
+                        {
+                            "dish_name": "Burger",
+                            "quantity": 2,
+                        },
+                        {
+                            "dish_name": "Chillie Parata",
+                            "quantity": 3
+                        },
+                        {
+                            "dish_name": "Salad",
+                            "quantity": 1
+                        }
+                    ]
+
+
             };
             socket.send(JSON.stringify(n));
         };
@@ -111,6 +130,7 @@ function drawLineChart() {
         }
     });
 }
+
 function drawPieChart() {
     var ctx = document.getElementById("myPieChart").getContext('2d');
     var myChart = new Chart(ctx, {

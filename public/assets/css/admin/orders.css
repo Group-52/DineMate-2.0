@@ -1,8 +1,8 @@
 #circle{
   background-color:transparent;
   display:block;
-  height:40px;
-  width:40px;
+  height:20px;
+  width:20px;
   border-radius:50%;
   border:2px solid black;
   margin:auto;
@@ -30,9 +30,79 @@
   padding: 5px;
   margin:5px;
 }
-  
-/* make id field look clickable */
-.order-id-field{
-  cursor:pointer;
-  transform:scale(0.99);
+
+.card {
+    height: 180px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 200px;
+    /*border: 1px solid gray;*/
+    /*border: 1px solid maroon;*/
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+.card-header {
+    /*background-color: #f2f2f2;*/
+    background-color: white;
+    padding: 10px;
+    font-weight: bold;
+    height: 50px;
+/*    make bottom border red*/
+    border-bottom: 1px solid red;
+}
+
+.card-body {
+    padding: 10px;
+    height: 130px;
+    overflow: scroll;
+}
+
+.card-deck {
+    clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+
+/*notification*/
+.notification {
+    width: 200px;
+    text-align: center;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out 1s;
+}
+
+.notification.show {
+    display: block;
+}
+
+.message {
+    font-size: 16px;
+}
+
+.close-icon {
+    cursor: pointer;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.close-icon:hover {
+    color: #bbb;
 }

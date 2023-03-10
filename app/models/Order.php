@@ -6,6 +6,8 @@ use core\Model;
 
 class Order extends Model
 {
+    protected int $nrows = 15;
+
     public function __construct()
     {
         $this->table = "orders";
@@ -66,13 +68,19 @@ class Order extends Model
         return $this->select()->fetchAll();
     }
 
-    // Get all orders that are pending or accepted
-    public function getValidOrders(): array|false
+    // Get all orders that are pending or accepted with pagination
+
+    public function getValidOrders($page = 1): array|false
     {
-        return $this->select()
+        $q= $this->select()
             ->where("status", "rejected", "!=")
             ->and("status", "completed", "!=")
-            ->fetchAll();
+            ->orderBy("time_placed", "ASC");
+        $skip = ($page - 1) * $this->nrows;
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
     public function getOrder($order_id): object|false
@@ -103,16 +111,16 @@ class Order extends Model
     // Complete the order by removing the ingredient amount from the inventory
     public function complete($order_id)
     {
-        $t1 = new OrderDishes();
-        $d = $t1->getOrderDishes($order_id);
+        $d = (new OrderDishes())->getOrderDishes($order_id);
         $t2 = new Ingredient();
         $t3 = new InventoryDetail();
+
         foreach ($d as $dish) {
             $ingredients = $t2->getDishIngredients($dish->dish_id);
             foreach ($ingredients as $ingredient) {
-                // remove from stock
-                // TODO add unit conversion
-                $t3->reduce($ingredient->item_id, $ingredient->quantity, $ingredient->unit);
+                $u1 = $ingredient->unit;
+                $q1 = $ingredient->quantity * $dish->quantity;
+                $t3->reduce($ingredient->item_id,$q1, $u1);
             }
         }
     }

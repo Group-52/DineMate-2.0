@@ -9,6 +9,7 @@ use core\Model;
  */
 class Inventory extends Model
 {
+    protected int $nrows=5;
     public function __construct()
     {
         $this->table = "inventory";
@@ -23,13 +24,25 @@ class Inventory extends Model
         ];
     }
 
-    // Get all inventory data from database
-    public function getInventory(): array
+    // Get all inventory data from database with pagination
+//    give 0 as a parameter to not have pagination
+    public function getInventory($page=1): array
     {
-        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
+        $skip = ($page - 1) * $this->nrows;
+        $q = $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
-            ->join("units", "units.unit_id", "items.unit")
-            ->fetchAll();
+            ->join("units", "units.unit_id", "items.unit");
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
+    }
+
+    public function deleteInventory($item_id):void
+    {
+        $this->delete()
+            ->where("item_id", $item_id)
+            ->execute();
     }
 
     // Get items that are below the reorder level
@@ -38,7 +51,17 @@ class Inventory extends Model
         return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
-            ->where("amount_remaining", "reorder_level","<=")
+            ->wherecolumn("inventory.amount_remaining", "inventory.reorder_level","<=")
+            ->fetchAll();
+    }
+
+    //  Get items that are below the buffer level
+    public function getBufferItems(): array
+    {
+        return $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
+            ->join("items", "items.item_id", "inventory.item_id")
+            ->join("units", "units.unit_id", "items.unit")
+            ->wherecolumn("amount_remaining", "buffer_stock_level","<=")
             ->fetchAll();
     }
 

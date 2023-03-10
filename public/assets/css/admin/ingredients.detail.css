@@ -1,0 +1,35 @@
+#finish-button {
+    display: none;
+}
+
+td:has(.trash-icon),
+td:has(.edit-icon),
+td:has(.tick-icon),
+td:has(.cross-icon),
+td:has(.add-new-row),
+td:has(.fa-circle-xmark) {
+    display: none;
+}
+
+.input-row, .dummy-row {
+    display: none;
+}
+
+.trash-icon,
+.edit-icon,
+.tick-icon,
+.cross-icon,
+.fa-circle-xmark {
+    margin: 0 5px;
+}
+
+img {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+table {
+    width: 60% !important;
+}
