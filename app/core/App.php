@@ -1,6 +1,11 @@
 <?php
 
 namespace core;
+
+use controllers\_404;
+use controllers\api\_401;
+use utils\RouteAuth;
+
 class App
 {
     private mixed $module = "";
@@ -11,37 +16,58 @@ class App
 
     function __construct()
     {
+        $allowed = false;
+        $found = false;
+
         // splits the url into an array
         $url = $this->splitUrl();
+
+        // generates path of controller
+        $path = "../app/controllers/";
 
         // checks if the first part of the url is a module
         if (isset($url[0]) && in_array($url[0], $this->modules)) {
             $this->module = $url[0];
             array_shift($url);
-        }
-
-        $controllerPath = "../app/controllers/";
-
-        // generates path of controller
-        $path = $controllerPath;
-        if ($this->module) {
-            // appends module name if it exists
+            //Appends module name to path
             $path .= $this->module . "/";
         }
-        $path .= ucfirst($url[0] ?? $this->controller) . ".php";
 
-        // checks if the controller exists
-        if (isset($url[0])) {
+        //If a controller is not specified, the default controller(home) is used.
+        $path .= ucfirst($url[0] ?? $this->controller) . ".php";
+        if (!isset($url[0])) {
+            $found = true;
+            //Check if trying to access admin
+            if (!(RouteAuth::checkAuth('home', $this->module))) {
+                //Send to 401 page if not authorized
+                (new \controllers\_401())->index();
+            }else
+                $allowed = true;
+        } else {
+            // checks if the controller exists
             if (file_exists($path)) {
                 $this->controller = $url[0];
-                unset($url[0]);
+
+                //Check if the user is allowed to access the controller
+                if (!(RouteAuth::checkAuth($this->controller, $this->module))) {
+                    //Send to 401 page if not authorized
+                    if ($this->module === "api")
+                        (new _401())->index();
+                    else
+                        (new \controllers\_401())->index();
+                } else {
+                    $allowed = true;
+                    unset($url[0]);
+                }
+                $found = true;
             } else {
-                $this->controller = null;
+                //Send to 404 page if controller not found
+                (new _404())->index();
             }
         }
 
-        if ($this->controller) {
-            include $path;
+        if ($allowed && $found) {
+            //Create an instance of the controller
             if ($this->module) {
                 $this->controller = "controllers\\" . $this->module . "\\" . $this->controller;
             } else {
@@ -55,31 +81,18 @@ class App
                     $this->method = $url[1];
                     unset($url[1]);
                 } else {
-                    $this->controller = null;
+                    //Send to 404 page if method not found
+                    (new _404())->index();
+                    $found = false;
                 }
+
             }
-        } else {
-            $this->controller = null;
         }
-
-        if (!$this->controller) {
-            $this->controller = "controllers\\";
-            $path = $controllerPath;
-            if ($this->module) {
-                $this->controller .= $this->module . '\\';
-                $path .= $this->module . "/";
-            }
-            $this->controller .= "_404";
-            $path .= "_404.php";
-            include $path;
-            $this->controller = new $this->controller;
-        }
-
-
         // sets the params
         $this->params = $url ? array_values($url) : [];
-
-        call_user_func_array([$this->controller, $this->method], $this->params);
+        unset($url);
+        if ($allowed && $found)
+            call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
     /**
