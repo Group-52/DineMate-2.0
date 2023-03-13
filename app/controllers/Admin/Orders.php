@@ -19,13 +19,19 @@ class Orders
     //     $this->view('admin/order.detail');
     // }
 
+    // public function index(): void
+    // {
+    //     $order = new Order;
+    //     $results['order_list'] = $order->getOrders();
+    //     $this->view('admin/order.chef', $results);
+    // }
+    
     public function index(): void
     {
         $order = new Order;
         $results['order_list'] = $order->getOrders();
-        $this->view('admin/order.chef', $results);
+        $this->view('admin/order.manager', $results);
     }
-
 
     public function edit($order_id): void
     {
@@ -39,12 +45,20 @@ class Orders
         }
         $this->view('admin/order.edit', $results);
     }
-    public function id($order_id): void
+    // public function id($order_id): void
+    // {
+    //     $order = new Order;
+    //     $data['dishes'] = $order->getDishes($order_id);
+    //     $data['order'] = $order->getOrder($order_id);
+    //     $this->view('admin/order.detail', $data);
+    // }
+
+    public function id($customer_id): void
     {
         $order = new Order;
-        $data['dishes'] = $order->getDishes($order_id);
-        $data['order'] = $order->getOrder($order_id);
-        $this->view('admin/order.detail', $data);
+        $data['dishes'] = $order->getDishes($customer_id);
+        $data['order'] = $order->getOrder($customer_id);
+        $data['history'] = $order->getOrderHistory($customer_id);
+        $this->view('admin/order.history', $data);
     }
 }
-

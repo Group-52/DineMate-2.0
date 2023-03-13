@@ -28,6 +28,11 @@ class Order extends Model
         return $this->select()->fetchAll();
     }
 
+    public function getOrderHistory($customer_id): array|false
+    {
+        return $this->select()->where("reg_customer_id", $customer_id)->fetchAll();
+    }
+
     public function getOrder($order_id): object|false
     {
         return $this->select()->where("order_id", $order_id)->fetch();
