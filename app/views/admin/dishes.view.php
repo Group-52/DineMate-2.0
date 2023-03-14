@@ -47,7 +47,7 @@
                             echo "<td>" . $dish->net_price . "</td>";
                             echo "<td>" . $dish->selling_price . "</td>";
                             echo "<td>" . $dish->description . "</td>";
-                            echo "<td><a class='cart-trash-icon' href='dishes/delete/" . $dish->dish_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'</i></a></td>";
+                            echo "<td><a class='cart-trash-icon' href='dishes/delete/" . $dish->dish_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></td>";
                             echo "</tr>";
                         }
                     }

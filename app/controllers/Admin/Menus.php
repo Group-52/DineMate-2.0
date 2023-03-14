@@ -41,5 +41,13 @@ class Menus
         // TODO- Process adding menu (POST REQEUST)
     }
 
+    public function delete($menu_id): void
+    {
+        $dish = new Menu;
+        $results['m'] = $dish->deleteMenu($menu_id);
+        redirect('admin/menus'); 
+            
+    }
+
 }
 

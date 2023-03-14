@@ -73,5 +73,10 @@ class Menu extends Model
         return $this->select()->where("menu_id", $menu_id)->fetch();
     }
 
+    public function deleteMenu($data)
+    {
+        $this->delete()->where("menu_id", $data)->execute();
+    }
+
 }
 

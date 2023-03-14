@@ -72,7 +72,7 @@ class Dishes
     public function delete($dish_id): void
     {
         $dish = new Dish;
-        $results['v1'] = $dish->deleteDish($dish_id);
+        $results['dish'] = $dish->deleteDish($dish_id);
         redirect('admin/dishes'); 
             
     }

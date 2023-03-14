@@ -30,14 +30,16 @@
                                 <img src="<?= ASSETS ?>/images/menus/<?= $m->image_url ?>" alt="<?= $m->menu_name ?>" style="width:100%">
                             </a>
                             <div class="container">
-                                <h4><b><?= $m->menu_name ?></b></h4>
+                                <h4><b><?= $m->menu_name ?><a class='cart-trash-icon' href='menus/delete/" . $m->menu_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></b></h4>
+                                
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endif ?>
             </div>
 
-            <a href="" class="btn btn-primary" id="add-menu-button">Add Menu</a>
+           
+            <a class="btn btn-primary" id="add-menu-button" href="<?php echo ROOT ?>/admin/menus/addMenu">Add Menu</a>
             <div id="menu-add-form" class="overlay">
                 <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
                     <div class="form-group">
