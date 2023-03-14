@@ -69,6 +69,19 @@ class Dishes
         $this->view('admin/dishes.add');
     }
 
+    public function edit($dish_id): void
+    {
+        $dish = new Dish;
+        $results['dish'] = $dish->getDish($dish_id);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            show($_POST);
+            $vendor = new Dish;
+            $vendor->editDish($_POST);
+            redirect('admin/dishes');
+        }
+        $this->view('admin/dish.edit', $results);
+    }
+
     public function delete($dish_id): void
     {
         $dish = new Dish;

@@ -91,6 +91,16 @@ class Dish extends Model
         return $query->fetchAll();
     }
 
+    public function getDish($dish_id): object|false
+    {
+        return $this->select()->where("dish_id", $dish_id)->fetch();
+    }
+
+    public function editDish($dish)
+    {
+        $this->update($dish)->where("dish_id", $dish['dish_id'])->execute();
+    }
+
     public function deleteDish($data)
     {
         $this->delete()->where("dish_id", $data)->execute();
