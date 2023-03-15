@@ -7,23 +7,25 @@ use core\Model;
 
 class Stats extends Model
 {
-
     public string $order_column = "day";
-    protected string $table = 'stats';
-    protected array $allowedColumns = [
-        'day',
-        'revenue',
-        'foodCost',
-        'dishesSold',
-        'dineinTotal',
-        'bulkTotal',
-        'takeawayTotal',
-        'dineinWaitTime',
-        'takeawayWaitTime',
-        'f_0', 'f_2', 'f_3', 'f_4', 'f_5', 'f_6', 'f_7', 'f_8',
-        'f_9', 'f_10', 'f_11', 'f_12', 'f_13', 'f_14', 'f_15', 'f_16',
-        'f_17', 'f_18', 'f_19', 'f_20', 'f_21', 'f_22', 'f_23', 'f_23',
-    ];
+    public function __construct()
+    {
+        $this->columns = [
+            'day',
+            'revenue',
+            'foodCost',
+            'dishesSold',
+            'dineinTotal',
+            'bulkTotal',
+            'takeawayTotal',
+            'dineinWaitTime',
+            'takeawayWaitTime',
+            'f_0', 'f_2', 'f_3', 'f_4', 'f_5', 'f_6', 'f_7', 'f_8',
+            'f_9', 'f_10', 'f_11', 'f_12', 'f_13', 'f_14', 'f_15', 'f_16',
+            'f_17', 'f_18', 'f_19', 'f_20', 'f_21', 'f_22', 'f_23', 'f_23',
+        ];
+        $this->table = 'stats';
+    }
 
     //get all the data in the table in a date range
     public function getStats($start_date, $end_date): array
@@ -33,7 +35,7 @@ class Stats extends Model
             ->orderBy($this->order_column, 'ASC')->fetchAll();
         $n = count($rows);
 
-        $cols = $this->allowedColumns;
+        $cols = $this->columns;
         unset($cols[0]);
 
         $data_sum = array_fill_keys($cols, 0);
@@ -94,32 +96,23 @@ class Stats extends Model
 //            $n++;
 //        }
 //
-//        //find the hour of the day
-//        $today = date('Y-m-d');
-//        $hour = date('G');
+//        //get the hour and date from the mysql timestamp
+//        $hour = date('G', strtotime($myorder->time_placed));
+//        $day = date('Y-m-d', strtotime($myorder->time_placed));
 //        $hour_col = 'f_' . $hour;
 //
 //        $wait_time = 0;
 //
 //        //check if the order is scheduled or bulk else calculate the wait time
-//        if (!$myorder->scheduled_time && !$o_type == 'bulk') {
-//
-//            // create DateTime objects from the timestamps
-//            $datetime1 = new DateTime($this->time_placed);
-//            $datetime2 = new DateTime($this->time_completed);
-//
-//            // calculate the difference between the two DateTime objects
-//            $interval = $datetime1->diff($datetime2);
-//
-//            // convert the difference to minutes
-//            $wait_time = $interval->days * 24 * 60;
-//            $wait_time += $interval->h * 60;
-//            $wait_time += $interval->i;
-//
+//        if (!$myorder->scheduled_time && $o_type !== 'bulk') {
+//            //subtract mysql timestamp to get the wait time in minutes
+//            $t1  = strtotime($myorder->time_placed);
+//            $t2 = strtotime($myorder->time_completed);
+//            $wait_time = ($t2 - $t1) / 60;
 //        }
 //
 //        //check if the day already exists in the table
-//        $row = $this->select()->where('day', $today)->fetch();
+//        $row = $this->select()->where('day', $day)->fetch();
 //        if ($row) {
 //            //if it exists, update the row
 //            $data = [
@@ -127,22 +120,27 @@ class Stats extends Model
 //                'foodCost' => $row->foodCost + $foodCost,
 //                'dishesSold' => $row->dishesSold + $n,
 //                $total_col => $row->$total_col + 1,
-////                $wait_col => $row->$wait_col + $wait_time,
 //                $hour_col => $row->$hour_col + 1,
 //            ];
+//            if($o_type != 'bulk'){
+//                $data[$wait_col] = $row->$wait_col + $wait_time;
+//            }
 //
-//            $this->update($data)->where('day', $today)->execute();
+//            $this->update($data)->where('day', $day)->execute();
 //        } else {
 //            //if it doesn't exist, create a new row
-//            $this->insert([
-//                'day' => $today,
+//            $data1 = [
+//                'day' => $day,
 //                'revenue' => $revenue,
 //                'foodCost' => $foodCost,
 //                'dishesSold' => $n,
 //                $total_col => 1,
-////                $wait_col => $wait_time,
 //                $hour_col => 1,
-//            ]);
+//            ];
+//            if($o_type != 'bulk'){
+//                $data1[$wait_col] = $wait_time;
+//            }
+//            $this->insert($data1);
 //        }
 //
 //    }

@@ -46,7 +46,7 @@ class Stats
                 'data' => $stats
             ]);
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $stats = (new \models\Stats())->getStats('2019-01-01', date('Y-m-d'));
+            $stats = (new \models\Stats())->getAll();
             $this->json([
                 'success' => true,
                 'data' => $stats
