@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const dateRangeSelect = document.querySelector('select');
     const startDateInput = document.querySelector('input[name="start-date"]');
     const endDateInput = document.querySelector('input[name="end-date"]');
-    document.getElementById('dow').addEventListener('click', downloadDataAsCSV);
 
     // Call by default past week to today in yyyy-mm-dd format
     let today = new Date().toISOString().split('T')[0];
@@ -79,6 +78,22 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     });
 
+    let rbutton = document.querySelectorAll('.reports-button')
+    let params = {
+        '0':'customers',
+        '1':'menu_statistics',
+        '2':'stats',
+        '3':'orders',
+        '4':'order_dishes',
+        '5':'purchases',
+        '6':'feedback',
+        '7':'dishes',
+    }
+    rbutton.forEach((button, index) => {
+       button.addEventListener('click', () => {
+          downloadDataAsCSV(params[index]);
+       });
+    });
 
 
     function updateData() {
@@ -288,10 +303,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    async function downloadDataAsCSV() {
+    async function downloadDataAsCSV(table) {
         try {
             // Make a fetch request to the API to retrieve the data
-            const response = await fetch(`${ROOT}/api/Stats/download?table=menu_statistics`);
+            const response = await fetch(`${ROOT}/api/Stats/download?table=${table}`);
 
             const data = await response.json();
 
