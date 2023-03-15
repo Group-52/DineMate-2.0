@@ -50,5 +50,10 @@ class MenuDishes extends Model
             'dish_id' => $data['dish_id']
         ]);
     }
+
+    //get menu id of a dish
+    public function getMenuOfDish($dish_id){
+        return $this->select()->where('dish_id',$dish_id)->fetch()->menu_id;
+    }
 }
 
