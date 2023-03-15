@@ -9,12 +9,15 @@ class PromotionsSpendingBonus extends Model
 {
 
     public string $order_column = "promo_id";
-    protected string $table = 'promo_spending_bonus';
-    protected array $allowedColumns = [
-        'promo_id',
-        'spent_amount',
-        'bonus_amount',
-    ];
+    public function __construct()
+    {
+        $this->table = "promo_spending_bonus";
+        $this->columns = [
+            "promo_id",
+            "spent_amount",
+            "bonus_amount",
+        ];
+    }
 
     // Get all entries in the table
     public function getPromos()

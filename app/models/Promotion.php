@@ -11,13 +11,16 @@ class Promotion extends Model
 {
 
     public string $order_column = "promo_id";
-    protected string $table = 'promotions';
-    protected array $allowedColumns = [
-        'promo_id',
-        'caption',
-        'type',
-        'status',
-    ];
+    public function __construct()
+    {
+        $this->table = "promotions";
+        $this->columns = [
+            "promo_id",
+            "caption",
+            "type",
+            "status",
+        ];
+    }
 
     public function getDiscounts()
     {
