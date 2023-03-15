@@ -21,11 +21,19 @@
 
            
             
-	<label for="customerName">Customer Name:</label>
-	<input type="text" id="customerName" name="customerName"><br>
-    
+	<label for="customerName">customer Name:</label>
+	<input type="text" id="username" name="username" onkeydown="if(event.keyCode==13) {submitForm(); return false;}"><br>
+
+    <!-- <label for="customerName">Customer Id:</label>
+	<input type="text" id="username" name="username"><br> -->
     
 	<br>
+     <?php if (isset($Guest)){
+        foreach($Guest as $Guests){
+            if($Guests->first_name . $Guests->last_name == $_POST['username'])
+            echo "<label for='customerName'>Customer Id:".$Guests->guest_id."</label>";
+        }
+     } ?>
 
 
 	

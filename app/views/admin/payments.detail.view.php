@@ -20,8 +20,12 @@
                 <h1 class="display-3 active">Payment Details</h1>
             </div>
 
-
-    <?php if (isset($order)) : ?>
+            <?php  
+            if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+                  
+                 if (isset($order)) : ?>
             <h3>Order ID: #<?= $order->order_id ?></h3>
             <h3>Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3><br><br>
         <?php endif ?>
@@ -38,7 +42,7 @@
             </tr>
             </thead>
             <tbody>
-            <?php
+            <?php         
             $total = 0;
             if (isset($dishes))
                 foreach ($dishes as $orderDish) {
@@ -51,7 +55,7 @@
                     echo '</tr>';
 
                 }
-         
+
             ?>
 
             </tbody>
@@ -65,9 +69,9 @@
                 <label id="total" >Total Amount: </label><span class="payment" id="tot"> <?= $total ?> </span><br> 
                 <label>Cash:</label> <input class="payment" onchange="balance()" type="text" id="Cash" name="Cash" placeholder="Enter Ammount"><br>
                 <label id="change" >Balance: </label>
-
-
-                    <script id="payment">
+                    <?php $total = $_SESSION["total"] ?>
+                    
+                    <script id="payment">                         
                     function balance(){
                         var cash= document.getElementById("Cash")
                         var total = document.getElementById("tot")

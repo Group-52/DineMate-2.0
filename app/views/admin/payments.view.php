@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/orders.css">
     <script src="<?= ASSETS ?>/js/admin/orders.js"></script>
+    
 </head>
 
 <body class="dashboard">
@@ -43,7 +44,7 @@
                             <th>Scheduled Time</th>
                             <th>Request</th>
                             <th>Type</th>
-                            <th>  </th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -79,8 +80,9 @@
          </tbody>
      </table>
  </div> 
-
-
+ <a class="btn btn-primary" id="paid-history-button" href="<?php echo ROOT ?>/admin/payments/paidHistory">view history</a>
+            <div id="dish-add-form" class="overlay">
+ 
 <script class="payment">
 
 
