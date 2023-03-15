@@ -20,7 +20,7 @@ class OrderDishes extends Model
     public function getOrderDishes($order_id): array
     {
 
-        return $this->select(["order_dishes.*", "dishes.dish_name", "dishes.selling_price", "dishes.prep_time","dishes.image_url"])
+        return $this->select(["order_dishes.*", "dishes.dish_name", "dishes.selling_price", "dishes.prep_time","dishes.image_url","dishes.net_price"])
             ->join("dishes", "order_dishes.dish_id", "dishes.dish_id")
             ->where("order_dishes.order_id", $order_id)
             ->fetchAll();
@@ -51,5 +51,8 @@ class OrderDishes extends Model
         ])
         ->where("order_id", $order_id)
         ->and("dish_id", $dish_id)->execute();
+    }
+    public function getAll(){
+        return $this->select()->fetchAll();
     }
 }

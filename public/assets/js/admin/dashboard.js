@@ -54,7 +54,7 @@ function drawBarChart() {
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["6am", "", "", "9am", "", "", "12pm", "", "", "3pm", "", "", "6pm", "", "", "9pm", "", "", "12am", "", "", "3am", "", "", "6am"],
+            labels:["","","3am","","","6am","","","9am","","","12pm","","","3pm","","","6pm","","","9pm","","","12am"],
             datasets: [{
                 backgroundColor: "rgba(2,117,216,1)",
                 borderColor: "rgba(2,117,216,1)",

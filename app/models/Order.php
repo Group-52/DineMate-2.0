@@ -17,10 +17,14 @@ class Order extends Model
             "guest_id",
             "request",
             "time_placed",
+            "time_completed",
             "type",
             "status",
             "scheduled_time",
-            "table_id"
+            "table_id",
+            "paid",
+            "promo_cost",
+            "total_cost"
         ];
     }
 
@@ -63,9 +67,18 @@ class Order extends Model
         }
     }
 
-    public function getOrders(): array|false
+    public function getOrders($sd=null,$ed=null): array|false
     {
-        return $this->select()->fetchAll();
+        //Converts date to timestamp format for database compatibility
+        if ($sd && $ed){
+            $sd_timestamp = date('Y-m-d H:i:s', strtotime($sd));
+            $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
+            return $this->select()->where('time_placed', $sd_timestamp, ">=")
+                ->and('time_placed', $ed_timestamp,"<=")
+                ->orderBy("time_placed", "ASC")->fetchAll();
+        }
+        else
+            return $this->select()->fetchAll();
     }
 
     // Get all orders that are pending or accepted with pagination

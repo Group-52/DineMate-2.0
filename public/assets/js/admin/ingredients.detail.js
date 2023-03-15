@@ -226,7 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (event.target.classList.contains("trash-icon")) {
             deleteRow(event);
         } else if (event.target.classList.contains("add-new-row")) {
-            addRow(event);
+            // if input has values only
+            let row = event.target.parentNode.parentNode;
+            let ingselect = row.querySelectorAll('select');
+            if (ingselect[0].value && row.querySelector('input').value && ingselect[1].value) {
+                addRow(event);
+            }
         } else if (event.target.classList.contains("fa-circle-xmark")) {
             stopAddingRow(event);
         }
