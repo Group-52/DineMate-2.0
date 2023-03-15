@@ -16,8 +16,13 @@ class Stats
 
     public function index(): void
     {
+        $expiring = (new \models\InventoryDetail())->expiring(2);
+        $lowstock = (new \models\Inventory())->getReorderItems();
+
         $data =[
             'controller' => 'stats',
+            'expiringitems' => $expiring,
+            'lowstockitems' => $lowstock
         ];
         $this->view('admin/stats', $data);
     }

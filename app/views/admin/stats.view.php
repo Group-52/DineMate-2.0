@@ -24,7 +24,7 @@
                     <option> Past Year</option>
                     <option disabled>Custom</option>
                 </select>
-                <input type="date" name="start-date" value= "<?= date('Y-m-d', strtotime('-1 week')) ?>">
+                <input type="date" name="start-date" value="<?= date('Y-m-d', strtotime('-1 week')) ?>">
                 - <input type="date" name="end-date" value="<?= date('Y-m-d') ?>">
 
             </div>
@@ -79,15 +79,78 @@
                 <br>
                 <h4>Takeaway</h4>&nbsp;&nbsp;&nbsp;&nbsp;
                 <h4>Dine-in
-                <br>
-                <h4 class="takeaway-time">30 minutes</h4>&nbsp;&nbsp;&nbsp;&nbsp;
-                <h4 class="dinein-time">20 minutes</h4>
+                    <br>
+                    <span class="takeaway-time">30 minutes</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="dinein-time">20 minutes</span>
             </div>
             <div class="card text-center" id="download">
                 <h2 class="card-title">Generate Reports</h2>
                 <img src="<?= ASSETS ?>/images/admin_dashboard/report.webp" style="max-width: 40%">
                 <button id="dow">Download as csv</button>
                 <button id="dow">Download as csv</button>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Expiry Risk</h3>
+                <div class="table-in-card">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Amount</th>
+                            <th>Expiry Date</th>
+                        </tr>
+                        </thead>
+                        <tbody id="expiry-risk-items">
+                        <?php foreach ($data['expiringitems'] as $item) : ?>
+                            <tr>
+                                <td><?= $item->item_name ?></td>
+                                <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
+                                <td><?= $item->expiry_date ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card" style="height: fit-content">
+                <h3 class="card-title">Low Stock</h3>
+                <div class="table-in-card">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody id="low-stock-items">
+                        <?php foreach ($data['lowstockitems'] as $item) : ?>
+                            <tr>
+                                <td><?= $item->item_name ?></td>
+                                <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="card-title">Order submit</h3>
+                <form id="f2" style="padding: 10px; margin: 10px">
+                    <input type="number" name="order_id" placeholder="Order ID">
+                    <input type="text" name="status" value="pending" disabled>
+                    <input type="text" name="time_placed" value="2020-12-12 12:12:12" disabled>
+                    <input type="text" name="request" placeholder="Request">
+                    <input type="number" name="reg_customer_id" placeholder="Customer ID" value=<?= rand() ?> disabled>
+                    <select name="type">
+                        <option value="takeaway">Takeaway</option>
+                        <option value="bulk">Bulk</option>
+                        <option value="dine-in">Dine-in</option>
+                    </select>
+
+
+                    <input type="submit" value="Submit">
+                </form>
             </div>
 
         </div>

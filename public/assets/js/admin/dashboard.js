@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
     drawPieChart();
     drawStackedLineChart();
 
-
     /* 
     Takes data from the form and sends it to the websocket 
            */
@@ -45,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function () {
             socket.send(JSON.stringify(n));
         };
     });
-
 
 });
 

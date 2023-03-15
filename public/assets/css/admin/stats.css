@@ -5,8 +5,8 @@
     width: 350px;
     height: 250px !important;
     margin: 10px;
-    /*overflow: hidden;*/
-    /*position: relative;*/
+    overflow: hidden;
+    position: relative;
 }
 
 .card:hover {
@@ -30,9 +30,7 @@
     background-color: #fff;
 }
 
-/*make image inside card fit to card
-*/
-
+/*make image inside card fit to card*/
 .card img {
     max-width: 50%;
     height: auto;
@@ -54,12 +52,8 @@ input[type="date"] {
     font-family: inherit;
     width: 115px;
 }
-
 input[type="date"].hidden {
     display: none;
 }
-/*input[type="date"]::-webkit-inner-spin-button,*/
-/*input[type="date"]::-webkit-calendar-picker-indicator {*/
-/*    display: none;*/
-/*    -webkit-appearance: none;*/
-/*}*/
+
+
