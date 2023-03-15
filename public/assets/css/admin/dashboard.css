@@ -23,25 +23,37 @@
     justify-content: space-between;
 }
 
-.table-in-card {
-    margin: 8px;
-    padding: 0 10px 10px 10px;
-    height: calc(100% - 40px);
-    overflow-y: scroll;
-}
-
 .card-title {
     padding-left: 20px;
-    position: sticky;
     top: 5px;
     left: 20px;
-    z-index: 1;
     background-color: #fff;
 }
 
-.table thead th {
-    position: sticky;
-    top: 6px;
-    z-index: 1;
-    background-color: #fff;
+/*make image inside card fit to card*/
+.card img {
+    max-width: 50%;
+    height: auto;
+    object-fit: cover;
+    padding: 10px 0 0 10px;
+    margin: 10px 0 0 10px;
 }
+
+h4{
+    display: inline;
+}
+
+input[type="date"] {
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    width: 115px;
+}
+input[type="date"].hidden {
+    display: none;
+}
+
+

@@ -4,12 +4,6 @@
        href="<?= ROOT ?>/admin/home">
         <i class="fa-solid fa-house d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Dashboard</span>
     </a>
-    <?php if (utils\RouteAuth::icon_visible('stats')): ?>
-    <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "stats") echo " active" ?>"
-       href="<?= ROOT ?>/admin/stats">
-        <i class="fa-solid fa-chart-column d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Statistics</span>
-    </a>
-    <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('items')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "items") echo " active" ?>"
        href="<?= ROOT ?>/admin/items">
