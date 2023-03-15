@@ -57,3 +57,25 @@ input[type="date"].hidden {
 }
 
 
+.dashboard-ulist {
+    list-style-type: none;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+.dashboard-ulist li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.dashboard-ulist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 2px;
+}

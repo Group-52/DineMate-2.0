@@ -4,9 +4,9 @@
 <head>
     <title>Admin</title>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/stats.css">
+    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/dashboard.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="<?= ASSETS ?>/js/admin/stats.js"></script>
+    <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
 
 </head>
 
@@ -83,6 +83,54 @@
                     <span class="takeaway-time">30 minutes</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <span class="dinein-time">20 minutes</span>
             </div>
+
+            <div class="card">
+                <br>
+                <h3 class="card-title">Refill Stock</h3>
+                <!--                Two columns of unordered lists-->
+                <div class="row">
+                    <?php $n= count($data['lowstockitems'])?>
+                    <div class="col-6 text-center">
+                        <ul class="dashboard-ulist">
+                            <?php for ($i = 0; $i < ceil($n/2); $i++) : ?>
+                                <li><?= $data['lowstockitems'][$i]->item_name ?></li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 text-center">
+                        <ul class="dashboard-ulist">
+                            <?php for ($i = ceil($n/2); $i < $n; $i++) : ?>
+                                <li><?= $data['lowstockitems'][$i]->item_name ?></li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <br>
+                <h3 class="card-title">At risk of expiration</h3>
+                <!--                Two columns of unordered lists-->
+                <div class="row">
+                            <?php $n= count($data['expiringitems'])?>
+                    <div class="col-6 text-center">
+                        <ul class="dashboard-ulist">
+                            <?php for ($i = 0; $i < ceil($n/2); $i++) : ?>
+                                <li><?= $data['expiringitems'][$i]->item_name ?></li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+
+                    <div class="col-6 text-center">
+                        <ul class="dashboard-ulist">
+                            <?php for ($i = ceil($n/2); $i < $n; $i++) : ?>
+                                <li><?= $data['expiringitems'][$i]->item_name ?></li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
             <div class="card text-center" id="download">
                 <h2 class="card-title">Generate Reports</h2>
                 <img src="<?= ASSETS ?>/images/admin_dashboard/report.webp" style="max-width: 40%">
@@ -90,50 +138,7 @@
                 <button id="dow">Download as csv</button>
             </div>
 
-            <div class="card">
-                <h3 class="card-title">Expiry Risk</h3>
-                <div class="table-in-card">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Amount</th>
-                            <th>Expiry Date</th>
-                        </tr>
-                        </thead>
-                        <tbody id="expiry-risk-items">
-                        <?php foreach ($data['expiringitems'] as $item) : ?>
-                            <tr>
-                                <td><?= $item->item_name ?></td>
-                                <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
-                                <td><?= $item->expiry_date ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="card" style="height: fit-content">
-                <h3 class="card-title">Low Stock</h3>
-                <div class="table-in-card">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Amount</th>
-                        </tr>
-                        </thead>
-                        <tbody id="low-stock-items">
-                        <?php foreach ($data['lowstockitems'] as $item) : ?>
-                            <tr>
-                                <td><?= $item->item_name ?></td>
-                                <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+
             <div class="card">
                 <h3 class="card-title">Order submit</h3>
                 <form id="f2" style="padding: 10px; margin: 10px">
