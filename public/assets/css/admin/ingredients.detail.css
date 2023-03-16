@@ -33,3 +33,7 @@ img {
 table {
     width: 60% !important;
 }
+
+tr {
+    transition: all 0.5s ease;
+}

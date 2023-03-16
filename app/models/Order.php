@@ -13,6 +13,7 @@ class Order extends Model
         $this->table = "orders";
         $this->columns = [
             "order_id",
+            "customer_order_id",
             "reg_customer_id",
             "guest_id",
             "request",
@@ -42,24 +43,20 @@ class Order extends Model
         }
 
         $data = [
+            'customer_order_id' => date("Hi") . rand(1000, 9999),
             'type' => $type,
             'time_placed' => $time_placed,
             'scheduled_time' => $scheduled_time,
-            'request' => $request,
+            'request' => (empty($request)) ? null : $request,
             'status' => 'pending',
-            'table_id' => $table_id
+            'table_id' => (empty($table_id)) ? null : $table_id,
         ];
 
         $this->insert($data);
-        // get the auto incremented order id
-        $oid = $this->select('order_id')
-            ->where($key, $value)->and("time_placed", $time_placed)
-            ->orderBy("order_id", "DESC")->limit(1);
-
-        // add dishes to the order
+        $order_id = $this->lastInsertId();
         $m = new OrderDishes();
         foreach ($dishlist as $dish) {
-            $m->addOrderDish($oid, $dish['dish_id'], $dish['quantity']);
+            $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
     }
 
@@ -72,7 +69,7 @@ class Order extends Model
 
     public function getValidOrders($page = 1): array|false
     {
-        $q= $this->select()
+        $q = $this->select()
             ->where("status", "rejected", "!=")
             ->and("status", "completed", "!=")
             ->orderBy("time_placed", "ASC");
@@ -120,7 +117,7 @@ class Order extends Model
             foreach ($ingredients as $ingredient) {
                 $u1 = $ingredient->unit;
                 $q1 = $ingredient->quantity * $dish->quantity;
-                $t3->reduce($ingredient->item_id,$q1, $u1);
+                $t3->reduce($ingredient->item_id, $q1, $u1);
             }
         }
     }

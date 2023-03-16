@@ -24,3 +24,13 @@ jobs:
           script: |
             cd /var/www/html
             sudo git pull origin main
+      - name: Install Dependencies
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/html
+            sudo composer install

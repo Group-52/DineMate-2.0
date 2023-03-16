@@ -187,8 +187,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // get the dish name and ingredient name
         let dish = table.getAttribute("data-dish");
         let ingredient = row.getAttribute("data-ingredient");
+
+        // animate the row to shrink and fade out
+        let height = row.offsetHeight;
+        row.style.transition = 'all 0.5s ease';
+        row.style.height = height + 'px';
+        row.style.opacity = '0';
+        setTimeout(function() {
+            row.remove();
+        }, 500);
+
+
         // delete the row
-        row.remove();
+        // row.remove();
         // delete the ingredient from the dish
         deleteIngredient(dish, ingredient);
     }
@@ -215,7 +226,12 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (event.target.classList.contains("trash-icon")) {
             deleteRow(event);
         } else if (event.target.classList.contains("add-new-row")) {
-            addRow(event);
+            // if input has values only
+            let row = event.target.parentNode.parentNode;
+            let ingselect = row.querySelectorAll('select');
+            if (ingselect[0].value && row.querySelector('input').value && ingselect[1].value) {
+                addRow(event);
+            }
         } else if (event.target.classList.contains("fa-circle-xmark")) {
             stopAddingRow(event);
         }

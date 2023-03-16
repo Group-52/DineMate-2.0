@@ -6,6 +6,7 @@
     height: 250px !important;
     margin: 10px;
     overflow: hidden;
+    position: relative;
 }
 
 .card:hover {
@@ -16,34 +17,85 @@
     padding: 2px 16px;
 }
 
-.card img {
-    object-fit: cover;
-    width: 100%;
-    height: 200px;
-    border-radius: 10px;
-}
-
 .card-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    /*max-width: 1200px;*/
-}
-
-.table-in-card {
-    margin: 10px;
-    padding: 0 10px 10px 10px;
 }
 
 .card-title {
-    padding: 5px;
+    padding-left: 20px;
+    top: 5px;
+    left: 20px;
+    background-color: #fff;
 }
 
-.card h3 {
-    text-align: center;
-}
-
-.btn {
-    /* make left margin 10px and bottom negative 5 */
+/*make image inside card fit to card*/
+.card img {
+    max-width: 50%;
+    height: auto;
+    object-fit: cover;
+    padding: 10px 0 0 10px;
     margin: 10px 0 0 10px;
 }
+
+h4{
+    display: inline;
+}
+
+input[type="date"] {
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    width: 115px;
+}
+input[type="date"].hidden {
+    display: none;
+}
+
+
+.dashboard-ulist {
+    list-style-type: none;
+    padding-left: 10px;
+    margin-top: 20px;
+}
+
+.dashboard-ulist li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.dashboard-ulist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 2px;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.button-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.image-wrapper:hover .button-wrapper {
+    opacity: 1;
+}
+

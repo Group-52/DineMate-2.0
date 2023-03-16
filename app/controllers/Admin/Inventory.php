@@ -25,7 +25,7 @@ class Inventory
         $p = $_GET['page'] ?? 1;
         $totalPages = $inv2->getPages();
         $inventory2 = $inv2->getInventory($p);
-        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2','currentPage'=>$p,'totalPages'=>$totalPages]);
+        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);
     }
 
 }
