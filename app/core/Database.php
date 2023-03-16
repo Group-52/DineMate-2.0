@@ -33,8 +33,8 @@ trait Database
     {
         try {
             // Debugging
-//            show($this->query);
-//            show($this->data);
+            // show($this->query);
+            // show($this->data);
 
             $statement = $this->prepare($this->query);
             $statement->execute($this->data);
@@ -95,37 +95,4 @@ trait Database
         return $this->query;
     }
 
-    /**
-     * Begin a transaction.
-     */
-    public function beginTransaction(): void
-    {
-        if ($this->db == null)
-            $this->connect();
-        $this->db->beginTransaction();
-    }
-
-    /**
-     * Commit a transaction.
-     */
-    public function commit(): void
-    {
-        $this->db?->commit();
-    }
-
-    /**
-     * Rollback a transaction.
-     */
-    public function rollback(): void
-    {
-        $this->db?->rollback();
-    }
-
-    /**
-     * Returns last inserted id
-     */
-    public function lastInsertId(): int
-    {
-        return $this->db?->lastInsertId();
-    }
 }

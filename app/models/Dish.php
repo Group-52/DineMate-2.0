@@ -29,7 +29,7 @@ class Dish extends Model
      * @param $data array
      * @return bool
      */
-    public function validate(array $data): bool
+    public function isValid(array $data): bool
     {
         $this->errors = [];
 

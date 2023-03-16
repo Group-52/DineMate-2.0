@@ -20,7 +20,7 @@ class Menu extends Model
         'all_day'
     ];
 
-    public function validate($data): bool
+    public function isValid($data): bool
     {
         $this->errors = [];
 
@@ -35,7 +35,7 @@ class Menu extends Model
 
     public function getMenus(): bool|array
     {
-        $l =  $this->select()->fetchAll();
+        $l = $this->select()->fetchAll();
         $menulist = array();
         foreach ($l as $m) {
             $menulist[$m->menu_id] = $m;
@@ -45,7 +45,8 @@ class Menu extends Model
 
     // get all dishes for all menus and returns as an associative array 
     // with menu_id as key and array of dishes as value
-    public function getDishesperMenu(){
+    public function getDishesperMenu()
+    {
         $dpm = new MenuDishes();
         $menus = $this->getMenus();
         $menudishes = array();

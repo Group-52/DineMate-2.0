@@ -44,6 +44,7 @@ class Checkout
                     $data["success"] = "Order placed successfully";
                     if ($_SESSION["user"])
                         $cart->clearCart($_SESSION["user"]->user_id);
+                    redirect("home");
                 }
             } else {
                 $data["errors"] = $form->getErrors();

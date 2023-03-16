@@ -34,7 +34,7 @@ jobs:
           script: |
             cd /var/www/html
             sudo composer install
-      - name: Start WebSocket Serer
+      - name: Start WebSocket Server in Background
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
