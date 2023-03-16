@@ -8,7 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment:
+      name: production
+      url: ${{ env.URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,3 +24,23 @@ jobs:
           script: |
             cd /var/www/html
             sudo git pull origin main
+      - name: Install Dependencies
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/html
+            sudo composer install
+      - name: Start WebSocket Server in Background
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/html/app/bin
+            sudo php socket-server.php &

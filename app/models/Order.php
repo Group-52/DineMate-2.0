@@ -13,6 +13,7 @@ class Order extends Model
         $this->table = "orders";
         $this->columns = [
             "order_id",
+            "customer_order_id",
             "reg_customer_id",
             "guest_id",
             "request",
@@ -46,38 +47,33 @@ class Order extends Model
         }
 
         $data = [
+            'customer_order_id' => date("Hi") . rand(1000, 9999),
             'type' => $type,
             'time_placed' => $time_placed,
             'scheduled_time' => $scheduled_time,
-            'request' => $request,
+            'request' => (empty($request)) ? null : $request,
             'status' => 'pending',
-            'table_id' => $table_id
+            'table_id' => (empty($table_id)) ? null : $table_id,
         ];
 
         $this->insert($data);
-        // get the auto incremented order id
-        $oid = $this->select('order_id')
-            ->where($key, $value)->and("time_placed", $time_placed)
-            ->orderBy("order_id", "DESC")->limit(1);
-
-        // add dishes to the order
+        $order_id = $this->lastInsertId();
         $m = new OrderDishes();
         foreach ($dishlist as $dish) {
-            $m->addOrderDish($oid, $dish['dish_id'], $dish['quantity']);
+            $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
     }
 
-    public function getOrders($sd=null,$ed=null): array|false
+    public function getOrders(): array|false
     {
         //Converts date to timestamp format for database compatibility
-        if ($sd && $ed){
+        if ($sd && $ed) {
             $sd_timestamp = date('Y-m-d H:i:s', strtotime($sd));
             $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
             return $this->select()->where('time_placed', $sd_timestamp, ">=")
-                ->and('time_placed', $ed_timestamp,"<=")
+                ->and('time_placed', $ed_timestamp, "<=")
                 ->orderBy("time_placed", "ASC")->fetchAll();
-        }
-        else
+        } else
             return $this->select()->fetchAll();
     }
 
@@ -114,7 +110,7 @@ class Order extends Model
     }
 
     // Get the dishes in a given order
-    public function getDishes($order)
+    public function getDishes($order): array
     {
         $order_dishes = new OrderDishes();
         return $order_dishes->getOrderDishes($order);
@@ -138,7 +134,7 @@ class Order extends Model
     }
 
     //Get all orders ahead of this one for today
-    public function getOrdersAhead($order_id)
+    public function getOrdersAhead($order_id): int
     {
         $o = $this->getOrder($order_id);
         $q = $this->select()->where("time_placed", $o->time_placed, "<")
