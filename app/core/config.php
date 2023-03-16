@@ -5,12 +5,13 @@
  */
 const DB_NAME = "dinemate";
 
+// TODO remove this from git
 if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
     define("DB_HOST", "18.183.143.228");
     define("DB_USER", "dinemate");
 } else {
     define("DB_HOST", "localhost");
-    define("DB_USER", "root");
+    define("DB_USER", "dinemate");
 }
 const DB_PASS = "password";
 const DB_PORT = 3306;
