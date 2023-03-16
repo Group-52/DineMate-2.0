@@ -51,7 +51,7 @@ class Model
     {
         $this->query = "SELECT COUNT(*) FROM $this->table";
         $c = $this->fetch();
-        return ceil($c->{'COUNT(*)'}/$this->nrows);
+        return ceil($c->{'COUNT(*)'} / $this->nrows);
     }
 
     /**

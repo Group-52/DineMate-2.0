@@ -25,7 +25,7 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 }
 
 const ASSETS = ROOT . "/assets";
-const APP_DIR = "../app";
+
 const VIEWS = "../app/views";
 
 const APP_NAME = "DineMate";

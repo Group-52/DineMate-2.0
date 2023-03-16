@@ -13,18 +13,15 @@ class Order extends Model
         $this->table = "orders";
         $this->columns = [
             "order_id",
+            "customer_order_id",
             "reg_customer_id",
             "guest_id",
             "request",
             "time_placed",
-            "time_completed",
             "type",
             "status",
             "scheduled_time",
-            "table_id",
-            "paid",
-            "promo_cost",
-            "total_cost"
+            "table_id"
         ];
     }
 
@@ -46,42 +43,30 @@ class Order extends Model
         }
 
         $data = [
+            'customer_order_id' => date("Hi") . rand(1000, 9999),
             'type' => $type,
             'time_placed' => $time_placed,
             'scheduled_time' => $scheduled_time,
-            'request' => $request,
+            'request' => (empty($request)) ? null : $request,
             'status' => 'pending',
-            'table_id' => $table_id
+            'table_id' => (empty($table_id)) ? null : $table_id,
         ];
 
         $this->insert($data);
-        // get the auto incremented order id
-        $oid = $this->select('order_id')
-            ->where($key, $value)->and("time_placed", $time_placed)
-            ->orderBy("order_id", "DESC")->limit(1);
-
-        // add dishes to the order
+        $order_id = $this->lastInsertId();
         $m = new OrderDishes();
         foreach ($dishlist as $dish) {
-            $m->addOrderDish($oid, $dish['dish_id'], $dish['quantity']);
+            $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
     }
 
-    public function getOrders($sd=null,$ed=null): array|false
+    public function getOrders(): array|false
     {
-        //Converts date to timestamp format for database compatibility
-        if ($sd && $ed){
-            $sd_timestamp = date('Y-m-d H:i:s', strtotime($sd));
-            $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
-            return $this->select()->where('time_placed', $sd_timestamp, ">=")
-                ->and('time_placed', $ed_timestamp,"<=")
-                ->orderBy("time_placed", "ASC")->fetchAll();
-        }
-        else
-            return $this->select()->fetchAll();
+        return $this->select()->fetchAll();
     }
 
     // Get all orders that are pending or accepted with pagination
+
     public function getValidOrders($page = 1): array|false
     {
         $q = $this->select()
@@ -136,53 +121,4 @@ class Order extends Model
             }
         }
     }
-
-    //Get all orders ahead of this one for today
-    public function getOrdersAhead($order_id)
-    {
-        $o = $this->getOrder($order_id);
-        $q = $this->select()->where("time_placed", $o->time_placed, "<")
-            ->and("status", "completed", "!=")
-            ->and("status", "rejected", "!=")
-            ->orderBy("time_placed", "ASC")->fetchAll();
-
-        // if they are scheduled for a different day, they are not ahead
-        foreach ($q as $key => $order) {
-            if ($order->scheduled_time && date("Y-m-d", strtotime($order->scheduled_time)) != date("Y-m-d", strtotime($o->time_placed)))
-                unset($q[$key]);
-        }
-        return count($q);
-    }
-
-    //Get estimate of time for an order
-    public function getEstimate($order_id): int
-    {
-        $ods = (new OrderDishes())->getOrderDishes($order_id);
-        $t = [];
-        //Adjust prep time of dishes for quantity
-        foreach ($ods as $d) {
-            //multiples of 5 of dish quantity
-            $m = $d->quantity / 5;
-            // 20% of prep time
-            $p = $d->prep_time * 0.2;
-            $t[] = ceil($d->prep_time + $p * $m);
-        }
-        //get average time
-        $x = array_sum($t) / count($t);
-        //get max time
-        $m = max($t);
-        //weigh between average and max time
-        $x = ($x + $m) / 2;
-
-        //add 5 minutes for each order ahead of this one (account for no.of staff)
-        $staff = (new GeneralDetails())->getDetails()->kitchen_staff;
-        $staffcoeff = 5 - $staff;
-        if ($staffcoeff < 0)
-            $staffcoeff = 0;
-        $x += $this->getOrdersAhead($order_id) * $staffcoeff;
-
-        return ceil($x);
-    }
-
-
 }
