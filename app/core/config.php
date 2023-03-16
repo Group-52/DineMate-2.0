@@ -12,7 +12,7 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
     define("DB_HOST", "localhost");
     define("DB_USER", "root");
 }
-const DB_PASS = ".xaH6uB0Y7M8@-ZC";
+const DB_PASS = "password";
 const DB_PORT = 3306;
 
 /**
@@ -25,7 +25,7 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
 }
 
 const ASSETS = ROOT . "/assets";
-
+const APP_DIR = "../app";
 const VIEWS = "../app/views";
 
 const APP_NAME = "DineMate";
