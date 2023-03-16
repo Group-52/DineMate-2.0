@@ -33,7 +33,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html
-            composer install
+            sudo composer install
       - name: Start WebSocket Serer
         uses: appleboy/ssh-action@master
         with:
@@ -43,4 +43,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html/app/bin
-            php socket-server.php
+            sudo php socket-server.php
