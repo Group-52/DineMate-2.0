@@ -110,7 +110,7 @@ class Order extends Model
     }
 
     // Get the dishes in a given order
-    public function getDishes($order): array
+    public function getDishes($order)
     {
         $order_dishes = new OrderDishes();
         return $order_dishes->getOrderDishes($order);

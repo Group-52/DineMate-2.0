@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
         table.style.filter = 'blur(0)';
 
         // make add button visible
-        addButton.style.display = 'inline-block';
+        addButton.style.display = 'block';
     });
 
     // make form invisible when cancel button is clicked
     formcancelButton.addEventListener('click', () => {
         form.style.display = 'none';
         table.style.filter = 'blur(0)';
-        addButton.style.display = 'inline-block';
+        addButton.style.display = 'block';
     });
 
     function makeEditable() {

@@ -61,7 +61,7 @@ class Auth
 
     public function logout(): void
     {
-        session_destroy();
+        unset($_SESSION["user"]);
         redirect("admin/auth/login");
     }
 }

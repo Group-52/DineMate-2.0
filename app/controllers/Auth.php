@@ -60,7 +60,7 @@ class Auth
 
     public function logout(): void
     {
-        session_destroy();
+        unset($_SESSION["user"]);
         redirect("auth/login");
     }
 

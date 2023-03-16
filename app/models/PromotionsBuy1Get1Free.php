@@ -10,15 +10,12 @@ class PromotionsBuy1Get1Free extends Model
 {
 
     public string $order_column = "promo_id";
-    public function __construct()
-    {
-        $this->table = "promo_buy1get1free";
-        $this->columns = [
-            "promo_id",
-            "dish1_id",
-            "dish2_id",
-        ];
-    }
+    protected string $table = 'promo_buy1get1free';
+    protected array $allowedColumns = [
+        'promo_id',
+        'dish1_id',
+        'dish2_id',
+    ];
 
     // Get all entries in the table 
     public function getPromos(): bool|array

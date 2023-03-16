@@ -7,16 +7,14 @@ use core\Model;
 
 class PromotionsDiscounts extends Model
 {
+
     public string $order_column = "promo_id";
-    public function __construct()
-    {
-        $this->table = "promo_discounts";
-        $this->columns = [
-            "promo_id",
-            "dish_id",
-            "discount",
-        ];
-    }
+    protected string $table = 'promo_discounts';
+    protected array $allowedColumns = [
+        'promo_id',
+        'dish_id',
+        'discount',
+    ];
 
     // Get all entries in the table 
     public function getPromos(): bool|array
