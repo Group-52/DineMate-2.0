@@ -43,4 +43,4 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html/app/bin
-            sudo php socket-server.php
+            sudo php socket-server.php &
