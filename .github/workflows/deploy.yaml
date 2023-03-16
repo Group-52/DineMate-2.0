@@ -31,4 +31,14 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html
-            sudo composer install
+            composer install
+      - name: Start WebSocket Serer
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /var/www/html/app/bin
+            php socket-server.php
