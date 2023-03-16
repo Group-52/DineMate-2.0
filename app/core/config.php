@@ -12,7 +12,7 @@ if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] == 'localhost') {
     define("DB_HOST", "localhost");
     define("DB_USER", "root");
 }
-const DB_PASS = "password";
+const DB_PASS = ".xaH6uB0Y7M8@-ZC";
 const DB_PORT = 3306;
 
 /**
