@@ -28,4 +28,13 @@ class Inventory
         $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);
     }
 
+    public function dashboard():void
+    {
+        $data = [];
+        $invlist = (new \models\Inventory())->getInventorybyCategory();
+        $data['controller'] = 'inventory';
+        $data['invlist'] = $invlist;
+        $this->view('admin/inventory.dashboard',$data);
+    }
+
 }
