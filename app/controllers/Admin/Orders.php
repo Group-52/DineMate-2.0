@@ -50,7 +50,17 @@ class Orders
         $data['allDishes'] = (new Dish())->getDishes();
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
-        $this->view('admin/order.detail', $data);
+        if ($data['order'])
+            $this->view('admin/order.detail', $data);
+        else
+            $this->view('admin/_404');
+    }
+
+    public function delete($order_id): void
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET")
+            (new Order)->deleteOrder($order_id);
+        redirect('admin/orders');
     }
 }
 

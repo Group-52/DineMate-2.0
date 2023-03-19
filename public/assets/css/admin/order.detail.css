@@ -36,3 +36,6 @@
 .quantity{
     width: 30px;
 }
+.request-field,.type-field{
+display: none;
+}
