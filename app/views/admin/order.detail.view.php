@@ -21,14 +21,20 @@
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">Add Dishes</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
+                <a class="btn btn-primary text-uppercase fw-bold"
+                   href=<?= ROOT . "/admin/orders/delete/" . $order->order_id ?> id="delete-button">Delete</a>
             </div>
         </div>
         <div class="blur-container">
 
-            <h2><span class="order-id" data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span>
+            <h2><span class="order-id"
+                      data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span>
             </h2><br>
-            <h4>Request: <?= $order->request ?></h4>
-            <h4>Order Type: <?php
+            <h4 class="request-display">Request: <?= $order->request ?></h4>
+            <strong class="request-field"><label for="request-field">Request:</label></strong>
+            <textarea class="request-field"></textarea>
+            <h4 class="type-display" data-type="<?= $order->type ?>">Order Type:
+                <?php
                 if ($order->type == "dine-in")
                     echo "<img src='" . ASSETS . "/icons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
                 else if ($order->type == "takeaway")
@@ -36,10 +42,16 @@
                 else if ($order->type == "bulk")
                     echo "<img src='" . ASSETS . "/icons/bulk.svg' alt='bulk' width='30' height='30'>";
                 ?></h4><br>
+            <strong class="type-field">Order Type:</strong>
+            <select class="type-field">
+                <option value="dine-in">dine-in</option>
+                <option value="takeaway">takeaway</option>
+            </select>
             <h4>Order Status:
                 <div class='form-group'>
                     <select data-order-status="<?= $order->status ?>" class="order-status form-control">
-                        <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending</option>
+                        <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending
+                        </option>
                         <option value="accepted" <?= ($order->status == 'accepted') ? 'selected' : '' ?>>Accepted
                         </option>
                         <option value="rejected" <?= ($order->status == 'rejected') ? 'selected' : '' ?>>Rejected
@@ -67,17 +79,21 @@
                         <th class="editorderoption">-</th>
                         <th>Quantity</th>
                         <th class="editorderoption">+</th>
-<!--                        <th class="editorderoption"></th>-->
+                        <!--                        <th class="editorderoption"></th>-->
                     </tr>
                     </thead>
                     <tbody>
                     <?php if (isset($dishes)) : ?>
                         <?php foreach ($dishes as $od) : ?>
-                            <tr data-dish-id="<?=$od->dish_id?>">
+                            <tr data-dish-id="<?= $od->dish_id ?>">
                                 <td><?= $od->dish_name ?></td>
-                                <td class="editorderoption"><button class="quantity decrease">-</button></td>
+                                <td class="editorderoption">
+                                    <button class="quantity decrease">-</button>
+                                </td>
                                 <td><?= $od->quantity ?></td>
-                                <td class="editorderoption"><button class="quantity increase">+</button></td>
+                                <td class="editorderoption">
+                                    <button class="quantity increase">+</button>
+                                </td>
                                 <td class="editorderoption"><i class="fa fa-trash trash-icon"></i></td>
                             </tr>
                         <?php endforeach; ?>
@@ -91,14 +107,22 @@
                             </select>
                         </td>
                         <td><input type="number" class="form-control" id="quantity-input" value="1"></td>
-                        <td><button class="save-dish">Add</button></td>
-                        <td><button class="cancel-dish">Cancel</button></td>
+                        <td>
+                            <button class="save-dish">Add</button>
+                        </td>
+                        <td>
+                            <button class="cancel-dish">Cancel</button>
+                        </td>
                     </tr>
                     <tr class="dummy-row" data-dish-id="0">
                         <td></td>
-                        <td class="editorderoption"><button class="quantity decrease">-</button></td>
+                        <td class="editorderoption">
+                            <button class="quantity decrease">-</button>
+                        </td>
                         <td></td>
-                        <td class="editorderoption"><button class="quantity increase">+</button></td>
+                        <td class="editorderoption">
+                            <button class="quantity increase">+</button>
+                        </td>
                         <td class="editorderoption"><i class="fa fa-trash trash-icon"></i></td>
                     </tr>
                     </tbody>

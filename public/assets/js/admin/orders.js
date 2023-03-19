@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // function to do ajax call to update order status
     function updateOrderStatus(oid, status) {
         let data = {"order_id": oid, "status": status};
-        fetch(`${ROOT}/api/orders/update`, {
+        fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

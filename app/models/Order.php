@@ -184,5 +184,8 @@ class Order extends Model
         return ceil($x);
     }
 
-
+    public function deleteOrder($order_id)
+    {
+        $this->delete()->where("order_id", $order_id)->execute();
+    }
 }

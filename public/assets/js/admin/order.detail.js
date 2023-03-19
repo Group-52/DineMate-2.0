@@ -12,21 +12,72 @@ document.addEventListener('DOMContentLoaded', function () {
     const tablebody = document.querySelector('tbody');
     const inputrow = document.querySelector('.input-row');
     const dummyrow = document.querySelector('.dummy-row');
+    const reqfields = document.querySelectorAll('.request-field');
+    const redisp = document.querySelector('.request-display');
+    const typfields = document.querySelectorAll('.type-field');
+    const typedisp = document.querySelector('.type-display');
 
     // allow editing of order
     editbutton.addEventListener('click', function () {
         finishbutton.style.display = 'inline-block';
+        editbutton.style.display = 'none';
         document.querySelectorAll('.editorderoption').forEach(function (c) {
             c.style.display = 'inline-block';
         });
+        //make request field visible and auto fill
+        reqfields.forEach(function (c) {
+            c.style.display = 'inline-block';
+        });
+        redisp.style.display = 'none';
+        // remove "Request:" from the value
+        let req = redisp.innerHTML;
+        req = req.substring(9);
+        reqfields[1].value = req;
+
+        //make type field visible and auto fill
+        typfields.forEach(function (c) {
+            c.style.display = 'inline-block';
+        });
+        typedisp.style.display = 'none';
+
+
     });
     // finish editing
     finishbutton.addEventListener('click', function () {
         finishbutton.style.display = 'none';
         addbutton.style.display = 'inline-block';
+        editbutton.style.display = 'inline-block';
         document.querySelectorAll('.editorderoption').forEach(function (c) {
             c.style.display = 'none';
         });
+
+        //make request field invisible and display request
+        reqfields.forEach(function (c) {
+            c.style.display = 'none';
+        });
+        redisp.style.display = 'inline-block';
+        // add "Request:" to the value
+        redisp.innerHTML = "Request: " + reqfields[1].value;
+
+        //make type field invisible and display type
+        typfields.forEach(function (c) {
+            c.style.display = 'none';
+        } );
+        typedisp.style.display = 'block';
+        typvalue = typfields[1].options[typfields[1].selectedIndex].value;
+        //change icon based on type
+
+        if (typvalue == "dine-in")
+            typedisp.innerHTML = "Order Type: <img src='" + ASSETS + "/icons/table.png' alt='dine-in' width='30' height='30'> ";
+        else if (typvalue == "takeaway")
+            typedisp.innerHTML = "Order Type: <img src='" + ASSETS + "/icons/fastcart.png' alt='take-away' width='30' height='30'>";
+
+        // update in database
+        let data = {"order_id": oid,
+            "request": reqfields[1].value, "type": typvalue};
+
+        api_edit(data);
+
     });
     // allow adding a new row
     addbutton.addEventListener('click', function () {
@@ -173,10 +224,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         displayPopup();
 
-        // os.setAttribute('data-order-status', 'accepted');
-
-        // make ajax call to update status
-        // updateOrderStatus(oid, 'accepted');
     });
 
     rb.addEventListener('click', function () {
@@ -187,11 +234,6 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleButtons('invisible');
 
         displayPopup2(x);
-
-        // os.setAttribute('data-order-status', 'rejected');
-
-        // make ajax call to update status
-        // updateOrderStatus(oid, 'rejected');
 
     });
 
@@ -211,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // function to do ajax call to update order status
     function updateOrderStatus(oid, status) {
         let data = {"order_id": oid, "status": status};
-        fetch(`${ROOT}/api/orders/update`, {
+        fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -382,6 +424,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }).then(response => {
             return response.json();
 
+        }).then(data => {
+                console.log(data);
+            }
+        ).catch(err => {
+                console.log(err);
+            }
+        );
+    }
+
+    function api_edit(data){
+        fetch(`${ROOT}/api/orders/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            return response.json();
         }).then(data => {
                 console.log(data);
             }

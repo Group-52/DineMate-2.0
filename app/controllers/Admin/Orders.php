@@ -19,9 +19,9 @@ class Orders
         $totalPages = $order->getPages();
         $ol = $order->getValidOrders($p);
         $dish_list = [];
-          foreach ($ol as $o) {
+        foreach ($ol as $o) {
             $dish_list[$o->order_id] = $od->getOrderDishes($o->order_id);
-          }
+        }
 
         $results['order_list'] = $ol;
         $results['order_dishes'] = $dish_list;
@@ -44,13 +44,24 @@ class Orders
         }
         $this->view('admin/order.edit', $results);
     }
+
     public function id($order_id): void
     {
         $order = new Order;
         $data['allDishes'] = (new Dish())->getDishes();
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
-        $this->view('admin/order.detail', $data);
+        if ($data['order'])
+            $this->view('admin/order.detail', $data);
+        else
+            $this->view('admin/_404');
+    }
+
+    public function delete($order_id): void
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET")
+            (new Order)->deleteOrder($order_id);
+        redirect('admin/orders');
     }
 }
 
