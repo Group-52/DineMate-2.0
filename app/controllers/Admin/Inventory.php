@@ -34,6 +34,7 @@ class Inventory
         $invlist = (new \models\Inventory())->getInventorybyCategory();
         $data['controller'] = 'inventory';
         $data['invlist'] = $invlist;
+        $data['batchcounts']=(new \models\InventoryDetail())->getCount();
         $this->view('admin/inventory.dashboard',$data);
     }
 

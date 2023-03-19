@@ -10,7 +10,7 @@ use core\Model;
  */
 class InventoryDetail extends Model
 {
-    protected int $nrows=5;
+    protected int $nrows=9;
     public function __construct()
     {
         $this->table = "inventory2";
@@ -77,7 +77,7 @@ class InventoryDetail extends Model
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->orderBy("purchases.expiry_date", "DESC");
+            ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
         else
@@ -139,5 +139,17 @@ class InventoryDetail extends Model
         $this->delete()
             ->where("pid", $pid)
             ->execute();
+    }
+
+    //Get the number of non-zero batches for items
+    public function getCount()
+    {
+        $this->query =  "SELECT item_id,COUNT(*) AS count FROM inventory2 WHERE amount_remaining > 0 GROUP BY item_id";
+        $temp = $this->fetchAll();
+        $data=[];
+        foreach ($temp as $t){
+            $data[$t->item_id] = $t->count;
+        }
+        return $data;
     }
 }

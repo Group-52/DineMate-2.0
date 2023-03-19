@@ -12,7 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
             card.style.transform = 'scale(1)';
             card.querySelector('.batches-left').style.display = 'none';
 
-        } );
+        });
+
+        //redirect to the batches page
+        card.querySelectorAll('.batches-left').forEach(batch => {
+            batch.addEventListener('click', () => {
+                window.location.href = `${ROOT}/admin/inventory/info`
+            });
+        })
     });
 
     // Update the progress bar
