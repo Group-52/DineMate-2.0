@@ -18,6 +18,7 @@ class Item extends Model
             "description",
             "unit",
             "category",
+            "image_url"
         ];
     }
 
@@ -52,7 +53,7 @@ class Item extends Model
 
     public function getItems(): array
     {
-        return $this->select(["item_id", "item_name", "description","units.abbreviation, categories.category_name"])
+        return $this->select(["item_id", "item_name","image_url", "description","units.abbreviation, categories.category_name"])
             ->join("units", "unit", "unit_id")
             ->join("categories", "category", "category_id")
             ->orderBy("item_name")
@@ -61,7 +62,7 @@ class Item extends Model
 
     public function getItemById($id): bool|object
     {
-        return $this->select(["item_id", "item_name", "description", "unit", "category"])
+        return $this->select(["item_id", "item_name", "description", "unit", "category","image_url"])
             ->where("item_id", $id)
             ->fetch();
     }

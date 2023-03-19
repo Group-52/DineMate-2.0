@@ -12,7 +12,7 @@
     <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('inventory')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && ($controller == "inventory")) echo " active" ?>"
-       href="<?= ROOT ?>/admin/inventory">
+       href="<?= ROOT ?>/admin/inventory/dashboard">
         <i class="fa-solid fa-box d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Inventory</span>
     </a>
     <?php endif; ?>
