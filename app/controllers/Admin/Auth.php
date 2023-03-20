@@ -29,13 +29,13 @@ class Auth
     {
         $data = [];
         $loginForm = new Form("", "POST", "Login");
-        $loginForm->addInputField("username", "username", "text", "Username", true);
-        $loginForm->addInputField("password", "password", "password", "Password", true);
+        $loginForm->addField("username", "username", "text", "Username", true);
+        $loginForm->addField("password", "password", "password", "Password", true);
         $data["form"] = $loginForm;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new AdminUser();
-            if ($loginForm->isValid($_POST)) {
+            if ($loginForm->validate($_POST)) {
 
                 try {
                     $result = $user->getUserByUsername($_POST["username"]);
@@ -61,7 +61,7 @@ class Auth
 
     public function logout(): void
     {
-        session_destroy();
+        unset($_SESSION["user"]);
         redirect("admin/auth/login");
     }
 }

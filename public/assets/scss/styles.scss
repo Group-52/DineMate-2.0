@@ -165,6 +165,13 @@ a {
   border-top: 1px solid $border;
 }
 
+
+#ing-form,
+#edit-button,
+#finish-button {
+  display: none;
+}
+
 .bg-grey {
   background-color: $bg-color-light;
 }

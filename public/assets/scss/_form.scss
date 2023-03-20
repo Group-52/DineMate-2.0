@@ -21,11 +21,8 @@
 }
 
 .form-control {
-  &:not([type="checkbox"]) {
-    display: block;
-    width: 100%;
-  }
-
+  display: block;
+  width: 100%;
   padding: 0.75rem 0.5rem;
   font-size: 1rem;
   border: 1px solid $border;
@@ -37,10 +34,6 @@
     box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
   }
 
-  &[type="checkbox"] + .label {
-    display: inline;
-    margin-left: 5px;
-  }
 }
 
 select.form-control {
@@ -52,7 +45,7 @@ select.form-control {
 }
 
 .form-control::placeholder {
-  color: $tertiary-text;
+  color: $secondary-text;
   opacity: 1;
 }
 

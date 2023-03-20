@@ -1,3 +1,6 @@
+.editable {
+    border: 2px solid green;
+}
 
 /* Style for the trash can icon */
 .fa-trash {
@@ -23,22 +26,8 @@
     width: 100%;
 }
 
-#finish-button,
-td:has(.trash-icon),
-td:has(.edit-icon),
-td:has(.tick-icon),
-td:has(.cross-icon) {
-    display: none;
-}
-
-.trash-icon,
-.edit-icon,
-.tick-icon,
-.cross-icon {
-    margin: 0 5px;
-}
-.newly-editable {
-    border : 2px rgb(182, 182, 170) solid;
-    border-radius: 5px;
-    text-align: center;
+#add-purchase-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }

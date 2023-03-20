@@ -22,7 +22,7 @@ class Vendor extends Model
         ];
     }
 
-    public function isValid(array $data): bool
+    public function validate(array $data): bool
     {
         $this->errors = [];
 

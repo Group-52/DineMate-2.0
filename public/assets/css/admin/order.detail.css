@@ -4,11 +4,10 @@
 
     display: flex;
     justify-content: space-between;
-    width: 40%;
 }
 
 #button-div button {
-    max-width: 100%;
+    width: 100%;
     margin: 0 5px;
 }
 
@@ -18,21 +17,10 @@
     border-color: #dc3545;
 }
 
-#finish-button,#accept-button,
-#reject-button, #complete-button,.input-row,.dummy-row {
+#accept-button,
+#reject-button {
     display: none;
-}
-#complete-button{
-    width:200px;
 }
 .order-status {
  width: 200px;
-}
-
-.editorderoption {
-   display: none;
-    width: 30px;
-}
-.quantity{
-    width: 30px;
 }

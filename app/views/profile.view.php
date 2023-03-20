@@ -24,19 +24,21 @@
                 </ul>
             </div>
             <div class="col-md-6 col-12">
-                <?php if (isset($form)) {
-                    /** @var components\Form $form */
-                    $form->beginForm();
-                    for ($i = 0; $i < $form->countFields(); $i++) {
-                        echo $form->htmlField($i);
-                        if ($i == 2 && $_SESSION["user"]->verified_email == 0) {
-                            echo "<div class='mb-3'>Your email address has not been verified yet - <a class='link' href='" . ROOT . "/profile/verify'>Verify Email</a></div>";
+                <form action="" method="POST">
+                    <?php if (isset($form)) {
+                        /** @var components\Form $form */
+                        for ($i = 0; $i < $form->countFields(); $i++) {
+                            echo $form->htmlField($i);
+                            if ($i == 2 && $_SESSION["user"]->verified_email == 0) {
+                                echo "<div class='mb-3'>Your email address has not been verified yet - <a class='link' href='" . ROOT . "/profile/verify'>Verify Email</a></div>";
+                            }
                         }
-                    }
-                    echo $form->htmlButton();
-                    $form->endForm();
-                } ?>
-                <?php endif ?>
+                    } ?>
+                    <?php endif ?>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-lg text-uppercase">Update Info</button>
+                    </div>
+                </form>
             </div>
             <div class="col-offset-md-1"></div>
         </div>

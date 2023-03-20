@@ -96,10 +96,10 @@ document.addEventListener("DOMContentLoaded", () => {
       searchField.value = "";
     };
   }
-  // navigator.serviceWorker &&
-  //   navigator.serviceWorker
-  //     .register(ROOT + "/service-worker.js")
-  //     .then(function (registration) {
-  //       console.log("Excellent, registered with scope: ", registration.scope);
-  //     });
+  navigator.serviceWorker &&
+    navigator.serviceWorker
+      .register(ROOT + "/service-worker.js")
+      .then(function (registration) {
+        console.log("Excellent, registered with scope: ", registration.scope);
+      });
 });
