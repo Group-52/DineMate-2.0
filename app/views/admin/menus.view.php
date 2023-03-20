@@ -39,9 +39,9 @@
             </div>
 
            
-            <a class="btn btn-primary" id="add-menu-button" href="<?php echo ROOT ?>/admin/menus/addMenu">Add Menu</a>
+            <a class="btn btn-primary" id="add-menu-button" href="<?php echo ROOT ?>/admin/menus/add">Add Menu</a>
             <div id="menu-add-form" class="overlay">
-                <form action="<?= ROOT ?>/admin/menus/add" method="post" enctype="multipart/form-data">
+                <form action="<?= ROOT ?>/admin/menus/add" method="post">
                     <div class="form-group">
                         <label for="name"><b>Name</b></label><br>
                         <input class="form-control" type="text" name="name" placeholder="Name" required>
