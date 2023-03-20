@@ -1,14 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    //Draw a bar chart with random data
     drawBarChart();
-
-    // Draw a line chart with random data
     drawLineChart();
-
     drawPieChart();
-
     drawStackedLineChart();
+
+
+    /* 
+    Takes data from the form and sends it to the websocket 
+           */
+
+    var form = document.getElementById("f2");
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var socket = new WebSocket("ws://localhost:8080");
+        socket.onopen = function () {
+            var n = {
+                "event_type": "new_order",
+                "order_id": form.elements["order_id"].value,
+                "status": form.elements["status"].value,
+                "time_placed": form.elements["time_placed"].value,
+                "request": form.elements["request"].value,
+                "reg_customer_id": form.elements["reg_customer_id"].value,
+                "type": form.elements["type"].value,
+                "table_id":4,
+                "order_dishes":
+                    [
+                        {
+                            "dish_name": "Burger",
+                            "quantity": 2,
+                        },
+                        {
+                            "dish_name": "Chillie Parata",
+                            "quantity": 3
+                        },
+                        {
+                            "dish_name": "Salad",
+                            "quantity": 1
+                        }
+                    ]
+
+
+            };
+            socket.send(JSON.stringify(n));
+        };
+    });
+
 
 });
 
@@ -93,6 +130,7 @@ function drawLineChart() {
         }
     });
 }
+
 function drawPieChart() {
     var ctx = document.getElementById("myPieChart").getContext('2d');
     var myChart = new Chart(ctx, {
@@ -134,45 +172,45 @@ function drawStackedLineChart() {
 
     // Define the data
     var data = {
-      labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      datasets: [
-        {
-          label: "Revenue",
-          backgroundColor: "rgba(255, 99, 132, 0.2)",
-          borderColor: "rgba(255, 99, 132, 1)",
-          data: RevenueData,
-          stack: "Stack 1"
-        },
-        {
-          label: "Profit",
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          data: ProfitData,
-          stack: "Stack 1"
-        },
-        {
-          label: "Cost",
-          backgroundColor: "rgba(255, 206, 86, 0.2)",
-          borderColor: "rgba(255, 206, 86, 1)",
-          data: CostData,
-          stack: "Stack 1"
-        }
-      ]
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        datasets: [
+            {
+                label: "Revenue",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                data: RevenueData,
+                stack: "Stack 1"
+            },
+            {
+                label: "Profit",
+                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                data: ProfitData,
+                stack: "Stack 1"
+            },
+            {
+                label: "Cost",
+                backgroundColor: "rgba(255, 206, 86, 0.2)",
+                borderColor: "rgba(255, 206, 86, 1)",
+                data: CostData,
+                stack: "Stack 1"
+            }
+        ]
     };
-  
+
     // Define chart options
     var options = {
-      scales: {
-        yAxes: [{
-          stacked: true
-        }]
-      }
+        scales: {
+            yAxes: [{
+                stacked: true
+            }]
+        }
     };
-  
+
     // Create the chart
     var myStackedLineChart = new Chart(ctx, {
-      type: "line",
-      data: data,
-      options: options
+        type: "line",
+        data: data,
+        options: options
     });
 }

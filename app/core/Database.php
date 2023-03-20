@@ -32,6 +32,10 @@ trait Database
     public function execute(): PDOStatement
     {
         try {
+            // Debugging
+            // show($this->query);
+            // show($this->data);
+
             $statement = $this->prepare($this->query);
             $statement->execute($this->data);
             $this->query = "";
@@ -65,7 +69,7 @@ trait Database
     private function connect(): void
     {
         try {
-            $connection_string = "mysql:hostname=" . DB_HOST . ";dbname=" . DB_NAME;
+            $connection_string = "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
             $this->db = new PDO($connection_string, DB_USER, DB_PASS, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
@@ -91,4 +95,37 @@ trait Database
         return $this->query;
     }
 
+    /**
+     * Begin a transaction.
+     */
+    public function beginTransaction(): void
+    {
+        if ($this->db == null)
+            $this->connect();
+        $this->db->beginTransaction();
+    }
+
+    /**
+     * Commit a transaction.
+     */
+    public function commit(): void
+    {
+        $this->db?->commit();
+    }
+
+    /**
+     * Rollback a transaction.
+     */
+    public function rollback(): void
+    {
+        $this->db?->rollback();
+    }
+
+    /**
+     * Returns last inserted id
+     */
+    public function lastInsertId(): int
+    {
+        return $this->db?->lastInsertId();
+    }
 }
