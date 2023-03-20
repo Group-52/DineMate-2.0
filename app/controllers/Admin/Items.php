@@ -48,7 +48,7 @@ class Items
         $data["units"] = (new Unit())->select()->fetchAll();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $item = new Item();
-            if ($item->isValid($_POST)) {
+            if ($item->validate($_POST)) {
                 try {
                     $item->insert([
                         "item_name" => $_POST["name"],

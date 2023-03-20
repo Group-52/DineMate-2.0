@@ -29,7 +29,7 @@ class Dish extends Model
      * @param $data array
      * @return bool
      */
-    public function isValid(array $data): bool
+    public function validate(array $data): bool
     {
         $this->errors = [];
 
@@ -89,6 +89,21 @@ class Dish extends Model
         }
         // TODO search by Menu
         return $query->fetchAll();
+    }
+
+    public function getDish($dish_id): object|false
+    {
+        return $this->select()->where("dish_id", $dish_id)->fetch();
+    }
+
+    public function editDish($dish)
+    {
+        $this->update($dish)->where("dish_id", $dish['dish_id'])->execute();
+    }
+
+    public function deleteDish($data)
+    {
+        $this->delete()->where("dish_id", $data)->execute();
     }
 }
 

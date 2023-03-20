@@ -12,20 +12,15 @@ class Inventory
     public function index(): void
     {
         $inv = new \models\Inventory();
-        $p = $_GET['page'] ?? 1;
-        $totalPages = $inv->getPages();
-
-        $inventory = $inv->getInventory($p);
-        $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);
+        $inventory = $inv->getInventory();
+        $this->view('admin/inventory', ['inventory' => $inventory, 'controller' => 'inventory']);
     }
 
     public function info(): void
     {
         $inv2 = new InventoryDetail();
-        $p = $_GET['page'] ?? 1;
-        $totalPages = $inv2->getPages();
-        $inventory2 = $inv2->getInventory($p);
-        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory','currentPage'=>$p,'totalPages'=>$totalPages]);
+        $inventory2 = $inv2->getInventory();
+        $this->view('admin/inventory2', ['inventory2' => $inventory2, 'controller' => 'inventory2']);
     }
 
 }

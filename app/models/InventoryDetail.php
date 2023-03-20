@@ -10,7 +10,6 @@ use core\Model;
  */
 class InventoryDetail extends Model
 {
-    protected int $nrows=5;
     public function __construct()
     {
         $this->table = "inventory2";
@@ -33,67 +32,46 @@ class InventoryDetail extends Model
             ->where("pid", $pid)
             ->fetch();
     }
-    // get all batches with given itemid and order by date and remove a given amount from the oldest. If the amount is greater than the amount_remaining, then remove the amount_remaining and continue with the next oldest purchase
+    // get all purchases with given itemid and order by date and remove a given amount from the oldest. If the amount is greater than the amount_remaining, then remove the amount_remaining and continue with the next oldest purchase
     public function reduce($itemid, $quantity, $unitid)
     {
-        $batches = $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
+        $purchases = $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->where("inventory2.item_id", $itemid)
+            ->where("item_id", $itemid)
             ->orderBy("purchases.expiry_date", "ASC")
             ->fetchAll();
-
-//        check if batches exist
-        if (!$batches) return;
-
-
-//        check if unit is the same as the unit of the item
-        $u1 = $batches[0]->unit_id;
-        $q2 = 0;
-        if ($u1 != $unitid){
-            $t1 = new UnitConversion();
-            $q2 = $t1->convert($unitid, $u1, $quantity);
-        }
-        $quantity = $q2 ? $q2 : $quantity;
-
-        foreach ($batches as $p) {
-            if ($quantity >= $p->amount_remaining) {
-                $quantity -= $p->amount_remaining;
-                $this->updateInventory($p->pid, 0);
+        foreach ($purchases as $purchase) {
+            if ($quantity >= $purchase->amount_remaining) {
+                $quantity -= $purchase->amount_remaining;
+                $this->updateInventory($purchase->pid, 0);
             } else {
-                $this->updateInventory($p->pid, $p->amount_remaining - $quantity);
+                $this->updateInventory($purchase->pid, $purchase->amount_remaining - $quantity);
                 break;
             }
         }
     }
 
-    // Get all inventory data from database with pagination
-// give 0 as a parameter to not have pagination
-    public function getInventory($page=1): array
+
+    // Get all inventory data from database
+    public function getInventory(): array
     {
-        $skip = ($page - 1) * $this->nrows;
-        $q = $this->select(["inventory2.*", "items.item_name", "units.*","purchases.expiry_date"])
+        return $this->select(["inventory2.*", "items.item_name", "units.*"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
-            ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->orderBy("purchases.expiry_date", "DESC");
-        if (!$page)
-            return $q->fetchAll();
-        else
-            return $q->limit($this->nrows)->offset($skip)->fetchAll();
+            ->fetchAll();
     }
 
-    // get non-zero inventory with items set to expire in the next x weeks or less in order of expiry date
+    // get non zero inventory with items set to expire in the next x weeks or less in order of expiry date
     public function expiring($weeks): array
     {
         return $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
-            ->where('inventory2.expiry_risk', 1)
-            ->or("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
-            ->and ("amount_remaining", 0, ">")
+            ->where("amount_remaining",0, ">")
+            ->where("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
             ->orderBy("purchases.expiry_date", "ASC")
             ->fetchAll();
     }

@@ -29,7 +29,7 @@ class Employee extends Model
         ];
     }
 
-    public function isValid(array $data): bool
+    public function validate(array $data): bool
     {
         $this->errors = [];
 
@@ -64,8 +64,8 @@ class Employee extends Model
 
     public function deleteEmployee($data)
     {
-
-
+    
+    
         $this->delete()->where("emp_id", $data)->execute();
     }
 }

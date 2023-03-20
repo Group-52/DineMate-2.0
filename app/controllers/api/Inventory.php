@@ -72,18 +72,4 @@ class Inventory
         } else
             echo json_encode(array("status" => "error", "message" => "Invalid request"));
     }
-
-    public function deleteMain(): void
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $d = json_decode(file_get_contents("php://input"), true);
-            $id = $d['itemid'];
-
-            $m = new \models\Inventory();
-            $m->deleteInventory($id);
-
-            echo json_encode(array("status" => "success", "message" => "Data received successfully", "id" => $id));
-        } else
-            echo json_encode(array("status" => "error", "message" => "Invalid request"));
-    }
 }

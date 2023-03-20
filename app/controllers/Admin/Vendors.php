@@ -38,7 +38,7 @@ class Vendors
             redirect('admin/vendors');
 
         }
-        $this->view('admin/vendor.add');
+        $this->view('admin/vendor');
     }
 
     public function edit($vendor_id): void
