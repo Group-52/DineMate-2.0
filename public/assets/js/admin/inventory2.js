@@ -3,8 +3,29 @@ document.addEventListener("DOMContentLoaded", function () {
     var editbutton = document.querySelector("#edit-button");
     editbutton.addEventListener("click", makeEditable);
     var finishbutton = document.querySelector("#finish-button");
+    finishbutton.addEventListener('click', () => {
+        //     look for any rows with the cross icon visible and simulate a click on the cross icon
+        let crossIcons = document.querySelectorAll(".cross-icon");
+        crossIcons = Array.from(crossIcons);
+        crossIcons.forEach(icon => {
+            if (icon.parentNode.style.display !== 'none') {
+                icon.click();
+            }
+        });
+    });
     finishbutton.addEventListener("click", makeUneditable);
     const fieldNames = ['expiry_risk', 'amount_remaining', 'special_notes'];
+
+    // change color of row based on expiry risk
+    let rows = document.querySelectorAll('tr');
+    rows = Array.from(rows).slice(1);
+    rows.forEach(row => {
+        let td = row.querySelector('td[data-field-name="expiry_risk"]');
+        let expiryRisk = td.textContent;
+        if (expiryRisk == 'Yes') {
+            row.style.color = 'red';
+        }
+    });
 
     function makeEditable() {
         // Hide the edit button
@@ -44,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateInventory(icon) {
 
-        var data = [];
+        let data = [];
         let newValue;
 
         // collect data from the row
@@ -52,17 +73,17 @@ document.addEventListener("DOMContentLoaded", function () {
         let cells = row.querySelectorAll('td');
         let id = row.getAttribute("data-purchase-id");
         for (let i = 0; i < cells.length; i++) {
+            // remove previous value
+            cells[i].removeAttribute('data-previous-value');
             const fieldName = cells[i].getAttribute("data-field-name");
             if (fieldName) {
                 if (fieldName == 'expiry_risk') {
                     newValue = cells[i].querySelector('select').value;
-                }
-                else if (fieldName == 'special_notes') {
+                } else if (fieldName == 'special_notes') {
                     newValue = cells[i].querySelector('input').value;
                     if (newValue == '')
                         newValue = null;
-                }
-                else if (fieldName == 'amount_remaining') {
+                } else if (fieldName == 'amount_remaining') {
                     newValue = cells[i].querySelector('input').value;
                     newValue = newValue == '' ? '0' : newValue;
                 }
@@ -78,14 +99,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // Send data to server
         let fetchRes = fetch(
             `${ROOT}/api/inventory/updateInventory`, {
-            method: "POST",
-            credentials: 'same-origin',
-            mode: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        });
+                method: "POST",
+                credentials: 'same-origin',
+                mode: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            });
 
         fetchRes.then(res => res.json())
             .catch(err => {
@@ -151,8 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
             cells.forEach(cell => {
                 if (fieldNames.includes(cell.dataset.fieldName)) {
                     cell.classList.add('editable');
-
-                    var currentValue = cell.textContent;
+                    let currentValue = cell.textContent;
                     cell.innerHTML = '';
 
                     // Add input element to the cell and set the value to the current value
@@ -160,7 +180,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         const input = document.createElement('input');
                         currentValue = currentValue.replace(/[^0-9.]/g, "");
                         currentValue = parseFloat(currentValue);
+                        cell.setAttribute('data-previous-value', currentValue)
                         input.type = 'number';
+                        input.min = 0;
+                        input.style.width = '20%';
+                        input.setAttribute('oninput', "validity.valid||(value='');");
                         input.value = currentValue;
                         cell.appendChild(input);
                         let unit = " " + cell.getAttribute('data-unit');
@@ -170,14 +194,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         const input = document.createElement('input');
                         input.type = 'text';
                         input.value = currentValue;
+                        cell.setAttribute('data-previous-value', currentValue)
                         input.classList.add('newly-editable');
                         cell.appendChild(input);
-                    }
-                    else if (cell.dataset.fieldName === 'expiry_risk') {
+                    } else if (cell.dataset.fieldName === 'expiry_risk') {
                         const input = document.createElement('select');
                         input.innerHTML = `<option value="1">Yes</option>
                         <option value="0">No</option> `;
-                        input.value = (currentValue == 'No') ? 0 : 1;
+                        input.value = (currentValue == 'No') ? '0' : '1';
+                        cell.setAttribute('data-previous-value', input.value)
                         input.classList.add('newly-editable');
                         cell.appendChild(input);
                     }
@@ -186,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Attack click eevent listener to each tick icon to update the database
+    // Attack click event listener to each tick icon to update the database
     const tickIcons = document.querySelectorAll('.tick-icon');
     tickIcons.forEach(icon => {
         icon.addEventListener('click', function (event) {
@@ -198,43 +223,58 @@ document.addEventListener("DOMContentLoaded", function () {
     // Attach click event listener to each tick and cross icon to make the cell uneditable and trash and pencil icon appear
     const editIcons = document.querySelectorAll('.edit-options');
     editIcons.forEach(icon => {
-        icon.addEventListener('click', function (event) {
-            // make tick and cross icon invisible
-            event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'none';
-            event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'none';
-            // make trash and pencil icon visible
-            event.target.parentNode.parentNode.querySelector('.trash-icon').parentNode.style.display = 'inline-block';
-            event.target.parentNode.parentNode.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
+            icon.addEventListener('click', function (event) {
+                // make tick and cross icon invisible
+                event.target.parentNode.parentNode.querySelector('.tick-icon').parentNode.style.display = 'none';
+                event.target.parentNode.parentNode.querySelector('.cross-icon').parentNode.style.display = 'none';
+                // make trash and pencil icon visible
+                event.target.parentNode.parentNode.querySelector('.trash-icon').parentNode.style.display = 'inline-block';
+                event.target.parentNode.parentNode.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
 
-            const row = event.target.parentNode.parentNode;
-            row.classList.remove('row-in-form');
+                const row = event.target.parentNode.parentNode;
+                row.classList.remove('row-in-form');
 
-            // Remove the input element from the cell and set the value to the current value
-            const cells = row.querySelectorAll('td');
-            cells.forEach(cell => {
-                if (fieldNames.includes(cell.dataset.fieldName)) {
+                // check if cross or tick icon is clicked
+                let cross = event.target.classList.contains('cross-icon')
 
-                    if (cell.dataset.fieldName === 'expiry_risk') {
-                        let input = cell.querySelector('select');
-                        cell.textContent = input.value == 1 ? 'Yes' : 'No';
+
+                // Remove the input element from the cell and set the value to the current value
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => {
+                    if (fieldNames.includes(cell.dataset.fieldName)) {
+
+                        if (cell.dataset.fieldName === 'expiry_risk') {
+                            let input = cell.querySelector('select');
+                            if (cross) {
+                                cell.textContent = cell.getAttribute('data-previous-value') == 1 ? 'Yes' : 'No';
+                                cell.removeAttribute('data-previous-value');
+                            } else
+                                cell.textContent = input.value == 1 ? 'Yes' : 'No';
+                        } else if (cell.dataset.fieldName === 'special_notes') {
+                            let input = cell.querySelector('input');
+                            if (!input.value)
+                                input.value = "";
+                            if (cross) {
+                                cell.textContent = cell.getAttribute('data-previous-value');
+                                cell.removeAttribute('data-previous-value');
+                            } else
+                                cell.textContent = input.value;
+                        } else if (cell.dataset.fieldName === 'amount_remaining') {
+                            let input = cell.querySelector('input');
+                            if (input.value == "" || input.value == null)
+                                input.value = 0;
+                            if (cross){
+                                cell.textContent = cell.getAttribute('data-previous-value') + " " + cell.getAttribute('data-unit');
+                                cell.removeAttribute('data-previous-value');
+                            }
+                            else
+                                cell.textContent = input.value + " " + cell.getAttribute('data-unit');
+                        }
+                        cell.classList.remove('editable');
                     }
-                    else if (cell.dataset.fieldName === 'special_notes') {
-                        let input = cell.querySelector('input');
-                        if (!input.value)
-                            input.value = "";
-                        cell.textContent = input.value;
-                    }
-                    else if (cell.dataset.fieldName === 'amount_remaining') {
-                        let input = cell.querySelector('input');
-                        if (input.value == "" || input.value == null)
-                            input.value = 0;
-                        cell.textContent = input.value + " " + cell.getAttribute('data-unit');
-                    }
-                    cell.classList.remove('editable');
-                }
+                });
             });
-        });
-    }
+        }
     );
 
 

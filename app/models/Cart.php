@@ -67,4 +67,9 @@ class Cart extends Model
     {
         $this->update(['quantity' => $qty])->where('user_id', $user_id)->and('dish_id', $dish_id)->execute();
     }
+
+    public function clearCart($user_id): void
+    {
+        $this->delete()->where('user_id', $user_id)->execute();
+    }
 }

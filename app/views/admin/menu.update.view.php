@@ -74,7 +74,7 @@
                                         <td><?= $item->dish_name ?></td>
                                         <td><?= $item->selling_price ?></td>
                                         <td><?= $item->prep_time ?></td>
-                                        <td><a class='cart-trash-icon' href='dishes/delete/" . $dish->dish_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></td>
+                                        <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
                                     </tr>
                                 <?php endforeach; ?>
 

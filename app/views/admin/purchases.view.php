@@ -18,15 +18,19 @@
     <div class="dashboard-container">
         <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
         <div class="w-100 h-100 p-5">
-            <div class="dashboard-header">
-
+            <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
                 <h1 class="display-3 active">Purchases</h1>
+                <div class="dashboard-buttons">
+                    <a class="btn btn-primary text-uppercase fw-bold" id="add-purchase-button">Add Purchase</a>
+                    <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
+                    <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
+                </div>
             </div>
             <table id="purchase-table" class="table">
                 <thead>
                     <tr>
-                        <th>Purchase ID</th>
-                        <th>Item Name</th>
+<!--                        <th>Purchase ID</th>-->
+                        <th>Item</th>
                         <th>Purchase Date</th>
                         <th>Vendor</th>
                         <th>Quantity</th>
@@ -43,25 +47,27 @@
                     <?php if (isset($purchases)) : ?>
                         <?php foreach ($purchases as $purchase) : ?>
                             <tr data-purchase-id="<?= $purchase->purchase_id ?>">
-                                <td><?= $purchase->purchase_id ?></td>
+                                <td style=display:none> <?= $purchase->purchase_id ?> </td>
                                 <td><?= $purchase->item_name ?></td>
-                                <td><?= $purchase->purchase_date ?></td>
-                                <td><?= $purchase->vendor_name ?></td>
-                                <td><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
-                                <td><?= $purchase->brand ?></td>
-                                <td><?= $purchase->expiry_date ?></td>
-                                <td><?= $purchase->cost ?></td>
-                                <td><?= $purchase->discount ?></td>
-                                <td><?= $purchase->final_price ?></td>
-                                <td><?= $purchase->tax ?></td>
+                                <td data-field-name="purchase_date"><?= substr($purchase->purchase_date, 0, 10) ?></td>
+                                <td data-field-name="vendor"><?= $purchase->vendor_name ?></td>
+                                <td data-field-name="quantity" data-unit="<?=$purchase->abbreviation?>"><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
+                                <td data-field-name="brand"><?= $purchase->brand ?></td>
+                                <td data-field-name="expiry_date"><?= $purchase->expiry_date ?></td>
+                                <td data-field-name="cost"><?= $purchase->cost ?></td>
+                                <td data-field-name="discount"><?= $purchase->discount ?></td>
+                                <td data-field-name="final_price"><?= $purchase->final_price ?></td>
+                                <td data-field-name="tax"><?= $purchase->tax ?></td>
+                                <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
+                                <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
+                                <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>
+                                <td><i class="fa fa-times-circle cross-icon edit-options" aria-hidden="true"></i></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
             </table>
-
-            <button class="btn btn-primary" id="add-purchase-button">Add Purchase</button>
-
+            <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
 
             <div id="Addform" class="overlay">
 
@@ -103,19 +109,19 @@
                     </div>
                     <div class="form-group">
                         <label for="cost">Cost</label>
-                        <input type="number" step="0.01" name="cost" id="cost" class="form-control">
+                        <input type="number" step="0.01" name="cost" id="cost" placeholder="---- LKR" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="discount">Discount</label>
-                        <input type="number" step="0.01" name="discount" id="discount" placeholder="0-100%" class="form-control">
+                        <input type="number" step="1" name="discount" id="discount" placeholder="---- LKR" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="final_price">Final Price</label>
-                        <input type="number" step="0.01" name="final_price" id="final_price" class="form-control">
+                        <input type="number" step="1" name="final_price" id="final_price" placeholder="---- LKR" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="tax">Tax</label>
-                        <input type="number" step="0.01" name="tax" id="tax" placeholder="Tax" class="form-control">
+                        <input type="number" step="1" name="tax" id="tax" placeholder="---- LKR" class="form-control">
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
                     <button type="button" name="cancel" class="btn btn-danger" id="cancel-button">Cancel</button>
