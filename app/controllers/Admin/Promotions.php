@@ -20,14 +20,17 @@ class Promotions
         $d = new Dish();
 
         $data['dishes'] = $d->getDishes();
-
         $data['discount'] = $p->getDiscounts();
-
         $data['spending_bonus'] = $p->getSpendingBonus();
-
         $data['free_dish'] = $p->getFreeDish();
 
-
         $this->view('admin/promotions', $data);
+    }
+
+    public function delete(): void
+    {
+        $p = new Promotion();
+        $p->deletepromo($_GET['promoid']);
+        redirect('admin/promotions');
     }
 }

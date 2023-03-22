@@ -22,14 +22,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         // make add button invisible
         addButton.style.display = 'none';
     });
-    // make form invisible when submit button is clicked
-    submitButton.addEventListener('click', () => {
-        form.style.display = 'none';
-        table.style.filter = 'blur(0)';
-
-        // make add button visible
-        addButton.style.display = 'block';
-    });
 
     // make form invisible when cancel button is clicked
     cancelButton.addEventListener('click', () => {
@@ -46,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         discountForm.style.display = "none";
         spendingBonusForm.style.display = "none";
         freeDishForm.style.display = "none";
-        
+
         if (promoType === "discounts") {
             discountForm.style.display = "block";
         } else if (promoType === "spending_bonus") {
@@ -55,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             freeDishForm.style.display = "block";
         }
     });
-
 });
 
 
