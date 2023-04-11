@@ -41,4 +41,12 @@ class PromotionsDiscounts extends Model
         $l = $this->select()->where('promo_id', $id)->fetch();
         return $l;
     }
+
+    public function editPromotion($id, $dish, $discount): void
+    {
+        $this->update([
+            'dish_id' => $dish,
+            'discount' => $discount,
+        ])->where('promo_id', $id)->execute();
+    }
 }

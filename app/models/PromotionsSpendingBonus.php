@@ -42,4 +42,12 @@ class PromotionsSpendingBonus extends Model
         $l = $this->select()->where('promo_id', $id)->fetch();
         return $l;
     }
+
+    public function editpromotion($id, $spent, $bonus): void
+    {
+        $this->update([
+            'spent_amount' => $spent,
+            'bonus_amount' => $bonus
+        ])->where('promo_id', $id)->execute();
+    }
 }

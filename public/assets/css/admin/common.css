@@ -62,7 +62,10 @@ Can use to indicate selected rows */
     padding: 20px;
     overflow-y: auto;
     max-height: 80%;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
+
 
 .popup {
     position: absolute;
