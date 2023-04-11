@@ -20,7 +20,8 @@ class Promotion extends Model
             "title",
             "type",
             "status",
-            "description"
+            "description",
+            "image_url"
         ];
     }
 
@@ -60,7 +61,11 @@ class Promotion extends Model
             'description' => $data['description'],
             'type' => $data['type'],
             'status' => $data['status'],
+            'image_url' => $data['image_url']
         ]);
+
+        $data['promo_id'] = $this->select(['promo_id'])->where('title', $data['title'])->
+            and('type', $data['type'])->fetch()->promo_id;
 
         // check for type of promotion and add to the respective table
 
@@ -88,7 +93,33 @@ class Promotion extends Model
 
     public function deletepromo($id)
     {
+        $imgname = $this->select(['image_url'])->where('promo_id', $id)->fetch()->image_url;
         $this->delete()->where('promo_id', $id)->execute();
+        //delete image from folder
+        $path = ASSETS . '/images/promotions/' .$imgname;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+    }
+
+    public function editpromo($data){
+        $this->update([
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'type' => $data['type'],
+            'status' => $data['status'],
+        ])->where('promo_id', $data['promo_id'])->execute();
+        if ($data['type'] == 'spending_bonus') {
+            $obj = new PromotionsSpendingBonus();
+            $obj->editpromotion($data['promo_id'], $data['spent_amount'], $data['bonus_amount']);
+        } else if ($data['type'] == 'discounts') {
+            $obj = new PromotionsDiscounts();
+            $obj->editpromotion($data['promo_id'], $data['dish_id'], $data['discount']);
+        } else if ($data['type'] == 'free_dish') {
+            $obj = new PromotionsBuy1Get1Free();
+            $obj->editpromotion($data['promo_id'], $data['dish1_id'], $data['dish2_id']);
+        }
     }
 
 }

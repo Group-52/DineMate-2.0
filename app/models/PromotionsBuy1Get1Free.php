@@ -43,4 +43,12 @@ class PromotionsBuy1Get1Free extends Model
         $l = $this->select()->where('promo_id', $id)->fetch();
         return $l;
     }
+
+    public function editPromotion($id, $d1, $d2): void
+    {
+        $this->update([
+            'dish1_id' => $d1,
+            'dish2_id' => $d2,
+        ])->where('promo_id', $id)->execute();
+    }
 }

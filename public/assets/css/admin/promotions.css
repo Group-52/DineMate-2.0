@@ -99,6 +99,6 @@
 .card:hover .tooltiptext {
     visibility: visible;
 }
-.greyedout{
+.greyed-out{
     filter: grayscale(70%);
 }

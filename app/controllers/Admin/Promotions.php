@@ -33,4 +33,39 @@ class Promotions
         $p->deletepromo($_GET['promoid']);
         redirect('admin/promotions');
     }
+
+    public function add(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $name = $_POST['title'];
+            $file = $_FILES["promo_image"];
+            if ($file['size'] != 0) {
+                $target_dir = APP_DIR . '/../public/assets/images/promotions/';
+                if (isImage($file) && isValidSize($file, 5000000) && isImageType($file)) {
+
+                    // 	// Set path to store the uploaded image
+                    $target_file = getFileName($name, $file);
+
+                    if (!move_uploaded_file($_FILES["promo_image"]["tmp_name"], $target_dir . $target_file)) {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
+            $_POST['image_url'] = $target_file;
+            $p = new Promotion();
+            $p->addpromotion($_POST);
+            redirect('admin/promotions');
+        } else {
+            redirect('admin/promotions');
+        }
+    }
+
+    public function edit(): void{
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $p = new Promotion();
+            $p->editpromo($_POST);
+        }
+        redirect('admin/promotions');
+    }
 }
