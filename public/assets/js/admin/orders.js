@@ -1,5 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    //Kitchen Display System mode
+    const KDSbutton = document.querySelector('#KDS-button');
+    if (sessionStorage.getItem('KDSmode') === "true") {
+        KDSmode();
+    }
+    KDSbutton.addEventListener('click', function (e) {
+        KDSmode();
+    });
+
+    //function to hide/display unnecessary elements
+    function KDSmode() {
+        let maindiv = document.querySelector('.w-100');
+        let nav = document.querySelector('.nav');
+        let sidebar = document.querySelector('#sidebar');
+        let mode = KDSbutton.innerHTML !== "Exit KDS mode";
+        let h1title = document.querySelector('h1');
+
+        if (mode) {
+            sessionStorage.setItem('KDSmode', true);
+            nav.style.display = "none";
+            sidebar.style.display = "none";
+            KDSbutton.innerHTML = "Exit KDS mode";
+            //got to full screen
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+            }
+            maindiv.classList.remove('p-5')
+            maindiv.classList.add('p-2')
+            h1title.style.display = "none";
+        } else {
+            sessionStorage.setItem('KDSmode', false);
+            nav.style.display = 'flex';
+            sidebar.style.display = 'block';
+            KDSbutton.innerHTML = "KDS Mode";
+            //exit full screen
+            if (document.fullscreenEnabled) {
+                document.exitFullscreen();
+            }
+            maindiv.classList.add('p-5')
+            maindiv.classList.remove('p-2')
+            h1title.style.display = "block";
+        }
+    }
+
     // set initial color of circle based on status
     document.querySelectorAll('#circle').forEach(circle => {
         let s = circle.getAttribute('data-order-status');
@@ -94,8 +138,9 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-id", order.order_id);
         card.setAttribute("data-order-type", order.type);
         card.setAttribute("data-order-status", order.status);
+        if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
 
-        card.querySelector('.id-strip').innerHTML = "#"+order.order_id +"&nbsp";
+        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
         let iconimg = card.querySelector('.type-icon').children[0];
         let url = ""
@@ -155,36 +200,24 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             const scheduledDate = new Date(scheduled_time);
             const scheduledDay = scheduledDate.toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
-
-            if (scheduledDay === today) {
-                return scheduledDate.toLocaleString('en-US', {
-                    timeZone: 'Asia/Colombo',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true
-                });
-            } else if (scheduledDay === today + 1) {
-                return 'tomorrow';
-            } else {
-                return scheduledDate.toLocaleString('en-US', {
-                    timeZone: 'Asia/Colombo',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                });
-            }
+            return scheduledDate.toLocaleString('en-US', {
+                timeZone: 'Asia/Colombo',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
         }
     }
 
-// Get the notification and close icon elements
+    // Get the notification and close icon elements
     const notification = document.querySelector('.notification');
     const closeIcon = document.querySelector('.close-icon');
-// Add an event listener to the close icon to hide the notification instantly
+    // Add an event listener to the close icon to hide the notification instantly
     closeIcon.addEventListener('click', () => {
         notification.classList.add('hide');
     });
 
-// Uses a websocket to receive data and add it to the table
+    // Uses a websocket to receive data and add it to the table
     var socket = new WebSocket("ws://localhost:8080");
     socket.onmessage = function (event) {
         let d = JSON.parse(event.data);

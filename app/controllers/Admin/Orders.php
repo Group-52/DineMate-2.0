@@ -15,9 +15,7 @@ class Orders
     {
         $order = new Order;
         $od = new OrderDishes();
-        $p = $_GET['page'] ?? 1;
-        $totalPages = $order->getPages();
-        $ol = $order->getValidOrders($p);
+        $ol = $order->getValidOrders();
         $dish_list = [];
         foreach ($ol as $o) {
             $dish_list[$o->order_id] = $od->getOrderDishes($o->order_id);
@@ -26,8 +24,6 @@ class Orders
         $results['order_list'] = $ol;
         $results['order_dishes'] = $dish_list;
         $results['controller'] = "orders";
-        $results['currentPage'] = $p;
-        $results['totalPages'] = $totalPages;
         $this->view('admin/order.chef2', $results);
     }
 

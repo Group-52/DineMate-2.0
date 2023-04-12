@@ -23,7 +23,7 @@ class Order extends Model
             "scheduled_time",
             "table_id",
             "paid",
-            "promo_cost",
+            "promo",
             "total_cost"
         ];
     }
@@ -67,32 +67,61 @@ class Order extends Model
         }
     }
 
-    public function getOrders($sd=null,$ed=null): array|false
+    public function getOrders($sd = null, $ed = null): array|false
     {
         //Converts date to timestamp format for database compatibility
-        if ($sd && $ed){
+        if ($sd && $ed) {
             $sd_timestamp = date('Y-m-d H:i:s', strtotime($sd));
             $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
             return $this->select()->where('time_placed', $sd_timestamp, ">=")
-                ->and('time_placed', $ed_timestamp,"<=")
+                ->and('time_placed', $ed_timestamp, "<=")
                 ->orderBy("time_placed", "ASC")->fetchAll();
-        }
-        else
+        } else
             return $this->select()->fetchAll();
     }
 
-    // Get all orders that are pending or accepted with pagination
-    public function getValidOrders($page = 1): array|false
+    // Get all orders that are pending or accepted
+    public function getValidOrders(): array|false
     {
-        $q = $this->select()
+        //Get orders placed today and not scheduled
+        $q1 = $this->select()
             ->where("status", "rejected", "!=")
             ->and("status", "completed", "!=")
-            ->orderBy("time_placed", "ASC");
-        $skip = ($page - 1) * $this->nrows;
-        if (!$page)
-            return $q->fetchAll();
-        else
-            return $q->limit($this->nrows)->offset($skip)->fetchAll();
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->checkNull("AND", "scheduled_time")
+            ->orderBy("time_placed", "ASC")
+            ->fetchAll();
+        //Get orders scheduled for today
+        $q2 = $this->select()
+            ->where("status", "rejected", "!=")
+            ->and("status", "completed", "!=")
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->orderBy("scheduled_time", "ASC")
+            ->fetchAll();
+
+
+        //merge the two arrays based on time_placed and scheduled_time
+        $q = array_merge($q2, $q1);
+        usort($q, function ($a, $b) {
+            //get times in only hour and minute format
+            $aptime = date('H:i:A', strtotime($a->time_placed));
+            $bptime = date('H:i:A', strtotime($b->time_placed));
+            $astime = $a->scheduled_time ? date('H:i:A', strtotime($a->scheduled_time)) : null;
+            $bstime = $b->scheduled_time ? date('H:i:A', strtotime($b->scheduled_time)) : null;
+            if ($astime == null && $bstime == null) {
+                return $aptime <=> $bptime;
+            } else if ($astime && $bstime) {
+                return $astime <=> $bstime;
+            } else if ($bstime == null) {
+                return $astime <=> $bptime;
+            } else {
+                return $aptime <=> $bstime;
+            }
+        });
+        return $q;
+
     }
 
     public function getOrder($order_id): object|false

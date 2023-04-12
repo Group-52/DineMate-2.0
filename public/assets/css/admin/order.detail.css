@@ -39,3 +39,20 @@
 .request-field,.type-field{
     display: none;
 }
+.detail-field{
+    min-height: 40px;
+    width:50%;
+    padding: 5px 0;
+    /*border: 1px solid #ccc;*/
+}
+#parent-detail{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-content: space-between;
+    /*border: 1px solid #ccc;*/
+}
+/*change default height of textarea*/
+textarea {
+    height: 30px;
+}
