@@ -31,36 +31,48 @@
             <h2><span class="order-id"
                       data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span>
             </h2><br>
-            <h4 class="request-display">Request: <?= $order->request ?></h4>
-            <strong class="request-field"><label for="request-field">Request:</label></strong>
-            <textarea class="request-field"></textarea>
-            <h4 class="type-display" data-type="<?= $order->type ?>">Order Type:
-                <?php
-                if ($order->type == "dine-in")
-                    echo "<img src='" . ASSETS . "/icons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
-                else if ($order->type == "takeaway")
-                    echo "<img src='" . ASSETS . "/icons/fastcart.png' alt='take-away' width='30' height='30'>";
-                else if ($order->type == "bulk")
-                    echo "<img src='" . ASSETS . "/icons/bulk.svg' alt='bulk' width='30' height='30'>";
-                ?></h4><br>
-            <strong class="type-field">Order Type:</strong>
-            <select class="type-field">
-                <option value="dine-in">dine-in</option>
-                <option value="takeaway">takeaway</option>
-            </select>
-            <h4>Order Status:</h4>
-                <div class='form-group'>
-                    <select data-order-status="<?= $order->status ?>" class="order-status form-control">
-                        <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending
-                        </option>
-                        <option value="accepted" <?= ($order->status == 'accepted') ? 'selected' : '' ?>>Accepted
-                        </option>
-                        <option value="rejected" <?= ($order->status == 'rejected') ? 'selected' : '' ?>>Rejected
-                        </option>
-                        <option value="completed" <?= ($order->status == 'completed') ? 'selected' : '' ?>>Completed
-                        </option>
+            <div id="parent-detail">
+
+                <div class="detail-field">
+                    <h4 class="type-display" data-type="<?= $order->type ?>">Order Type:
+                        <?php
+                        if ($order->type == "dine-in")
+                            echo "<img src='" . ASSETS . "/icons/table.png' alt='dine-in' width='30' height='30'> " . $order->table_id;
+                        else if ($order->type == "takeaway")
+                            echo "<img src='" . ASSETS . "/icons/fastcart.png' alt='take-away' width='30' height='30'>";
+                        else if ($order->type == "bulk")
+                            echo "<img src='" . ASSETS . "/icons/bulk.svg' alt='bulk' width='30' height='30'>";
+                        ?></h4><br>
+                    <strong class="type-field">Order Type:</strong>
+                    <select class="type-field">
+                        <option value="dine-in">dine-in</option>
+                        <option value="takeaway">takeaway</option>
                     </select>
                 </div>
+
+
+                <div class="detail-field">
+                    <h4 class="request-display">Request: <?= $order->request ?></h4>
+                    <strong class="request-field"><label for="request-field">Request:</label></strong>
+                    <textarea class="request-field"></textarea>
+                </div>
+
+
+            </div>
+
+            <h4>Order Status:</h4>
+            <div class='form-group'>
+                <select data-order-status="<?= $order->status ?>" class="order-status form-control">
+                    <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending
+                    </option>
+                    <option value="accepted" <?= ($order->status == 'accepted') ? 'selected' : '' ?>>Accepted
+                    </option>
+                    <option value="rejected" <?= ($order->status == 'rejected') ? 'selected' : '' ?>>Rejected
+                    </option>
+                    <option value="completed" <?= ($order->status == 'completed') ? 'selected' : '' ?>>Completed
+                    </option>
+                </select>
+            </div>
 
 
             <?php if ($order->scheduled_time != null) : ?>
