@@ -28,9 +28,11 @@
         </div>
         <div class="blur-container">
 
+            <h5>Estimated Time: <?=(new models\Order())->getEstimate($order->order_id)?> minutes</h5><br>
             <h2><span class="order-id"
                       data-order-id="<?= $order->order_id ?>">Order ID: <?= $order->order_id ?></span>
-            </h2><br>
+            </h2>
+            <br>
             <div id="parent-detail">
 
                 <div class="detail-field">
