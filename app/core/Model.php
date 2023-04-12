@@ -162,6 +162,17 @@ class Model
         $this->data[] = $value;
         return $this;
     }
+    //Check for null values
+    //Usage: $this->checkNull("AND", "column", "value", "IS NOT");
+    //Usage: $this->checkNull("OR", "column", "value");
+    public function checkNull(string $operation,string $column, string $operator = "IS"): Model
+    {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " $operation $column $operator NULL";
+        return $this;
+    }
 
     /**
      * Or clause

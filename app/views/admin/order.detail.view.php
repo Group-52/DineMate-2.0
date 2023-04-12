@@ -18,6 +18,7 @@
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3">Order Details</h1>
             <div class="dashboard-buttons">
+                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Back</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">Add Dishes</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
@@ -47,7 +48,7 @@
                 <option value="dine-in">dine-in</option>
                 <option value="takeaway">takeaway</option>
             </select>
-            <h4>Order Status:
+            <h4>Order Status:</h4>
                 <div class='form-group'>
                     <select data-order-status="<?= $order->status ?>" class="order-status form-control">
                         <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending
@@ -61,12 +62,11 @@
                     </select>
                 </div>
 
-            </h4>
 
             <?php if ($order->scheduled_time != null) : ?>
-                <h4>Scheduled Time: <?= $order->scheduled_time ?></h4>
+                <h4>Scheduled Time: <?= substr($order->scheduled_time, 0, 16) ?></h4>
             <?php endif; ?>
-            <h4><?= $order->time_placed ?></h4>
+            <h4>Placed Time: &nbsp &nbsp&nbsp &nbsp <?= substr($order->time_placed, 0, 16) ?></h4>
             <br>
             <div class="col-6">
                 <div id="order-details-table">

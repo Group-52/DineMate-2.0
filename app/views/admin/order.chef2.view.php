@@ -14,8 +14,9 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div class="dashboard-header">
+        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3 active">Orders</h1>
+            <a class="btn btn-primary" id="KDS-button">KDS mode</a>
         </div>
         <br>
         <div id="order-table">
@@ -24,7 +25,7 @@
                     <?php foreach ($order_list as $order) : ?>
                         <div class="card" data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>"
                              data-order-status="<?= $order->status ?>">
-                            <div class="card-header">
+                            <div class="card-header <?php if (isset($order->scheduled_time)) echo "timer" ?>">
                                 <div class="d-flex justify-content-between">
                                     <div class="id-strip">#<?= $order->order_id ?>&nbsp</div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,36 +69,21 @@
             <span class="close-icon">&times;</span>
         </div>
 
-        <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
     </div>
 </div>
 </body>
 
 </html>
 <?php
-function formatOrderTime($scheduled_time, $time_placed)
+function formatOrderTime($scheduled_time, $time_placed): string
 {
-    if (!isset($scheduled_time)) {
-        return date("h:i A", strtotime($time_placed));
-    }
-
-    $scheduled_date = date("Y-m-d", strtotime($scheduled_time));
-    $today_date = date("Y-m-d");
-
-    if ($scheduled_date == $today_date) {
+    if (isset($scheduled_time)) {
         return date("h:i A", strtotime($scheduled_time));
-    } else {
-        $diff_days = strtotime($scheduled_date) - strtotime($today_date);
-        if ($diff_days == 86400) {
-            return "Tomorrow";
-        } else {
-            return "Future";
-        }
     }
+    return date("h:i A", strtotime($time_placed));
 }
 
 ?>
-
 
 <div class="card dummy-card">
     <div class="card-header">
