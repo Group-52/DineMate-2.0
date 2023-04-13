@@ -118,11 +118,7 @@
                         
                     </div>
                 </div>
-                <button type="button" id="edit-menu-button" class="btn btn-primary">Edit</button>
-
-
             </div>
-
         </div>
     </div>
 

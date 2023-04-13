@@ -65,10 +65,21 @@ class Menus
     {
         $dish = new Menu;
         $results['m'] = $dish->deleteMenu($menu_id);
-        redirect('admin/menus'); 
-            
+        redirect('admin/menus');      
     }
 
+    public function edit($menu_id): void
+    {
+        $menu = new Menu;
+        $results['m'] = $menu->getMenu($menu_id);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            show($_POST);
+            $menu = new Menu;
+            $menu->editMenu($_POST);
+            redirect('admin/menus');
+        }
+        $this->view('admin/menu.edit', $results);
+    }
 
     public function addDish(int $menu_id): void
     {

@@ -32,14 +32,13 @@
                             </a>
                             <div class="container">
                                 <h4><b><?= $m->menu_name ?><a class='cart-trash-icon' href='menus/delete/ <?= $m->menu_id ?> '><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></b></h4>
+                                <h4><b><a class='edit-icon-link' href='menus/edit/ <?= $m->menu_id ?> '><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></b></h4>
                                 
                             </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endif ?>
             </div>
-
-            
             
             <div id="menu-add-form" class="overlay">
                 <form action="<?= ROOT ?>/admin/menus/addMenu" method="post">

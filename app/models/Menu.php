@@ -85,5 +85,9 @@ class Menu extends Model
         $this->delete()->where("menu_id", $data)->execute();
     }
 
+    public function editMenu($data)
+    {
+        $this->update($data)->where("menu_id", $data['menu_id'])->execute();
+    }
 }
 
