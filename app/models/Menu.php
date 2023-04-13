@@ -20,6 +20,20 @@ class Menu extends Model
         'all_day'
     ];
 
+    public function __construct()
+    {
+        $this->table = "menus";
+        $this->columns = [
+            'menu_id',
+            'menu_name',
+            'description',
+            'start_time',
+            'end_time',
+            'image_url',
+            'all_day'
+        ];
+    }
+
     public function validate($data): bool
     {
         $this->errors = [];
@@ -35,12 +49,13 @@ class Menu extends Model
 
     public function getMenus(): bool|array
     {
-        $l =  $this->select()->fetchAll();
-        $menulist = array();
-        foreach ($l as $m) {
-            $menulist[$m->menu_id] = $m;
-        }
-        return $menulist;
+        // $l =  $this->select()->fetchAll();
+        // $menulist = array();
+        // foreach ($l as $m) {
+        //     $menulist[$m->menu_id] = $m;
+        // }
+        // return $menulist;
+        return $this->select()->fetchAll();
     }
 
     // get all dishes for all menus and returns as an associative array 
@@ -55,10 +70,9 @@ class Menu extends Model
         return $menudishes;
     }
 
-
-    public function add($data)
+    public function addMenu($data): void
     {
-        $this->insert($data);
+        $res = $this->insert($data);
     }
 
     public function getMenu($menu_id): object|bool

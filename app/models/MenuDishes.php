@@ -12,6 +12,15 @@ class MenuDishes extends Model
         'dish_id'
     ];
 
+     public function __construct()
+    {
+        $this->table = "menu_dishes";
+        $this->columns = [
+            'menu_id',
+            'dish_id'
+        ];
+    }
+
     #get all menu dishes and sort and separate by menu and make an array of arrays of menu dishes
     // public function getMenuDishesByMenu(): array
     // {
@@ -46,6 +55,11 @@ class MenuDishes extends Model
             'menu_id' => $data['menu_id'],
             'dish_id' => $data['dish_id']
         ]);
+    }
+
+    public function deleteDishes($menu_id,$dish_id)
+    {
+       $this->delete()->where('menu_id', $menu_id)->and('dish_id', $dish_id)->execute();
     }
 }
 

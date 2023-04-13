@@ -18,6 +18,7 @@
             <div class="dashboard-header">
 
                 <h1 class="display-3 active">Menus</h1>
+                <a class="btn btn-primary" id="add-menu-button" href="<?php echo ROOT ?>menus/addMenu">Add Menu</a>
             </div>
             <div class="card-container">
 
@@ -30,7 +31,7 @@
                                 <img src="<?= ASSETS ?>/images/menus/<?= $m->image_url ?>" alt="<?= $m->menu_name ?>" style="width:100%">
                             </a>
                             <div class="container">
-                                <h4><b><?= $m->menu_name ?><a class='cart-trash-icon' href='menus/delete/" . $m->menu_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></b></h4>
+                                <h4><b><?= $m->menu_name ?><a class='cart-trash-icon' href='menus/delete/ <?= $m->menu_id ?> '><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></b></h4>
                                 
                             </div>
                         </div>
@@ -38,37 +39,37 @@
                 <?php endif ?>
             </div>
 
-           
-            <a class="btn btn-primary" id="add-menu-button" href="<?php echo ROOT ?>/admin/menus/add">Add Menu</a>
+            
+            
             <div id="menu-add-form" class="overlay">
-                <form action="<?= ROOT ?>/admin/menus/add" method="post">
+                <form action="<?= ROOT ?>/admin/menus/addMenu" method="post">
                     <div class="form-group">
                         <label for="name"><b>Name</b></label><br>
-                        <input class="form-control" type="text" name="name" placeholder="Name" required>
+                        <input class="form-control" type="text" name="menu_name" placeholder="Name" id="menu_name" required>
                     </div>
 
                     <div class="form-group">
                         <label for="description"><b>Description</b></label><br>
-                        <input class="form-control" type="text" name="description" placeholder="Description" required>
+                        <input class="form-control" type="text" name="description" placeholder="Description" id="description" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="fromtime"><b>From Time</b></label><br>
-                        <input class="form-control" type="time" name="fromtime" placeholder="From Time">
+                        <label for="start_time"><b>From Time</b></label><br>
+                        <input class="form-control" type="time" name="start_time" placeholder="From Time" id="start_time">
                     </div>
 
                     <div class="form-group">
-                        <label for="totime"><b>To Time</b></label><br>
-                        <input class="form-control" type="time" name="totime" placeholder="To Time">
+                        <label for="end_time"><b>To Time</b></label><br>
+                        <input class="form-control" type="time" name="end_time" placeholder="To Time" id="end_time">
                     </div>
 
                     <div class="form-group">
                         Select image to upload:
-                        <input class="form-control" type="file" name="fileToUpload" id="fileToUpload" class="form-control">
+                        <input class="form-control" type="file" name="image_url" id="fileToUpload" class="form-control">
                     </div>
-
-                    <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
-                    <button type="button" class="btn btn-primary" id="cancel-button">Cancel</button>
+                    
+                    <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Menu</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
                 </form>
             </div>
         </div>

@@ -35,24 +35,26 @@ class Menus
 
         $this->view('admin/menu.update', $data);
     }
-    public function add(): void
+
+    public function addMenu(): void
     {
-        if(isset($_POST['submit'])){
+       
+        if(isset($_POST['save'])){
             $menu_name = $_POST['menu_name'];
 			$description = $_POST['description'];
 			$start_time = $_POST['start_time'];
 			$end_time = $_POST['end_time'];
 			$image_url = $_POST['image_url'];
 
-			$vendor = new Menu;
-			$vendor ->add([
+			$m = new Menu;
+			$m ->addMenu([
                 'menu_name' => $menu_name,
 				'description'=> $description,
 				'start_time'=> $start_time,
 				'end_time'=> $end_time,
                 'image_url'=> $image_url
 			]);
-
+            
             redirect('admin/menus');
 
         }
@@ -67,5 +69,33 @@ class Menus
             
     }
 
+
+    public function addDish(int $menu_id): void
+    {
+       
+        if(isset($_POST['save'])){
+            // print_r($_POST);die();
+            $menu_id = $menu_id;
+			$dish_id = $_POST['selected_dish'];
+
+			$md = new MenuDishes;
+			$md ->addMenuDish([
+                'menu_id' => $menu_id,
+				'dish_id'=> $dish_id,
+			]);
+            
+            redirect('admin/menus/id/'.$menu_id.'');
+
+        }
+        $this->view('admin/menus/id/'.$menu_id.'');
+    }
+
+    public function deleteDish($menu_id,$dish_id): void
+    {
+        $md = new MenuDishes;
+        $md = $md->deleteDishes($menu_id,$dish_id);
+       redirect('admin/menus/id/'.$menu_id.'');
+            
+    }
 }
 

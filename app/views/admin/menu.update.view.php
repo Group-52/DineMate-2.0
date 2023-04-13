@@ -74,12 +74,13 @@
                                         <td><?= $item->dish_name ?></td>
                                         <td><?= $item->selling_price ?></td>
                                         <td><?= $item->prep_time ?></td>
-                                        <td><a class='cart-trash-icon' href='dishes/delete/" . $dish->dish_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></td>
+                                        <td><a class='cart-trash-icon' href='<?= ROOT ?>/admin/menus/deleteDish/<?=$menu->menu_id.'/'. $item->dish_id ?>'><i class='fa-solid fa-trash cart-delete p-1 pointer'></i></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
 
                             </tbody>
                         </table>
+                        <form action="<?= ROOT ?>/admin/menus/addDish/<?= $menu->menu_id ?>" method = "POST">
                         <div class='form-group'>
                             <label for="selected_dish">Select Dish</label>
                             <select name="selected_dish" class="form-control">
@@ -87,8 +88,9 @@
                                     <option value="<?= $dish->dish_id ?>"><?= $dish->dish_name ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="button" id="add_dish_button" class="btn btn-primary">Add Dish</button>
+                            <button type="submit" id="add_dish_button" class="btn btn-primary" name="save">Add Dish</button>
                         </div>
+                        </form>
 
                     </div>
                 </div>
