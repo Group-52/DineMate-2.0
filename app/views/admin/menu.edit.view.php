@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="start_time">From Time</label>
-                <input class="form-control" type="time" name="start_time" id="end_time" value="<?= $m->start_time ?>">
+                <input class="form-control" type="time" name="start_time" value="<?= $m->start_time ?>">
             </div>
             <div class="form-group">
                 <label class="label" for="end_time">To Time</label>
