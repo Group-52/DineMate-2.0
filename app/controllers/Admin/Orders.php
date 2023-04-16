@@ -24,9 +24,8 @@ class Orders
         $results['order_list'] = $ol;
         $results['order_dishes'] = $dish_list;
         $results['controller'] = "orders";
-        $this->view('admin/order.chef2', $results);
+        $this->view('admin/order.chef', $results);
     }
-
 
     public function edit($order_id): void
     {
@@ -58,6 +57,18 @@ class Orders
         if ($_SERVER["REQUEST_METHOD"] == "GET")
             (new Order)->deleteOrder($order_id);
         redirect('admin/orders');
+    }
+    public function history():void{
+        $order = new Order;
+        $p=$_GET['page']??1;
+        $totalPages = $order->getPages();
+        $ol = $order->getAllOrders($p);
+        $data=[
+            'currentPage'=>$p,
+            'totalPages'=>$totalPages,
+            'order_list'=>$ol,
+        ];
+        $this->view('admin/order.history', $data);
     }
 }
 
