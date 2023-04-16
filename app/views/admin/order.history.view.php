@@ -15,33 +15,35 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div class="dashboard-header">
+        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3 active">Orders</h1>
-        </div>
-        <div>
-            <div class="filter">
-                <div>
-                    <select name="type" id="type" class="form-control">
-                        <option value="all">All</option>
-                        <option value="dine-in">Dine-in</option>
-                        <option value="takeaway">Take-away</option>
-                        <option value="bulk">Bulk</option>
-                    </select>
-                </div>
-                <div>
-                    <select id="status" class="form-control" style="width: 125px;">
-                        <option value="all">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="accepted">Accepted</option>
-                        <!-- <option value="rejected">Cancelled</option>
-                        <option value="completed">Completed</option> -->
-                    </select>
-                </div>
+            <div class="dashboard-buttons">
+                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Today's Orders</a>
             </div>
-
-
         </div>
-        <br>
+        <!--        <div>-->
+        <!--            <div class="filter">-->
+        <!--                <div>-->
+        <!--                    <select name="type" id="type" class="form-control">-->
+        <!--                        <option value="all">All</option>-->
+        <!--                        <option value="dine-in">Dine-in</option>-->
+        <!--                        <option value="takeaway">Take-away</option>-->
+        <!--                        <option value="bulk">Bulk</option>-->
+        <!--                    </select>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <select id="status" class="form-control" style="width: 125px;">-->
+        <!--                        <option value="all">All</option>-->
+        <!--                        <option value="pending">Pending</option>-->
+        <!--                        <option value="accepted">Accepted</option>-->
+        <!--                        <option value="rejected">Cancelled</option>-->
+        <!--                        <option value="completed">Completed</option>-->
+        <!--                    </select>-->
+        <!--                </div>-->
+        <!--            </div>-->
+
+        <!--        </div>-->
+        <!--        <br>-->
         <div id="order-table">
             <table class="table">
                 <thead>
@@ -53,7 +55,6 @@
                     <th>Status</th>
                     <th>Time Completed</th>
                     <th>Paid</th>
-                    <th>Promo Code</th>
                     <th>Total Cost</th>
                 </tr>
                 </thead>
@@ -63,9 +64,9 @@
                         <tr data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>"
                             data-order-status="<?= $order->status ?>">
                             <td class="order-id-field"><?= $order->order_id ?></td>
-                            <td><?=$order->guest_id?"G":""?><?= $order->reg_customer_id ?? $order->guest_id ?></td>
+                            <td><?= $order->guest_id ? "G" : "" ?><?= $order->reg_customer_id ?? $order->guest_id ?></td>
                             <td>
-                                <?=$order->time_placed ?>
+                                <?= $order->time_placed ?>
                             </td>
 
                             <td>
@@ -80,7 +81,8 @@
 
                             </td>
                             <td>
-                                <div data-order-status="<?= $order->status ?>" id="circle" class="<?=$order->status?>"></div>
+                                <div data-order-status="<?= $order->status ?>" id="circle"
+                                     class="<?= $order->status ?>"></div>
                             </td>
                             <td>
                                 <?= $order->time_completed ?>
@@ -93,7 +95,6 @@
                                     echo "<i class='fas fa-times-circle' style='color: red;'></i>";
                                 ?>
                             </td>
-                            <td> <?= $order->promo ?></td>
                             <td> <?= $order->total_cost ?></td>
                         </tr>
                     <?php endforeach; ?>

@@ -12,34 +12,113 @@ document.addEventListener('DOMContentLoaded', function () {
     const tablebody = document.querySelector('tbody');
     const inputrow = document.querySelector('.input-row');
     const dummyrow = document.querySelector('.dummy-row');
-    const reqfields = document.querySelectorAll('.request-field');
+
     const redisp = document.querySelector('.request-display');
-    const typfields = document.querySelectorAll('.type-field');
+    const reqfield = document.querySelector('.request-field');
+    const retext = redisp.querySelector('span');
+
+    const typefield = document.querySelector('.type-field');
     const typedisp = document.querySelector('.type-display');
+    const typeselect = typefield.querySelector('select');
+
+    const timedisp = document.querySelector('.sctime-display');
+    if (timedisp) {
+        var timefield = document.querySelector('.sctime-field');
+        var timetext = timedisp.querySelector('span');
+        var crosstime = document.querySelector('.cross-sctime-field');
+        var ticktime = document.querySelector('.tick-sctime-field');
+        var penciltime = document.querySelector('.edit-sctime-field');
+    }
+
+    const promoselect = document.querySelector('.promo-select');
+
+    const crossreq = document.querySelector('.cross-request-field');
+    const tickreq = document.querySelector('.tick-request-field');
+    const pencilreq = document.querySelector('.edit-request-field');
+
+    // actions for editing request
+    pencilreq.addEventListener('click', function () {
+        //make request field visible and autofill
+        reqfield.style.display = 'block';
+        redisp.style.display = 'none';
+        //save previous value
+        redisp.setAttribute('data-previous-value', retext.innerHTML);
+        //autofill text area
+        reqfield.children[1].value = retext.innerHTML;
+    });
+    tickreq.addEventListener('click', function () {
+        //make request field invisible and display request
+        reqfield.style.display = 'none';
+        redisp.style.display = 'block';
+        retext.innerHTML = reqfield.children[1].value;
+
+        api_edit({"order_id": oid, "request": reqfield.children[1].value})
+
+    });
+    crossreq.addEventListener('click', function () {
+        //make request field invisible and display request
+        reqfield.style.display = 'none';
+        redisp.style.display = 'block';
+        // restore previous value
+        retext.innerHTML = redisp.getAttribute('data-previous-value');
+    });
+
+    //actions for editing scheduled time
+    if (timedisp) {
+        penciltime.addEventListener('click', function () {
+            //make scheduled time field visible and autofill
+            timefield.style.display = 'block';
+            timedisp.style.display = 'none';
+            //save previous value
+            timedisp.setAttribute('data-previous-value', timetext.innerHTML);
+            let time = timetext.innerHTML;
+            console.log(time);
+            //autofill time input
+            timefield.children[1].value = time;
+
+        });
+        ticktime.addEventListener('click', function () {
+            //make scheduled time field invisible and display scheduled time
+            timefield.style.display = 'none';
+            timedisp.style.display = 'block';
+
+            let t = timefield.children[1].value;
+            let time = t.slice(11, 16);
+            let date = t.slice(0, 10);
+            timetext.innerHTML = date + " " + time;
+
+            api_edit({"order_id": oid, "scheduled_time": t})
+        });
+        crosstime.addEventListener('click', function () {
+            //make scheduled time field invisible and display scheduled time
+            timefield.style.display = 'none';
+            timedisp.style.display = 'block';
+            //restore previous value
+            timetext.innerHTML = timedisp.getAttribute('data-previous-value');
+        });
+    }
+
 
     // allow editing of order
     editbutton.addEventListener('click', function () {
         finishbutton.style.display = 'inline-block';
         editbutton.style.display = 'none';
+
+        //table headers
         document.querySelectorAll('.editorderoption').forEach(function (c) {
             c.style.display = 'inline-block';
         });
-        //make request field visible and auto fill
-        reqfields.forEach(function (c) {
-            c.style.display = 'inline-block';
-        });
-        redisp.style.display = 'none';
-        // remove "Request:" from the value
-        let req = redisp.innerHTML;
-        req = req.substring(9);
-        reqfields[1].value = req;
 
-        //make type field visible and auto fill
-        typfields.forEach(function (c) {
-            c.style.display = 'inline-block';
-        });
+        //make type field visible and autofill
+        typefield.style.display = 'inline-block';
         typedisp.style.display = 'none';
 
+        pencilreq.style.display = 'inline-block';
+        penciltime.style.display = 'inline-block';
+
+
+        //enable promo
+        promoselect.disabled = false;
 
     });
     // finish editing
@@ -47,35 +126,35 @@ document.addEventListener('DOMContentLoaded', function () {
         finishbutton.style.display = 'none';
         addbutton.style.display = 'inline-block';
         editbutton.style.display = 'inline-block';
+        //table headers
         document.querySelectorAll('.editorderoption').forEach(function (c) {
             c.style.display = 'none';
         });
 
-        //make request field invisible and display request
-        reqfields.forEach(function (c) {
-            c.style.display = 'none';
-        });
-        redisp.style.display = 'inline-block';
-        // add "Request:" to the value
-        redisp.innerHTML = "Request: " + reqfields[1].value;
+        pencilreq.style.display = 'none';
+        penciltime.style.display = 'none';
+
 
         //make type field invisible and display type
-        typfields.forEach(function (c) {
-            c.style.display = 'none';
-        } );
+        typefield.style.display = 'none';
         typedisp.style.display = 'block';
-        typvalue = typfields[1].options[typfields[1].selectedIndex].value;
+        let typvalue = typeselect.value;
         //change icon based on type
-
         if (typvalue == "dine-in")
             typedisp.innerHTML = "Order Type: <img src='" + ASSETS + "/icons/table.png' alt='dine-in' width='30' height='30'> ";
         else if (typvalue == "takeaway")
             typedisp.innerHTML = "Order Type: <img src='" + ASSETS + "/icons/fastcart.png' alt='take-away' width='30' height='30'>";
 
-        // update in database
-        let data = {"order_id": oid,
-            "request": reqfields[1].value, "type": typvalue};
+        //get promo code
+        let promo = promoselect.options[promoselect.selectedIndex].value;
+        console.log(promo);
 
+        //disable promo type
+        promoselect.disabled = true;
+
+
+        // update in database
+        let data = {"order_id": oid, "type": typvalue,"promo": promo};
         api_edit(data);
 
     });
@@ -100,9 +179,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let dishid = dishselect.options[dishselect.selectedIndex].value;
         let dishname = dishselect.options[dishselect.selectedIndex].text;
         let quantity = inputclone.querySelector('input').value;
-
-        let data = {"order_id": oid, "dish_id": dishid, "quantity": quantity};
-
         let clone = dummyrow.cloneNode(true);
         clone.style.display = 'table-row';
         clone.setAttribute('data-dish-id', dishid);
@@ -176,7 +252,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (status == 'pending') {
         toggleButtons('visible');
     } else if (status == 'accepted') {
-        cb.style.display = 'block';
+        cb.style.display = 'inline-block';
     }
 
     // when select option value is changed then update status of order
@@ -191,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleButtons('visible');
         } else if (os.value == 'accepted') {
             toggleButtons('invisible');
-            cb.style.display = 'block';
+            cb.style.display = 'inline-block';
         } else if (os.value == 'rejected') {
             toggleButtons('invisible');
         } else if (os.value == 'completed') {
@@ -207,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // make both buttons invisible
         toggleButtons('invisible');
-        cb.style.display = 'block';
+        cb.style.display = 'inline-block';
 
         os.setAttribute('data-order-status', 'accepted');
 
@@ -240,8 +316,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // function to make accept/reject buttons visible/invisible
     function toggleButtons(x) {
         if (x == 'visible') {
-            ab.style.display = 'block';
-            rb.style.display = 'block';
+            ab.style.display = 'inline-block';
+            rb.style.display = 'inline-block';
             cb.style.display = 'none';
         } else {
             ab.style.display = 'none';
@@ -304,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let v = os.getAttribute('data-order-status');
         os.value = v;
         if (v == 'accepted') {
-            cb.style.display = 'block';
+            cb.style.display = 'inline-block';
         } else if (v == 'pending') {
             toggleButtons('visible');
         }
@@ -346,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // reset order status
         let v = os.getAttribute('data-order-status');
         os.value = v;
-        rb.style.display = 'block';
+        rb.style.display = 'inline-block';
         if (v == 'accepted') {
             cb.style.display = 'block';
         } else if (v == 'pending') {
@@ -433,7 +509,7 @@ document.addEventListener('DOMContentLoaded', function () {
         );
     }
 
-    function api_edit(data){
+    function api_edit(data) {
         fetch(`${ROOT}/api/orders/update`, {
             method: 'POST',
             headers: {

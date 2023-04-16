@@ -46,6 +46,7 @@ class Orders
         $data['allDishes'] = (new Dish())->getDishes();
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
+        $data['promo_list'] = (new \models\Promotion())->getAllPromotions();
         if ($data['order'])
             $this->view('admin/order.detail', $data);
         else
