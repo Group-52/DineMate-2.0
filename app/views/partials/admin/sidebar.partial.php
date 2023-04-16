@@ -60,7 +60,7 @@
     <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('orders')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "orders") echo " active" ?>"
-       href="<?= ROOT ?>/admin/orders">
+       href="<?= ROOT ?>/admin/orders/history">
         <i class="fa-solid fa-shopping-bag d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Orders</span>
     </a>
     <?php endif; ?>

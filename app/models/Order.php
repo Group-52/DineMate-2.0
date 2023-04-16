@@ -28,6 +28,19 @@ class Order extends Model
         ];
     }
 
+    // Get all orders with pagination
+    public function getAllOrders($page = 1):array
+    {
+        $q = $this->select(['orders.*'])
+            ->orderBy('time_placed');
+        $skip = ($page - 1) * $this->nrows;
+        if (!$page)
+            return $q->fetchAll();
+        else
+            return $q->limit($this->nrows)->offset($skip)->fetchAll();
+    }
+
+
     // Create a new order
     public function create($type, $dishlist, $reg_customer_id = null, $request = null, $guest_id = null, $table_id = null, $scheduled_time = null)
     {
@@ -67,6 +80,7 @@ class Order extends Model
         }
     }
 
+    // Get all orders between two dates
     public function getOrders($sd = null, $ed = null): array|false
     {
         //Converts date to timestamp format for database compatibility
@@ -80,7 +94,7 @@ class Order extends Model
             return $this->select()->fetchAll();
     }
 
-    // Get all orders that are pending or accepted
+    // Get all orders that are placed or scheduled for today and also are pending or accepted
     public function getValidOrders(): array|false
     {
         //Get orders placed today and not scheduled
@@ -187,6 +201,8 @@ class Order extends Model
     public function getEstimate($order_id): int
     {
         $ods = (new OrderDishes())->getOrderDishes($order_id);
+        if (count($ods) == 0)
+            return 0;
         $t = [];
         //Adjust prep time of dishes for quantity
         foreach ($ods as $d) {

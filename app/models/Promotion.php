@@ -25,6 +25,14 @@ class Promotion extends Model
         ];
     }
 
+    public function getAllPromotions()
+    {
+        $a1 = $this->getDiscounts();
+        $a2 = $this->getSpendingBonus();
+        $a3 = $this->getFreeDish();
+        return array_merge($a1, $a2, $a3);
+    }
+
     public function getDiscounts()
     {
         return $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->

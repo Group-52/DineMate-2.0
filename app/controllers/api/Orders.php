@@ -86,13 +86,15 @@ class Orders
                 $request = isset($post->request) ? $post->request : null;
                 $type = isset($post->type) ? $post->type : null;
                 $table = isset($post->table) ? $post->table : null;
+                $promo = isset($post->promo) ? $post->promo : null;
                 $od = new Order();
                 $data = [
                     'order_id' => $order_id,
                     'type' => $type,
                     'scheduled_time' => $scheduled_time,
                     'request' => $request,
-                    'table_id' => $table
+                    'table_id' => $table,
+                    'promo' => $promo
                 ];
                 //remove null values
                 $data = array_filter($data, fn($v) => !is_null($v));
