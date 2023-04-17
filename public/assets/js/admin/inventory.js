@@ -129,6 +129,12 @@ document.addEventListener("DOMContentLoaded", function () {
     editIcons.forEach(icon => {
             icon.addEventListener('click', function (event) {
                 let row = event.target.parentNode.parentNode;
+                row.setAttribute('data-validity', 1);
+                if (event.target.classList.contains('tick-icon') && !(validate(row))) {
+                    row.setAttribute('data-validity', 0);
+                    return;
+                }
+
                 // make tick and cross icon invisible
                 row.querySelector('.tick-icon').parentNode.style.display = 'none';
                 row.querySelector('.cross-icon').parentNode.style.display = 'none';
@@ -162,22 +168,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const tickIcons = document.querySelectorAll('.tick-icon');
     tickIcons.forEach(icon => {
         icon.addEventListener('click', function (event) {
-            updateInventory(icon);
+            let row = event.target.parentNode.parentNode;
+            if (row.getAttribute('data-validity') == 1)
+                updateInventory(icon);
+            else
+                row.setAttribute('data-validity', 1);
         });
-    });
-
-
-    // Get the current page number from the URL
-    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
-    const pages = document.querySelectorAll('.page-item');
-
-    pages.forEach(page => {
-        const pageLink = page.querySelector('.page-link');
-        const pageNumber = parseInt(pageLink.innerText);
-
-        if (pageNumber === currentPage) {
-            page.classList.add('active');
-        }
     });
 
 
@@ -221,6 +217,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
     }
+
 //Attach event listener to trash icon to display popup
     trashIcons.forEach(t => {
         t.addEventListener('click', function (event) {
@@ -234,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.style.display = 'none';
         popup.removeAttribute("data-item-id");
     });
-   //Attach event listener to delete button to delete item from database
+    //Attach event listener to delete button to delete item from database
     confirmButton.addEventListener('click', function (event) {
         let id = popup.getAttribute("data-item-id");
         popup.removeAttribute("data-item-id");
@@ -255,4 +252,112 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.style.display = 'none';
         document.querySelector(`tr[data-item-id="${id}"]`).remove();
     });
+
+    //Validate input
+    function validate(row) {
+        let values = row.querySelectorAll('input');
+        //convert to number
+        let maxlevel = parseFloat(values[0].value);
+        let bufferlevel = parseFloat(values[1].value);
+        let reorderlevel = parseFloat(values[2].value);
+        let leadtime = parseFloat(values[3].value);
+
+        let y = row.getBoundingClientRect().top;
+        if (maxlevel == "" || bufferlevel == "" || reorderlevel == "" || leadtime == "" || isNaN(maxlevel) || isNaN(bufferlevel) || isNaN(reorderlevel) || isNaN(leadtime)) {
+            displayError("All fields are required", y)
+            return false;
+        }
+        if (maxlevel < bufferlevel) {
+            displayError("Max stock level cannot be less than buffer stock level", y)
+            return false;
+        } else if (maxlevel < reorderlevel) {
+            displayError("Max stock level cannot be less than re-order level", y)
+            return false;
+        } else if (reorderlevel < bufferlevel) {
+            displayError("Re-order level cannot be less than buffer stock level", y)
+            return false;
+        } else if (leadtime < 0) {
+            displayError("Lead time cannot be less than zero", y)
+            return false;
+        }
+        return true;
+    }
 });
+
+
+// <!DOCTYPE html>
+// <html lang="en">
+//
+// <head>
+// <?php include VIEWS . "/partials/admin/head.partial.php" ?>
+// <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+//     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
+//     <script src="<?= ASSETS ?>/js/admin/inventory.js"></script>
+// </head>
+//
+// <body class="dashboard">
+// <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
+// <div class="dashboard-container">
+//     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
+//     <div class="w-100 h-100 p-5">
+//         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
+//             <h1 class="display-3">Inventory</h1>
+//             <div class="dashboard-buttons">
+//                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
+//                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
+//                 <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/inventory/info" id="switch-button">View Batches</a>
+//             </div>
+//         </div>
+//
+//         <table class="table">
+//             <thead>
+//             <tr>
+//                 <th>Name</th>
+//                 <th>Amount Remaining</th>
+//                 <th>Last Updated</th>
+//                 <th> Max Stock Level</th>
+//                 <th> Buffer Stock Level</th>
+//                 <th>Reorder Level</th>
+//                 <th> Lead Time</th>
+//                 <th>Status</th>
+//
+//             </tr>
+//             </thead>
+//             <tbody>
+//             <?php if (isset($inventory)) : ?>
+//             <?php foreach ($inventory as $item) : ?>
+//             <tr data-item-id="<?= $item->item_id ?>">
+//                 <td><?= $item->item_name ?></td>
+//                 <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
+//                 <td><?= $item->last_updated ?></td>
+//                 <td data-field-name="max_stock_level"><?= $item->max_stock_level ?></td>
+//                 <td data-field-name="buffer_stock_level"><?= $item->buffer_stock_level ?></td>
+//                 <td data-field-name="reorder_level"><?= $item->reorder_level ?></td>
+//                 <td data-field-name="lead_time"><?= $item->lead_time ?></td>
+//                 <td>
+//                     <div id="circle" class="pending"></div>
+//                 </td>
+//                 <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
+//                 <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
+//                 <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>
+//                 <td><i class="fa fa-times-circle cross-icon edit-options" aria-hidden="true"></i></td>
+//             </tr>
+//             <?php endforeach; ?>
+//             <?php endif; ?>
+//             </tbody>
+//         </table>
+//         <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
+//         <div class="popup" id="delete-popup">
+//             <p>
+//                 Are you sure you want to delete this item from the inventory? New inventory entries will be created only upon purchase of new items
+//             </p>
+//             <div class="popup-button-div">
+//                 <button class="btn btn-success" id="confirm">Yes</button>
+//                 <button class="btn btn-danger" id="cancel">No</button>
+//             </div>
+//         </div>
+//     </div>
+// </div>
+// </body>
+//
+// </html>

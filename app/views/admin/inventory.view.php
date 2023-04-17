@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
     <script src="<?= ASSETS ?>/js/admin/inventory.js"></script>
+    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
 </head>
 
 <body class="dashboard">
