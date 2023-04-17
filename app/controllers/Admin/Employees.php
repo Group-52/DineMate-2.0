@@ -3,8 +3,8 @@
 namespace controllers\admin;
 
 use core\Controller;
-use Exception;
 use models\Employee;
+use models\Role;
 
 /**
  * Employee Controller
@@ -16,8 +16,8 @@ class Employees
 
     public function index()
     {
-        $vendor = new Employee;
-        $results['employee'] = $vendor->getEmployee();      
+        $employee = new Employee;
+        $results['employee'] = $employee->getEmployees();      
         $this->view('admin/employee', $results);
     }
 
@@ -28,16 +28,18 @@ class Employees
 			$last_name = $_POST['last_name'];
 			$role = $_POST['role'];
             $salary = $_POST['salary'];
+            $username = $_POST['username'];
             // $DOB = $_POST['DOB'];
 			$contact_no = $_POST['contact_no'];
             $NIC = $_POST['NIC'];
 
-			$vendor = new Employee;
-			$vendor ->addEmployee([
+			$employee = new Employee;
+			$employee ->addEmployee([
 				'first_name'=> $first_name,
 				'last_name'=> $last_name,
 				'role'=> $role,
                 'salary'=> $salary,
+                'username'=> $username,
                 // 'DOB'=> $DOB,
                 'contact_no'=> $contact_no,
                 'NIC'=> $NIC
@@ -47,5 +49,28 @@ class Employees
 
         }
         $this->view('admin/employee.add');
+    }
+
+    public function edit($emp_id): void
+    {
+        $employee = new Employee;
+        $results['e1'] = $employee->getEmployee($emp_id);
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            show($_POST);
+            $employee = new Employee;
+            $employee->editEmployee($_POST);
+            redirect('admin/employees');
+        }
+        $this->view('admin/employee.edit', $results);
+    }
+
+    public function delete($emp_id): void
+    {
+        $employee = new Employee;
+        $results['e1'] = $employee->deleteEmployee($emp_id);
+        
+        redirect('admin/employees');
+        
+            
     }
 }

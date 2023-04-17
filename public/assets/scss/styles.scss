@@ -20,12 +20,15 @@ body {
   font-size: 16px;
   color: $primary-text;
   background-color: $bg-color;
+  overflow-x: hidden;
 }
 
-.container {
-  max-width: 100%;
-  padding: 0 15px;
-  margin: 0 auto;
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $secondary-color;
 }
 
 /*
@@ -110,4 +113,63 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+
+.banner {
+  position: relative;
+  height: 15rem;
+
+  .banner-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5rem;
+  }
+
+  .banner-bg-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 40%,
+            rgba(255, 255, 255, 0) 100%);
+    backdrop-filter: blur(5px);
+    @media (max-width: 768px) {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .banner-bg-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.footer {
+  border-top: 1px solid $border;
+}
+
+.bg-grey {
+  background-color: $bg-color-light;
+}
+
+.verify-input {
+  width: 2rem;
+  height: 3rem;
 }

@@ -1,9 +1,9 @@
 <?php
 
+namespace core;
 /**
  * Base Model Trait
  */
-
 class Model
 {
     use Database;
@@ -11,6 +11,7 @@ class Model
     protected string $table = "";
     protected array $columns = [];
     protected array $errors = [];
+    protected int $nrows = 1000;
 
     /**
      * Select rows from table
@@ -37,6 +38,20 @@ class Model
 
         $this->query = "SELECT $column_list FROM $this->table";
         return $this;
+    }
+
+    public function count(string $column): Model
+    {
+        $this->query = "SELECT COUNT($column) FROM $this->table";
+        return $this;
+    }
+
+    // Get number of pages according to the offset
+    public function getPages(): int
+    {
+        $this->query = "SELECT COUNT(*) FROM $this->table";
+        $c = $this->fetch();
+        return ceil($c->{'COUNT(*)'}/$this->nrows);
     }
 
     /**
@@ -116,6 +131,22 @@ class Model
     }
 
     /**
+     * Where clause
+     * @param string $column1
+     * @param string $operator
+     * @return Model
+     * Compare two columns
+     */
+    public function wherecolumn(string $column1, string $column2, string $operator = "="): Model
+    {
+        if (empty($column1) || empty($column2)) {
+            return $this;
+        }
+        $this->query .= " WHERE $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
      * And clause
      * @param string $column
      * @param string $operator
@@ -129,6 +160,17 @@ class Model
         }
         $this->query .= " AND $column $operator ?";
         $this->data[] = $value;
+        return $this;
+    }
+    //Check for null values
+    //Usage: $this->checkNull("AND", "column", "value", "IS NOT");
+    //Usage: $this->checkNull("OR", "column", "value");
+    public function checkNull(string $operation,string $column, string $operator = "IS"): Model
+    {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " $operation $column $operator NULL";
         return $this;
     }
 
@@ -212,24 +254,14 @@ class Model
         return $this;
     }
 
-    public function contains(string $column, string $value): Model
+    public function contains(array $columns, string $value): Model
     {
-        if (empty($column) || empty($value)) {
-            return $this;
-        }
-        $this->query .= " WHERE $column LIKE ?";
-        $this->data[] = "%$value%";
-        return $this;
-    }
-
-    public function containsAll(array $data): Model
-    {
-        if (empty($data)) {
+        if (empty($columns) || empty($value)) {
             return $this;
         }
         $this->query .= " WHERE (";
-        foreach ($data as $column => $value) {
-            $this->query .= "$column LIKE ? OR ";
+        foreach ($columns as $column) {
+            $this->query .= $column . " LIKE ? OR ";
             $this->data[] = "%$value%";
         }
         $this->query = rtrim($this->query, "OR ");

@@ -3,7 +3,6 @@
 namespace controllers\admin;
 
 use core\Controller;
-use Exception;
 use models\Vendor;
 // vendor class
 
@@ -21,14 +20,16 @@ class Vendors
     public function addVendor(): void
     {
         if(isset($_POST['save'])){
-			$name = $_POST['name'];
+            $vendor_id = $_POST['vendor_id'];
+			$vendor_name = $_POST['vendor_name'];
 			$address = $_POST['address'];
 			$company = $_POST['company'];
 			$contact_no = $_POST['contact_no'];
 
 			$vendor = new Vendor;
 			$vendor ->addVendor([
-				'name'=> $name,
+                'vendor_id' => $vendor_id,
+				'vendor_name'=> $vendor_name,
 				'address'=> $address,
 				'company'=> $company,
                 'contact_no'=> $contact_no
@@ -43,7 +44,7 @@ class Vendors
     public function edit($vendor_id): void
     {
         $vendor = new Vendor;
-        $results['vendor'] = $vendor->getVendors($vendor_id);
+        $results['v1'] = $vendor->getVendor($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             show($_POST);
             $vendor = new Vendor;
@@ -51,5 +52,13 @@ class Vendors
             redirect('admin/vendors');
         }
         $this->view('admin/vendor.edit', $results);
+    }
+
+    public function delete($vendor_id): void
+    {
+        $vendor = new Vendor;
+        $results['v1'] = $vendor->deleteVendor($vendor_id);
+        redirect('admin/vendors'); 
+            
     }
 }

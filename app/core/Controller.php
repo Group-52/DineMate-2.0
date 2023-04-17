@@ -4,6 +4,7 @@
  * Base controller trait.
  */
 
+namespace core;
 trait Controller
 {
     /**
@@ -22,5 +23,16 @@ trait Controller
             $filename = "../app/views/404.view.php";
         }
         require $filename;
+    }
+
+    /**
+     * Return a JSON response.
+     * @param array $data
+     * @return void
+     */
+    public function json(array $data): void
+    {
+        header('Content-Type: application/json');
+        echo json_encode($data);
     }
 }

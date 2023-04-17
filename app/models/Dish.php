@@ -1,7 +1,12 @@
 <?php
 
-// Dish class
+namespace models;
 
+use core\Model;
+
+/**
+ * Dish class
+ */
 class Dish extends Model
 {
 
@@ -42,9 +47,9 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        $l = $this->select()->fetchAll();
-        $dishes = array();
-        foreach($l as $d) {
+        $l = $this->select()->orderBy("dish_name")->fetchAll();
+        $dishes = [];
+        foreach ($l as $d) {
             $dishes[$d->dish_id] = $d;
         }
         return $dishes;
@@ -71,6 +76,19 @@ class Dish extends Model
             'prep_time' => $data['prep_time'],
             'image_url' => $data['image_url']
         ]);
+    }
+
+    public function searchDishes($data): array
+    {
+        $query = $this->select();
+        if (isset($data['name'])) {
+            $query->contains(["dish_name"], $data['name']);
+        }
+        if (isset($data['price'])) {
+            $query->where('selling_price', '<=', $data['price']);
+        }
+        // TODO search by Menu
+        return $query->fetchAll();
     }
 }
 

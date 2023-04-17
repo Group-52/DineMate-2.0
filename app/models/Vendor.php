@@ -40,14 +40,23 @@ class Vendor extends Model
         return $this->select()->fetchAll();
     }
 
+    public function getVendor($vendor_id): object|false
+    {
+        return $this->select()->where("vendor_id", $vendor_id)->fetch();
+    }
+
     public function addVendor($data): void
     {
         $this->insert($data);
     }
 
-    public function editVendor($vendor): void
+    public function editVendor($vendor)
     {
         $this->update($vendor)->where("vendor_id", $vendor['vendor_id'])->execute();
     }
-}
 
+    public function deleteVendor($data)
+    {
+        $this->delete()->where("vendor_id", $data)->execute();
+    }
+}

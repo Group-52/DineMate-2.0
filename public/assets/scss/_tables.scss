@@ -4,7 +4,7 @@
   border-collapse: collapse;
   width: 100%;
 
-  th {
+  th, td {
     padding: 0.5rem 0;
     border-bottom: 1px solid $border;
     font-weight: normal;
@@ -15,5 +15,76 @@
       padding: 0.75rem 0;
       font-weight: bold;
     }
+  }
+
+  &.cart {
+    td {
+      padding: 0.25rem 0;
+      text-align: center;
+    }
+
+    tr:first-child {
+      td {
+        padding-top: 0.5rem;
+      }
+    }
+
+    tr:last-child {
+      td {
+        padding-bottom: 0.5rem;
+      }
+    }
+
+    .cart-qty-btn {
+      width: 2rem;
+      height: 2rem;
+      border: 1px solid $border;
+      border-radius: 5px;
+      background-color: $bg-color;
+      cursor: pointer;
+    }
+
+    .cart-qty-btn:disabled {
+      background: #efefef;
+      cursor: not-allowed;
+    }
+
+    .cart-qty {
+      width: 2rem;
+      height: 2rem;
+      text-align: center;
+      border: 1px solid $border;
+      border-radius: 5px;
+    }
+  }
+
+  .td-img {
+    position: relative;
+    text-align: center;
+    height: 100px;
+    width: 200px;
+    margin-right: 1rem;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .cart-trash-icon {
+    width: 1rem;
+  }
+
+  #cart-total {
+    border-top: 1px solid $border;
+
+    td {
+      padding: 2rem 0;
+    }
+  }
+
+  .edit-icons, .trash-icons {
+    border: none;
   }
 }

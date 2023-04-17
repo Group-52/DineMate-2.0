@@ -1,5 +1,9 @@
 <?php
 
+namespace models;
+
+use core\Model;
+
 class Category extends Model
 {
     public function __construct()

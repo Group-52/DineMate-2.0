@@ -1,0 +1,44 @@
+
+/* Style for the trash can icon */
+.fa-trash {
+    cursor: pointer;
+    /* Make the icon look clickable */
+    color: #ff0000;
+    /* Change the color of the icon */
+}
+
+/* Style for the trash can icon when hovered */
+.fa-trash:hover {
+    color: #c0392b;
+    /* Change the color of the icon on hover */
+}
+
+/* Style for the trash can icon when clicked */
+.fa-trash:active {
+    transform: scale(0.9);
+    /* Scale the icon down slightly */
+}
+
+.form-control {
+    width: 100%;
+}
+
+#finish-button,
+td:has(.trash-icon),
+td:has(.edit-icon),
+td:has(.tick-icon),
+td:has(.cross-icon) {
+    display: none;
+}
+
+.trash-icon,
+.edit-icon,
+.tick-icon,
+.cross-icon {
+    margin: 0 5px;
+}
+.newly-editable {
+    border : 2px rgb(182, 182, 170) solid;
+    border-radius: 5px;
+    text-align: center;
+}

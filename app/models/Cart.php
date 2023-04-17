@@ -1,5 +1,10 @@
 <?php
 
+namespace models;
+
+
+use core\Model;
+
 class Cart extends Model
 {
     protected string $table = 'carts';
@@ -10,39 +15,56 @@ class Cart extends Model
         'quantity'
     ];
 
-    // Check if entry exists in the cart table and return the quantity if exists
-    public function checkCart($userid, $dish_id)
+    public function addToCart($userID, $itemID, $qty = 1)
     {
-        return $this->select(['quantity'])
-            ->where('user_id', $userid)
-            ->and('dish_id', $dish_id)
-            ->fetch();
+        $this->insert([
+            'dish_id' => $itemID,
+            'user_id' => $userID,
+            'quantity' => $qty
+        ]);
     }
 
-    public function addCart($userid, $dish_id)
+    public function deleteFromCart($userID, $itemID)
     {
-        // if entry does not exist, insert new entry
-        if (!$this->checkCart($userid, $dish_id)) {
-            $this->insert([
-                'user_id' => $userid,
-                'dish_id' => $dish_id,
-                'quantity' => 1
-            ]);
-        }
+        $this->delete()->where('user_id', $userID)->and('dish_id', $itemID)->execute();
     }
 
     // Get the cart items of a specific customer
-    public function getCart($id): bool|array
+    public function getCartItems($user_id = null): bool|array
     {
-        return $this->select('carts.*, dishes.dish_name, dishes.selling_price, dishes.image_url')
-            ->join('dishes', 'carts.dish_id', 'dishes.dish_id')
-            ->where('user_id', $id)
-            ->fetchAll();
+        if ($user_id == null) {
+            $user_id = $_SESSION['user']->user_id;
+        }
+        $cartItems = $this->select()->where('user_id', $user_id)->fetchAll();
+        $items = [];
+        foreach ($cartItems as $item) {
+            $dish = (new Dish)->getDishById($item->dish_id);
+            $dish->quantity = $item->quantity;
+            $items[] = $dish;
+        }
+        return $items;
     }
 
-    public function getCarts(): bool|array
+    public function getNoOfItems($user_id = null): int
     {
-        return $this->select()->fetchAll();
+        if ($user_id == null) {
+            $user_id = $_SESSION['user']->user_id;
+        }
+        $cart = $this->count("*")->where('user_id', $user_id)->fetch();
+        return $cart->{'COUNT(*)'};
     }
 
+    public function getQty($user_id, $dish_id): int
+    {
+        $qty = $this->select()->where('user_id', $user_id)->and('dish_id', $dish_id)->fetch();
+        if (!$qty) {
+            return 0;
+        }
+        return $qty->quantity;
+    }
+
+    public function editCartItemQty($user_id, $dish_id, $qty): void
+    {
+        $this->update(['quantity' => $qty])->where('user_id', $user_id)->and('dish_id', $dish_id)->execute();
+    }
 }
