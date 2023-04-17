@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
-            if (icon.parentNode.style.display !== 'none') {
+            //check if display is not none
+            if (icon.parentNode.style.display) {
                 icon.click();
             }
         });
