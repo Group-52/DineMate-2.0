@@ -47,4 +47,9 @@ class Guest extends Model
     {
         return $this->select()->fetchAll();
     }
+
+    public function addGuest($data): void
+    {
+        $this->insert($data);
+    }
 }

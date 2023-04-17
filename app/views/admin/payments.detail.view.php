@@ -53,49 +53,51 @@
                     echo '<td>' . $orderDish->quantity * $orderDish->selling_price . '</td>';
                     $total += $orderDish->quantity * $orderDish->selling_price;
                     echo '</tr>';
-
+                   
                 }
 
             ?>
-
+             
             </tbody>
-
+            
         </table>
+            
 
-
-            <div >
+            <div id="payment">
                 <br><br><br>
-                <h3>Cash Payment</h3><br>
-                <label id="total" >Total Amount: </label><span class="payment" id="tot"> <?= $total ?> </span><br> 
-                <label>Cash:</label> <input class="payment" onchange="balance()" type="text" id="Cash" name="Cash" placeholder="Enter Ammount"><br>
-                <label id="change" >Balance: </label>
-                    <?php $total = $_SESSION["total"] ?>
+                <h3 style="margin-left: 60%">Cash Payment</h3><br>
+                <label id="total"  >Total Amount: </label> <span class="payment" id="tot"> <?= $total ?> </span><br> 
+                <label>Cash:</label>                      <input class="payment" onchange="balance()" type="text" id="Cash" name="Cash" placeholder="Enter Ammount"><br>
+                <label id="change" >Balance: </label>   <span class="payment"><?php $_SESSION["total"]=$total  ?></span>  
                     
-                    <script id="payment">                         
-                    function balance(){
-                        var cash= document.getElementById("Cash")
-                        var total = document.getElementById("tot")
-                        var change = document.getElementById("change")
-                        var balance = parseInt(cash.value) - parseInt(total.innerHTML)
-
-                        let text1 = "Balance:";
-
-                        change.innerHTML = text1.concat(" ", balance); 
-
+                    <script id="payment">  
+                     var total = <?= $total ?>;                    
+                        function balance(){
+                            var cash= document.getElementById("Cash")
+                            var total = document.getElementById("tot")
+                            var change = document.getElementById("change")
+                            var balance = parseInt(cash.value) - parseInt(total.innerHTML)
+                            let text1 = "Balance:";
+                            change.innerHTML = text1.concat(" ", balance); 
                         }
                     
                         </script>
+ 
+                    <br>
+                  <br><br><a href="<?php echo ROOT ?>/admin/payments/"><button type="submit" class="pay">Print recipt</button></a>
 
-        <br>
-            <br><br><a href="<?php echo ROOT ?>/admin/payments/"><button type="submit" class="pay">Pay</button></a>
-
-        </div>
+            </div>
    </div>
 </div>
 </body>
 </html>
 
-
+<style>
+   
+    label {
+  margin-left: 60% !important;
+}
+</style>
    
 
 

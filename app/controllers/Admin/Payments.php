@@ -8,6 +8,7 @@ use models\Order;
 use models\Menu;
 use models\MenuDishes;
 use models\Dish;
+use models\RegUser;
 use models\Guest;
 
 
@@ -36,6 +37,9 @@ class Payments
 
     public function addOrder(): void
     {
+        if(isset($_POST['add-dish-button'])){
+        
+        }
         $d = new Dish();
         $m = new Menu();
         $m2 = new MenuDishes();
@@ -44,22 +48,42 @@ class Payments
         $data['controller'] = 'menus';
         $data['dishes'] = $d->getDishes();
 
+    //    $RegUser = new RegUser();
+    //    $data['username'] = $RegUser->getReguser($RegUser);
+
         $this->view('admin/payments.addOrder',$data);
     }
 
-    public function Guest(): void
-    {
-        $Guest = new Guest();
-        $results['username'] = $Guest->getGuest();
-        $this->view('admin/payments', $results);
-         
-    }
 
-    public function paidHistory(): void
+    // public function paidHistory(): void
+    // {
+    //     $order = new Order;
+    //     $results['order_list'] = $order->getOrders();
+    //     $this->view('admin/payments.paidHistory', $results);
+    // }
+
+    public function create(): void
     {
-        $order = new Order;
-        $results['order_list'] = $order->getOrders();
-        $this->view('admin/payments.paidHistory', $results);
+        if(isset($_POST['submit-button'])){
+          
+			$first_name = $_POST['fname'];
+			$last_name = $_POST['lname'];
+			$contact_no = $_POST['contact_no'];
+			$email = $_POST['email'];
+
+			$guest = new Guest;
+			$guest ->addGuest([
+                
+				'first_name'=> $first_name,
+                'last_name'=> $last_name,
+				'contact_no'=> $contact_no,
+				'email'=> $email
+			]);
+
+            redirect('admin/payments');
+
+        }
+        $this->view('admin/payments');
     }
     
 

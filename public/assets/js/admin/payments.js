@@ -43,23 +43,4 @@ document.addEventListener('DOMContentLoaded', () => {
         addButton.style.display = 'block';
     });
 
-});
-
-let typeFilter = document.getElementById("type");
-  let statusFilter = document.getElementById("status");
-  typeFilter.addEventListener("change", function () {
-
-    let typeValue = this.value.toLowerCase();
-
-    for (let i = 0; i < rows.length; i++) {
-      let orderType = rows[i].getAttribute("data-order-type");
-      console.log(`orderType: ${orderType}, typeValue: ${typeValue}`)
-      if (typeValue === "all") {
-        rows[i].style.display = "";
-      } else if (orderType !== typeValue) {
-        rows[i].style.display = "none";
-      } else {
-        rows[i].style.display = "";
-      }
-    }
-  });
+});  
