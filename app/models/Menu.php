@@ -63,12 +63,12 @@ class Menu extends Model
     public function addMenu($data)
     {
         $this->insert([
-            'menu_name' => $data['name'],
+            'menu_name' => $data['menu_name'],
             'description' => $data['description'],
             'start_time' => $data['start_time'],
             'end_time' => $data['end_time'],
-            'image_url' => $data['image_url'],
-            'all_day' => $data['all_day']
+            'image_url' => $data['image_url']
+//             'all_day' => $data['all_day']
         ]);
     }
 
