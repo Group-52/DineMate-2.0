@@ -1,0 +1,39 @@
+#circle {
+    display: block;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    border: 2px solid black;
+    margin: auto;
+    color: #fff;
+    line-height: 50px;
+    text-align: center
+}
+.filter {
+    width: 700px;
+}
+
+.filter * {
+    display: inline;
+    float: left;
+    padding: 5px;
+    margin: 5px;
+}
+.pending {
+    background-color: white;
+}
+.completed {
+    background-color: #5cb85c;
+}
+.rejected {
+    background-color: #d9534f;
+}
+.accepted {
+    background-color: #f0ad4e;
+}
+
+/*hover and scale up tbody tr on mouse movement*/
+tbody tr:hover {
+    transform: scale(1.005);
+    cursor: pointer;
+}

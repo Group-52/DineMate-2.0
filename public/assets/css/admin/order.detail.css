@@ -1,26 +1,35 @@
-#button-div {
-    padding: 10px 0;
-    margin-top: 10px;
-
-    display: flex;
-    justify-content: space-between;
-}
-
-#button-div button {
-    width: 100%;
-    margin: 0 5px;
-}
-
-/* change on hover */
-.btn-danger:hover {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-#accept-button,
-#reject-button {
+#finish-button, #accept-button,
+#reject-button, #complete-button, .input-row, .dummy-row {
     display: none;
 }
+
+
 .order-status {
- width: 200px;
+    width: 120px;
+    height: 40px;
+    display: inline;
+    font-size: 13px;
+}
+
+.editorderoption {
+    display: none;
+    width: 30px;
+}
+
+.quantity {
+    width: 30px;
+}
+
+.fa-pencil-square-o,.request-field, .type-field, .sctime-field {
+    display: none;
+}
+
+
+#order-details-table {
+    /*width: 40%;*/
+}
+
+/*change default height of textarea*/
+textarea {
+    height: 30px;
 }

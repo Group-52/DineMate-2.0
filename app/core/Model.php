@@ -11,6 +11,7 @@ class Model
     protected string $table = "";
     protected array $columns = [];
     protected array $errors = [];
+    protected int $nrows = 1000;
 
     /**
      * Select rows from table
@@ -43,6 +44,14 @@ class Model
     {
         $this->query = "SELECT COUNT($column) FROM $this->table";
         return $this;
+    }
+
+    // Get number of pages according to the offset
+    public function getPages(): int
+    {
+        $this->query = "SELECT COUNT(*) FROM $this->table";
+        $c = $this->fetch();
+        return ceil($c->{'COUNT(*)'}/$this->nrows);
     }
 
     /**
@@ -122,6 +131,22 @@ class Model
     }
 
     /**
+     * Where clause
+     * @param string $column1
+     * @param string $operator
+     * @return Model
+     * Compare two columns
+     */
+    public function wherecolumn(string $column1, string $column2, string $operator = "="): Model
+    {
+        if (empty($column1) || empty($column2)) {
+            return $this;
+        }
+        $this->query .= " WHERE $column1 $operator $column2";
+        return $this;
+    }
+
+    /**
      * And clause
      * @param string $column
      * @param string $operator
@@ -135,6 +160,17 @@ class Model
         }
         $this->query .= " AND $column $operator ?";
         $this->data[] = $value;
+        return $this;
+    }
+    //Check for null values
+    //Usage: $this->checkNull("AND", "column", "value", "IS NOT");
+    //Usage: $this->checkNull("OR", "column", "value");
+    public function checkNull(string $operation,string $column, string $operator = "IS"): Model
+    {
+        if (empty($column) || empty($value)) {
+            return $this;
+        }
+        $this->query .= " $operation $column $operator NULL";
         return $this;
     }
 

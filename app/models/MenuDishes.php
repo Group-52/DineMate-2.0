@@ -6,11 +6,14 @@ use core\Model;
 
 class MenuDishes extends Model
 {
-    protected string $table = 'menu_dishes';
-    protected array $allowedColumns = [
-        'menu_id',
-        'dish_id'
-    ];
+    public function __construct()
+    {
+      $this->table = 'menu_dishes';
+        $this->columns = [
+            'menu_id',
+            'dish_id'
+        ];
+    }
 
     #get all menu dishes and sort and separate by menu and make an array of arrays of menu dishes
     // public function getMenuDishesByMenu(): array
@@ -46,6 +49,11 @@ class MenuDishes extends Model
             'menu_id' => $data['menu_id'],
             'dish_id' => $data['dish_id']
         ]);
+    }
+
+    //get menu id of a dish
+    public function getMenuOfDish($dish_id){
+        return $this->select()->where('dish_id',$dish_id)->fetch()->menu_id;
     }
 }
 

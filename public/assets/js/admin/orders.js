@@ -1,177 +1,234 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  var confirm_button = document.querySelector('#confirm');
-  var cancel_button = document.querySelector('#cancel');
-  const rows = document.querySelectorAll('tbody tr');
-
-  // if confirm button is clicked, update order status to completed
-  confirm_button.addEventListener('click', function (event) {
-    document.querySelector('.popup').style.display = 'none';
-    let popup = document.querySelector('.popup');
-    updateOrderStatus(popup.getAttribute('data-order-id'), "completed");
-    // unblur all rows
-    rows.forEach(row => {
-      row.style.filter = 'blur(0)';
+    //Kitchen Display System mode
+    const KDSbutton = document.querySelector('#KDS-button');
+    if (sessionStorage.getItem('KDSmode') === "true") {
+        KDSmode();
     }
-    );
-
-  });
-
-  // if cancel button is clicked, remove popup and reset circle color and data-order-status
-  cancel_button.addEventListener('click', function (event) {
-    const popup = document.querySelector('.popup')
-    popup.style.display = 'none';
-    // reset status of order to previous status
-    let oid = popup.getAttribute('data-order-id');
-
-    let row = document.querySelector(`tr[data-order-id="${oid}"]`);
-    let circle = row.querySelector('#circle');
-    circle.setAttribute('data-order-status', "accepted");
-    circle.style.backgroundColor = "yellow";
-    // unblur all rows
-    rows.forEach(row => {
-      row.style.filter = 'blur(0)';
-    }
-    );
-  });
-
-  function displayPopup(c) {
-
-    let oid = c.parentElement.parentElement.getAttribute('data-order-id');
-    const popup = document.querySelector('.popup')
-    popup.style.display = 'flex';
-    popup.setAttribute('data-order-id', oid);
-    popup.setAttribute('data-order-status', c.getAttribute('data-order-status'));
-    // blur all other rows
-    rows.forEach(row => {
-      if (row.getAttribute('data-order-id') !== oid) {
-        row.style.filter = 'blur(5px)';
-      }
+    KDSbutton.addEventListener('click', function (e) {
+        KDSmode();
     });
 
-  }
+    //function to hide/display unnecessary elements
+    function KDSmode() {
+        let maindiv = document.querySelector('.w-100');
+        let nav = document.querySelector('.nav');
+        let sidebar = document.querySelector('#sidebar');
+        let mode = KDSbutton.innerHTML !== "Exit KDS mode";
+        let h1title = document.querySelector('h1');
 
-  const circles = document.querySelectorAll('#circle');
-
-  // set initial color of circle based on status
-  circles.forEach(circle => {
-    var s = circle.getAttribute('data-order-status');
-    switch (s) {
-      case "pending":
-        circle.style.backgroundColor = "transparent"
-        break;
-      case "accepted":
-        circle.style.backgroundColor = "yellow"
-        break;
-      case "completed":
-        circle.style.backgroundColor = "lightgreen"
-        break;
-      case "rejected":
-        circle.style.backgroundColor = "red"
-        break;
+        if (mode) {
+            sessionStorage.setItem('KDSmode', true);
+            nav.style.display = "none";
+            sidebar.style.display = "none";
+            KDSbutton.innerHTML = "Exit KDS mode";
+            //got to full screen
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+            }
+            maindiv.classList.remove('p-5')
+            maindiv.classList.add('p-2')
+            h1title.style.display = "none";
+        } else {
+            sessionStorage.setItem('KDSmode', false);
+            nav.style.display = 'flex';
+            sidebar.style.display = 'block';
+            KDSbutton.innerHTML = "KDS Mode";
+            //exit full screen
+            if (document.fullscreenEnabled) {
+                document.exitFullscreen();
+            }
+            maindiv.classList.add('p-5')
+            maindiv.classList.remove('p-2')
+            h1title.style.display = "block";
+        }
     }
-  });
 
-  // change color of circle based on status
-  circles.forEach(circle => {
-    circle.addEventListener('click', function () {
-      var status = circle.getAttribute('data-order-status');
+    // set initial color of circle based on status
+    document.querySelectorAll('#circle').forEach(circle => {
+        let s = circle.getAttribute('data-order-status');
+        switch (s) {
+            case "pending":
+                circle.style.backgroundColor = "transparent"
+                break;
+            case "accepted":
+                circle.style.backgroundColor = "yellow"
+                break;
+        }
+    });
 
-      switch (status) {
-        case "pending":
-          circle.style.backgroundColor = "yellow";
-          circle.setAttribute('data-order-status', 'accepted');
-          break;
-        case "accepted":
-          circle.style.backgroundColor = "lightgreen";
-          circle.setAttribute('data-order-status', 'completed');
-          displayPopup(circle);
-          break;
-        case "completed":
-          circle.style.backgroundColor = "red";
-          circle.setAttribute('data-order-status', 'rejected');
-          break;
-        case "rejected":
-          circle.style.backgroundColor = "transparent";
-          circle.setAttribute('data-order-status', 'pending');
-          break;
-      }
-      // get order id and status
-      let oid = circle.parentElement.parentElement.getAttribute('data-order-id');
-      status = circle.getAttribute('data-order-status');
-      // update order status in database
-      if (status !== "completed") {
+    // hover effect
+    document.querySelectorAll('.card-body').forEach(cardbody => {
+        cardbody.addEventListener('mouseover', function (e) {
+            cardbody.parentElement.style.transform = "scale(1.05)";
+        });
+        cardbody.addEventListener('mouseout', function (e) {
+            cardbody.parentElement.style.transform = "scale(1)";
+        });
+    });
+
+    // function to be called on card-body click or any child of card-body
+    function onCardBodyClick(e) {
+        let id = e.target.closest('.card').getAttribute('data-order-id');
+        location.href = `${ROOT}/admin/orders/id/${id}`;
+    }
+
+    // function to be called on circle click
+    function onCircleClick(e) {
+        // change color of circle based on status
+        let status = e.target.getAttribute('data-order-status');
+        let statusdata = {
+            "pending": {
+                "color": "yellow",
+                "status": "accepted",
+            },
+            "accepted": {
+                "color": "transparent",
+                "status": "pending",
+            }
+        }
+        e.target.style.backgroundColor = statusdata[status].color;
+        e.target.setAttribute('data-order-status', statusdata[status].status);
+
+        // get order id and status
+        let oid = e.target.parentElement.parentElement.parentElement.getAttribute('data-order-id');
+        status = statusdata[status].status;
+        // update order status in database
         updateOrderStatus(oid, status);
-      }
+    }
+
+    // Use event delegation to add event listeners
+    document.querySelector('.card-deck').addEventListener('click', function (e) {
+        if (e.target && e.target.id == 'circle') {
+            onCircleClick(e);
+        }
+        // else if target is card-body or a child of it
+        else if (e.target.matches('.card-body') || e.target.closest('.card-body')) {
+            onCardBodyClick(e);
+        }
     });
-  });
 
-  // add links to each order id field
-  const orderIds = document.querySelectorAll('.order-id-field');
-  orderIds.forEach(orderId => {
-    let id = orderId.parentElement.getAttribute('data-order-id');
-    orderId.addEventListener('click', function () {
-      // redirect to order details page
-      window.location.href = `${ROOT}/admin/orders/id/${id}`;
+    // function to do ajax call to update order status
+    function updateOrderStatus(oid, status) {
+        let data = {"order_id": oid, "status": status};
+        fetch(`${ROOT}/api/orders/changestatus`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+                return response.json();
+            }
+        ).then(data => {
+                console.log(data);
+            }
+        ).catch(err => {
+                console.log(err);
+            }
+        );
+    }
+
+    // function to fill a new card with data and append to card deck
+    function addCard(order) {
+
+        // clone dummy card
+        let card = document.querySelector('.dummy-card').cloneNode(true);
+        card.classList.remove('dummy-card');
+        card.setAttribute("data-order-id", order.order_id);
+        card.setAttribute("data-order-type", order.type);
+        card.setAttribute("data-order-status", order.status);
+        if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
+
+        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
+        card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
+        let iconimg = card.querySelector('.type-icon').children[0];
+        let url = ""
+        if (order.type == "dine-in") {
+            url = `${ASSETS}/icons/table.png`;
+        } else if (order.type == "takeaway") {
+            url = `${ASSETS}/icons/fastcart.png`;
+        } else if (order.type == "bulk") {
+            url = `${ASSETS}/icons/bulk.svg`;
+        }
+        iconimg.src = url;
+        iconimg.alt = order.type;
+
+        if (order.type == "dine-in") {
+            iconimg.nextSibling.innerHTML = order.table_id;
+        }
+        card.querySelector('#circle').setAttribute('data-order-status', order.status);
+
+        // Add dishes to card
+        let orderDishes = order.order_dishes;
+        let cardbody = card.querySelector('.card-body');
+
+        // hover effect
+        cardbody.addEventListener('mouseover', function (e) {
+            cardbody.parentElement.transform = "scale(1.05)";
+        });
+        cardbody.addEventListener('mouseout', function (e) {
+            cardbody.parentElement.transform = "scale(1)";
+        });
+
+        let dishcomponent = card.querySelector('.dish-component').cloneNode(true);
+        cardbody.innerHTML = "";
+
+        orderDishes.forEach(function (dish) {
+            let dc = dishcomponent.cloneNode(true);
+            cardbody.appendChild(dc);
+            dc.children[0].innerHTML = dish.dish_name;
+            dc.children[1].innerHTML = dish.quantity;
+
+        });
+        // cardDeck.insertBefore(card, cardDeck.firstChild);
+        let cardDeck = document.querySelector(".card-deck");
+        cardDeck.appendChild(card);
+    }
+
+    function formatOrderTime(scheduled_time, time_placed) {
+        const today = new Date().toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
+
+        if (!scheduled_time) {
+            const time = new Date(time_placed);
+            return time.toLocaleString('en-US', {
+                timeZone: 'Asia/Colombo',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+        } else {
+            const scheduledDate = new Date(scheduled_time);
+            const scheduledDay = scheduledDate.toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
+            return scheduledDate.toLocaleString('en-US', {
+                timeZone: 'Asia/Colombo',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+        }
+    }
+
+    // Get the notification and close icon elements
+    const notification = document.querySelector('.notification');
+    const closeIcon = document.querySelector('.close-icon');
+    // Add an event listener to the close icon to hide the notification instantly
+    closeIcon.addEventListener('click', () => {
+        notification.classList.add('hide');
     });
-  });
 
-  // filter orders by type and status
-  let typeFilter = document.getElementById("type");
-  let statusFilter = document.getElementById("status");
-  typeFilter.addEventListener("change", function () {
-
-    let typeValue = this.value.toLowerCase();
-
-    for (let i = 0; i < rows.length; i++) {
-      let orderType = rows[i].getAttribute("data-order-type");
-      console.log(`orderType: ${orderType}, typeValue: ${typeValue}`)
-      if (typeValue === "all") {
-        rows[i].style.display = "";
-      } else if (orderType !== typeValue) {
-        rows[i].style.display = "none";
-      } else {
-        rows[i].style.display = "";
-      }
-    }
-  });
-
-  statusFilter.addEventListener("change", function () {
-    let statusValue = this.value.toLowerCase();
-
-    for (let i = 0; i < rows.length; i++) {
-      let statusCircle = rows[i].getAttribute("data-order-status");
-      console.log(`statusValue: ${statusValue}, statusCircle: ${statusCircle}`)
-      if (statusValue === "all") {
-        rows[i].style.display = "";
-      } else if (statusCircle !== statusValue) {
-        rows[i].style.display = "none";
-      } else {
-        rows[i].style.display = "";
-      }
-    }
-  });
-
-
-  // function to do ajax call to update order status
-  function updateOrderStatus(oid, status) {
-    let data = { "order_id": oid, "status": status };
-    fetch(`${ROOT}/api/orders/update`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(response => {
-      return response.json();
-    }
-    ).then(data => {
-      console.log(data);
-    }
-    ).catch(err => {
-      console.log(err);
-    }
-    );
-  }
+    // Uses a websocket to receive data and add it to the table
+    var socket = new WebSocket("ws://localhost:8080");
+    socket.onmessage = function (event) {
+        let d = JSON.parse(event.data);
+        if (d.event_type === "new_order") {
+            console.log(d);
+            addCard(d);
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+    };
 
 });

@@ -24,6 +24,20 @@ class Ingredients
             ]);
     }
 
+    public  function recipe(){
+        $dish = $_GET['dish'];
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $this->json([
+                "status" => "success",
+                "ingredients" => (new Ingredient())->getDishIngredients($dish)
+            ]);
+        } else
+            $this->json([
+                "status" => "error",
+                "message" => "Invalid request"
+            ]);
+    }
+
     public function add(): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

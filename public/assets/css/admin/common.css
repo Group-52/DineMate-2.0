@@ -62,7 +62,10 @@ Can use to indicate selected rows */
     padding: 20px;
     overflow-y: auto;
     max-height: 80%;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
+
 
 .popup {
     position: absolute;
@@ -96,4 +99,21 @@ td {
 
 tr:nth-child(even) {
     background-color: #f2f2f2
+}
+
+/*Styles for pagination*/
+.pagination {
+    margin: 5px;
+    padding: 10px;
+}
+.page-link {
+    margin: 5px;
+    padding: 5px;
+    color: #2980b9;
+}
+.page-item.active .page-link {
+    color: #f00; /* Active color */
+}
+.page-move{
+    color: black;
 }
