@@ -55,5 +55,10 @@ class MenuDishes extends Model
     public function getMenuOfDish($dish_id){
         return $this->select()->where('dish_id',$dish_id)->fetch()->menu_id;
     }
+
+    public function deleteDishes($menu_id,$dish_id)
+    {
+        $this->delete()->where('menu_id', $menu_id)->and('dish_id', $dish_id)->execute();
+    }
 }
 
