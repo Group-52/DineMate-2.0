@@ -34,7 +34,7 @@ class Form
      * @param array $options Field options
      * @return void
      */
-    public function addField(string $name, string $id, string $type = "text", string $label = "", bool $required = false, string $placeholder = "", string $value = "", array $options = []): void
+    public function addInputField(string $name, string $id, string $type = "text", string $label = "", bool $required = false, string $placeholder = "", string $value = "", bool $disabled = false, array $options = []): void
     {
         $this->fields[] = [
             "name" => $name,
@@ -44,7 +44,31 @@ class Form
             "required" => $required,
             "placeholder" => $placeholder,
             "value" => $value,
+            "disabled" => $disabled,
             "options" => $options
+        ];
+    }
+
+    /**
+     * Add a select field to the form
+     * @param string $name Field name
+     * @param string $id Field id
+     * @param string $label Field label
+     * @param bool $required Field required
+     * @param array $options Field options
+     * @param string $value Field value
+     */
+    public function addSelectField(string $name, string $id, string $label = "", bool $required = false, array $options = [], string $value = "", bool $disabled = false): void
+    {
+        $this->fields[] = [
+            "name" => $name,
+            "id" => $id,
+            "type" => "select",
+            "label" => $label,
+            "required" => $required,
+            "options" => $options,
+            "value" => $value,
+            "disabled" => $disabled
         ];
     }
 
@@ -53,7 +77,7 @@ class Form
      * @param array $data
      * @return bool
      */
-    public function validate(array $data): bool
+    public function isValid(array $data): bool
     {
         $this->errors = [];
         foreach ($this->fields as $field) {
@@ -92,7 +116,7 @@ class Form
         foreach ($this->fields as $field) {
             $html .= $this->getHtml($field);
         }
-        $html .= "<button type='submit' class='btn btn-primary btn-lg text-uppercase w-100'>{$this->submitText}</button>";
+        $html .= "<button type='submit' class='btn btn-primary text-uppercase w-100'>{$this->submitText}</button>";
         $html .= "</form>";
         return $html;
     }
@@ -112,6 +136,21 @@ class Form
         return $this->getHtml($this->fields[$id]);
     }
 
+    public function htmlButton(bool $fullWidth = true): string
+    {
+        return "<button type='submit' class='btn btn-primary text-uppercase " . ($fullWidth ? "w-100" : "") . "'>{$this->submitText}</button>";
+    }
+
+    public function beginForm(): string
+    {
+        return "<form class='w-100' action='{$this->action}' method='{$this->method}'>";
+    }
+
+    public function endForm(): string
+    {
+        return "</form>";
+    }
+
     /**
      * @param mixed $field
      * @return string
@@ -119,19 +158,41 @@ class Form
     public function getHtml(mixed $field): string
     {
         $html = "<div class='form-group'>";
-        if (!empty($field["label"])) {
-            $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . " for='{$field['id']}'>{$field['label']}</label>";
+        if (!empty($field["label"] && $field["type"] != "checkbox")) {
+            $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . "' for='{$field['id']}'>{$field['label']}</label>";
         }
-        $html .= "<input type='{$field['type']}' name='{$field['name']}' id='{$field['id']}' class='form-control' value='{$field['value']}' " . (($field['required']) ? "required" : "");
-        if (!empty($field["placeholder"])) {
-            $html .= " placeholder='{$field['placeholder']}'";
-        }
-        if (!empty($field["options"])) {
-            foreach ($field["options"] as $option => $value) {
-                $html .= " {$option}='{$value}'";
+        if ($field["type"] == "select") {
+            $html .= "<select name='{$field['name']}' id='{$field['id']}' class='form-control'" . (($field['required']) ? " required" : "") . (($field['disabled']) ? " disabled" : "");
+            if (!empty($field["options"])) {
+                foreach ($field["options"] as $option => $value) {
+                    $html .= " {$option}='{$value}'";
+                }
             }
+            $html .= ">";
+
+            if (!empty($field["placeholder"])) {
+                $html .= "<option value=''>{$field['placeholder']}</option>";
+            }
+            foreach ($field["options"] as $option => $value) {
+                $html .= "<option value='{$option}'>{$value}</option>";
+            }
+            $html .= "</select>";
+
+        } else {
+            $html .= "<input type='{$field['type']}' name='{$field['name']}' id='{$field['id']}' class='form-control' value='{$field['value']}'" . (($field['required']) ? " required" : "") . (($field['disabled']) ? " disabled" : "");
+            if (!empty($field["placeholder"])) {
+                $html .= " placeholder='{$field['placeholder']}'";
+            }
+            if (!empty($field["options"])) {
+                foreach ($field["options"] as $option => $value) {
+                    $html .= " {$option}='{$value}'";
+                }
+            }
+            $html .= ">";
         }
-        $html .= ">";
+        if (!empty($field["label"] && $field["type"] == "checkbox")) {
+            $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . "' for='{$field['id']}'>{$field['label']}</label>";
+        }
         $html .= "</div>";
         return $html;
     }
