@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
-            //check if display is not none
-            if (icon.parentNode.style.display) {
+            //check if displayed
+            if (icon.parentNode.style.display=="inline-block") {
                 icon.click();
             }
         });
@@ -20,33 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const popup = document.querySelector(".popup");
     const confirmButton = document.querySelector("#confirm");
     const cancelButton = document.querySelector("#cancel");
-
-
-    let rows = document.querySelectorAll('tr');
-    rows = Array.from(rows).slice(1);
-    rows.forEach(row => {
-            // turn into floats and compare
-            const cells = row.querySelectorAll('td');
-            // get only numeric part of the amount_remaining
-            const amount_remaining = cells[1].textContent.split(' ')[0];
-            const max_stock_level = parseFloat(cells[3].textContent);
-            const buffer_stock_level = parseFloat(cells[4].textContent);
-            const reorder_level = parseFloat(cells[5].textContent);
-
-            const circle = cells[7].querySelector('#circle');
-            // change color of circle icon
-            if (amount_remaining < buffer_stock_level) {
-                circle.style.backgroundColor = '#EE4A1C';
-            } else if (amount_remaining < reorder_level) {
-                circle.style.backgroundColor = '#E5A113';
-            } else if (amount_remaining > max_stock_level) {
-                circle.style.backgroundColor = '#138DE5';
-            } else {
-                circle.style.backgroundColor = 'lightgreen';
-            }
-
-        }
-    );
 
     const fieldNames = ['max_stock_level', 'buffer_stock_level', 'reorder_level', 'lead_time'];
 
@@ -284,81 +257,3 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 });
-
-
-// <!DOCTYPE html>
-// <html lang="en">
-//
-// <head>
-// <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-// <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-//     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
-//     <script src="<?= ASSETS ?>/js/admin/inventory.js"></script>
-// </head>
-//
-// <body class="dashboard">
-// <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
-// <div class="dashboard-container">
-//     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
-//     <div class="w-100 h-100 p-5">
-//         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-//             <h1 class="display-3">Inventory</h1>
-//             <div class="dashboard-buttons">
-//                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
-//                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
-//                 <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/inventory/info" id="switch-button">View Batches</a>
-//             </div>
-//         </div>
-//
-//         <table class="table">
-//             <thead>
-//             <tr>
-//                 <th>Name</th>
-//                 <th>Amount Remaining</th>
-//                 <th>Last Updated</th>
-//                 <th> Max Stock Level</th>
-//                 <th> Buffer Stock Level</th>
-//                 <th>Reorder Level</th>
-//                 <th> Lead Time</th>
-//                 <th>Status</th>
-//
-//             </tr>
-//             </thead>
-//             <tbody>
-//             <?php if (isset($inventory)) : ?>
-//             <?php foreach ($inventory as $item) : ?>
-//             <tr data-item-id="<?= $item->item_id ?>">
-//                 <td><?= $item->item_name ?></td>
-//                 <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
-//                 <td><?= $item->last_updated ?></td>
-//                 <td data-field-name="max_stock_level"><?= $item->max_stock_level ?></td>
-//                 <td data-field-name="buffer_stock_level"><?= $item->buffer_stock_level ?></td>
-//                 <td data-field-name="reorder_level"><?= $item->reorder_level ?></td>
-//                 <td data-field-name="lead_time"><?= $item->lead_time ?></td>
-//                 <td>
-//                     <div id="circle" class="pending"></div>
-//                 </td>
-//                 <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
-//                 <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
-//                 <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>
-//                 <td><i class="fa fa-times-circle cross-icon edit-options" aria-hidden="true"></i></td>
-//             </tr>
-//             <?php endforeach; ?>
-//             <?php endif; ?>
-//             </tbody>
-//         </table>
-//         <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
-//         <div class="popup" id="delete-popup">
-//             <p>
-//                 Are you sure you want to delete this item from the inventory? New inventory entries will be created only upon purchase of new items
-//             </p>
-//             <div class="popup-button-div">
-//                 <button class="btn btn-success" id="confirm">Yes</button>
-//                 <button class="btn btn-danger" id="cancel">No</button>
-//             </div>
-//         </div>
-//     </div>
-// </div>
-// </body>
-//
-// </html>
