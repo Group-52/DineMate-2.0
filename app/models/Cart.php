@@ -15,7 +15,7 @@ class Cart extends Model
         'quantity'
     ];
 
-    public function addToCart($userID, $itemID, $qty = 1)
+    public function addToCart($userID, $itemID, $qty = 1): void
     {
         $this->insert([
             'dish_id' => $itemID,
@@ -24,7 +24,7 @@ class Cart extends Model
         ]);
     }
 
-    public function deleteFromCart($userID, $itemID)
+    public function deleteFromCart($userID, $itemID): void
     {
         $this->delete()->where('user_id', $userID)->and('dish_id', $itemID)->execute();
     }
@@ -66,5 +66,10 @@ class Cart extends Model
     public function editCartItemQty($user_id, $dish_id, $qty): void
     {
         $this->update(['quantity' => $qty])->where('user_id', $user_id)->and('dish_id', $dish_id)->execute();
+    }
+
+    public function clearCart($user_id): void
+    {
+        $this->delete()->where('user_id', $user_id)->execute();
     }
 }
