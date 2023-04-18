@@ -56,9 +56,9 @@ class Form
      * @param string $label Field label
      * @param bool $required Field required
      * @param array $options Field options
-     * @param string $value Field value
+     * @param string $placeholder Field value
      */
-    public function addSelectField(string $name, string $id, string $label = "", bool $required = false, array $options = [], string $value = "", bool $disabled = false): void
+    public function addSelectField(string $name, string $id, string $label = "", bool $required = false, array $options = [], string $placeholder = "", bool $disabled = false): void
     {
         $this->fields[] = [
             "name" => $name,
@@ -67,7 +67,7 @@ class Form
             "label" => $label,
             "required" => $required,
             "options" => $options,
-            "value" => $value,
+            "placeholder" => $placeholder,
             "disabled" => $disabled
         ];
     }
@@ -141,14 +141,14 @@ class Form
         return "<button type='submit' class='btn btn-primary text-uppercase " . ($fullWidth ? "w-100" : "") . "'>{$this->submitText}</button>";
     }
 
-    public function beginForm(): string
+    public function beginForm(): void
     {
-        return "<form class='w-100' action='{$this->action}' method='{$this->method}'>";
+        echo "<form class='w-100' action='{$this->action}' method='{$this->method}'>";
     }
 
-    public function endForm(): string
+    public function endForm(): void
     {
-        return "</form>";
+        echo "</form>";
     }
 
     /**
