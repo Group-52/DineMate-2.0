@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const table = document.querySelector('#purchase-table');
     const formsubmitButton = document.querySelector('#submit-button');
     const formcancelButton = document.querySelector('#cancel-button');
+    const unitspan = document.querySelector('#unitspan');
 
     const editbutton = document.querySelector('#edit-button');
     const finishbutton = document.querySelector('#finish-button');
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     editbutton.addEventListener('click', makeEditable);
     finishbutton.addEventListener('click', () => {
-    //     look for any rows with the cross icon visible and simulate a click on the cross icon
+        //     look for any rows with the cross icon visible and simulate a click on the cross icon
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
@@ -118,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         input.type = 'date';
                     } else if (cell.dataset.fieldName === 'brand') {
                         input.type = 'text';
+                        input.style.width = '60%';
                     } else if (cell.dataset.fieldName === 'quantity') {
                         input.type = 'number';
                         input.step = '0.01';
@@ -310,6 +312,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
         }
     }
+
+    //item_id:abbreviation
+    let itemlist = {};
+    fetch(`${ROOT}/api/items`)
+        .then(res => res.json())
+        .then(data => {
+            data.items.forEach(item => {
+                itemlist[item.item_id] = item.abbreviation;
+            });
+        });
+
+    //When the form item is changed, change the unit abbreviation
+    document.getElementById('item').addEventListener('change', function (event) {
+        unitspan.textContent = itemlist[event.target.value];
+    });
 
 
 });

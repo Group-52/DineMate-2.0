@@ -42,3 +42,8 @@ td:has(.cross-icon) {
     border-radius: 5px;
     text-align: center;
 }
+select{
+    padding:2px;
+    border-radius: 2px;
+    border: 2px rgb(182, 182, 170) solid;
+}

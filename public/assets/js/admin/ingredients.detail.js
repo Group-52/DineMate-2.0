@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     editbutton.addEventListener("click", () => {
         event.preventDefault();
+        addbutton.style.display = 'none';
         editbutton.style.display = 'none';
         finishbutton.style.display = 'inline-block';
         //     make all pencil and trash icons visible
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //     make edit button visible and finish button invisible
         editbutton.style.display = 'inline-block';
         finishbutton.style.display = 'none';
+        addbutton.style.display = 'inline-block';
     });
     addbutton.addEventListener("click", () => {
         event.preventDefault();
@@ -119,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clone.querySelectorAll('select')[0].value = ingredient;
         clone.querySelector('input').value = quantity;
         clone.querySelectorAll('select')[1].value = unit;
+        clone.setAttribute("data-ingredient", ingredient);
         // insert the clone before the row that was clicked
         row.parentNode.insertBefore(clone, row);
         // hide the row that was clicked
@@ -193,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         row.style.transition = 'all 0.5s ease';
         row.style.height = height + 'px';
         row.style.opacity = '0';
-        setTimeout(function() {
+        setTimeout(function () {
             row.remove();
         }, 500);
 
@@ -219,23 +222,92 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("table").addEventListener("click", (event) => {
         if (event.target.classList.contains("fa-pencil-square-o")) {
             editRow(event);
+
         } else if (event.target.classList.contains("cross-icon")) {
             cancelRow(event);
+
         } else if (event.target.classList.contains("tick-icon")) {
-            saveRow(event);
+            let row = event.target.parentNode.parentNode;
+            if (checkEditingIngredient(row)) saveRow(event);
+
         } else if (event.target.classList.contains("trash-icon")) {
             deleteRow(event);
+
         } else if (event.target.classList.contains("add-new-row")) {
             // if input has values only
             let row = event.target.parentNode.parentNode;
-            let ingselect = row.querySelectorAll('select');
-            if (ingselect[0].value && row.querySelector('input').value && ingselect[1].value) {
-                addRow(event);
-            }
+            if (checkAddingIngredient(row)) addRow(event)
+
         } else if (event.target.classList.contains("fa-circle-xmark")) {
             stopAddingRow(event);
+
         }
     });
+
+    // given a tr check if ingredient is already present in the table or empty, if the quantity is empty or if the unit is empty
+    function checkAddingIngredient(row) {
+        //get value of selected option
+        let ingselect = row.querySelectorAll('select')[0];
+        //create array with existing ingredient values
+        let existing_ings_values = [];
+        document.querySelectorAll("tr[data-ingredient]").forEach((ing) => {
+            existing_ings_values.push(ing.getAttribute("data-ingredient"));
+        });
+        //if the ingredient is not selected
+        if (!ingselect.value) {
+            //show error message
+            displayError("Ingredient cannot be empty", ingselect.getBoundingClientRect().top);
+            return false;
+        }
+        //if the selected value is already present in the table
+        if (existing_ings_values.includes(ingselect.value)) {
+            //show error message
+            displayError("Ingredient already present in the table", ingselect.getBoundingClientRect().top);
+            //reset the select to default value
+            ingselect.value = "";
+            return false;
+        }
+        //if the quantity is empty
+        if (!row.querySelector('input').value) {
+            //show error message
+            displayError("Quantity cannot be empty", row.querySelector('input').getBoundingClientRect().top);
+            return false;
+        }
+        //if the unit is empty
+        if (!row.querySelectorAll('select')[1].value) {
+            //show error message
+            displayError("Unit cannot be empty", row.querySelectorAll('select')[1].getBoundingClientRect().top);
+            return false;
+        }
+        return true;
+    }
+
+    // given a tr check if ingredient is already present in the table or if the quantity is empty
+    function checkEditingIngredient(row) {
+//get value of selected option
+        let ingselect = row.querySelectorAll('select')[0];
+        //create array with existing ingredient values
+        let existing_ings_values = [];
+        document.querySelectorAll("tr[data-ingredient]").forEach((ing) => {
+            existing_ings_values.push(ing.getAttribute("data-ingredient"));
+        });
+        //if the selected value is already present in the table
+        if (existing_ings_values.includes(ingselect.value) && ingselect.value != row.getAttribute("data-ingredient")) {
+            //show error message
+            displayError("Ingredient already present in the table", ingselect.getBoundingClientRect().top);
+            //reset the select to default value
+            ingselect.value = "";
+            return false;
+        }
+        //if the quantity is empty
+        if (!row.querySelector('input').value) {
+            //show error message
+            displayError("Quantity cannot be empty", row.querySelector('input').getBoundingClientRect().top);
+            return false;
+        }
+        return true;
+    }
+
 
     // Functions to send request to API
     function updateIngredient(dish, ingredient, quantity, unit) {
@@ -310,6 +382,5 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch((error) => {
                 console.error("Error:", error);
             });
-
     }
 });

@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
-            if (icon.parentNode.style.display !== 'none') {
+            //check if displayed
+            if (icon.parentNode.style.display=="inline-block") {
                 icon.click();
             }
         });
@@ -19,33 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const popup = document.querySelector(".popup");
     const confirmButton = document.querySelector("#confirm");
     const cancelButton = document.querySelector("#cancel");
-
-
-    let rows = document.querySelectorAll('tr');
-    rows = Array.from(rows).slice(1);
-    rows.forEach(row => {
-            // turn into floats and compare
-            const cells = row.querySelectorAll('td');
-            // get only numeric part of the amount_remaining
-            const amount_remaining = cells[1].textContent.split(' ')[0];
-            const max_stock_level = parseFloat(cells[3].textContent);
-            const buffer_stock_level = parseFloat(cells[4].textContent);
-            const reorder_level = parseFloat(cells[5].textContent);
-
-            const circle = cells[7].querySelector('#circle');
-            // change color of circle icon
-            if (amount_remaining < buffer_stock_level) {
-                circle.style.backgroundColor = '#EE4A1C';
-            } else if (amount_remaining < reorder_level) {
-                circle.style.backgroundColor = '#E5A113';
-            } else if (amount_remaining > max_stock_level) {
-                circle.style.backgroundColor = '#138DE5';
-            } else {
-                circle.style.backgroundColor = 'lightgreen';
-            }
-
-        }
-    );
 
     const fieldNames = ['max_stock_level', 'buffer_stock_level', 'reorder_level', 'lead_time'];
 
@@ -129,6 +103,12 @@ document.addEventListener("DOMContentLoaded", function () {
     editIcons.forEach(icon => {
             icon.addEventListener('click', function (event) {
                 let row = event.target.parentNode.parentNode;
+                row.setAttribute('data-validity', 1);
+                if (event.target.classList.contains('tick-icon') && !(validate(row))) {
+                    row.setAttribute('data-validity', 0);
+                    return;
+                }
+
                 // make tick and cross icon invisible
                 row.querySelector('.tick-icon').parentNode.style.display = 'none';
                 row.querySelector('.cross-icon').parentNode.style.display = 'none';
@@ -162,22 +142,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const tickIcons = document.querySelectorAll('.tick-icon');
     tickIcons.forEach(icon => {
         icon.addEventListener('click', function (event) {
-            updateInventory(icon);
+            let row = event.target.parentNode.parentNode;
+            if (row.getAttribute('data-validity') == 1)
+                updateInventory(icon);
+            else
+                row.setAttribute('data-validity', 1);
         });
-    });
-
-
-    // Get the current page number from the URL
-    const currentPage = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
-    const pages = document.querySelectorAll('.page-item');
-
-    pages.forEach(page => {
-        const pageLink = page.querySelector('.page-link');
-        const pageNumber = parseInt(pageLink.innerText);
-
-        if (pageNumber === currentPage) {
-            page.classList.add('active');
-        }
     });
 
 
@@ -221,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
     }
+
 //Attach event listener to trash icon to display popup
     trashIcons.forEach(t => {
         t.addEventListener('click', function (event) {
@@ -234,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.style.display = 'none';
         popup.removeAttribute("data-item-id");
     });
-   //Attach event listener to delete button to delete item from database
+    //Attach event listener to delete button to delete item from database
     confirmButton.addEventListener('click', function (event) {
         let id = popup.getAttribute("data-item-id");
         popup.removeAttribute("data-item-id");
@@ -255,4 +226,34 @@ document.addEventListener("DOMContentLoaded", function () {
         popup.style.display = 'none';
         document.querySelector(`tr[data-item-id="${id}"]`).remove();
     });
+
+    //Validate input
+    function validate(row) {
+        let values = row.querySelectorAll('input');
+        //convert to number
+        let maxlevel = parseFloat(values[0].value);
+        let bufferlevel = parseFloat(values[1].value);
+        let reorderlevel = parseFloat(values[2].value);
+        let leadtime = parseFloat(values[3].value);
+
+        let y = row.getBoundingClientRect().top;
+        if (maxlevel == "" || bufferlevel == "" || reorderlevel == "" || leadtime == "" || isNaN(maxlevel) || isNaN(bufferlevel) || isNaN(reorderlevel) || isNaN(leadtime)) {
+            displayError("All fields are required", y)
+            return false;
+        }
+        if (maxlevel < bufferlevel) {
+            displayError("Max stock level cannot be less than buffer stock level", y)
+            return false;
+        } else if (maxlevel < reorderlevel) {
+            displayError("Max stock level cannot be less than re-order level", y)
+            return false;
+        } else if (reorderlevel < bufferlevel) {
+            displayError("Re-order level cannot be less than buffer stock level", y)
+            return false;
+        } else if (leadtime < 0) {
+            displayError("Lead time cannot be less than zero", y)
+            return false;
+        }
+        return true;
+    }
 });
