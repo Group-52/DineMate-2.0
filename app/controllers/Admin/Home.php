@@ -10,7 +10,7 @@ class Home
 {
     use Controller;
 
-    public function index(): void
+    public function stats(): void
     {
         $d = new Dish();
         $dishes = $d->getDishes();
@@ -22,6 +22,9 @@ class Home
             'lowstockitems' => $lowstock, 'controller' => 'home'
         ];
         $this->view('admin/dashboard', $data);
+    }
+    public function index():void{
+        $this->view('admin/home');
     }
 
 }

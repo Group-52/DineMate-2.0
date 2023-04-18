@@ -25,7 +25,7 @@
     <?php if (utils\RouteAuth::icon_visible('menus')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "menus") echo " active" ?>"
        href="<?= ROOT ?>/admin/menus">
-        <i class="fa-solid fa-utensils"></i><span class="sidebar-text">&nbsp;&nbsp;Menus</span>
+        <i class="fa-solid fa-newspaper d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Menus</span>
     </a>
     <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('purchases')): ?>
@@ -43,13 +43,13 @@
     <?php if (utils\RouteAuth::icon_visible('promotions')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "promotions") echo " active" ?>"
        href="<?= ROOT ?>/admin/promotions">
-        <i class="fa-solid fa-percent d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Promotions</span>
+        <i class="fa-solid fa-gift d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Promotions</span>
     </a>
     <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('vendors')): ?>
     <a class="fw-bold d-block mb-4 fs-4<?php if (isset($controller) && $controller == "vendors") echo " active" ?>"
        href="<?= ROOT ?>/admin/vendors">
-        <i class="fa-solid fa-store d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Vendors</span>
+        <i class="fa-solid fa-truck d-inline"></i><span class="sidebar-text">&nbsp;&nbsp;Vendors</span>
     </a>
     <?php endif; ?>
     <?php if (utils\RouteAuth::icon_visible('feedback')): ?>
