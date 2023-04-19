@@ -91,7 +91,8 @@
 
                 <div class="form-group">
                     <label for="item">Item</label>
-                    <select name="item" id="item" class="form-control">
+                    <select name="item" id="item" class="form-control" required>
+                        <option disabled selected value="">Select Item</option>
                         <?php foreach ($items as $item) { ?>
                             <option value="<?php echo $item->item_id; ?>"><?php echo $item->item_name; ?></option>
                         <?php } ?>
@@ -115,7 +116,7 @@
                 <div class="form-group">
                     <label for="cost">Cost</label>
                     <span class="d-block">
-                        <input type="number" step="1" name="cost" id="cost"
+                        <input type="number" step="1" name="cost" required id="cost"
                                class="form-control d-inline w-75 mr-1" min="0"> LKR
                         </span>
                 </div>
@@ -134,7 +135,7 @@
                 <div class="form-group">
                     <label for="final_price">Final Price</label>
                     <span class="d-block">
-                        <input type="number" step="1" min="0" name="final_price" id="final_price"
+                        <input type="number" step="1" min="0" required name="final_price" id="final_price"
                                class="form-control d-inline w-75 mr-2">  LKR </span>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>

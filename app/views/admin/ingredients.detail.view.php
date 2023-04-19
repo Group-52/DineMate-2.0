@@ -59,6 +59,7 @@
                     </tr>
                     </thead>
                     <tbody class="text-center">
+                    <?php if (isset($dishIngredients) && count($dishIngredients) > 0) : ?>
                     <?php foreach ($dishIngredients as $ingredient) : ?>
                         <tr data-ingredient="<?= $ingredient->item_id ?>" data-unit="<?= $ingredient->unit_id ?>"
                             data-quantity="<?= $ingredient->quantity ?>">
@@ -69,6 +70,11 @@
                             <td><i class="fa fa-trash trash-icon edit-icon"></i></td>
                         </tr>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No ingredients found</td>
+                        </tr>
+                    <?php endif; ?>
 
                     <tr class="input-row">
                         <td>

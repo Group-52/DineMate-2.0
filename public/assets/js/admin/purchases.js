@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const addButton = document.querySelector('#add-purchase-button');
     const form = document.querySelector('#Addform');
     const table = document.querySelector('#purchase-table');
-    const formsubmitButton = document.querySelector('#submit-button');
     const formcancelButton = document.querySelector('#cancel-button');
     const unitspan = document.querySelector('#unitspan');
 
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
-            if (icon.parentNode.style.display !== 'none') {
+            if (icon.parentNode.style.display =='table-cell') {
                 icon.click();
             }
         });
@@ -42,15 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         addButton.style.display = 'none';
     });
 
-    // make form invisible when submit button is clicked
-    formsubmitButton.addEventListener('click', () => {
-        form.style.display = 'none';
-        table.style.filter = 'blur(0)';
-
-        // make add button visible
-        addButton.style.display = 'inline-block';
-    });
-
     // make form invisible when cancel button is clicked
     formcancelButton.addEventListener('click', () => {
         form.style.display = 'none';
@@ -67,12 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show the trash can icon
         const trashIcons = document.querySelectorAll(".trash-icon");
         for (let i = 0; i < trashIcons.length; i++) {
-            trashIcons[i].parentNode.style.display = "inline-block";
+            trashIcons[i].parentNode.style.display = "table-cell";
         }
         // Show the pencil icon
         const pencilIcons = document.querySelectorAll(".edit-icon");
         for (let i = 0; i < pencilIcons.length; i++) {
-            pencilIcons[i].parentNode.style.display = "inline-block";
+            pencilIcons[i].parentNode.style.display = "table-cell";
         }
     }
 
@@ -99,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.addEventListener('click', function (event) {
             let row = event.target.parentNode.parentNode;
             // make tick and cross icon visible
-            row.querySelector('.tick-icon').parentNode.style.display = 'inline-block';
-            row.querySelector('.cross-icon').parentNode.style.display = 'inline-block';
+            row.querySelector('.tick-icon').parentNode.style.display = 'table-cell';
+            row.querySelector('.cross-icon').parentNode.style.display = 'table-cell';
             // make the pencil icon invisible
             event.target.parentNode.style.display = 'none';
             // make trash icon invisible
@@ -220,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.querySelector('.tick-icon').parentNode.style.display = 'none';
                 row.querySelector('.cross-icon').parentNode.style.display = 'none';
                 // make pencil icon visible
-                row.querySelector('.edit-icon').parentNode.style.display = 'inline-block';
+                row.querySelector('.edit-icon').parentNode.style.display = 'table-cell';
                 // make trash icon visible
-                row.querySelector('.trash-icon').parentNode.style.display = 'inline-block';
+                row.querySelector('.trash-icon').parentNode.style.display = 'table-cell';
 
                 row.classList.remove('row-in-form');
 
