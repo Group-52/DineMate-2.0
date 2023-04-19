@@ -59,17 +59,23 @@ class Orders
             (new Order)->deleteOrder($order_id);
         redirect('admin/orders');
     }
-    public function history():void{
+
+    public function history(): void
+    {
         $order = new Order;
-        $p=$_GET['page']??1;
+        $p = $_GET['page'] ?? 1;
         $totalPages = $order->getPages();
-        $ol = $order->getAllOrders($p);
-        $data=[
-            'currentPage'=>$p,
-            'totalPages'=>$totalPages,
-            'order_list'=>$ol,
-        ];
-        $this->view('admin/order.history', $data);
+        if ($p > $totalPages ||$p==0) {
+            $this->view('admin/_404');
+        } else {
+            $ol = $order->getAllOrders($p);
+            $data = [
+                'currentPage' => $p,
+                'totalPages' => $totalPages,
+                'order_list' => $ol,
+            ];
+            $this->view('admin/order.history', $data);
+        }
     }
 }
 
