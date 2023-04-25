@@ -7,10 +7,6 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <style>
-        /* trash */
-        .trash-icon {
-            display: none;
-        }
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             transition: 0.3s;
@@ -39,11 +35,6 @@
             flex-wrap: wrap;
             justify-content: left;
             max-width: 1200px;
-        }
-        #edit-menu-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
         }
     </style>
 

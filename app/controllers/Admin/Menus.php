@@ -45,13 +45,7 @@ class Menus
             $start_time = $_POST['start_time']?? null;
             $end_time = $_POST['end_time']?? null;
             $image_url = $_POST['image_url'];
-            $all_day = $_POST['all_day']?? null;
-
-            //if all_day is set, set start_time and end_time to null
-            if($all_day){
-                $start_time = null;
-                $end_time = null;
-            }
+            $all_day = isset($_POST['all_day']) ? "1" : "0";
 
             $m = new Menu;
             $data = [
@@ -84,7 +78,17 @@ class Menus
         $results['m'] = $menu->getMenu($menu_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $menu = new Menu;
+            //if all_day is set, set start_time and end_time to empty
+            if(isset($_POST['all_day'])){
+                $_POST['start_time'] = "00:00:00";
+                $_POST['end_time'] = "00:00:00";
+                $_POST['all_day'] = "1";
+            }else{
+                $_POST['all_day'] = "0";
+            }
+            array_filter($_POST);
             $menu->editMenu($_POST);
+
             redirect('admin/menus');
         }
         $this->view('admin/menu.edit', $results);
