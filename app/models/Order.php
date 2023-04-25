@@ -32,7 +32,7 @@ class Order extends Model
     public function getAllOrders($page = 1):array
     {
         $q = $this->select(['orders.*'])
-            ->orderBy('time_placed');
+            ->orderBy('time_placed', 'DESC');
         $skip = ($page - 1) * $this->nrows;
         if (!$page)
             return $q->fetchAll();
@@ -162,6 +162,27 @@ class Order extends Model
         $order_dishes = new OrderDishes();
         return $order_dishes->getOrderDishes($order);
     }
+
+    //calculate the total price of the order based on the dishes and their quantities only
+    public function calculateTotal($order_id): float
+    {
+        $dishes = $this->getDishes($order_id);
+        $total = 0;
+        foreach ($dishes as $dish) {
+            $total += $dish->selling_price * $dish->quantity;
+        }
+        return $total;
+    }
+
+    //update cost of the order
+    public function updateCost($order_id): void
+    {
+        $this->update([
+            'total_cost' => $this->calculateTotal($order_id)
+        ])->where('order_id', $order_id)->execute();
+    }
+
+
 
     // Complete the order by removing the ingredient amount from the inventory
     public function complete($order_id)

@@ -129,8 +129,8 @@
             <form method="POST" action="<?= ROOT ?>/admin/promotions/add" enctype="multipart/form-data" id="promo-form">
                 <div class="form-group" id="promo-type-field">
                     <label for="promo-type">Promotion Type</label>
-                    <select class="form-control" id="promo-type" name="type">
-                        <option value="0" disabled>Select Promotion Type</option>
+                    <select class="form-control" id="promo-type" name="type" required>
+                        <option value="" selected disabled>Select Promotion Type</option>
                         <option value="discounts">Discount</option>
                         <option value="spending_bonus">Spending Bonus</option>
                         <option value="free_dish">Free Dish</option>
@@ -160,33 +160,32 @@
                     <div class="form-group">
                         <label for="dish">Dish</label>
                         <select class="form-control" id="dish" name="dish_id">
+                            <option value="" selected disabled>Select Dish</option>
                             <?php foreach ($dishes as $d) : ?>
                                 <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="discountval">Discount</label>
-                        <input type="number" min="0" class="form-control" id="discountval" name="discount"
-                               placeholder="... LKR">
+                        <label for="discountval">Discount</label><span class="d-block">
+                        <input type="number" min="0" class="form-control d-inline w-75 mr-2" id="discountval" name="discount"> LKR</span>
                     </div>
                 </div>
                 <div id="spending_bonus-form">
                     <div class="form-group">
-                        <label for="spent-amount">Spent Amount</label>
-                        <input type="number" min="0" class="form-control" id="spent-amount" name="spent_amount"
-                               placeholder="... LKR">
+                        <label for="spent-amount">Spent Amount</label><span class="d-block">
+                        <input type="number" min="0" class="form-control d-inline w-75 mr-2" id="spent-amount" name="spent_amount"> LKR</span>
                     </div>
                     <div class="form-group">
-                        <label for="bonus-amount">Bonus Amount</label>
-                        <input type="number" min="0" class="form-control" id="bonus-amount" name="bonus_amount"
-                               placeholder="... LKR">
+                        <label for="bonus-amount">Bonus Amount</label><span class="d-block">
+                        <input type="number" min="0" class="form-control d-inline w-75 mr-2" id="bonus-amount" name="bonus_amount"> LKR</span>
                     </div>
                 </div>
                 <div id="free_dish-form">
                     <div class="form-group">
                         <label for="dish1">Dish 1</label>
                         <select class="form-control" id="dish1" name="dish1_id">
+                            <option disabled value="" selected>Select Dish</option>
                             <?php foreach ($dishes as $d) : ?>
                                 <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
                             <?php endforeach; ?>
@@ -195,6 +194,7 @@
                     <div class="form-group">
                         <label for="dish2">Dish 2</label>
                         <select class="form-control" id="dish2" name="dish2_id">
+                            <option disabled value="" selected>Select Dish</option>
                             <?php foreach ($dishes as $d) : ?>
                                 <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
                             <?php endforeach; ?>
@@ -212,8 +212,3 @@
 </body>
 
 </html>
-
-<script>
-
-
-</script>

@@ -40,4 +40,20 @@ class Dishes
             ]);
         }
     }
+
+    public function delete(): void
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $_POST = json_decode(file_get_contents('php://input'), true);
+            (new Dish())->deleteDish($_POST['id']);
+            $this->json([
+                'status' => 'success',
+            ]);
+        } else {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Invalid request method'
+            ]);
+        }
+    }
 }

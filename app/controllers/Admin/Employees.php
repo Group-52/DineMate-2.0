@@ -9,7 +9,6 @@ use models\Role;
 /**
  * Employee Controller
  */
-
 class Employees
 {
     use Controller;
@@ -17,33 +16,40 @@ class Employees
     public function index()
     {
         $employee = new Employee;
-        $results['employee'] = $employee->getEmployees();      
+        $results['employee'] = $employee->getEmployees();
         $this->view('admin/employee', $results);
     }
 
     public function addEmployee(): void
     {
-        if(isset($_POST['save'])){
-			$first_name = $_POST['first_name'];
-			$last_name = $_POST['last_name'];
-			$role = $_POST['role'];
+        if (isset($_POST['save'])) {
+            $first_name = $_POST['first_name'];
+            $last_name = $_POST['last_name'];
+            $role = $_POST['role'];
             $salary = $_POST['salary'];
             $username = $_POST['username'];
             // $DOB = $_POST['DOB'];
-			$contact_no = $_POST['contact_no'];
+            $contact_no = $_POST['contact_no'];
             $NIC = $_POST['NIC'];
 
-			$employee = new Employee;
-			$employee ->addEmployee([
-				'first_name'=> $first_name,
-				'last_name'=> $last_name,
-				'role'=> $role,
-                'salary'=> $salary,
-                'username'=> $username,
+            //create a password by concatenating first name and last name and NIC and removing spaces
+            $password = $first_name . $last_name . $NIC;
+            $password = str_replace(' ', '', $password);
+            $hashed = password_hash($password, PASSWORD_DEFAULT);
+
+            $employee = new Employee;
+            $employee->addEmployee([
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'role' => $role,
+                'salary' => $salary,
+                'username' => $username,
                 // 'DOB'=> $DOB,
-                'contact_no'=> $contact_no,
-                'NIC'=> $NIC
-			]);
+                'password' => $hashed,
+                'contact_no' => $contact_no,
+                'NIC' => $NIC
+            ]);
+
 
             redirect('admin/employees');
 
@@ -67,10 +73,10 @@ class Employees
     public function delete($emp_id): void
     {
         $employee = new Employee;
-        $results['e1'] = $employee->deleteEmployee($emp_id);
-        
+        $employee->deleteEmployee($emp_id);
+
         redirect('admin/employees');
-        
-            
+
+
     }
 }
