@@ -18,16 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // make add button invisible
         addButton.style.display = 'none';
 
-        // make form invisible when submit button is clicked
 
-    });
-
-    submitButton.addEventListener('click', () => {
-        form.style.display = 'none';
-        table.style.filter = 'blur(0)';
-
-        // make add button visible
-        addButton.style.display = 'block';
     });
 
     // make form invisible when cancel button is clicked

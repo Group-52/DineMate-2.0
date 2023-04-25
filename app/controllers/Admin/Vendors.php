@@ -10,7 +10,7 @@ class Vendors
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
         $vendor = new Vendor;
         $results['Vendor'] = $vendor->getVendors();      
@@ -20,25 +20,27 @@ class Vendors
     public function addVendor(): void
     {
         if(isset($_POST['save'])){
-            $vendor_id = $_POST['vendor_id'];
-			$vendor_name = $_POST['vendor_name'];
-			$address = $_POST['address'];
-			$company = $_POST['company'];
-			$contact_no = $_POST['contact_no'];
+			$vendor_name = $_POST['vendor_name'] ?? null;
+			$address = $_POST['address'] ?? null;
+			$company = $_POST['company'] ?? null;
+			$contact_no = $_POST['contact_no'] ?? null;
+            $email = $_POST['email'] ?? null;
 
 			$vendor = new Vendor;
-			$vendor ->addVendor([
-                'vendor_id' => $vendor_id,
-				'vendor_name'=> $vendor_name,
-				'address'=> $address,
-				'company'=> $company,
-                'contact_no'=> $contact_no
-			]);
+            $data = [
+                'vendor_name' => $vendor_name,
+                'address' => $address,
+                'company' => $company,
+                'contact_no' => $contact_no,
+                'email' => $email
+            ];
+            //remove empty and null values from array
+            $data = array_filter($data);
+            $vendor ->addVendor($data);
 
             redirect('admin/vendors');
 
         }
-        $this->view('admin/vendor.add');
     }
 
     public function edit($vendor_id): void
@@ -57,7 +59,7 @@ class Vendors
     public function delete($vendor_id): void
     {
         $vendor = new Vendor;
-        $results['v1'] = $vendor->deleteVendor($vendor_id);
+        $vendor->deleteVendor($vendor_id);
         redirect('admin/vendors'); 
             
     }

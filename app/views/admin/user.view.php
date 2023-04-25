@@ -8,7 +8,6 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/users.css">
-    <script src="<?= ASSETS ?>/js/admin/user.js"></script>
     <title>Users</title>
 </head>
 
@@ -21,11 +20,43 @@
                 <h1 class="display-3">Users</h1>
             </div>
             <div id="user-tables">
-                <div class="tab">
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'guest')">Guest User</button>
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'register')">Register User</button>
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'blocklist')">Blocklist User</button>
+                <div class="tab w-100 d-flex justify-content-space-evenly">
+                    <button class="tablinks btn btn-success" onclick="openTab(event, 'register')">Registered Users</button>
+                    <button class="tablinks btn btn-success" onclick="openTab(event, 'guest')">Guests</button>
+                    <button class="tablinks btn btn-success" onclick="openTab(event, 'blocklist')">Blacklisted Users</button>
                 </div>
+
+                <div id="register" class="tabcontent">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">User ID</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Contact No</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center">
+                        <?php if (isset($reg)) : ?>
+                            <?php foreach ($reg as $r1) : ?>
+                                <tr>
+                                    <td><?= $r1->user_id ?></td>
+                                    <td><?= $r1->first_name ?></td>
+                                    <td><?= $r1->last_name ?></td>
+                                    <td><?= $r1->contact_no ?></td>
+                                    <td><?= $r1->email ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="5">No registered users</td>
+                            </tr>
+                        <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
 
                 <div id="guest" class="tabcontent">
                     <table class="table table-striped">
@@ -49,33 +80,10 @@
                                         <td><?= $g1->email ?></td>
                                     </tr>
                                 <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="register" class="tabcontent">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">User ID</th>
-                                <th scope="col">First Name</th>
-                                <th scope="col">Last Name</th>
-                                <th scope="col">Contact No</th>
-                                <th scope="col">Email</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <?php if (isset($reg)) : ?>
-                                <?php foreach ($reg as $r1) : ?>
-                                    <tr>
-                                        <td><?= $r1->user_id ?></td>
-                                        <td><?= $r1->first_name ?></td>
-                                        <td><?= $r1->last_name ?></td>
-                                        <td><?= $r1->contact_no ?></td>
-                                        <td><?= $r1->email ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5">No guests</td>
+                                </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -103,6 +111,10 @@
                                         <td><?= $b1->date ?></td>
                                     </tr>
                                 <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="5">No blacklisted users</td>
+                                </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
@@ -113,3 +125,21 @@
 </body>
 
 </html>
+
+<script>
+    function openTab(evt, divName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(divName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+    //click tab
+    document.querySelector('.tablinks').click();
+</script>
