@@ -3,7 +3,7 @@
 
 <head>
     <?php
-    include VIEWS . "/partials/home/head.partial.php" ?>
+    include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/menus.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
@@ -21,7 +21,7 @@
             <h1 class="display-3 active">Menus</h1>
             <a class="btn btn-primary h-50" id="add-menu-button" href="<?php echo ROOT ?>menus/addMenu">Add Menu</a>
         </div>
-        <div class="card-container">
+        <div class="card-container row p-0">
 
             <?php /**  @var $menu_items MenuCard[] */
             if (isset($menulist) && sizeof($menulist) > 0) : ?>
@@ -42,7 +42,7 @@
         </div>
 
         <div id="menu-add-form" class="overlay">
-            <form action="<?= ROOT ?>/admin/menus/addMenu" method="post">
+            <form action="<?= ROOT ?>/admin/menus/addMenu" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="menu_name"><b>Name</b></label><br>
                     <input class="form-control" type="text" name="menu_name" placeholder="Name" id="menu_name" required>
@@ -70,7 +70,7 @@
 
                 <div class="form-group">
                     Select image to upload:
-                    <input class="form-control" type="file" name="image_url" id="fileToUpload" required>
+                    <input class="form-control" type="file" name="image_url" id="image_url" required>
                 </div>
 
                 <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Menu</button>

@@ -46,7 +46,22 @@ class Menus
             $end_time = $_POST['end_time']?? null;
             $image_url = $_POST['image_url'];
             $all_day = isset($_POST['all_day']) ? "1" : "0";
+            $file = $_FILES['image_url'];
 
+            // Check if image field is empty
+            if ($file['size'] != 0) {
+                $target_dir = '../public/assets/images/menus/';
+
+                if (isImage($file) && isValidSize($file, 5000000) && isImageType($file)) {
+
+                    // 	// Set path to store the uploaded image
+                    $target_file = getFileName($menu_name, $file);
+
+                    if (!move_uploaded_file($_FILES["image_url"]["tmp_name"], $target_dir . $target_file)) {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
             $m = new Menu;
             $data = [
                 'menu_name' => $menu_name,
@@ -54,7 +69,7 @@ class Menus
                 'start_time' => $start_time,
                 'end_time' => $end_time,
                 'all_day' => $all_day,
-                'image_url' => $image_url
+                'image_url' => $target_file ?? null,
             ];
             array_filter($data);
             $m ->addMenu($data);
