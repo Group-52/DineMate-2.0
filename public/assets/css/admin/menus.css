@@ -27,9 +27,3 @@
     justify-content: left;
     max-width: 1200px;
 }
-
-#add-menu-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-}
