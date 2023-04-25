@@ -44,12 +44,16 @@ class Employee extends Model
 
     public function getEmployees(): bool|array
     {
-        return $this->select()->fetchAll();
+        return $this->select(["employees.*","roles.*"])
+            ->join("roles","employees.role","roles.role_id")
+            ->fetchAll();
     }
 
     public function getEmployee($emp_id): object|false
     {
-        return $this->select()->where("emp_id", $emp_id)->fetch();
+        return $this->select(["employees.*","roles.*"])
+            ->join("roles","employees.role","roles.role_id")
+            ->where("emp_id", $emp_id)->fetch();
     }
 
     public function addEmployee($data): void
