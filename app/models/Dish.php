@@ -90,5 +90,21 @@ class Dish extends Model
         // TODO search by Menu
         return $query->fetchAll();
     }
+
+    public function updateDish($data): void
+    {
+        $this->update([
+            'dish_name' => $data['name'],
+            'net_price' => $data['net_price'],
+            'selling_price' => $data['selling_price'],
+            'description' => $data['description'],
+            'prep_time' => $data['prep_time'],
+//            'image_url' => $data['image_url']
+        ])->where('dish_id', $data['dish_id'])->execute();
+    }
+    public function deleteDish($id): void
+    {
+        $this->delete()->where('dish_id', $id)->execute();
+    }
 }
 

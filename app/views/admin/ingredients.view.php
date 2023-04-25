@@ -13,7 +13,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Ingredients</h1>
+            <h1 class="display-3 active">Recipes</h1>
         </div>
 
         <div class="card-deck">

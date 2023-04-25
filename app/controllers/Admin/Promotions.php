@@ -49,10 +49,11 @@ class Promotions
 
                     if (!move_uploaded_file($_FILES["promo_image"]["tmp_name"], $target_dir . $target_file)) {
                         echo "Sorry, there was an error uploading your file.";
+                    } else {
+                        $_POST['image_url'] = $target_file;
                     }
                 }
             }
-            $_POST['image_url'] = $target_file;
             $p = new Promotion();
             $p->addpromotion($_POST);
             redirect('admin/promotions');

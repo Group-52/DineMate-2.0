@@ -41,19 +41,38 @@ class Menus
 
         if(isset($_POST['save'])){
             $menu_name = $_POST['menu_name'];
-            $description = $_POST['description'];
-            $start_time = $_POST['start_time'];
-            $end_time = $_POST['end_time'];
+            $description = $_POST['description']?? null;
+            $start_time = $_POST['start_time']?? null;
+            $end_time = $_POST['end_time']?? null;
             $image_url = $_POST['image_url'];
+            $all_day = isset($_POST['all_day']) ? "1" : "0";
+            $file = $_FILES['image_url'];
 
+            // Check if image field is empty
+            if ($file['size'] != 0) {
+                $target_dir = '../public/assets/images/menus/';
+
+                if (isImage($file) && isValidSize($file, 5000000) && isImageType($file)) {
+
+                    // 	// Set path to store the uploaded image
+                    $target_file = getFileName($menu_name, $file);
+
+                    if (!move_uploaded_file($_FILES["image_url"]["tmp_name"], $target_dir . $target_file)) {
+                        echo "Sorry, there was an error uploading your file.";
+                    }
+                }
+            }
             $m = new Menu;
-            $m ->addMenu([
+            $data = [
                 'menu_name' => $menu_name,
-                'description'=> $description,
-                'start_time'=> $start_time,
-                'end_time'=> $end_time,
-                'image_url'=> $image_url
-            ]);
+                'description' => $description,
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+                'all_day' => $all_day,
+                'image_url' => $target_file ?? null,
+            ];
+            array_filter($data);
+            $m ->addMenu($data);
 
             redirect('admin/menus');
 
@@ -73,9 +92,18 @@ class Menus
         $menu = new Menu;
         $results['m'] = $menu->getMenu($menu_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            show($_POST);
             $menu = new Menu;
+            //if all_day is set, set start_time and end_time to empty
+            if(isset($_POST['all_day'])){
+                $_POST['start_time'] = "00:00:00";
+                $_POST['end_time'] = "00:00:00";
+                $_POST['all_day'] = "1";
+            }else{
+                $_POST['all_day'] = "0";
+            }
+            array_filter($_POST);
             $menu->editMenu($_POST);
+
             redirect('admin/menus');
         }
         $this->view('admin/menu.edit', $results);

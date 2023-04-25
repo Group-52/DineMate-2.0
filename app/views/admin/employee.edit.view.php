@@ -9,7 +9,6 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
     <?php if (isset($e1)): ?>
-    <h2>Employee #<?= $e1->emp_id ?></h2>
         <form method="POST">
             <div class="dashboard-header d-flex flex-row align-employees-center justify-content-space-between w-100">
                 <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/employees">Employees</a> > Edit Employee</h1>
@@ -21,25 +20,25 @@
             </div>
             <div class="form-group">
                 <label class="label" for="first_name">First Name</label>
-                <input class="form-control" type="text" name="first_name" value="<?= $e1->first_name ?>" readonly>
+                <input class="form-control" type="text" name="first_name" value="<?= $e1->first_name ?>" required>
             </div>
             <div class="form-group">
                 <label class="label" for="last_name">Last Name</label>
-                <input class="form-control" type="text" name="last_name" value="<?= $e1->last_name ?>" readonly>
+                <input class="form-control" type="text" name="last_name" value="<?= $e1->last_name ?>" required>
             </div>
             <div class="form-group">
                 <label class="label" for="role">Role</label>
-                <select class="form-control" name="role" value="<?= $e1->role ?>" readonly>
-                <?php if (($e1->role) == 1) {
+                <select class="form-control" name="role" value="<?= $e1->role ?>" required>
+                <?php if (($e1->role) == "Chef") {
                     echo '<option value="1" selected hidden>Chef</option >';
                 } 
-                else if (($e1->role) == 2){
+                else if (($e1->role) == 'General Manager'){
                     echo '<option value="2" selected hidden>General Manager</option >';
                 }
-                else if (($e1->role) == 3){
+                else if (($e1->role) == 'Cashier'){
                     echo '<option value="3" selected hidden>Cashier</option >';
                 }
-                else if (($e1->role) == 4){
+                else if (($e1->role) == 'Inventory Manager'){
                     echo '<option value="4" selected hidden>Inventory Manager</option >';
                 }?>
                         
@@ -51,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="salary">Salary</label>
-                <input class="form-control" name="salary" value="<?= $e1->salary ?>">
+                <input class="form-control" type="number" min="0" name="salary" value="<?= $e1->salary ?>" required>
             </div>
             <!-- <div class="form-group">
                 <label class="label" for="DOB">Date of Birth</label>
@@ -59,11 +58,11 @@
             </div> -->
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" name="contact_no" value="<?= $e1->contact_no ?>">
+                <input class="form-control" name="contact_no" value="<?= $e1->contact_no ?>" required>
             </div>
             <div class="form-group">
                 <label class="label" for="NIC">NIC</label>
-                <input class="form-control" name="NIC" value="<?= $e1->NIC ?>" readonly>
+                <input class="form-control" name="NIC" value="<?= $e1->NIC ?>" required>
             </div>
         </form>
     <?php else: ?>
