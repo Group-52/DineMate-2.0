@@ -15,7 +15,7 @@ class Orders
     {
         $order = new Order;
         $od = new OrderDishes();
-        $ol = $order->getValidOrders();
+        $ol = $order->getTodayChefOrders();
         $dish_list = [];
         foreach ($ol as $o) {
             $dish_list[$o->order_id] = $od->getOrderDishes($o->order_id);

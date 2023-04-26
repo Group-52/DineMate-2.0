@@ -24,12 +24,13 @@ class Order extends Model
             "table_id",
             "paid",
             "promo",
-            "total_cost"
+            "total_cost",
+            "collected"
         ];
     }
 
     // Get all orders with pagination
-    public function getAllOrders($page = 1):array
+    public function getAllOrders($page = 1): array
     {
         $q = $this->select(['orders.*'])
             ->orderBy('time_placed', 'DESC');
@@ -39,7 +40,6 @@ class Order extends Model
         else
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
-
 
     // Create a new order
     public function create($type, $dishlist, $reg_customer_id = null, $request = null, $guest_id = null, $table_id = null, $scheduled_time = null)
@@ -80,7 +80,7 @@ class Order extends Model
         }
     }
 
-    // Get all orders between two dates
+    // Get all orders placed between two dates
     public function getOrders($sd = null, $ed = null): array|false
     {
         //Converts date to timestamp format for database compatibility
@@ -95,7 +95,7 @@ class Order extends Model
     }
 
     // Get all orders that are placed or scheduled for today and also are pending or accepted
-    public function getValidOrders(): array|false
+    public function getTodayChefOrders(): array|false
     {
         //Get orders placed today and not scheduled
         $q1 = $this->select()
@@ -135,12 +135,64 @@ class Order extends Model
             }
         });
         return $q;
+    }
 
+    //get all completed orders that are placed or scheduled for today
+    public function getTodayCashierOrders($paid=0, $collected=0,$status="completed"): array|false
+    {
+        $a1 = $this->select(["orders.*", "reg_users.*"])
+            ->join("reg_users", "orders.reg_customer_id", "reg_users.user_id")
+            ->where("paid", $paid)
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->and("collected",$collected)
+            ->and("status",$status)
+            ->checkNull("AND", "scheduled_time")
+            ->orderBy("time_placed", "ASC")
+            ->fetchAll();
+        $a2 = $this->select(["orders.*", "reg_users.*"])
+            ->join("reg_users", "orders.reg_customer_id", "reg_users.user_id")
+            ->where("paid", $paid)
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->and("collected",$collected)
+            ->and("status",$status)
+            ->orderBy("scheduled_time", "ASC")
+            ->fetchAll();
+        $a3 = $this->select(["orders.*", "guest_users.*"])
+            ->join("guest_users", "orders.guest_id", "guest_users.guest_id")
+            ->where("paid", $paid)
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->and("collected",$collected)
+            ->and("status",$status)
+            ->checkNull("AND", "scheduled_time")
+            ->orderBy("time_placed", "ASC")
+            ->fetchAll();
+        $a4 = $this->select(["orders.*", "guest_users.*"])
+            ->join("guest_users", "orders.guest_id", "guest_users.guest_id")
+            ->where("paid", $paid)
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
+            ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
+            ->and("collected",$collected)
+            ->and("status",$status)
+            ->orderBy("scheduled_time", "ASC")
+            ->fetchAll();
+
+        return array_merge($a2, $a1, $a3, $a4);
     }
 
     public function getOrder($order_id): object|false
     {
-        return $this->select()->where("order_id", $order_id)->fetch();
+        $x = $this->select(["orders.reg_customer_id"])->where("order_id", $order_id)->fetch()->reg_customer_id;
+        if ($x != null)
+            return $this->select(["orders.*", "reg_users.*"])
+                ->leftJoin("reg_users", "orders.reg_customer_id", "reg_users.user_id")
+                ->where("order_id", $order_id)->fetch();
+        else
+            return $this->select(["orders.*", "guest_users.*"])
+                ->leftJoin("guest_users", "orders.guest_id", "guest_users.guest_id")
+                ->where("order_id", $order_id)->fetch();
     }
 
     public function editOrder($order)
@@ -182,8 +234,6 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-
-
     // Complete the order by removing the ingredient amount from the inventory
     public function complete($order_id)
     {
@@ -216,6 +266,25 @@ class Order extends Model
                 unset($q[$key]);
         }
         return count($q);
+    }
+
+    public function validate(array $data): bool
+    {
+        $this->errors = [];
+
+        if (empty($data['name']))
+            $this->errors['name'] = 'Name is required';
+
+        if (empty($this->errors))
+            return true;
+
+        return false;
+    }
+
+
+    public function addOrder($data): void
+    {
+        $this->insert($data);
     }
 
     //Get estimate of time for an order
