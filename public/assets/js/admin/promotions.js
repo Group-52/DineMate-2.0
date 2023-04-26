@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         spendingBonusForm.style.display = "none";
         freeDishForm.style.display = "none";
         document.querySelector('#promo-type-field').style.display = 'block';
+        document.querySelector('#image-input-field').style.display = 'block';
         addButton.style.display = 'block';
         let tempfield = form.querySelector('#tempid')
         if (tempfield) tempfield.remove();
@@ -51,10 +52,34 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         if (promoType === "discounts") {
             discountForm.style.display = "block";
+            //add required attribute to all inputs
+            discountForm.querySelectorAll('input,select').forEach(function (input) {
+                input.required = true;
+            });
+            //remove required from others
+            document.querySelector('#spending_bonus-form, #free_dish-form').querySelectorAll('input,select').forEach(function (input) {
+                input.required = false;
+            });
         } else if (promoType === "spending_bonus") {
             spendingBonusForm.style.display = "block";
+            //add required attribute to all inputs
+            spendingBonusForm.querySelectorAll('input').forEach(function (input) {
+                input.required = true;
+            });
+            //remove required from others
+            document.querySelector('#discount-form, #free_dish-form').querySelectorAll('input,select').forEach(function (input) {
+                input.required = false;
+            });
         } else if (promoType === "free_dish") {
             freeDishForm.style.display = "block";
+            //add required attribute to all inputs
+            freeDishForm.querySelectorAll('select').forEach(function (input) {
+                input.required = true;
+            });
+            //remove required from others
+            document.querySelector('#spending_bonus-form, #discount-form').querySelectorAll('input,select').forEach(function (input) {
+                input.required = false;
+            });
         }
     });
 
@@ -124,14 +149,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 document.querySelector('#dish').value = data.dishId;
                 document.querySelector('#discountval').value = data.discount;
                 discountForm.style.display = 'block';
+                discountForm.querySelectorAll('input,select').forEach(function (input) {
+                    input.required = true;
+                });
+                document.querySelector('#spending_bonus-form, #free_dish-form').querySelectorAll('input,select').forEach(function (input) {
+                    input.required = false;
+                });
             } else if (data.promoType === 'spending_bonus') {
                 document.querySelector('#spent-amount').value = data.spentAmount;
                 document.querySelector('#bonus-amount').value = data.bonusAmount;
                 spendingBonusForm.style.display = 'block';
+                spendingBonusForm.querySelectorAll('input').forEach(function (input) {
+                    input.required = true;
+                });
+                document.querySelector('#discount-form, #free_dish-form').querySelectorAll('input,select').forEach(function (input) {
+                    input.required = false;
+                });
             } else if (data.promoType === 'free_dish') {
                 document.querySelector('#dish1').value = data.dish1Id;
                 document.querySelector('#dish2').value = data.dish2Id;
                 freeDishForm.style.display = 'block';
+                freeDishForm.querySelectorAll('select').forEach(function (input) {
+                    input.required = true;
+                });
+                document.querySelector('#spending_bonus-form, #discount-form').querySelectorAll('input,select').forEach(function (input) {
+                    input.required = false;
+                });
             }
             //display form and blur background
             formdiv.style.display = 'block';
@@ -158,6 +201,91 @@ function openTab(evt, divName) {
     document.getElementById(divName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+// <div id="promo-form-div" className="overlay">
+//     <form method="POST" action="<?= ROOT ?>/admin/promotions/add" encType="multipart/form-data" id="promo-form">
+//         <div className="form-group" id="promo-type-field">
+//             <label htmlFor="promo-type">Promotion Type</label>
+//             <select className="form-control" id="promo-type" name="type" required>
+//                 <option value="0" selected disabled>Select Promotion Type</option>
+//                 <option value="discounts">Discount</option>
+//                 <option value="spending_bonus">Spending Bonus</option>
+//                 <option value="free_dish">Free Dish</option>
+//             </select>
+//         </div>
+//         <div className="form-group">
+//             <label htmlFor="promo-title">Title</label>
+//             <input type="text" className="form-control" id="promo-title" name="title" required>
+//         </div>
+//         <div className="form-group">
+//             <label htmlFor="promo-desc">Description</label>
+//             <input type="text" className="form-control" id="promo-desc" name="description">
+//         </div>
+//         <div className="form-group">
+//             <label htmlFor="promo-status">Status</label>
+//             <select className="form-control" id="promo-status" name="status">
+//                 <option value="1">Visible</option>
+//                 <option value="0">Hidden</option>
+//             </select>
+//         </div>
+//         <div className="form-group" id="image-input-field">
+//             <label htmlFor="promo-image">Image</label>
+//             <input type="file" className="form-control" id="promo-image" name="promo_image">
+//         </div>
+//
+//         <div id="discount-form">
+//             <div className="form-group">
+//                 <label htmlFor="dish">Dish</label>
+//                 <select className="form-control" id="dish" name="dish_id">
+//                     <?php foreach ($dishes as $d) : ?>
+//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
+//                     <?php endforeach; ?>
+//                 </select>
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="discountval">Discount</label><span className="d-block">
+//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="discountval"
+//                                name="discount"> LKR</span>
+//             </div>
+//         </div>
+//         <div id="spending_bonus-form">
+//             <div className="form-group">
+//                 <label htmlFor="spent-amount">Spent Amount</label><span className="d-block">
+//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="spent-amount"
+//                                name="spent_amount"> LKR</span>
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="bonus-amount">Bonus Amount</label><span className="d-block">
+//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="bonus-amount"
+//                                name="bonus_amount"> LKR</span>
+//             </div>
+//         </div>
+//         <div id="free_dish-form">
+//             <div className="form-group">
+//                 <label htmlFor="dish1">Dish 1</label>
+//                 <select className="form-control" id="dish1" name="dish1_id">
+//                     <option disabled value="" selected>Select Dish</option>
+//                     <?php foreach ($dishes as $d) : ?>
+//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
+//                     <?php endforeach; ?>
+//                 </select>
+//             </div>
+//             <div className="form-group">
+//                 <label htmlFor="dish2">Dish 2</label>
+//                 <select className="form-control" id="dish2" name="dish2_id">
+//                     <option disabled value="" selected>Select Dish</option>
+//                     <?php foreach ($dishes as $d) : ?>
+//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
+//                     <?php endforeach; ?>
+//                 </select>
+//             </div>
+//         </div>
+//         <input type="submit" name="submit" className="btn btn-primary" id="submit-button">
+//             <button type="button" className="btn btn-secondary" id="cancel-button">Cancel</button>
+//     </form>
+//
+// </div>
+
 
 
 

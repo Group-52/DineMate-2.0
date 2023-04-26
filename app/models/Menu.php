@@ -10,15 +10,19 @@ class Menu extends Model
 
     public string $order_column = "menu_id";
     protected string $table = 'menus';
-    protected array $allowedColumns = [
-        'menu_id',
-        'menu_name',
-        'description',
-        'start_time',
-        'end_time',
-        'image_url',
-        'all_day'
-    ];
+    public function __construct()
+    {
+        $this->table = "menus";
+        $this->columns = [
+            'menu_id',
+            'menu_name',
+            'description',
+            'start_time',
+            'end_time',
+            'image_url',
+            'all_day'
+        ];
+    }
 
     public function validate($data): bool
     {
@@ -58,19 +62,22 @@ class Menu extends Model
 
     public function addMenu($data)
     {
-        $this->insert([
-            'menu_name' => $data['name'],
-            'description' => $data['description'],
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
-            'image_url' => $data['image_url'],
-            'all_day' => $data['all_day']
-        ]);
+        $this->insert($data);
     }
 
     public function getMenu($menu_id): object|bool
     {
         return $this->select()->where("menu_id", $menu_id)->fetch();
+    }
+
+    public function deleteMenu($data)
+    {
+        $this->delete()->where("menu_id", $data)->execute();
+    }
+
+    public function editMenu($data)
+    {
+        $this->update($data)->where("menu_id", $data['menu_id'])->execute();
     }
 
 }

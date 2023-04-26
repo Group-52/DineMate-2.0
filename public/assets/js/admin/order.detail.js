@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const blurbox = document.querySelector('.blur-container');
     const editbutton = document.querySelector('#edit-button');
     const finishbutton = document.querySelector('#finish-button');
+    const deletebutton = document.querySelector('#delete-button');
     const addbutton = document.querySelector('#add-button');
     const tablebody = document.querySelector('tbody');
     const inputrow = document.querySelector('.input-row');
@@ -98,6 +99,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    deletebutton.addEventListener('click', function (event) {
+        event.preventDefault();
+        displayPopup3();
+    });
+
 
     // allow editing of order
     editbutton.addEventListener('click', function () {
@@ -114,7 +120,8 @@ document.addEventListener('DOMContentLoaded', function () {
         typedisp.style.display = 'none';
 
         pencilreq.style.display = 'inline-block';
-        penciltime.style.display = 'inline-block';
+        if (timedisp)
+            penciltime.style.display = 'inline-block';
 
 
         //enable promo
@@ -132,7 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         pencilreq.style.display = 'none';
-        penciltime.style.display = 'none';
+        if (timedisp)
+            penciltime.style.display = 'none';
 
 
         //make type field invisible and display type
@@ -152,9 +160,16 @@ document.addEventListener('DOMContentLoaded', function () {
         //disable promo type
         promoselect.disabled = true;
 
+        if (reqfield.style.display == 'block') {
+            crossreq.click();
+        }
+        if (timedisp && timefield.style.display == 'block') {
+            crosstime.click();
+        }
+
 
         // update in database
-        let data = {"order_id": oid, "type": typvalue,"promo": promo};
+        let data = {"order_id": oid, "type": typvalue, "promo": promo};
         api_edit(data);
 
     });
@@ -230,9 +245,17 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event delegation on table
     document.querySelector('table').addEventListener('click', function (event) {
         if (event.target.classList.contains('save-dish')) {
-            addRow(event);
-            addbutton.style.display = 'inline-block';
-            editbutton.style.display = 'inline-block';
+            if (checkQuantity(event) && checkDish(event)) {
+                addRow(event);
+                addbutton.style.display = 'inline-block';
+                editbutton.style.display = 'inline-block';
+            } else if (checkDish(event)) {
+                let row = event.target.parentNode.parentNode;
+                displayError("Quantity must be greater than 0", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+            } else if (checkQuantity(event)) {
+                let row = event.target.parentNode.parentNode;
+                displayError("Dish already added", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+            }
         } else if (event.target.classList.contains('trash-icon')) {
             removeRow(event);
         } else if (event.target.classList.contains('cancel-dish')) {
@@ -246,6 +269,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
+    //check quantity
+    function checkQuantity(event) {
+        let quantity = event.target.parentNode.parentNode.querySelector('input').value;
+        return !(quantity < 1 || quantity == "");
+    }
+
+    //check duplicate dish
+    function checkDish(event) {
+        let dishid = event.target.parentNode.parentNode.querySelector('select').value;
+        let rows = document.querySelectorAll('tbody tr');
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i].getAttribute('data-dish-id') == dishid) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     // make buttons visible
@@ -359,9 +400,8 @@ document.addEventListener('DOMContentLoaded', function () {
         blurbox.style.filter = 'blur(5px)';
     }
 
-
     //Buttons inside the popup for order completion
-    let confirmButton1 = document.querySelector('#complete-popup #confirm');
+    let confirmButton1 = document.querySelector('#complete-popup #confirm-complete');
     confirmButton1.addEventListener('click', function () {
         const popup = document.querySelector('.popup');
         popup.style.display = 'none';
@@ -372,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // redirect to orders page
         window.location.href = `${ROOT}/admin/orders`;
     });
-    let cancelButton1 = document.querySelector('#complete-popup #cancel');
+    let cancelButton1 = document.querySelector('#complete-popup #cancel-complete');
     cancelButton1.addEventListener('click', function () {
         const popup = document.querySelector('.popup');
         popup.style.display = 'none';
@@ -405,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     //Buttons inside the popup for order rejection
-    let confirmButton2 = document.querySelector('#reject-popup #confirm');
+    let confirmButton2 = document.querySelector('#reject-popup #confirm-reject');
     confirmButton2.addEventListener('click', function () {
         const popup = document.querySelector('#reject-popup');
         popup.style.display = 'none';
@@ -415,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // redirect to orders page
         window.location.href = `${ROOT}/admin/orders`;
     });
-    let cancelButton2 = document.querySelector('#reject-popup #cancel');
+    let cancelButton2 = document.querySelector('#reject-popup #cancel-reject');
     cancelButton2.addEventListener('click', function () {
         const popup = document.querySelector('#reject-popup');
         popup.style.display = 'none';
@@ -432,6 +472,29 @@ document.addEventListener('DOMContentLoaded', function () {
         // unblur the background
         blurbox.style.filter = 'blur(0px)';
 
+    });
+
+    function displayPopup3() {
+        const popup = document.querySelector('#delete-popup')
+        popup.style.display = 'flex';
+        // blur the entire background
+        blurbox.style.filter = 'blur(5px)';
+    }
+
+    //Buttons inside the popup for order deletion
+    let confirmButton3 = document.querySelector('#delete-popup #confirm-delete');
+    confirmButton3.addEventListener('click', function () {
+        const popup = document.querySelector('#delete-popup');
+        popup.style.display = 'none';
+        // redirect to orders page
+        window.location.href = `${ROOT}/admin/orders`;
+    });
+    let cancelButton3 = document.querySelector('#delete-popup #cancel-delete');
+    cancelButton3.addEventListener('click', function () {
+        const popup = document.querySelector('#delete-popup');
+        popup.style.display = 'none';
+        // unblur the background
+        blurbox.style.filter = 'blur(0px)';
     });
 
     // call display popup function when order status is changed to completed

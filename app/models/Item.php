@@ -66,5 +66,18 @@ class Item extends Model
             ->where("item_id", $id)
             ->fetch();
     }
+    public function addItem($name, $unit, $category, $description=null, $image_url=null):void
+    {
+        $data = [
+            "item_name" => $name,
+            "description" => $description,
+            "unit" => $unit,
+            "category" => $category,
+            "image_url" => $image_url
+        ];
+        //remove keys with null values
+        $data = array_filter($data, fn($v) => !is_null($v));
+        $this->insert($data);
+    }
 
 }

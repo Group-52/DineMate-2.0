@@ -234,7 +234,6 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-
     // Complete the order by removing the ingredient amount from the inventory
     public function complete($order_id)
     {
