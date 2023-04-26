@@ -17,13 +17,15 @@ class Payments
 {
     use Controller;
 
-    private string $controller = "items";
+    private string $controller = "payments";
 
     public function index(): void
     {
         $order = new Order;
-        $results['order_list'] = $order->getOrders();
-        $this->view('admin/payments', $results);
+        $data['tobepaid'] = array_merge($order->getTodayCashierOrders(0,0,"completed"),$order->getTodayCashierOrders(0,0,"accepted"),$order->getTodayCashierOrders(0,0,"pending"));
+        $data['tobecollected']= array_merge($order->getTodayCashierOrders(1),$order->getTodayCashierOrders(1,0,"accepted"),$order->getTodayCashierOrders(1,0,"pending"));
+        $data['controller'] = $this->controller;
+        $this->view('admin/payments', $data);
     }
 
     public function id($order_id): void
@@ -31,6 +33,8 @@ class Payments
         $order = new Order;
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
+        if($data['order'] == false)
+            redirect('admin/404');
         $this->view('admin/payments.detail', $data);
     }
 
@@ -54,13 +58,6 @@ class Payments
         $this->view('admin/payments.addOrder',$data);
     }
 
-
-    // public function paidHistory(): void
-    // {
-    //     $order = new Order;
-    //     $results['order_list'] = $order->getOrders();
-    //     $this->view('admin/payments.paidHistory', $results);
-    // }
 
     public function create(): void
     {
