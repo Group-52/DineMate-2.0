@@ -21,7 +21,7 @@ class Stats extends Model
             'takeawayTotal',
             'dineinWaitTime',
             'takeawayWaitTime',
-            'f_0', 'f_2', 'f_3', 'f_4', 'f_5', 'f_6', 'f_7', 'f_8',
+            'f_0','f_1', 'f_2', 'f_3', 'f_4', 'f_5', 'f_6', 'f_7', 'f_8',
             'f_9', 'f_10', 'f_11', 'f_12', 'f_13', 'f_14', 'f_15', 'f_16',
             'f_17', 'f_18', 'f_19', 'f_20', 'f_21', 'f_22', 'f_23', 'f_23',
         ];
@@ -132,7 +132,7 @@ class Stats extends Model
             if ($o_type != 'bulk') {
                 $data[$wait_col] = $row->$wait_col + $wait_time;
             }
-            show($data);
+//            show($data);
             $this->update($data)->where('day', $day)->execute();
         } else {
             //if it doesn't exist, create a new row

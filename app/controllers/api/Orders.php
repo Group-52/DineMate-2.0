@@ -61,9 +61,6 @@ class Orders
                 $od = new Order();
 
                 $od->changeStatus($order_id, $status);
-                if ($status === 'completed') {
-                    $od->complete($order_id);
-                }
                 $this->json([
                     'status' => 'success',
                     'message' => 'Order status changed'
