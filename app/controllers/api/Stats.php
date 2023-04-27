@@ -46,7 +46,7 @@ class Stats
                 'data' => $stats
             ]);
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $stats = (new \models\Stats())->getAll();
+            $stats = (new \models\Stats())->getAll("today","last year");
             $this->json([
                 'success' => true,
                 'data' => $stats
@@ -74,27 +74,33 @@ class Stats
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['table'])) {
             $table = $_GET['table'];
+            $start = $_GET['start'] ?? null;
+            $end = $_GET['end'] ?? null;
             $stats = [];
+            $invalidtable = false;
             //Check get params
             if ($table == 'menu_statistics') {
-                $stats = (new \models\Stats())->getAll();
+                $stats = (new \models\MenuStats())->getAll($start, $end);
             } else if ($table == 'stats') {
-                $stats = (new \models\Stats())->getAll();
+                $stats = (new \models\Stats())->getAll($start, $end);
             } else if ($table == 'orders') {
-                $stats = (new \models\Order())->getOrders();
+                $stats = (new \models\Order())->getOrders($start, $end);
             } else if ($table == 'order_dishes') {
-                $stats = (new \models\OrderDishes())->getAll();
-            } else if ($table == 'dishes') {
-                $stats = (new \models\Dish())->getDishes();
+                $stats = (new \models\OrderDishes())->getAll($start, $end);
             } else if ($table == 'purchases') {
-                $stats = (new \models\Purchase())->getAllPurchases();
+                $stats = (new \models\Purchase())->getAll($start, $end);
             } else if ($table == 'feedback') {
-                $stats = (new \models\FeedbackModel())->getFeedback();
-            } else if ($table == 'customers') {
-                $stats = (new \models\RegUser())->getReg();
+                $stats = (new \models\FeedbackModel())->getAll($start, $end);
+            } else {
+                $invalidtable = true;
             }
 
-            if ($stats) {
+            if ($invalidtable) {
+                $this->json([
+                    'success' => false,
+                    'error' => 'Invalid table'
+                ]);
+            } else if ($stats) {
                 $this->json([
                     'success' => true,
                     'data' => $stats
@@ -102,13 +108,15 @@ class Stats
             } else {
                 $this->json([
                     'success' => false,
-                    'data' => 'Invalid table'
+                    'error' => 'No data found in that range'
                 ]);
             }
+
+
         } else {
             $this->json([
                 'success' => false,
-                'data' => 'Invalid request'
+                'error' => 'Invalid request'
             ]);
         }
     }

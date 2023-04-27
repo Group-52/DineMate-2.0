@@ -70,9 +70,14 @@ class Stats extends Model
         return $week;
     }
 
-    public function getAll(): array
+    public function getAll($sd,$ed): array
     {
-        $this->select()->orderBy('day', 'DESC');
+        $sd = date('Y-m-d', strtotime($sd));
+        $ed = date('Y-m-d', strtotime($ed));
+        $this->select()
+            ->where('day', $sd, ">=")
+            ->and('day', $ed, "<=")
+            ->orderBy('day', 'DESC');
         return $this->fetchAll();
     }
 

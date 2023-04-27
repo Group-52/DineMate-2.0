@@ -4,15 +4,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.nav-item').remove();
 
 
-
-
-
-
-
-
-
-
-
-
-
 });

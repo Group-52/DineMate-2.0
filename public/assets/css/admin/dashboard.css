@@ -80,22 +80,3 @@ input[type="date"].hidden {
     border-radius: 2px;
 }
 
-.image-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.button-wrapper {
-    position: absolute;
-    bottom: 0;
-    width: 90%;
-    left: 50%;
-    transform: translate(-50%, 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.image-wrapper:hover .button-wrapper {
-    opacity: 1;
-}
-

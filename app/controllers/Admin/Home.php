@@ -27,4 +27,8 @@ class Home
         $this->view('admin/home');
     }
 
+    public function reports():void{
+        $this->view('admin/reports');
+    }
+
 }

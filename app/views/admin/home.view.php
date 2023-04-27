@@ -102,6 +102,12 @@
                         <i class="fa-solid fa-chart-pie d-inline"></i>
                     </div>
                 </a>
+                <a href="<?= ROOT ?>/admin/home/reports">
+                    <div class="card">
+                        <span class="d-inline-block fs-5">Reports</span>
+                        <i class="fa-solid fa-download d-inline"></i>
+                    </div>
+                </a>
 
             </div>
         </div>

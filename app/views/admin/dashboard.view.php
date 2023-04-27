@@ -130,27 +130,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="card text-center" id="download">
-                <h2 class="card-title">Generate Reports</h2>
-                <div class="image-wrapper">
-                    <img src="<?= ASSETS ?>/images/admin_dashboard/report.webp" style="max-width: 40%">
-                    <div class="button-wrapper">
-                        <button class="reports-button">Users</button>
-                        <button class="reports-button">Menu stats</button>
-                        <button class="reports-button">Order stats</button>
-                        <button class="reports-button">Orders</button>
-                        <button class="reports-button">Order Dishes</button>
-                        <button class="reports-button">Purchases</button>
-                        <button class="reports-button">Feedback</button>
-                        <button class="reports-button">Dishes</button>
-                    </div>
-                </div>
-            </div>
-
-
-
-
             <div class="card">
                 <h3 class="card-title">Order submit</h3>
                 <form id="f2" style="padding: 10px; margin: 10px">
