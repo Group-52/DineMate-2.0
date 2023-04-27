@@ -3,12 +3,11 @@
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-<!--    <script src="--><?php //= ASSETS ?><!--/js/admin/common.js"></script>-->
+    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
     <script src="<?= ASSETS ?>/js/admin/reports.js"></script>
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
-<!-- Show all the dishes in a list -->
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
