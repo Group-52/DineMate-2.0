@@ -1,0 +1,41 @@
+.maindiv{
+    background-color: red;
+    /*background: linear-gradient(0deg, rgba(232,231,229,0.13385864599746145) 27%, rgba(195,35,34,1) 74%);*/
+}
+.card {
+    display: -webkit-inline-flex;
+    flex-direction: column;
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    background-color: white;
+    /*transparent background*/
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    margin: 5px;
+    /*/add a shadow of 5px that shows depth*/
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+/*card on hover*/
+.card:hover{
+    /*add a shadow of 5px that shows depth*/
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+    transform: scale(1.05);
+    cursor: pointer;
+/*    stop being transparent*/
+    background: rgba(255, 255, 255, 1);
+}
+.card span{
+    font-weight: bold;
+    padding-bottom: 10px;
+    line-height: 1;
+}
+.card i{
+    font-size: 50px;
+    /*opacity of icon*/
+    opacity: 1;
+    color: black;
+}
+.type-header{
+    color:white;
+}
