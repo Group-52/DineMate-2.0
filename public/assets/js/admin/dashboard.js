@@ -11,12 +11,22 @@ document.addEventListener('DOMContentLoaded', function () {
     get_stats(lastWeek, today);
 
     startDateInput.addEventListener('change', () => {
-        console.log("start date changed");
+        //check if the start date is greater than the end date
+        if (startDateInput.value > endDateInput.value) {
+            displayError("Start date cannot be greater than end date",startDateInput.getBoundingClientRect().top,startDateInput.getBoundingClientRect().left);
+            return;
+        }
+        // console.log("start date changed");
         updateData();
         dateRangeSelect.value = 'Custom';
     });
     endDateInput.addEventListener('change', () => {
-        console.log("end date changed");
+        //check if the start date is greater than the end date
+        if (startDateInput.value > endDateInput.value) {
+            displayError("End date cannot be less than start date",endDateInput.getBoundingClientRect().top,endDateInput.getBoundingClientRect().left);
+            return;
+        }
+        // console.log("end date changed");
         updateData();
         dateRangeSelect.value = 'Custom';
     });
@@ -80,19 +90,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let rbutton = document.querySelectorAll('.reports-button')
     let params = {
-        '0':'customers',
-        '1':'menu_statistics',
-        '2':'stats',
-        '3':'orders',
-        '4':'order_dishes',
-        '5':'purchases',
-        '6':'feedback',
-        '7':'dishes',
+        '0': 'customers',
+        '1': 'menu_statistics',
+        '2': 'stats',
+        '3': 'orders',
+        '4': 'order_dishes',
+        '5': 'purchases',
+        '6': 'feedback',
+        '7': 'dishes',
     }
     rbutton.forEach((button, index) => {
-       button.addEventListener('click', () => {
-          downloadDataAsCSV(params[index]);
-       });
+        button.addEventListener('click', () => {
+            downloadDataAsCSV(params[index]);
+        });
     });
 
 
@@ -112,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify({start: startd, end: endd})
             });
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             drawLineChart(Object.values(data['data']));
         } catch (error) {
             console.error(error);
@@ -147,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.takeaway-time').innerHTML = Math.ceil(avg['takeawayWaitTime'] / avg['takeawayTotal']) + " minutes";
             let time_val = Math.ceil(avg['dineinWaitTime'] / avg['dineinTotal'])
             //check if the value is a number
-            if (isNaN(time_val) ) {
+            if (isNaN(time_val)) {
                 time_val = 0;
             }
             document.querySelector('.dinein-time').innerHTML = time_val + " minutes";
@@ -312,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Convert the data to CSV format
             const csvData = convertDataToCSV(data['data']);
-            // console.log(csvData);
 
             // Create a Blob object from the CSV data
             const blob = new Blob([csvData], {type: 'text/csv'});

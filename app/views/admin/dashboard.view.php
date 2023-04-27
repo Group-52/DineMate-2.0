@@ -6,6 +6,7 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/dashboard.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
     <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
 
 </head>
@@ -17,20 +18,19 @@
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3">Overview</h1>
-            <div class="dashboard-buttons">
-                <select id="time-select">
+            <div class="dashboard-buttons p-1">
+                <select id="time-select" class="p-1">
                     <option> Past Week</option>
                     <option> Past Month</option>
                     <option> Past Year</option>
                     <option disabled>Custom</option>
                 </select>
-                <input type="date" name="start-date" value="<?= date('Y-m-d', strtotime('-1 week')) ?>">
-                - <input type="date" name="end-date" value="<?= date('Y-m-d') ?>">
-
+                <input type="date" class="m-1" name="start-date" value="<?= date('Y-m-d', strtotime('-1 week')) ?>">&nbsp
+                - &nbsp <input type="date" class="m-1" name="end-date" value="<?= date('Y-m-d') ?>">
             </div>
 
         </div>
-        <div class="card-container">
+        <div class="d-flex flex-wrap justify-content-space-between">
 
             <div class="card">
                 <h3 class="card-title">Popular Times</h3>
@@ -77,8 +77,8 @@
                 <h2 class="card-title">Wait Times</h2>
                 <img src="<?= ASSETS ?>/images/admin_dashboard/clock.jpeg" style="max-width: 40%">
                 <br>
-                <h4>Takeaway</h4>&nbsp;&nbsp;&nbsp;&nbsp;
-                <h4>Dine-in
+                <h4 class="d-inline">Takeaway</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+                <h4 class="d-inline">Dine-in
                     <br>
                     <span class="takeaway-time">30 minutes</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <span class="dinein-time">20 minutes</span>
@@ -133,7 +133,7 @@
 
             <div class="card text-center" id="download">
                 <h2 class="card-title">Generate Reports</h2>
-                <div class="image-wrapper">
+                <div class="position-relative d-inline-block">
                     <img src="<?= ASSETS ?>/images/admin_dashboard/report.webp" style="max-width: 40%">
                     <div class="button-wrapper">
                         <button class="reports-button">Users</button>

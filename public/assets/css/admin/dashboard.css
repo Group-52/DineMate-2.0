@@ -17,12 +17,6 @@
     padding: 2px 16px;
 }
 
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .card-title {
     padding-left: 20px;
     top: 5px;
@@ -37,10 +31,6 @@
     object-fit: cover;
     padding: 10px 0 0 10px;
     margin: 10px 0 0 10px;
-}
-
-h4{
-    display: inline;
 }
 
 input[type="date"] {
@@ -80,11 +70,6 @@ input[type="date"].hidden {
     border-radius: 2px;
 }
 
-.image-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
 .button-wrapper {
     position: absolute;
     bottom: 0;
@@ -95,7 +80,7 @@ input[type="date"].hidden {
     transition: opacity 0.3s ease-in-out;
 }
 
-.image-wrapper:hover .button-wrapper {
+.button-wrapper {
     opacity: 1;
 }
 
