@@ -103,17 +103,15 @@ class InventoryDetail extends Model
     public function updateInventory($pid, $amount = null, $notes = null, $risk = null)
     {
         $data = [];
-
-        if ($amount != null) {
+        if ($amount !== null) {
             $data['amount_remaining'] = $amount;
         }
         if ($notes != null) {
             $data['special_notes'] = $notes;
         }
-        if ($risk != null) {
+        if ($risk !== null) {
             $data['expiry_risk'] = $risk;
         }
-
         $this->update($data)
             ->where("pid", $pid)
             ->execute();

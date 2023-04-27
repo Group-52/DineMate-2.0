@@ -32,7 +32,7 @@ class Orders
         $order = new Order;
         $results['order'] = $order->getOrder($order_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            show($_POST);
+//            show($_POST);
             $order = new Order;
             $order->editOrder($_POST);
             redirect('admin/orders');
