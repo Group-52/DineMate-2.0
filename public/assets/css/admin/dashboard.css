@@ -17,12 +17,6 @@
     padding: 2px 16px;
 }
 
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 .card-title {
     padding-left: 20px;
     top: 5px;
@@ -37,10 +31,6 @@
     object-fit: cover;
     padding: 10px 0 0 10px;
     margin: 10px 0 0 10px;
-}
-
-h4{
-    display: inline;
 }
 
 input[type="date"] {
