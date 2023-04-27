@@ -33,9 +33,9 @@ class Checkout
                 $cart = new Cart();
                 $cart_items = $cart->getCartItems();
                 $order = new Order();
-                $order->create($_POST["order-type"], $cart_items, $_SESSION["user"]->user_id ?? null,
-                    $_POST["request"], $_POST["user_id"] ?? null, $_POST["table-number"] ?? null,
-                    isset($_POST["schedule-order"]) ? $_POST["order-time"] : null);
+                $order->create($_POST["order-type"], $cart_items, reg_customer_id: $_SESSION["user"]->user_id ?? null, guest_id: $_POST["user_id"] ?? null,
+                    request: $_POST["request"], table_id: $_POST["table-number"] ?? null,
+                    scheduled_time: isset($_POST["schedule-order"]) ? $_POST["order-time"] : null);
 
                 if ($order->getErrors()) {
                     $data["errors"] = $order->getErrors();
@@ -44,6 +44,7 @@ class Checkout
                     $data["success"] = "Order placed successfully";
                     if ($_SESSION["user"])
                         $cart->clearCart($_SESSION["user"]->user_id);
+                    // TODO Redirect to Orders Page
                 }
             } else {
                 $data["errors"] = $form->getErrors();

@@ -6,6 +6,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="<?= ASSETS ?>/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="<?= ASSETS ?>/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="<?= ASSETS ?>/favicons/favicon-16x16.png">
+<link
 <link rel="manifest" href="<?= ASSETS ?>/favicons/site.webmanifest">
 <link rel="mask-icon" href="<?= ASSETS ?>/favicons/safari-pinned-tab.svg" color="#ff4546">
 <link rel="shortcut icon" href="<?= ASSETS ?>/favicons/favicon.ico">

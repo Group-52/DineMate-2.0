@@ -277,4 +277,13 @@ class Model
     {
         return $this->errors;
     }
+
+    /**
+     * Return last insert id
+     * @return int
+     */
+    public function lastInsertId(): int
+    {
+        return $this->db->lastInsertId();
+    }
 }

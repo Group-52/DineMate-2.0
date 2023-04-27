@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.status === "success") {
             cartCount.innerText = data["cart_count"] || 0;
             button.disabled = true;
+            button.classList.add("primary");
           }
         })
         .catch((error) => console.log(error));
