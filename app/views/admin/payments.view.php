@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <script src="<?= ASSETS ?>/js/admin/payments.js"></script>
     <title>Payments</title>
 </head>
 
@@ -189,47 +190,12 @@
 
             </table>
         </div>
+        <div id="notification" class="notification position-fixed right-0 bottom-0 mb-5 mr-5 p-2" style="display: none; border: 3px solid lawngreen;">
+            <span class="message">Completed Order</span>
+            <span class="close-icon"> <i class="fa fa-times"></i></span>
+        </div>
+
 
     </div>
 </body>
 </html>
-<script>
-    const toBePaidDiv = document.querySelector('#tobepaid-table');
-    const toBeCollectedDiv = document.querySelector('#tobecollected-table');
-    const toBePaidHeader = document.querySelector('#unpaid-header');
-    const toBeCollectedHeader = document.querySelector('#tocollect-header');
-
-    toBePaidHeader.onclick = function () {
-        toBePaidDiv.style.display = 'block';
-        toBeCollectedDiv.style.display = 'none';
-        toBePaidHeader.style.backgroundColor = 'white';
-        toBePaidHeader.style.color = 'black';
-        toBeCollectedHeader.style.backgroundColor = '#ff0000';
-        toBeCollectedHeader.style.color = 'white';
-    }
-    toBeCollectedHeader.onclick = function () {
-        toBePaidDiv.style.display = 'none';
-        toBeCollectedDiv.style.display = 'block';
-        toBePaidHeader.style.backgroundColor = '#ff0000';
-        toBePaidHeader.style.color = 'white';
-        toBeCollectedHeader.style.backgroundColor = 'white';
-        toBeCollectedHeader.style.color = 'black';
-    }
-    toBePaidHeader.onclick();
-
-    // select the select element and add an event listener to it
-    const select = document.querySelector("select[name='status']");
-    select.addEventListener("change", function() {
-        const value = select.value;
-        const rows = document.querySelectorAll("table tbody tr");
-
-        rows.forEach(row => {
-            const status = row.dataset.orderStatus;
-            if (value === "all" || value === status) {
-                row.style.display = "table-row";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    });
-</script>
