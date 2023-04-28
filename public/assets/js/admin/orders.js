@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let h1title = document.querySelector('h1');
 
         if (mode) {
-            sessionStorage.setItem('KDSmode', true);
+            sessionStorage.setItem('KDSmode', "true");
             nav.style.display = "none";
             sidebar.style.display = "none";
             KDSbutton.innerHTML = "Exit KDS mode";
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             maindiv.classList.add('p-2')
             h1title.style.display = "none";
         } else {
-            sessionStorage.setItem('KDSmode', false);
+            sessionStorage.setItem('KDSmode', "false");
             nav.style.display = 'flex';
             sidebar.style.display = 'block';
             KDSbutton.innerHTML = "KDS Mode";
