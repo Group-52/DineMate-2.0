@@ -41,6 +41,7 @@ class Promotion extends Model
         join('dishes', 'promo_discounts.dish_id', 'dishes.dish_id')->
         where('promotions.type', 'discounts')->
         and('promotions.deleted', 0)->
+        and('dishes.deleted', 0)->
         orderBy('status', 'DESC')->fetchAll();
     }
 
@@ -50,6 +51,7 @@ class Promotion extends Model
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         where('promotions.type', 'spending_bonus')->
         and('promotions.deleted', 0)->
+        and('dishes.deleted', 0)->
         orderBy('status', 'DESC')->fetchAll();
     }
 
@@ -61,6 +63,7 @@ class Promotion extends Model
         join('dishes as dishes2', 'promo_buy1get1free.dish2_id', 'dishes2.dish_id')->
         where('promotions.type', 'free_dish')->
         and('promotions.deleted', 0)->
+        and('dishes1.deleted', 0)->
         orderBy('status', 'DESC')->fetchAll();
     }
 
@@ -105,7 +108,7 @@ class Promotion extends Model
 
     public function deletepromo($id)
     {
-        $this->update(["deleted"=>1])->where('promo_id', $id)->execute();
+        $this->update(["deleted" => 1])->where('promo_id', $id)->execute();
     }
 
     public function editpromo($data)
