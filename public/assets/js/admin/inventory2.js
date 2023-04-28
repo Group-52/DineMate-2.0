@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else if (fieldName == 'special_notes') {
                     newValue = cells[i].querySelector('input').value;
                     if (newValue == '')
-                        newValue = null;
+                        newValue = " ";
                 } else if (fieldName == 'amount_remaining') {
                     newValue = cells[i].querySelector('input').value;
                     newValue = newValue == '' ? '0' : newValue;
