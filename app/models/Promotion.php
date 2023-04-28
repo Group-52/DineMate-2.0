@@ -51,7 +51,6 @@ class Promotion extends Model
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         where('promotions.type', 'spending_bonus')->
         and('promotions.deleted', 0)->
-        and('dishes.deleted', 0)->
         orderBy('status', 'DESC')->fetchAll();
     }
 
@@ -64,6 +63,7 @@ class Promotion extends Model
         where('promotions.type', 'free_dish')->
         and('promotions.deleted', 0)->
         and('dishes1.deleted', 0)->
+        and('dishes2.deleted', 0)->
         orderBy('status', 'DESC')->fetchAll();
     }
 
