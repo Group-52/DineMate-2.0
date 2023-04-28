@@ -8,7 +8,6 @@ use core\Model;
 
 class PromotionsBuy1Get1Free extends Model
 {
-
     public string $order_column = "promo_id";
     public function __construct()
     {
