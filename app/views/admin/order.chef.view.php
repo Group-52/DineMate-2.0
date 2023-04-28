@@ -20,7 +20,7 @@
         </div>
         <br>
         <div id="order-table">
-            <div class="card-deck">
+            <div class="card-deck row justify-content-start">
                 <?php if (isset($order_list)) : ?>
                     <?php foreach ($order_list as $order) : ?>
                         <div class="card" data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>"

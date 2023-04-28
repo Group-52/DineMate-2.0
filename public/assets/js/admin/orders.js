@@ -215,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add an event listener to the close icon to hide the notification instantly
     closeIcon.addEventListener('click', () => {
         notification.classList.add('hide');
+        notification.classList.remove('show');
     });
 
     // Uses a websocket to receive data and add it to the table
