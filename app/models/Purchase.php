@@ -9,7 +9,7 @@ use core\Model;
  */
 class Purchase extends Model
 {
-    protected int $nrows = 8;
+    protected int $nrows = 30;
 
     public function __construct()
     {

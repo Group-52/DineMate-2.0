@@ -10,7 +10,7 @@ use core\Model;
  */
 class InventoryDetail extends Model
 {
-    protected int $nrows=9;
+    protected int $nrows=30;
     public function __construct()
     {
         $this->table = "inventory2";

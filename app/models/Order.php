@@ -6,7 +6,7 @@ use core\Model;
 
 class Order extends Model
 {
-    protected int $nrows = 15;
+    protected int $nrows = 30;
 
     public function __construct()
     {
