@@ -21,7 +21,8 @@ class Promotion extends Model
             "type",
             "status",
             "description",
-            "image_url"
+            "image_url",
+            "deleted"
         ];
     }
 
@@ -39,7 +40,8 @@ class Promotion extends Model
         join('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         join('dishes', 'promo_discounts.dish_id', 'dishes.dish_id')->
         where('promotions.type', 'discounts')->
-        orderBy('status','DESC')->fetchAll();
+        and('promotions.deleted', 0)->
+        orderBy('status', 'DESC')->fetchAll();
     }
 
     public function getSpendingBonus()
@@ -47,7 +49,8 @@ class Promotion extends Model
         return $this->select(["promotions.*", "promo_spending_bonus.*"])->
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         where('promotions.type', 'spending_bonus')->
-        orderBy('status','DESC')->fetchAll();
+        and('promotions.deleted', 0)->
+        orderBy('status', 'DESC')->fetchAll();
     }
 
     public function getFreeDish()
@@ -57,7 +60,8 @@ class Promotion extends Model
         join('dishes as dishes1', 'promo_buy1get1free.dish1_id', 'dishes1.dish_id')->
         join('dishes as dishes2', 'promo_buy1get1free.dish2_id', 'dishes2.dish_id')->
         where('promotions.type', 'free_dish')->
-        orderBy('status','DESC')->fetchAll();
+        and('promotions.deleted', 0)->
+        orderBy('status', 'DESC')->fetchAll();
     }
 
 
@@ -73,7 +77,7 @@ class Promotion extends Model
         ]);
 
         $data['promo_id'] = $this->select(['promo_id'])->where('title', $data['title'])->
-            and('type', $data['type'])->fetch()->promo_id;
+        and('type', $data['type'])->fetch()->promo_id;
 
         // check for type of promotion and add to the respective table
 
@@ -96,22 +100,16 @@ class Promotion extends Model
         leftJoin('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         leftJoin('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         leftJoin('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
-        where('promotions.promo_id', $id)->fetch();
+        where('promotions.promo_id', $id)->and('promotions.deleted', 0)->fetch();
     }
 
     public function deletepromo($id)
     {
-        $imgname = $this->select(['image_url'])->where('promo_id', $id)->fetch()->image_url;
-        $this->delete()->where('promo_id', $id)->execute();
-        //delete image from folder
-        $path = ASSETS . '/images/promotions/' .$imgname;
-        if (file_exists($path)) {
-            unlink($path);
-        }
-
+        $this->update(["deleted"=>1])->where('promo_id', $id)->execute();
     }
 
-    public function editpromo($data){
+    public function editpromo($data)
+    {
         $this->update([
             'title' => $data['title'],
             'description' => $data['description'],
