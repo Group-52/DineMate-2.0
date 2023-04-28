@@ -32,11 +32,11 @@ class GeneralDetails extends Model
     {
         $this->update($data)->execute();
     }
-    public function insert(array $data): void
+    public function insertDetails(array $data): void
     {
         $this->insert($data);
     }
-    public function delete():void
+    public function deleteDetails():void
     {
         $this->delete()->execute();
     }

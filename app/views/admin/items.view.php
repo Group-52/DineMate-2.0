@@ -29,8 +29,8 @@
 <!--                        </div>-->
                         <div class="pl-2 col-2">
                             <select class="form-control" name="category">
-                                <option value="">Filter Category</option>
                                 <?php if (isset($categories) && is_array($categories)) : ?>
+                                    <option value="All" selected>All Categories</option>
                                     <?php foreach ($categories as $category) : ?>
                                         <option value="<?= $category->category_name ?>" <?= (isset($category_name) && $category->category_name == $category_name) ? " selected" : "" ?>>
                                             <?= $category->category_name ?>
