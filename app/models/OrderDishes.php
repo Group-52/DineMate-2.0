@@ -27,14 +27,14 @@ class OrderDishes extends Model
     }
 
     // delete a dish from an order
-    public function deleteOrderDish($order_id, $dish_id)
+    public function deleteOrderDish($order_id, $dish_id): void
     {
         $this->delete()->where("order_id", $order_id)
             ->and("dish_id", $dish_id)->execute();
     }
 
     // add a dish to an order
-    public function addOrderDish($order_id, $dish_id, $quantity)
+    public function addOrderDish($order_id, $dish_id, $quantity): void
     {
         $this->insert([
             "order_id" => $order_id,
@@ -44,7 +44,7 @@ class OrderDishes extends Model
     }
 
     // update quantity of a dish in an order
-    public function updateOrderDish($order_id, $dish_id, $quantity)
+    public function updateOrderDish($order_id, $dish_id, $quantity): void
     {
         $this->update([
             "quantity" => $quantity
@@ -52,7 +52,8 @@ class OrderDishes extends Model
         ->where("order_id", $order_id)
         ->and("dish_id", $dish_id)->execute();
     }
-    public function getAll($sd,$ed){
+
+    public function getAll($sd, $ed){
         $sd = date("Y-m-d", strtotime($sd));
         $ed = date("Y-m-d", strtotime($ed));
         return $this->select(["order_dishes.*", "dishes.dish_name", "dishes.selling_price", "dishes.prep_time","dishes.net_price","orders.time_placed"])

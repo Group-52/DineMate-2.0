@@ -35,4 +35,15 @@ class Cart
             redirect("auth");
         }
     }
+
+    public function clear(): void
+    {
+        if (isset($_SESSION["user"])) {
+            $cart = new \models\Cart();
+            $cart->clearCart($_SESSION["user"]->user_id);
+            redirect("cart");
+        } else {
+            redirect("auth");
+        }
+    }
 }

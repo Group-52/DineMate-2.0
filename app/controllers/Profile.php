@@ -23,12 +23,13 @@ class Profile
     public function info(): void
     {
         if (isset($_SESSION["user"])) {
+            # TODO Handle POST request
             $data = [];
             $form = new Form("", "POST", "Update Profile");
-            $form->addField("first_name", "first_name", "text", "First Name", true, value: $_SESSION["user"]->first_name);
-            $form->addField("last_name", "last_name", "text", "Last Name", true, value: $_SESSION["user"]->last_name);
-            $form->addField("email", "email", "email", "Email", true, value: $_SESSION["user"]->email);
-            $form->addField("tel", "tel", "tel", "Contact Number", true, value: $_SESSION["user"]->contact_no);
+            $form->addInputField("first_name", "first_name", "text", "First Name", true, value: $_SESSION["user"]->first_name);
+            $form->addInputField("last_name", "last_name", "text", "Last Name", true, value: $_SESSION["user"]->last_name);
+            $form->addInputField("email", "email", "email", "Email", true, value: $_SESSION["user"]->email);
+            $form->addInputField("tel", "tel", "tel", "Contact Number", true, value: $_SESSION["user"]->contact_no);
             $data["form"] = $form;
             $this->view("profile", $data);
         } else {
