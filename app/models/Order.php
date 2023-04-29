@@ -25,7 +25,8 @@ class Order extends Model
             "paid",
             "promo",
             "total_cost",
-            "collected"
+            "collected",
+            "service_charge"
         ];
     }
 
