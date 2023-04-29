@@ -18,7 +18,7 @@ class Unit extends Model
     }
 
     // add a unit
-    public function addUnit($unit_name, $type, $abbreviation = null)
+    public function addUnit($unit_name, $type, $abbreviation = null): void
     {
         $data = [
             "unit_name" => $unit_name,

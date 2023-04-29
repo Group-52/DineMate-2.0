@@ -223,7 +223,12 @@ class Order extends Model
         return $order_dishes->getOrderDishes($order);
     }
 
-    //calculate the total price of the order based on the dishes and their quantities only
+
+    /**
+     * @param $order_id
+     * @return float
+     * Description: Calculates the total cost of the order based on the dishes and their quantities without tax, discount, promotion or service charge
+     */
     public function calculateTotal($order_id): float
     {
         $dishes = $this->getDishes($order_id);
