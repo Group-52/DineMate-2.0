@@ -28,29 +28,30 @@ class Auth
         $data = [];
 
         $loginForm = new Form("", "POST", "Login");
-        $loginForm->addField("email", "email", "email", "Email", true);
-        $loginForm->addField("password", "password", "password", "Password", true);
+        $loginForm->addInputField("email", "email", "email", "Email", true);
+        $loginForm->addInputField("password", "password", "password", "Password", true);
         $data["form"] = $loginForm;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
-            if ($loginForm->validate($_POST)) {
+            if ($loginForm->isValid($_POST)) {
                 try {
                     $result = $user->getUserByEmail($_POST["email"]);
                     if (!$result)
-                        $data["errors"] = "Invalid email or password.";
+                        $data["error"] = "Invalid email or password.";
                     else {
                         if (password_verify($_POST["password"], $result->password)) {
                             $_SESSION["user"] = $result;
                             redirect("home");
                         } else {
-                            $data["errors"] = "Invalid email or password.";
+                            $data["error"] = "Invalid email or password.";
                         }
                     }
                 } catch (Exception $e) {
-                    $data["errors"] = "Unknown error.";
+                    $data["error"] = "Unknown error.";
                 }
             } else {
+                $data["error"] = "Invalid email or password.";
                 $data["errors"] = $loginForm->getErrors();
             }
         }
@@ -69,18 +70,18 @@ class Auth
         $data = [];
 
         $registerForm = new Form("", "POST", "Register");
-        $registerForm->addField("first_name", "first_name", "text", "First Name", true);
-        $registerForm->addField("last_name", "last_name", "text", "Last Name", true);
-        $registerForm->addField("email", "email", "email", "Email", true);
-        $registerForm->addField("contact_no", "contact_no", "text", "Contact No", true);
-        $registerForm->addField("password", "password", "password", "Password", true);
-        $registerForm->addField("confirm_password", "confirm_password", "password", "Confirm Password", true);
+        $registerForm->addInputField("first_name", "first_name", "text", "First Name", true);
+        $registerForm->addInputField("last_name", "last_name", "text", "Last Name", true);
+        $registerForm->addInputField("email", "email", "email", "Email", true);
+        $registerForm->addInputField("contact_no", "contact_no", "text", "Contact No", true);
+        $registerForm->addInputField("password", "password", "password", "Password", true);
+        $registerForm->addInputField("confirm_password", "confirm_password", "password", "Confirm Password", true);
         $data["form"] = $registerForm;
         $data["page_titles"] = ["Your Details", "How can we contact you?", "Create a password"];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
-            if ($registerForm->validate($_POST)) {
+            if ($registerForm->isValid($_POST)) {
                 if ($_POST["password"] === $_POST["confirm_password"]) {
                     $_POST['password'] = password_hash($_POST["password"], PASSWORD_DEFAULT);
                     try {

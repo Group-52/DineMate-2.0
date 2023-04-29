@@ -13,6 +13,7 @@
         <table id="cart-table" class="table cart"></table>
     </div>
     <div class="text-center">
+        <a href="<?= ROOT ?>/cart/clear" class="btn btn-primary text-uppercase mr-2">Clear Cart</a>
         <a href="<?= ROOT ?>/checkout" class="btn btn-primary text-uppercase">Checkout</a>
     </div>
 </div>

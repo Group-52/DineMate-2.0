@@ -43,7 +43,7 @@ class Order extends Model
     }
 
     // Create a new order
-    public function create($type, $dishlist, $reg_customer_id = null, $request = null, $guest_id = null, $table_id = null, $scheduled_time = null)
+    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): void
     {
         $data = [];
         $time_placed = date("Y-m-d H:i:s");
@@ -51,15 +51,11 @@ class Order extends Model
         // Checking type of customer
         if ($reg_customer_id) {
             $data['reg_customer_id'] = $reg_customer_id;
-            $key = "reg_customer_id";
-            $value = $reg_customer_id;
         } else {
             $data['guest_id'] = $guest_id;
-            $key = "guest_id";
-            $value = $guest_id;
         }
 
-        $data = [
+        $data += [
             'type' => $type,
             'time_placed' => $time_placed,
             'scheduled_time' => $scheduled_time,
@@ -69,15 +65,11 @@ class Order extends Model
         ];
 
         $this->insert($data);
-        // get the auto incremented order id
-        $oid = $this->select('order_id')
-            ->where($key, $value)->and("time_placed", $time_placed)
-            ->orderBy("order_id", "DESC")->limit(1);
-
+        $order_id = $this->lastInsertId();
         // add dishes to the order
         $m = new OrderDishes();
         foreach ($dishlist as $dish) {
-            $m->addOrderDish($oid, $dish['dish_id'], $dish['quantity']);
+            $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
     }
 
@@ -96,7 +88,7 @@ class Order extends Model
     }
 
     // Get all orders that are placed or scheduled for today and also are pending or accepted
-    public function getTodayChefOrders(): array|false
+    public function getActiveOrders(): array|false
     {
         //Get orders placed today and not scheduled
         $q1 = $this->select()
@@ -196,13 +188,13 @@ class Order extends Model
                 ->where("order_id", $order_id)->fetch();
     }
 
-    public function editOrder($order)
+    public function editOrder($order): void
     {
         $this->update($order)->where("order_id", $order['order_id'])->execute();
     }
 
     // Change order from pending/accepted/rejected/completed
-    public function changeStatus($order_id, $status)
+    public function changeStatus($order_id, $status): void
     {
         $this->update([
             'status' => $status
@@ -218,7 +210,7 @@ class Order extends Model
     }
 
     // Get the dishes in a given order
-    public function getDishes($order)
+    public function getDishes($order): array
     {
         $order_dishes = new OrderDishes();
         return $order_dishes->getOrderDishes($order);
@@ -249,7 +241,7 @@ class Order extends Model
     }
 
     // Complete the order by removing the ingredient amount from the inventory
-    public function complete($order_id)
+    public function complete($order_id): void
     {
         $d = (new OrderDishes())->getOrderDishes($order_id);
         $t2 = new Ingredient();
@@ -266,7 +258,7 @@ class Order extends Model
     }
 
     //Get all orders ahead of this one for today
-    public function getOrdersAhead($order_id)
+    public function getOrdersAhead($order_id): int
     {
         $o = $this->getOrder($order_id);
         $q = $this->select()->where("time_placed", $o->time_placed, "<")
@@ -333,7 +325,7 @@ class Order extends Model
         return ceil($x);
     }
 
-    public function deleteOrder($order_id)
+    public function deleteOrder($order_id): void
     {
         $this->delete()->where("order_id", $order_id)->execute();
     }
