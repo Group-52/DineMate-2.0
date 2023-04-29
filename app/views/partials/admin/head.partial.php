@@ -22,3 +22,4 @@
   const ASSETS = '<?= ASSETS ?>';
 </script>
 <script src="<?= ROOT ?>/assets/js/admin.js"></script>
+<script src="<?= ASSETS ?>/js/components/Toast.js"></script>
