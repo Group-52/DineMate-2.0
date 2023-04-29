@@ -59,33 +59,34 @@
 
             <form>
                 <div class="col-offset-6 p-5">
-                    <h3 class="py-5 text-center">Cash Payment</h3>
-                    <div class="row justify-content-space-evenly">
-                        <div class="col">
-                            Sub-total:<br>
-                            Promotion:<br>
-                            Net Total:<br>
-                            <?php if ($order->paid == 0): ?>
-
-                                Cash:<br>
-                                <hr class="my-1">
-                                Balance:<br>
-                            <?php endif ?>
-
+                    <h3 class="py-5 ml-5 text-left">Payment</h3>
+                    <div class="col justify-content-space-evenly">
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Sub-total:</div>
+                            <div class="w-50 p-1 payment-input-value" ><?=(new models\Order())->calculateTotal($order->order_id); ?> LKR</div>
                         </div>
-                        <div class="col pl-0">
-                            <?= $total ?> LKR<br>
-                            <span id="promo">0</span> LKR<br>
-                            <span id="Net-total"></span> LKR<br>
-                            <?php if ($order->paid == 0): ?>
-
-                                <input type="number" required class="form-control d-inline w-50 h-25"> LKR<br>
-                                <hr class="w-75 my-1">
-                                <span id="change"></span>
-                            <?php endif ?>
-
-
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Promotion: </div>
+                            <div class="w-50 p-1 payment-input-value"><span id="promo">0</span> LKR</div>
                         </div>
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Service Charge: </div>
+                            <div class="w-50 p-1 payment-input-value"><span id="sv-charge"><?php if ($order->type=="dine-in") echo (new models\Order())->calculateTotal($order->order_id)*0.05; else echo"0"?></span> LKR</div>
+                        </div>
+                         <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Net Total: </div>
+                            <div class="w-50 p-1 payment-input-value"><span id="Net-total">0</span> LKR</div>
+                        </div>
+                        <?php if ($order->paid == 0): ?>
+                            <div class="row">
+                                <div class="w-50 p-1 payment-input-label">Cash: </div>
+                                <div class="w-50 p-1 payment-input-value"><input id="cash" type="number" class="w-25" required> LKR</div>
+                            </div>
+                            <div class="row">
+                                <div class="w-50 p-1 payment-input-label">Balance: </div>
+                                <div class="w-50 p-1 payment-input-value"><span id="change">0</span> LKR</div>
+                            </div>
+                        <?php endif ?>
                     </div>
                     <div class="row w-100 justify-content-start">
                         <?php if ($order->paid == 0): ?>
@@ -105,14 +106,16 @@
     </div>
 </body>
 </html>
-
+<style>
+</style>
 <script id="payment">
     let paidbutton = document.querySelector('#complete-payment-button');
     let collectedbutton = document.querySelector('#complete-collected-button');
     var subtotal = <?= $total ?>;
     let promo = document.querySelector("#promo");
     let nettotal = document.querySelector("#Net-total");
-    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + "";
+    let servicecharge = document.querySelector("#sv-charge");
+    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML)+ "";
 
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
@@ -137,17 +140,19 @@
     }
     if (paidbutton) {
         let balancespan = document.querySelector("#change");
-        let cash = document.querySelector(".col input[type=number]");
+        let cash = document.querySelector("#cash");
         cash.min = parseFloat(nettotal.innerHTML);
         cash.addEventListener("keyup", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance + " LKR";
+                balancespan.innerHTML = balance;
+            else balancespan.innerHTML = 0;
         });
         cash.addEventListener("keydown", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance + " LKR";
+                balancespan.innerHTML = balance;
+            else balancespan.innerHTML = 0;
         });
         paidbutton.addEventListener('click', function (e) {
             e.preventDefault();
@@ -158,6 +163,7 @@
             let data = {
                 order_id: <?=$order->order_id ?>,
                 paid: 1,
+                service_charge: parseFloat(servicecharge.innerHTML),
                 total_cost: parseFloat(nettotal.innerHTML),
             }
             fetch(`${ROOT}/api/orders/update`, {
