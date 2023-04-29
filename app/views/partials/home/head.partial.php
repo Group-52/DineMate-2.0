@@ -21,4 +21,5 @@
   const ROOT = '<?= ROOT ?>';
   const ASSETS = '<?= ASSETS ?>';
 </script>
+<script src="<?= ASSETS ?>/js/components/Toast.js"></script>
 <script src="<?= ASSETS ?>/js/home.js"></script>

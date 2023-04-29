@@ -23,6 +23,7 @@ class Profile
     public function info(): void
     {
         if (isset($_SESSION["user"])) {
+            # TODO Handle POST request
             $data = [];
             $form = new Form("", "POST", "Update Profile");
             $form->addInputField("first_name", "first_name", "text", "First Name", true, value: $_SESSION["user"]->first_name);

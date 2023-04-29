@@ -73,7 +73,7 @@ class Order extends Model
     }
 
     // Get all orders that are pending or accepted
-    public function getValidOrders(): array|false
+    public function getActiveOrders(): array|false
     {
         //Get orders placed today and not scheduled
         $q1 = $this->select()

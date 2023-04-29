@@ -65,7 +65,7 @@ use models\Cart;
         <div class="sidebar-items px-5">
             <div class="sidebar-item">
                 <i class="fa-solid fa-burger"></i>
-                <span class="sidebar-text">My Orders</span>
+                <span class="sidebar-text"><a class="link" href="<?= ROOT ?>/orders">My Orders</a></span>
             </div>
             <div class="sidebar-item">
                 <i class="fa-solid fa-tag"></i>

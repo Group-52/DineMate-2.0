@@ -38,19 +38,20 @@ class Auth
                 try {
                     $result = $user->getUserByEmail($_POST["email"]);
                     if (!$result)
-                        $data["errors"] = "Invalid email or password.";
+                        $data["error"] = "Invalid email or password.";
                     else {
                         if (password_verify($_POST["password"], $result->password)) {
                             $_SESSION["user"] = $result;
                             redirect("home");
                         } else {
-                            $data["errors"] = "Invalid email or password.";
+                            $data["error"] = "Invalid email or password.";
                         }
                     }
                 } catch (Exception $e) {
-                    $data["errors"] = "Unknown error.";
+                    $data["error"] = "Unknown error.";
                 }
             } else {
+                $data["error"] = "Invalid email or password.";
                 $data["errors"] = $loginForm->getErrors();
             }
         }

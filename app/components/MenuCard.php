@@ -56,8 +56,8 @@ class MenuCard
         $html .= "<div class='card-img-wrapper'>";
         $html .= "<img src=" . ASSETS . "/images/dishes/{$this->image_url} class='card-img' alt='{$this->name}'>";
         $html .= "</a></div>";
-        $html .= "<button class='add-to-cart". ($inCart ? " primary" : "") ."' data-id='{$this->id}' " . ($inCart ? "disabled" : "") . ">";
-        $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
+        $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($inCart ? "disabled" : "") . ">";
+        $html .= "<i class='".($inCart ? "fa-solid fa-check" : "fa-sharp fa-solid fa-cart-plus")."'></i>";
         $html .= "</button>";
         $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
         $html .= "<div class='card-body'>";
