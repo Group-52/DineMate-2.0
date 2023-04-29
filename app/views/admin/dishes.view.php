@@ -21,14 +21,21 @@
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3 active">Dishes</h1>
+            <div id="search" class="form-search order-md-0 order-1 w-50">
+                <input type="text" class="form-control" placeholder="Search inventory" id="search-field">
+                <button class="form-search-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" id="add-dish-button"
                    href="<?php echo ROOT ?>/admin/dishes/addDish">Add Dish</a>
             </div>
 
+
         </div>
 
-        <div class="card-deck d-flex flex-wrap justify-content-start">
+        <div class="card-deck d-flex flex-wrap justify-content-space-evenly">
             <?php if (isset($dish_list) && count($dish_list) > 0) : ?>
                 <?php foreach ($dish_list as $d) : ?>
                     <div class="card p-2" data-dish-id="<?= $d->dish_id ?>" data-name="<?= $d->dish_name ?>" data-description="<?= $d->description ?>" data-prep-time="<?= $d->prep_time ?>" data-net-price="<?= $d->net_price ?>" data-selling-price="<?= $d->selling_price ?>" data-image-url="<?= $d->image_url ?>">
