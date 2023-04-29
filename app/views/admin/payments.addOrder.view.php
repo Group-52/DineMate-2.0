@@ -97,6 +97,9 @@
                     <div class="p-2">Discount:
                         <span id="discount">0</span> LKR
                     </div>
+                    <div class="p-2">Service-Charge:
+                        <span id="sv-charge">0</span> LKR
+                    </div>
                     <div class="p-2">Net Total:
                         <span id="nettotal">0</span> LKR
                     </div>

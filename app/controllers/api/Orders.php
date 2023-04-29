@@ -87,6 +87,7 @@ class Orders
                 $paid = $post->paid ?? null;
                 $total_cost = $post->total_cost ?? null;
                 $collected = $post->collected ?? null;
+                $service_charge = $post->service_charge ?? null;
                 $od = new Order();
                 $data = [
                     'order_id' => $order_id,
@@ -97,7 +98,8 @@ class Orders
                     'promo' => $promo,
                     'paid' => $paid,
                     'total_cost' => $total_cost,
-                    'collected'=>$collected
+                    'collected'=>$collected,
+                    'service_charge'=>$service_charge
                 ];
                 //remove null values
                 $data = array_filter($data, fn($v) => !is_null($v));

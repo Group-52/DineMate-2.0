@@ -63,13 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const totalCostDiv = document.getElementById("subtotal");
         totalCostDiv.textContent = total;
-
+        const svchargediv = document.querySelector('#sv-charge')
         //update net total
         const netTotalDiv = document.getElementById("nettotal");
+        let svcharge;
+        if (document.querySelector('#order-type').value != "dine-in") {
+            svcharge = 0;
+        } else {
+            svcharge = total * 0.05
+        }
+        svchargediv.innerHTML = svcharge
         const discount = parseFloat(document.getElementById("discount").innerHTML);
-        netTotalDiv.textContent = total - discount+"";
+        netTotalDiv.textContent = total - discount + svcharge + "";
 
     }
+    document.querySelector('#order-type').addEventListener("change",()=>{
+        updateTotalCost();
+    })
 
 
     document.querySelector('#confirm-order-button').addEventListener('click', (event) => {
@@ -84,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const contactNo = document.querySelector('#contact_no').value;
         const total = document.querySelector('#subtotal').textContent;
         let time = null;
-        if(document.querySelector('#timecheck').checked){
+        if (document.querySelector('#timecheck').checked) {
             time = document.querySelector('#sctime').value;
         }
 
@@ -96,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dishList.push({dishId: dishId, quantity: quantity});
         });
 
-        const otype= document.querySelector('#order-type').value;
+        const otype = document.querySelector('#order-type').value;
 
         const orderData = {
             firstname: firstName,
@@ -107,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dishlist: dishList,
             type: otype
         };
-        if (time && time!=='') {
+        if (time && time !== '') {
             orderData.sctime = time;
         }
 
