@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         event.preventDefault();
         formdiv.style.display = 'block';
         maindiv.style.filter = 'blur(5px)';
+        //make maindiv unclickable
+        maindiv.style.pointerEvents = 'none';
 
         // focus on first input
         form.querySelector('input').focus();
@@ -29,6 +31,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     cancelButton.addEventListener('click', () => {
         formdiv.style.display = 'none';
         maindiv.style.filter = 'blur(0)';
+        //make maindiv clickable
+        maindiv.style.pointerEvents = 'auto';
         form.action = `${ROOT}/admin/promotions/add`;
         form.reset();
         discountForm.style.display = "none";
@@ -87,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     editIcons.forEach(function (icon) {
         let card = icon.closest('.card');
         icon.addEventListener('click', function () {
+            //make maindiv unclickable
+            maindiv.style.pointerEvents = 'none';
             addButton.style.display = 'none';
             //gather data from card
             let promoId = card.dataset.promoid;
@@ -201,92 +207,3 @@ function openTab(evt, divName) {
     document.getElementById(divName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-
-// <div id="promo-form-div" className="overlay">
-//     <form method="POST" action="<?= ROOT ?>/admin/promotions/add" encType="multipart/form-data" id="promo-form">
-//         <div className="form-group" id="promo-type-field">
-//             <label htmlFor="promo-type">Promotion Type</label>
-//             <select className="form-control" id="promo-type" name="type" required>
-//                 <option value="0" selected disabled>Select Promotion Type</option>
-//                 <option value="discounts">Discount</option>
-//                 <option value="spending_bonus">Spending Bonus</option>
-//                 <option value="free_dish">Free Dish</option>
-//             </select>
-//         </div>
-//         <div className="form-group">
-//             <label htmlFor="promo-title">Title</label>
-//             <input type="text" className="form-control" id="promo-title" name="title" required>
-//         </div>
-//         <div className="form-group">
-//             <label htmlFor="promo-desc">Description</label>
-//             <input type="text" className="form-control" id="promo-desc" name="description">
-//         </div>
-//         <div className="form-group">
-//             <label htmlFor="promo-status">Status</label>
-//             <select className="form-control" id="promo-status" name="status">
-//                 <option value="1">Visible</option>
-//                 <option value="0">Hidden</option>
-//             </select>
-//         </div>
-//         <div className="form-group" id="image-input-field">
-//             <label htmlFor="promo-image">Image</label>
-//             <input type="file" className="form-control" id="promo-image" name="promo_image">
-//         </div>
-//
-//         <div id="discount-form">
-//             <div className="form-group">
-//                 <label htmlFor="dish">Dish</label>
-//                 <select className="form-control" id="dish" name="dish_id">
-//                     <?php foreach ($dishes as $d) : ?>
-//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
-//                     <?php endforeach; ?>
-//                 </select>
-//             </div>
-//             <div className="form-group">
-//                 <label htmlFor="discountval">Discount</label><span className="d-block">
-//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="discountval"
-//                                name="discount"> LKR</span>
-//             </div>
-//         </div>
-//         <div id="spending_bonus-form">
-//             <div className="form-group">
-//                 <label htmlFor="spent-amount">Spent Amount</label><span className="d-block">
-//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="spent-amount"
-//                                name="spent_amount"> LKR</span>
-//             </div>
-//             <div className="form-group">
-//                 <label htmlFor="bonus-amount">Bonus Amount</label><span className="d-block">
-//                         <input type="number" min="0" className="form-control d-inline w-75 mr-2" id="bonus-amount"
-//                                name="bonus_amount"> LKR</span>
-//             </div>
-//         </div>
-//         <div id="free_dish-form">
-//             <div className="form-group">
-//                 <label htmlFor="dish1">Dish 1</label>
-//                 <select className="form-control" id="dish1" name="dish1_id">
-//                     <option disabled value="" selected>Select Dish</option>
-//                     <?php foreach ($dishes as $d) : ?>
-//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
-//                     <?php endforeach; ?>
-//                 </select>
-//             </div>
-//             <div className="form-group">
-//                 <label htmlFor="dish2">Dish 2</label>
-//                 <select className="form-control" id="dish2" name="dish2_id">
-//                     <option disabled value="" selected>Select Dish</option>
-//                     <?php foreach ($dishes as $d) : ?>
-//                     <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
-//                     <?php endforeach; ?>
-//                 </select>
-//             </div>
-//         </div>
-//         <input type="submit" name="submit" className="btn btn-primary" id="submit-button">
-//             <button type="button" className="btn btn-secondary" id="cancel-button">Cancel</button>
-//     </form>
-//
-// </div>
-
-
-
-
-
