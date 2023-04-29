@@ -4,12 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const toBeCollectedDiv = document.querySelector('#tobecollected-table');
     const toBePaidHeader = document.querySelector('#unpaid-header');
     const toBeCollectedHeader = document.querySelector('#tocollect-header');
-    const notification = document.querySelector('#notification');
-    const xnotify = document.querySelector('#notification i');
-
-    xnotify.onclick = function () {
-       notification.style.display = 'none';
-    }
 
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
@@ -50,16 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
     socket.onmessage = function (event) {
         let d = JSON.parse(event.data);
         if (d.event_type === "completed_order") {
-            console.log(`Order ${d.order_id} has been completed for ${d.user_type}User: ${d.user_id}`);
-            // alert(`Order ${d.order_id} has been completed`);
-            // window.location.reload();
 
-            notification.style.display = "block";
-            notification.querySelector('.message').textContent = `Order ${d.order_id} has been completed`;
-            // Hide the notification after 5 seconds
-            setTimeout(function () {
-                notification.style.display = "none";
-            } , 5000);
+            let message = `Order ${d.order_id} has been completed for ${d.user_type}User: ${d.user_id}`;
+            let title = "Order Completed";
+            new Toast("fa-solid fa-check", "#28a745", title, message, true, 3000);
 
             // Get the row of the order
             const row = document.querySelector(`tr[data-order-id="${d.order_id}"]`);
@@ -68,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
             row.style.transition = "border 2s ease-in-out";
             setTimeout(function () {
                 row.style.border = "2px solid white";
-            } , 2000);
+            }, 2000);
             // Get the estimated time cell (6th td)
             const estimatedTimeCell = row.querySelector("td:nth-child(6)");
             // Update the estimated time cell
