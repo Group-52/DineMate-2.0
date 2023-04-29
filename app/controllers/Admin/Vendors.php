@@ -48,7 +48,7 @@ class Vendors
         $vendor = new Vendor;
         $results['v1'] = $vendor->getVendor($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            show($_POST);
+//            show($_POST);
             $vendor = new Vendor;
             $vendor->editVendor($_POST);
             redirect('admin/vendors');

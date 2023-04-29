@@ -29,6 +29,10 @@ class Menus
         $m = new Menu();
         $m2 = new MenuDishes();
         $data['menu'] = $m->getMenu($menu_id);
+        if (!$data['menu']){
+            redirect('admin/_404');
+            return;
+        }
         $data['menu_items'] = $m2->getMenuDishes($menu_id);
         $data['controller'] = 'menus';
         $data['dishes'] = $d->getDishes();
@@ -91,6 +95,10 @@ class Menus
     {
         $menu = new Menu;
         $results['m'] = $menu->getMenu($menu_id);
+        if (!$results['m']){
+            redirect('admin/_404');
+            return;
+        }
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $menu = new Menu;
             //if all_day is set, set start_time and end_time to empty

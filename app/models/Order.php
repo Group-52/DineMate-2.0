@@ -6,7 +6,7 @@ use core\Model;
 
 class Order extends Model
 {
-    protected int $nrows = 15;
+    protected int $nrows = 30;
 
     public function __construct()
     {
@@ -206,6 +206,14 @@ class Order extends Model
         $this->update([
             'status' => $status
         ])->where('order_id', $order_id)->execute();
+        if ($status == 'completed') {
+            //reduce stock
+            $this->complete($order_id);
+            //add to stats
+//            show("HI I'm adding to stats");
+            (new Stats())->addOrder($order_id);
+            (new MenuStats())->addOrder($order_id);
+        }
     }
 
     // Get the dishes in a given order

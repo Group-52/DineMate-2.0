@@ -98,7 +98,7 @@
         </div>
         <div class="popup" id="delete-popup">
             <p>
-                Are you sure you want to delete <span></span>? This would remove the dish from all menus, promotions, recipes and past orders resulting in potentially incorrect data.
+                Are you sure you want to delete <span></span>? This would remove the dish from all menus, promotions, and recipes
             </p>
             <div class="popup-button-div">
                 <button class="btn btn-primary btn-success" id="confirm">Yes</button>

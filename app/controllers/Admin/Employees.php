@@ -4,7 +4,6 @@ namespace controllers\admin;
 
 use core\Controller;
 use models\Employee;
-use models\Role;
 
 /**
  * Employee Controller
@@ -62,7 +61,7 @@ class Employees
         $employee = new Employee;
         $results['e1'] = $employee->getEmployee($emp_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            show($_POST);
+//            show($_POST);
             $employee = new Employee;
             $employee->editEmployee($_POST);
             redirect('admin/employees');

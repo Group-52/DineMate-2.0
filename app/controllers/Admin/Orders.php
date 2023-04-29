@@ -30,14 +30,12 @@ class Orders
     public function edit($order_id): void
     {
         $order = new Order;
-        $results['order'] = $order->getOrder($order_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            show($_POST);
             $order = new Order;
             $order->editOrder($_POST);
             redirect('admin/orders');
-        }
-        $this->view('admin/order.edit', $results);
+        }else
+            redirect('admin/_404');
     }
 
     public function id($order_id): void
@@ -50,7 +48,7 @@ class Orders
         if ($data['order'])
             $this->view('admin/order.detail', $data);
         else
-            $this->view('admin/_404');
+            redirect('admin/_404');
     }
 
     public function delete($order_id): void
@@ -66,7 +64,7 @@ class Orders
         $p = $_GET['page'] ?? 1;
         $totalPages = $order->getPages();
         if ($p > $totalPages ||$p==0) {
-            $this->view('admin/_404');
+            redirect('admin/_404');
         } else {
             $ol = $order->getAllOrders($p);
             $data = [

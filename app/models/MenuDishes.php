@@ -33,7 +33,11 @@ class MenuDishes extends Model
     {
         $d = new Dish();
 
-        $records = $this->select()->where('menu_id', $menu_id)->limit($num)->offset($offset)->fetchAll();
+        $records = $this->select()
+            ->join("dishes", "menu_dishes.dish_id","dishes.dish_id")
+            ->where('menu_id', $menu_id)
+            ->and('dishes.deleted', 0)
+            ->limit($num)->offset($offset)->fetchAll();
         $menu_dishes = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu_id) {

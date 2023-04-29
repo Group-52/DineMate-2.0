@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const cb = document.getElementById('complete-button');
     const os = document.querySelector('.order-status');
     const oid = document.querySelector('.order-id').getAttribute('data-order-id');
+    const uid = document.querySelector('.order-id').getAttribute('data-user-id');
+    const utype = document.querySelector('.order-id').getAttribute('data-user-type');
     const status = os.getAttribute('data-order-status');
     const blurbox = document.querySelector('.blur-container');
     const editbutton = document.querySelector('#edit-button');
@@ -409,8 +411,23 @@ document.addEventListener('DOMContentLoaded', function () {
         // change order status to completed
         updateOrderStatus(oid, 'completed');
 
-        // redirect to orders page
-        window.location.href = `${ROOT}/admin/orders`;
+        //send notification to user and cashier via websocket
+        var socket = new WebSocket("ws://localhost:8080");
+        socket.onopen = function () {
+            var n = {
+                "event_type": "completed_order",
+                "order_id": oid,
+                "user_id": uid,
+                "user_type": utype
+            };
+            console.log(n);
+            socket.send(JSON.stringify(n));
+        };
+
+        // redirect to orders page after 1 second
+        setTimeout(function () {
+            window.location.href = `${ROOT}/admin/orders`;
+        }, 1000);
     });
     let cancelButton1 = document.querySelector('#complete-popup #cancel-complete');
     cancelButton1.addEventListener('click', function () {

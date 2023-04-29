@@ -42,7 +42,6 @@ class Purchases
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $purchaseModel = new Purchase();
             $purchaseModel->addPurchase($_POST);
-
         }
         redirect("admin/purchases");
     }

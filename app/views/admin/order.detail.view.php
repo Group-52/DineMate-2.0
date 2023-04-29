@@ -35,13 +35,14 @@
                 <h2>
                     <?php if ($order->reg_customer_id)
                         echo "Customer ID: " . $order->reg_customer_id;
-                    else echo "Guest ID: Guest" ?>
+                    else echo "Guest ID: ".$order->guest_id; ?>
                 </h2>
 
             </div>
             <div class="row justify-content-space-between px-5 pt-2" style="height: 40px">
                 <span class="order-id"
-                      data-order-id="<?= $order->order_id ?>">
+                      data-order-id="<?= $order->order_id ?>" data-user-id="<?=$order->reg_customer_id ?? $order->guest_id?>"
+                      data-user-type="<?= $order->reg_customer_id ? 'registered' : 'guest' ?>">
                     <h2 class="d-inline">Order ID: <?= $order->order_id ?></h2>
                 </span>
                 <h5 class="pr-5">Estimated Time: <?= (new models\Order())->getEstimate($order->order_id) ?> minutes</h5>
