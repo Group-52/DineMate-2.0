@@ -9,7 +9,7 @@ use core\Model;
  */
 class Purchase extends Model
 {
-    protected int $nrows = 8;
+    protected int $nrows = 30;
 
     public function __construct()
     {
@@ -90,6 +90,20 @@ class Purchase extends Model
             return $q->fetchAll();
         else
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
+    }
+
+    public function getAll($sd,$ed): array
+    {
+        $sd = date("Y-m-d H:i:s", strtotime($sd));
+        $ed = date("Y-m-d H:i:s", strtotime($ed));
+        return $this->select(["purchases.purchase_id", "purchases.purchase_date", "vendors.vendor_name", "items.item_name", "purchases.quantity", "purchases.brand", "purchases.expiry_date", "purchases.cost", "purchases.discount", "purchases.final_price", "purchases.tax", "units.*"])
+            ->join("vendors", "vendor", "vendor_id")
+            ->join("items", "item", "item_id")
+            ->join("units", "items.unit", "unit_id")
+            ->where("purchase_date", $sd, ">=")
+            ->and("purchase_date", $ed, "<=")
+            ->orderBy("purchase_date", "DESC")
+            ->fetchAll();
     }
 
 }

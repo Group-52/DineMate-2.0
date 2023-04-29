@@ -38,9 +38,14 @@ class MenuStats extends Model
         return $data;
     }
 
-    public function getAll(): array
+    public function getAll($sd,$ed): array
     {
-        $this->select(['date', 'menu_id', 'mcount'])->orderBy('date', 'DESC');
+        $sd = date('Y-m-d', strtotime($sd));
+        $ed = date('Y-m-d', strtotime($ed));
+        $this->select(['date', 'menu_id', 'mcount'])
+            ->where('date',$ed, '<=')
+            ->and('date',$sd, '>=')
+            ->orderBy('date', 'DESC');
         return $this->fetchAll();
     }
 

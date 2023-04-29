@@ -47,4 +47,19 @@ class Guest extends Model
     {
         return $this->select()->fetchAll();
     }
+
+    //will return current time if successful
+    public function addGuest($fname=null,$lname=null,$contactno=null,$email=null): bool|string
+    {
+        $now = date('Y-m-d H:i:s');
+        $data = [
+            'first_name' => $fname,
+            'last_name' => $lname,
+            'contact_no' => $contactno,
+            'email' => $email,
+            'date_created' => $now
+        ];
+        $this->insert($data);
+        return $now;
+    }
 }

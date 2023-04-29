@@ -39,6 +39,7 @@ class Ingredient extends Model
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
+            ->where("dishes.deleted", 0)
             ->fetchAll();
         $ingredientList = [];
         foreach ($ingredients as $ingredient) {
@@ -55,6 +56,7 @@ class Ingredient extends Model
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
             ->where("ingredients.item_id", $item)
+            ->and("dishes.deleted", 0)
             ->fetchAll();
     }
 

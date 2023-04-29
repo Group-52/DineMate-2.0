@@ -1,4 +1,4 @@
-<nav class="nav px-3 position-sticky justify-content-space-between">
+<nav class="nav px-3 position-sticky justify-content-space-between top-0">
     <div class="nav-brand">
         <div class="nav-items">
             <div class="nav-item">

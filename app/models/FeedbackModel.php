@@ -64,5 +64,15 @@ class FeedbackModel extends Model
             "description" => $desc
         ]);
     }
+    public function getAll($sd,$ed):array
+    {
+        $sd = date("Y-m-d H:i:s", strtotime($sd));
+        $ed = date("Y-m-d H:i:s", strtotime($ed));
+        return $this->select(["feedback.*","reg_users.first_name","reg_users.last_name"])
+            ->join("reg_users", "reg_users.user_id", "feedback.reg_customer_id")
+            ->where("feedback.time_placed", $sd, ">=")
+            ->and("feedback.time_placed", $ed, "<=")
+            ->fetchAll();
+    }
 }
 

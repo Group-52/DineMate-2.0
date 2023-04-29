@@ -51,5 +51,10 @@ class RegUser extends Model
     {
         return $this->select()->fetchAll();
     }
-}
 
+
+    // public function getReguser($firstname): object|false
+    // {
+    //     return $this->select()->where("first_name", $firstname)->fetch();
+    // }
+}

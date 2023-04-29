@@ -26,8 +26,12 @@ class Ingredients
 
         if ($dish) {
             $data['dish'] = $d->getDishById($dish);
-            $data['dishIngredients'] = (new Ingredient)->getDishIngredients($dish);
-            $this->view('admin/ingredients.detail', $data);
+            if ($data['dish']) {
+                $data['dishIngredients'] = (new Ingredient)->getDishIngredients($dish);
+                $this->view('admin/ingredients.detail', $data);
+            } else {
+                redirect('admin/404');
+            }
         } else {
             $this->view('admin/ingredients', $data);
         }

@@ -61,9 +61,6 @@ class Orders
                 $od = new Order();
 
                 $od->changeStatus($order_id, $status);
-                if ($status === 'completed') {
-                    $od->complete($order_id);
-                }
                 $this->json([
                     'status' => 'success',
                     'message' => 'Order status changed'
@@ -82,17 +79,27 @@ class Orders
             try {
                 $post = json_decode(file_get_contents('php://input'));
                 $order_id = $post->order_id;
-                $scheduled_time = isset($post->scheduled_time) ? $post->scheduled_time : null;
-                $request = isset($post->request) ? $post->request : null;
-                $type = isset($post->type) ? $post->type : null;
-                $table = isset($post->table) ? $post->table : null;
+                $scheduled_time = $post->scheduled_time ?? null;
+                $request = $post->request ?? null;
+                $type = $post->type ?? null;
+                $table = $post->table ?? null;
+                $promo = $post->promo ?? null;
+                $paid = $post->paid ?? null;
+                $total_cost = $post->total_cost ?? null;
+                $collected = $post->collected ?? null;
+                $service_charge = $post->service_charge ?? null;
                 $od = new Order();
                 $data = [
                     'order_id' => $order_id,
                     'type' => $type,
                     'scheduled_time' => $scheduled_time,
                     'request' => $request,
-                    'table_id' => $table
+                    'table_id' => $table,
+                    'promo' => $promo,
+                    'paid' => $paid,
+                    'total_cost' => $total_cost,
+                    'collected'=>$collected,
+                    'service_charge'=>$service_charge
                 ];
                 //remove null values
                 $data = array_filter($data, fn($v) => !is_null($v));

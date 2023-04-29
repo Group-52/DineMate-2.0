@@ -23,7 +23,11 @@ class Items
             redirect("admin/auth");
         }
         $data = [];
-        $data["items"] = (new Item())->itemsSearch($_GET);
+        if (isset($_GET["category"]) && $_GET["category"] != "All") {
+            $data["items"] = (new Item())->itemsSearch($_GET);
+        }else{
+            $data["items"] = (new Item())->getItems();
+        }
         $data["categories"] = (new Category())->select()->fetchAll();
         $data["query"] = $_GET["query"] ?? "";
         $data["category_name"] = $_GET["category"] ?? "";
