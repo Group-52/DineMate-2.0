@@ -64,7 +64,7 @@
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Sub-total:</div>
                             <div
-                                class="w-50 p-1 payment-input-value"><?= (new models\Order())->calculateTotal($order->order_id); ?>
+                                class="w-50 p-1 payment-input-value"><?= (new models\Order())->calculateSubTotal($order->order_id); ?>
                                 LKR
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Service Charge:</div>
                             <div class="w-50 p-1 payment-input-value"><span
-                                    id="sv-charge"><?php if ($order->type == "dine-in") echo (new models\Order())->calculateTotal($order->order_id) * 0.05; else echo "0" ?></span>
+                                    id="sv-charge"><?php if ($order->type == "dine-in") echo (new models\Order())->calculateSubTotal($order->order_id) * 0.05; else echo "0" ?></span>
                                 LKR
                             </div>
                         </div>
