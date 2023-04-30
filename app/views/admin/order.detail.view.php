@@ -119,7 +119,7 @@
                         </select>
                     </h4>
                     <h4 class="pt-3">
-                        Order Total: <?= (new models\Order())->calculateTotal($order->order_id) ?> LKR
+                        Order Total: <?= (new models\Order())->calculateSubTotal($order->order_id) ?> LKR
                     </h4>
 
                 </div>

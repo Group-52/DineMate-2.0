@@ -9,6 +9,7 @@ class PromotionsSpendingBonus extends Model
 {
 
     public string $order_column = "promo_id";
+
     public function __construct()
     {
         $this->table = "promo_spending_bonus";
@@ -17,6 +18,30 @@ class PromotionsSpendingBonus extends Model
             "spent_amount",
             "bonus_amount",
         ];
+    }
+
+    public function checkValidPromotion($promo_id, $order_id): bool
+    {
+        $total = (new Order())->calculateSubTotal($order_id);
+        $promotion = $this->getPromotion($promo_id);
+        $spent = $promotion->spent_amount;
+        if ($total >= $spent) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getReduction($promo_id, $order_id): float
+    {
+        $total = (new Order())->calculateSubTotal($order_id);
+        $promotion = $this->getPromotion($promo_id);
+        $spent = $promotion->spent_amount;
+        $bonus = $promotion->bonus_amount;
+        if ($total >= $spent) {
+            return $bonus;
+        } else {
+            return 0;
+        }
     }
 
     // Get all entries in the table
@@ -37,10 +62,9 @@ class PromotionsSpendingBonus extends Model
     }
 
     // get one promotion by id
-    public function getpromotion($id): bool|array
+    public function getpromotion($id): bool|object
     {
-        $l = $this->select()->where('promo_id', $id)->fetch();
-        return $l;
+        return $this->select()->where('promo_id', $id)->fetch();
     }
 
     public function editpromotion($id, $spent, $bonus): void
