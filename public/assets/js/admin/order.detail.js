@@ -332,6 +332,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // make ajax call to update status
         updateOrderStatus(oid, 'accepted');
+        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+
     });
 
     cb.addEventListener('click', function () {
@@ -411,18 +413,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // change order status to completed
         updateOrderStatus(oid, 'completed');
 
-        //send notification to user and cashier via websocket
-        var socket = new WebSocket("ws://localhost:8080");
-        socket.onopen = function () {
-            var n = {
-                "event_type": "completed_order",
-                "order_id": oid,
-                "user_id": uid,
-                "user_type": utype
-            };
-            console.log(n);
-            socket.send(JSON.stringify(n));
-        };
+        (new Socket()).send_data("completed_order", {"order_id": oid, "user_id": uid, "user_type": utype})
 
         // redirect to orders page after 1 second
         setTimeout(function () {
@@ -469,8 +460,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // change order status to rejected
         updateOrderStatus(oid, 'rejected');
-        // redirect to orders page
-        window.location.href = `${ROOT}/admin/orders`;
+
+        (new Socket()).send_data("rejected_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        setTimeout(function () {
+            // redirect to orders page
+            window.location.href = `${ROOT}/admin/orders`;
+        }, 1000);
     });
     let cancelButton2 = document.querySelector('#reject-popup #cancel-reject');
     cancelButton2.addEventListener('click', function () {

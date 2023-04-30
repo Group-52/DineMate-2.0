@@ -39,30 +39,23 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Uses a websocket to receive data
-    var socket = new WebSocket("ws://localhost:8080");
-    socket.onmessage = function (event) {
-        let d = JSON.parse(event.data);
-        if (d.event_type === "completed_order") {
+    (new Socket()).receive_data('completed_order', function (d) {
+        let message = `Order ${d.order_id} has been completed for ${d.user_type}User: ${d.user_id}`;
+        let title = "Order Completed";
+        new Toast("fa-solid fa-check", "#28a745", title, message, true, 3000);
 
-            let message = `Order ${d.order_id} has been completed for ${d.user_type}User: ${d.user_id}`;
-            let title = "Order Completed";
-            new Toast("fa-solid fa-check", "#28a745", title, message, true, 3000);
-
-            // Get the row of the order
-            const row = document.querySelector(`tr[data-order-id="${d.order_id}"]`);
-            //make row border glow light green and fade back to white slowly
-            row.style.border = "4px solid #00ff00";
-            row.style.transition = "border 2s ease-in-out";
-            setTimeout(function () {
-                row.style.border = "2px solid white";
-            }, 2000);
-            // Get the estimated time cell (6th td)
-            const estimatedTimeCell = row.querySelector("td:nth-child(6)");
-            // Update the estimated time cell
-            estimatedTimeCell.textContent = "Completed";
-
-        }
-    };
+        // Get the row of the order
+        const row = document.querySelector(`tr[data-order-id="${d.order_id}"]`);
+        //make row border glow light green and fade back to white slowly
+        row.style.border = "4px solid #00ff00";
+        row.style.transition = "border 2s ease-in-out";
+        setTimeout(function () {
+            row.style.border = "2px solid white";
+        }, 2000);
+        // Get the estimated time cell (6th td)
+        const estimatedTimeCell = row.querySelector("td:nth-child(6)");
+        // Update the estimated time cell
+        estimatedTimeCell.textContent = "Completed";
+    });
 
 });
