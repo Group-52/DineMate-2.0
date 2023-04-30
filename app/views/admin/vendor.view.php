@@ -36,7 +36,6 @@
                 <th>Email</th>
             </tr>
             </thead>
-    
     <tbody>
     
         <?php if (isset($Vendor)) {

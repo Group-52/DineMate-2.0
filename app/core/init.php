@@ -9,7 +9,7 @@ spl_autoload_register(function ($classname) {
     require $filename = "../app/" . str_replace("\\", "/", $classname) . ".php";
 });
 
-// require '../vendor/autoload.php';
+require '../vendor/autoload.php';
 require 'config.php';
 require 'functions.php';
 require 'Database.php';
