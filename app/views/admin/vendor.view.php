@@ -33,6 +33,7 @@
                 <th>Address</th>
                 <th>Company</th>
                 <th>Contact No</th>
+                <th>Email</th>
             </tr>
             </thead>
     
