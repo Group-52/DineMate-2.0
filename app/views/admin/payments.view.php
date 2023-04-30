@@ -190,11 +190,6 @@
 
             </table>
         </div>
-        <div id="notification" class="notification position-fixed right-0 bottom-0 mb-5 mr-5 p-2" style="display: none; border: 3px solid lawngreen;">
-            <span class="message">Completed Order</span>
-            <span class="close-icon"> <i class="fa fa-times"></i></span>
-        </div>
-
 
     </div>
 </body>
