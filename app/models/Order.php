@@ -207,10 +207,6 @@ class Order extends Model
         if ($status == 'completed') {
             //reduce stock
             $this->complete($order_id);
-            //add to stats
-//            show("HI I'm adding to stats");
-            (new Stats())->addOrder($order_id);
-            (new MenuStats())->addOrder($order_id);
         }
     }
 
@@ -269,7 +265,7 @@ class Order extends Model
      * Description: Updates the total cost of the order, can override cost manually
      * @return void
      */
-    public function updateCost($order_id,$cost=null): void
+    public function updateCost($order_id, $cost = null): void
     {
         $cost = $cost ?? $this->calculateFullTotal($order_id);
         $this->update([
@@ -277,9 +273,13 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-    // Complete the order by removing the ingredient amount from the inventory
+    // Complete the order by removing the ingredient amount from the inventory and adding details to stats
     public function complete($order_id): void
     {
+        //add to stats
+        (new Stats())->addOrder($order_id);
+        (new MenuStats())->addOrder($order_id);
+
         $d = (new OrderDishes())->getOrderDishes($order_id);
         $t2 = new Ingredient();
         $t3 = new InventoryDetail();
@@ -324,6 +324,21 @@ class Order extends Model
         return false;
     }
 
+    //    Add a promotion to an order
+    public function addPromo($order_id, $promo): void
+    {
+        $this->update([
+            'promo' => $promo
+        ])->where('order_id', $order_id)->execute();
+    }
+
+    //    Remove a promotion from an order
+    public function removePromo($order_id): void
+    {
+        $this->update([
+            'promo' => 1
+        ])->where('order_id', $order_id)->execute();
+    }
 
     public function addOrder($data): void
     {
