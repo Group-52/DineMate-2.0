@@ -3,7 +3,6 @@
 namespace controllers\admin;
 
 use core\Controller;
-use models\Feedback;
 
 /**
  * Class Feedback
@@ -14,7 +13,7 @@ class Feedback
 
     public function index(): void
     {
-        $f = new Feedback();
+        $f = new \models\Feedback();
         $data['feedback_list'] = $f->getFeedback();
         $data['controller'] = 'feedback';
 
