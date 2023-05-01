@@ -40,7 +40,7 @@ class Model
         return $this;
     }
 
-    public function count(string $column): Model
+    public function count(string $column = '*'): Model
     {
         $this->query = "SELECT COUNT($column) FROM $this->table";
         return $this;

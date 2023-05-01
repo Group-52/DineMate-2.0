@@ -90,7 +90,7 @@ class Stats
             } else if ($table == 'purchases') {
                 $stats = (new \models\Purchase())->getAll($start, $end);
             } else if ($table == 'feedback') {
-                $stats = (new \models\FeedbackModel())->getAll($start, $end);
+                $stats = (new \models\Feedback())->getAll($start, $end);
             } else {
                 $invalidtable = true;
             }

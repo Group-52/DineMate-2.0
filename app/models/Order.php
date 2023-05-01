@@ -42,8 +42,8 @@ class Order extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
-    // Create a new order
-    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): void
+    // Create a new order and returns the order id
+    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): int
     {
         $data = [];
         $time_placed = date("Y-m-d H:i:s");
@@ -71,6 +71,8 @@ class Order extends Model
         foreach ($dishlist as $dish) {
             $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
+
+        return $order_id;
     }
 
     /**
@@ -93,7 +95,7 @@ class Order extends Model
     }
 
     // Get all orders that are placed or scheduled for today and also are pending or accepted
-    public function getActiveOrders(): array|false
+    public function getTodayChefOrders(): array|false
     {
         //Get orders placed today and not scheduled
         $q1 = $this->select()
@@ -133,6 +135,46 @@ class Order extends Model
             }
         });
         return $q;
+    }
+
+    public function getActiveOrders($user_id, $limit = 10, $offset = 0): array
+    {
+        $this->select()
+            ->where("status", "completed", "!=")
+            ->and("reg_customer_id", $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
+    public function getActiveOrdersCount($user_id): int
+    {
+        $this->count()
+            ->where("status", "completed", "!=")
+            ->and("reg_customer_id", $user_id);
+        return $this->fetch()->{'COUNT(*)'};
+    }
+
+    // Get all orders that are marked as completed
+    public function getPreviousOrders($user_id, $limit = 10, $offset = 0): array|false
+    {
+        $this->select("orders.*, feedback.rating")
+            ->leftJoin("feedback", "orders.order_id", "feedback.order_id")
+            ->where("status", "completed")
+            ->and("reg_customer_id", $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
+    public function getPreviousOrdersCount($user_id): int
+    {
+        $this->count()
+            ->where("status", "completed")
+            ->and("reg_customer_id", $user_id);
+        return $this->fetch()->{'COUNT(*)'};
     }
 
     //get all completed orders that are placed or scheduled for today
