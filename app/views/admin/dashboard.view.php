@@ -130,25 +130,6 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <h3 class="card-title">Order submit</h3>
-                <form id="f2" style="padding: 10px; margin: 10px">
-                    <input type="number" name="order_id" placeholder="Order ID">
-                    <input type="text" name="status" value="pending" disabled>
-                    <input type="text" name="time_placed" value="2020-12-12 12:12:12" disabled>
-                    <input type="text" name="request" placeholder="Request">
-                    <input type="number" name="reg_customer_id" placeholder="Customer ID" value=<?= rand() ?> disabled>
-                    <select name="type">
-                        <option value="takeaway">Takeaway</option>
-                        <option value="bulk">Bulk</option>
-                        <option value="dine-in">Dine-in</option>
-                    </select>
-
-
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
-
         </div>
     </div>
 </div>
