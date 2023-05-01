@@ -25,14 +25,29 @@
     .pending {
       color: #BC6D34;
     }
-    .accepted {
+    .rejected {
       color: $secondary-color;
     }
-    .completed {
+    .accepted {
       color: #B8BB1E;
     }
-    .complete {
+    .completed {
       color: #59BB1E;
+    }
+  }
+}
+
+.stars {
+  .star {
+    color: $primary-color;
+  }
+  :not(.star) {
+    color: $border;
+  }
+  &.stars-editable {
+    cursor: pointer;
+    .hover {
+      color: $secondary-color;
     }
   }
 }
