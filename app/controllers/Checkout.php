@@ -63,6 +63,7 @@ class Checkout
                     ]));
                     if ($_SESSION["user"])
                         $cart->clearCart($_SESSION["user"]->user_id);
+                    redirect("orders/active");
                 }
             } else {
                 $data["errors"] = $form->getErrors();
