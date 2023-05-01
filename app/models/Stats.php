@@ -99,8 +99,8 @@ class Stats extends Model
 
         //calculate the food cost and the number of dishes in the order
         foreach ($dishes as $dish) {
-            $foodCost += $dish->net_price;
-            $n++;
+            $foodCost += ($dish->net_price*$dish->quantity);
+            $n += $dish->quantity;
         }
 
         //get the hour and date from the mysql timestamp
