@@ -39,15 +39,23 @@ class Inventory extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
-//    TODO group by category
-    public function getInventorybyCategory():array|bool
+    public function getInventoryByCategory():array|bool
     {
-        return $this->select(["inventory.*", "items.item_name","items.image_url", "units.abbreviation","categories.category_name"])
+        $categories = (new Category())->getCategories();
+        $temp1 = $this->select(["inventory.*", "items.item_name","items.image_url", "units.abbreviation","categories.*"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->join("categories","categories.category_id","items.category")
             ->orderBy("items.item_name")
             ->fetchAll();
+        $inventory = [];
+        foreach ($categories as $category) {
+            $inventory[$category->category_name] = [];
+        }
+        foreach ($temp1 as $item) {
+            $inventory[$item->category_name][] = $item;
+        }
+        return $inventory;
     }
     public function deleteInventory($item_id):void
     {

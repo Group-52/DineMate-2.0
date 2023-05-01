@@ -10,7 +10,18 @@ class Category extends Model
     {
         $this->table = "categories";
         $this->columns = [
+            "category_id",
             "category_name"
         ];
+    }
+
+    /**
+     * Get all categories
+     *
+     * @return array
+     */
+    public function getCategories(): array
+    {
+        return $this->select()->fetchAll();
     }
 }
