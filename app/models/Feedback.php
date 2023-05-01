@@ -4,7 +4,7 @@ namespace models;
 
 use core\Model;
 
-class FeedbackModel extends Model
+class Feedback extends Model
 {
 
     public function __construct()
@@ -12,15 +12,12 @@ class FeedbackModel extends Model
         $this->table = "feedback";
         $this->columns = [
             "feedback_id",
-            "reg_customer_id",
-            "guest_id",
             "order_id",
             "rating",
             "description",
-            "time_placed"
         ];
     }
-
+    // TODO Add join to order table
     /**
      * Get all Feedbacks.
      */
@@ -45,9 +42,9 @@ class FeedbackModel extends Model
      * @param string $type
      * @return array|bool
      */
-    public function getFeedbackById(int $id, string $type = "feedback_id"): bool|array
+    public function getFeedbackById(int $id, string $type = "feedback_id"): false|object
     {
-        return $this->select()->where($type, $id)->fetchAll();
+        return $this->select()->where($type, $id)->fetch();
     }
 
     /**
@@ -73,6 +70,14 @@ class FeedbackModel extends Model
             ->where("feedback.time_placed", $sd, ">=")
             ->and("feedback.time_placed", $ed, "<=")
             ->fetchAll();
+    }
+
+    public function editFeedback(int $feedbackId, int $rating, string $desc): void
+    {
+        $this->update([
+            "rating" => $rating,
+            "description" => $desc
+        ])->where("feedback_id", $feedbackId)->execute();
     }
 }
 
