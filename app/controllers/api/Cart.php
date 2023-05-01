@@ -68,6 +68,7 @@ class Cart
 
     public function delete(): void
     {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_SESSION['user'])) {
             try {
                 $post = json_decode(file_get_contents('php://input'));
@@ -92,10 +93,17 @@ class Cart
                 'message' => 'Please login to delete items from cart'
             ]);
         }
+        } else {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Invalid request method'
+            ]);
+        }
     }
 
     public function update(): void
     {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_SESSION['user'])) {
             try {
                 $post = json_decode(file_get_contents('php://input'));
@@ -119,6 +127,12 @@ class Cart
             $this->json([
                 'status' => 'error',
                 'message' => 'Please login to edit items from cart'
+            ]);
+        }
+        } else {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Invalid request method'
             ]);
         }
     }
