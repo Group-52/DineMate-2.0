@@ -86,3 +86,35 @@ function isImage(array $file): bool
         return false;
     }
 }
+
+/**
+ * Check if a registered user is logged in
+ */
+function isRegistered(): bool
+{
+    return isset($_SESSION['user']) && $_SESSION['user']->registered;
+}
+
+/**
+ * Check if a guest user is logged in
+ */
+function isGuest(): bool
+{
+    return isset($_SESSION['user']) && !$_SESSION['user']->registered;
+}
+
+/**
+ * Check if a user is logged in
+ */
+function isLoggedIn(): bool
+{
+    return isset($_SESSION['user']);
+}
+
+/**
+ * Check if a user is not logged in
+ */
+function isNotLoggedIn(): bool
+{
+    return !isset($_SESSION['user']);
+}
