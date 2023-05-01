@@ -176,21 +176,6 @@ a {
   height: 3rem;
 }
 
-.stars {
-  .star {
-    color: $primary-color;
-  }
-  :not(.star) {
-    color: $border;
-  }
-  &.stars-editable {
-    cursor: pointer;
-    .hover {
-      color: $secondary-color;
-    }
-  }
-}
-
 .modal-wrapper {
   position: fixed;
   top: 0;

@@ -4642,14 +4642,27 @@ select.form-control {
 .orders .order .pending {
   color: #BC6D34;
 }
-.orders .order .accepted {
+.orders .order .rejected {
   color: #802323;
 }
-.orders .order .completed {
+.orders .order .accepted {
   color: #B8BB1E;
 }
-.orders .order .complete {
+.orders .order .completed {
   color: #59BB1E;
+}
+
+.stars .star {
+  color: #FF4546;
+}
+.stars :not(.star) {
+  color: #dadada;
+}
+.stars.stars-editable {
+  cursor: pointer;
+}
+.stars.stars-editable .hover {
+  color: #802323;
 }
 
 body {
@@ -4794,19 +4807,6 @@ a {
 .verify-input {
   width: 2rem;
   height: 3rem;
-}
-
-.stars .star {
-  color: #FF4546;
-}
-.stars :not(.star) {
-  color: #dadada;
-}
-.stars.stars-editable {
-  cursor: pointer;
-}
-.stars.stars-editable .hover {
-  color: #802323;
 }
 
 .modal-wrapper {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
@@ -113,7 +113,6 @@
         </div>
     </div>
 </body>
-</html>
 <style>
 </style>
 <script id="payment">
@@ -213,9 +212,4 @@
     }
 
 </script>
-
-
-
-
-
-
+</html>
