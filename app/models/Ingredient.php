@@ -21,7 +21,7 @@ class Ingredient extends Model
     }
 
     // add ingredient to dish
-    public function addIngredient($dish, $item, $quantity, $unit)
+    public function addIngredient($dish, $item, $quantity, $unit): void
     {
         $data = [
             "item_id" => $item,
@@ -61,7 +61,7 @@ class Ingredient extends Model
     }
 
     // update an ingredient
-    public function updateIngredient($dish, $item, $quantity = null, $unit = null)
+    public function updateIngredient($dish, $item, $quantity = null, $unit = null): void
     {
         $data = [];
         if ($quantity) {
@@ -87,7 +87,7 @@ class Ingredient extends Model
     }
 
     // delete an ingredient
-    public function deleteIngredient($dish, $ingredient)
+    public function deleteIngredient($dish, $ingredient): void
     {
         $this->delete()
             ->where("item_id", $ingredient)
