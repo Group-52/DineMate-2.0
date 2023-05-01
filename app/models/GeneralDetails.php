@@ -6,7 +6,7 @@ use core\Model;
 
 class GeneralDetails extends Model
 {
-    protected int $nrows = 15;
+    protected int $nrows = 30;
 
     public function __construct()
     {
@@ -32,13 +32,13 @@ class GeneralDetails extends Model
     {
         $this->update($data)->execute();
     }
-    public function insert(array $data): void
+    public function insertDetails(array $data): void
     {
         $this->insert($data);
     }
-    public function delete():Model
+    public function deleteDetails():void
     {
-        return $this->delete()->execute();
+        $this->delete()->execute();
     }
 
 

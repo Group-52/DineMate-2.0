@@ -122,9 +122,6 @@ class Model
      */
     public function where(string $column, string $value, string $operator = "="): Model
     {
-        if (empty($column) || empty($value)) {
-            return $this;
-        }
         $this->query .= " WHERE $column $operator ?";
         $this->data[] = $value;
         return $this;
@@ -139,9 +136,6 @@ class Model
      */
     public function wherecolumn(string $column1, string $column2, string $operator = "="): Model
     {
-        if (empty($column1) || empty($column2)) {
-            return $this;
-        }
         $this->query .= " WHERE $column1 $operator $column2";
         return $this;
     }
@@ -155,9 +149,6 @@ class Model
      */
     public function and(string $column, string $value, string $operator = "="): Model
     {
-        if (empty($column) || empty($value)) {
-            return $this;
-        }
         $this->query .= " AND $column $operator ?";
         $this->data[] = $value;
         return $this;
@@ -167,9 +158,6 @@ class Model
     //Usage: $this->checkNull("OR", "column", "value");
     public function checkNull(string $operation,string $column, string $operator = "IS"): Model
     {
-        if (empty($column) || empty($value)) {
-            return $this;
-        }
         $this->query .= " $operation $column $operator NULL";
         return $this;
     }
@@ -256,9 +244,6 @@ class Model
 
     public function contains(array $columns, string $value): Model
     {
-        if (empty($columns) || empty($value)) {
-            return $this;
-        }
         $this->query .= " WHERE (";
         foreach ($columns as $column) {
             $this->query .= $column . " LIKE ? OR ";
@@ -276,5 +261,14 @@ class Model
     public function getErrors(): array
     {
         return $this->errors;
+    }
+    
+    /**
+     * Return last insert id
+     * @return int
+     */
+    public function lastInsertId(): int
+    {
+        return $this->db->lastInsertId();
     }
 }

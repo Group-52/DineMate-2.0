@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const cb = document.getElementById('complete-button');
     const os = document.querySelector('.order-status');
     const oid = document.querySelector('.order-id').getAttribute('data-order-id');
+    const uid = document.querySelector('.order-id').getAttribute('data-user-id');
+    const utype = document.querySelector('.order-id').getAttribute('data-user-type');
     const status = os.getAttribute('data-order-status');
     const blurbox = document.querySelector('.blur-container');
     const editbutton = document.querySelector('#edit-button');
@@ -330,6 +332,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // make ajax call to update status
         updateOrderStatus(oid, 'accepted');
+        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+
     });
 
     cb.addEventListener('click', function () {
@@ -409,8 +413,12 @@ document.addEventListener('DOMContentLoaded', function () {
         // change order status to completed
         updateOrderStatus(oid, 'completed');
 
-        // redirect to orders page
-        window.location.href = `${ROOT}/admin/orders`;
+        (new Socket()).send_data("completed_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+
+        // redirect to orders page after 1 second
+        setTimeout(function () {
+            window.location.href = `${ROOT}/admin/orders`;
+        }, 1000);
     });
     let cancelButton1 = document.querySelector('#complete-popup #cancel-complete');
     cancelButton1.addEventListener('click', function () {
@@ -452,8 +460,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // change order status to rejected
         updateOrderStatus(oid, 'rejected');
-        // redirect to orders page
-        window.location.href = `${ROOT}/admin/orders`;
+
+        (new Socket()).send_data("rejected_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        setTimeout(function () {
+            // redirect to orders page
+            window.location.href = `${ROOT}/admin/orders`;
+        }, 1000);
     });
     let cancelButton2 = document.querySelector('#reject-popup #cancel-reject');
     cancelButton2.addEventListener('click', function () {

@@ -21,29 +21,6 @@
                 <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Today's Orders</a>
             </div>
         </div>
-        <!--        <div>-->
-        <!--            <div class="filter">-->
-        <!--                <div>-->
-        <!--                    <select name="type" id="type" class="form-control">-->
-        <!--                        <option value="all">All</option>-->
-        <!--                        <option value="dine-in">Dine-in</option>-->
-        <!--                        <option value="takeaway">Take-away</option>-->
-        <!--                        <option value="bulk">Bulk</option>-->
-        <!--                    </select>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <select id="status" class="form-control" style="width: 125px;">-->
-        <!--                        <option value="all">All</option>-->
-        <!--                        <option value="pending">Pending</option>-->
-        <!--                        <option value="accepted">Accepted</option>-->
-        <!--                        <option value="rejected">Cancelled</option>-->
-        <!--                        <option value="completed">Completed</option>-->
-        <!--                    </select>-->
-        <!--                </div>-->
-        <!--            </div>-->
-
-        <!--        </div>-->
-        <!--        <br>-->
         <div id="order-table">
             <table class="table">
                 <thead>
@@ -108,16 +85,3 @@
 </body>
 
 </html>
-<!--"order_id",-->
-<!--"reg_customer_id",-->
-<!--"guest_id",-->
-<!--"request",-->
-<!--"time_placed",-->
-<!--"time_completed",-->
-<!--"type",-->
-<!--"status",-->
-<!--"scheduled_time",-->
-<!--"table_id",-->
-<!--"paid",-->
-<!--"promo",-->
-<!--"total_cost"-->

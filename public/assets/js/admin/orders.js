@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let h1title = document.querySelector('h1');
 
         if (mode) {
-            sessionStorage.setItem('KDSmode', true);
+            sessionStorage.setItem('KDSmode', "true");
             nav.style.display = "none";
             sidebar.style.display = "none";
             KDSbutton.innerHTML = "Exit KDS mode";
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             maindiv.classList.add('p-2')
             h1title.style.display = "none";
         } else {
-            sessionStorage.setItem('KDSmode', false);
+            sessionStorage.setItem('KDSmode', "false");
             nav.style.display = 'flex';
             sidebar.style.display = 'block';
             KDSbutton.innerHTML = "KDS Mode";
@@ -209,14 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Get the notification and close icon elements
-    const notification = document.querySelector('.notification');
-    const closeIcon = document.querySelector('.close-icon');
-    // Add an event listener to the close icon to hide the notification instantly
-    closeIcon.addEventListener('click', () => {
-        notification.classList.add('hide');
-    });
-
     // Uses a websocket to receive data and add it to the table
     var socket = new WebSocket("ws://localhost:8080");
     socket.onmessage = function (event) {
@@ -224,10 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (d.event_type === "new_order") {
             console.log(d);
             addCard(d);
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 5000);
+            //tick icon
+            new Toast("fa-solid fa-check","#28a745", "Order Received", "",true, 3000);
         }
     };
 

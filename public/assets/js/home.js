@@ -32,9 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.status === "success") {
             cartCount.innerText = data["cart_count"] || 0;
             button.disabled = true;
+            button.firstChild.className = "fa-solid fa-check";
+            new Toast("fa-solid fa-check", "#59BB1E", "Success", "Added to cart successfully", false, 5000);
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          new Toast("fa-solid fa-exclamation", "#FF4D4D", "Error", "Something went wrong", false, 5000);
+        })
     };
   });
 

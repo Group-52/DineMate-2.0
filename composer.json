@@ -20,6 +20,7 @@
   },
   "require": {
     "phpmailer/phpmailer": "^6.6",
-    "cboden/ratchet": "^0.4"
+    "cboden/ratchet": "^0.4",
+    "ext-pdo": "*"
   }
 }

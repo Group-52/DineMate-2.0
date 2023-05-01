@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const category = document.querySelector('select[name="category"]');
     category.onchange = function () {
+        if (category.value == 'All') {
+            window.location.href = `${ROOT}/admin/items`;
+        }
         this.form.submit();
     }
 
@@ -17,27 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         form.style.display = 'block';
         table.style.filter = 'blur(5px)';
-
         // focus on first input
         form.querySelector('input').focus();
-
         // make add button invisible
         addButton.style.display = 'none';
 
-        // make form invisible when submit button is clicked
 
-    });
-
-    submitButton.addEventListener('click', () => {
-        form.style.display = 'none';
-        table.style.filter = 'blur(0)';
-
-        // make add button visible
-        addButton.style.display = 'block';
     });
 
     // make form invisible when cancel button is clicked
     cancelButton.addEventListener('click', () => {
+        form.querySelector('form').reset();
         form.style.display = 'none';
         table.style.filter = 'blur(0)';
         addButton.style.display = 'block';

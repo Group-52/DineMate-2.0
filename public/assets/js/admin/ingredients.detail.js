@@ -57,7 +57,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // function to add row on add button click
     function addRow(event) {
-        console.log("Add Row");
+
+        // if td with colspan exists remove it
+        let td = document.querySelector('td[colspan="5"]');
+        if (td) {
+            td.parentNode.remove();
+        }
+        // console.log("Add Row");
         // get the row that was clicked
         let row = event.target.parentNode.parentNode;
         // get the dish,ingredient, quantity, and unit
@@ -114,10 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // show the tick and cross icons
         clone.querySelector(".tick-icon").parentNode.style.display = "inline-block";
         clone.querySelector(".cross-icon").parentNode.style.display = "inline-block";
-        console.log("Clone:")
-        console.log(clone);
+        // console.log("Clone:")
+        // console.log(clone);
         clone.style.display = "table-row";
-        console.log(`Ingredient: ${ingredient}, Quantity: ${quantity}, Unit: ${unit}`)
+        // console.log(`Ingredient: ${ingredient}, Quantity: ${quantity}, Unit: ${unit}`)
         clone.querySelectorAll('select')[0].value = ingredient;
         clone.querySelector('input').value = quantity;
         clone.querySelectorAll('select')[1].value = unit;
@@ -147,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // function to save row on tick icon click
     function saveRow(event) {
-        console.log("Save Row");
+        // console.log("Save Row");
         let row = event.target.parentNode.parentNode;
         // get the dish,ingredient, quantity, and unit
         let dish = table.getAttribute("data-dish");

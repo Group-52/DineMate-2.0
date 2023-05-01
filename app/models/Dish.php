@@ -20,7 +20,8 @@ class Dish extends Model
             "selling_price",
             "description",
             "prep_time",
-            "image_url"
+            "image_url",
+            "deleted"
         ];
     }
 
@@ -47,7 +48,7 @@ class Dish extends Model
      */
     public function getDishes(): bool|array
     {
-        $l = $this->select()->orderBy("dish_name")->fetchAll();
+        $l = $this->select()->where("deleted",0)->orderBy("dish_name")->fetchAll();
         $dishes = [];
         foreach ($l as $d) {
             $dishes[$d->dish_id] = $d;
@@ -58,7 +59,7 @@ class Dish extends Model
     #get dish by id
     public function getDishById($id): bool|object
     {
-        return $this->select()->where("dish_id", $id)->fetch();
+        return $this->select()->where("dish_id", $id)->and("deleted",0)->fetch();
     }
 
     /**
@@ -104,7 +105,7 @@ class Dish extends Model
     }
     public function deleteDish($id): void
     {
-        $this->delete()->where('dish_id', $id)->execute();
+        $this->update(["deleted"=>1])->where('dish_id', $id)->execute();
     }
 }
 
