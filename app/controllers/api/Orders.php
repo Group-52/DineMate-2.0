@@ -20,12 +20,12 @@ class Orders
             if (isset($_SESSION['user'])) {
                 try {
                     $post = json_decode(file_get_contents('php://input'));
-                    $reg_customer_id = isset($post->reg_customer_id) ? $post->reg_customer_id : null;
-                    $guest_id = isset($post->guest_id) ? $post->guest_id : null;
-                    $scheduled_time = isset($post->scheduled_time) ? $post->scheduled_time : null;
-                    $request = isset($post->request) ? $post->request : null;
+                    $reg_customer_id = $post->reg_customer_id ?? null;
+                    $guest_id = $post->guest_id ?? null;
+                    $scheduled_time = $post->scheduled_time ?? null;
+                    $request = $post->request ?? null;
                     $type = $post->type;
-                    $table = isset($post->table) ? $post->table : null;
+                    $table = $post->table ?? null;
                     $dishlist = $post->dishlist;
                     $od = new Order();
                     // TODO debug the dishlist
