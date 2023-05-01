@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  /**
+   * Toggle the order details
+   */
   document.querySelectorAll(".chevron").forEach((chevron) => {
     chevron.addEventListener("click", () => {
       let order = chevron.parentElement;
@@ -9,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   });
 
+  /**
+   * Modal Wrapper
+   */
   const modalWrapper = document.querySelector(".modal-wrapper");
   const modalClose = document.querySelector(".modal .modal-close");
   const editableStars = document.querySelector(".stars-editable");
@@ -19,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const body = document.querySelector("body");
   const submitFeedback = document.querySelector("#submit-feedback");
 
+  /**
+   * Edit Feedback Modal
+   */
   document.querySelectorAll(".edit-feedback").forEach((editFeedback) => {
     editFeedback.onclick = () => {
       const orderId = editFeedback.dataset.order;
@@ -47,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /**
+   * Add Feedback Modal
+   */
   document.querySelectorAll(".add-feedback").forEach((addFeedback) => {
     addFeedback.onclick = () => {
       orderIdField.value = addFeedback.dataset.order;
@@ -57,6 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   [...editableStars.children].forEach((editableStar) => {
+
+    /**
+     * Changing the stars on click
+     */
     editableStar.onclick = () => {
       const stars = editableStar.dataset.stars;
       ratingField.value = stars;
@@ -68,6 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+
+    /**
+     * Changing the stars on hover
+     */
     editableStar.onmouseover = () => {
       const stars = editableStar.dataset.stars;
       [...editableStars.children].forEach((editableStar) => {
@@ -80,12 +100,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
+  /**
+   * Removing hover stars on mouse leave
+   */
   editableStars.onmouseleave = () => {
     [...editableStars.children].forEach((editableStar) => {
       editableStar.classList.remove("hover");
     });
   }
 
+  /**
+   * Closing the modal and resetting the form
+   */
   const closeFeedbackModal = () => {
     modalWrapper.style.display = "none";
     body.style.overflowY = "auto";
@@ -98,6 +124,11 @@ document.addEventListener("DOMContentLoaded", () => {
     orderIdField.value = "";
   }
 
+  /**
+   * Updating the stars on the order card
+   * @param stars
+   * @param orderId
+   */
   const updateStars = (stars, orderId) => {
     const starsContainer = document.querySelector(`.stars[data-order="${orderId}"]`);
     starsContainer.classList.remove("d-none");
@@ -110,6 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
+  /**
+   * Displaying the stars on the order card
+   * @param stars
+   * @param orderId
+   */
   const displayStars = (stars, orderId) => {
     updateStars(stars, orderId);
     const addFeedbackButton = document.querySelector(`.add-feedback[data-order="${orderId}"]`);
@@ -118,8 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
     editFeedbackButton.classList.remove("d-none");
   }
 
+  // Closing the modal on click
   modalClose.onclick = closeFeedbackModal;
 
+  /**
+   * Submitting the feedback form
+   * @param type
+   */
   const submitFeedbackForm = (type) => {
     const orderId = orderIdField.value;
     const feedbackId = feedbackIdField.value;
