@@ -26,7 +26,64 @@ class Promotion extends Model
         ];
     }
 
-    public function getAllPromotions()
+    /**
+     * @param $order_id
+     * @return array
+     * Get all valid promotions for a given order
+     */
+    public function getValidPromotions($order_id): array
+    {
+        $promotions = $this->getAllPromotions();
+        $valid_promotions = [];
+        foreach ($promotions as $promotion) {
+            if ($promotion->type == 'spending_bonus') {
+                $obj = new PromotionsSpendingBonus();
+                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            } else if ($promotion->type == 'discounts') {
+                $obj = new PromotionsDiscounts();
+                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            } else if ($promotion->type == 'free_dish') {
+                $obj = new PromotionsBuy1Get1Free();
+                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            }
+        }
+        return $valid_promotions;
+    }
+
+    /**
+     * @param $order_id
+     * @param $promo_id
+     * @return float
+     * Description: Get price reduction of order after applying promotion
+     */
+    public function reducedCost($order_id, $promo_id): float
+    {
+        $order = new Order();
+        $promotion = $this->getPromotion($promo_id);
+        $reduction = 0;
+        if ($promotion->type == 'spending_bonus') {
+            $obj = new PromotionsSpendingBonus();
+            $reduction = $obj->getReduction($promo_id, $order_id);
+        } else if ($promotion->type == 'discounts') {
+            $obj = new PromotionsDiscounts();
+            $reduction = $obj->getReduction($promo_id, $order_id);
+        } else if ($promotion->type == 'free_dish') {
+            $obj = new PromotionsBuy1Get1Free();
+            $reduction = $obj->getReduction($promo_id, $order_id);
+        }
+        return $reduction;
+    }
+
+    public function getAllPromotions(): array
     {
         $a1 = $this->getDiscounts();
         $a2 = $this->getSpendingBonus();
@@ -34,7 +91,7 @@ class Promotion extends Model
         return array_merge($a1, $a2, $a3);
     }
 
-    public function getDiscounts()
+    public function getDiscounts(): array|bool
     {
         return $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->
         join('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
@@ -45,7 +102,7 @@ class Promotion extends Model
         orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getSpendingBonus()
+    public function getSpendingBonus(): array|bool
     {
         return $this->select(["promotions.*", "promo_spending_bonus.*"])->
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
@@ -54,7 +111,7 @@ class Promotion extends Model
         orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getFreeDish()
+    public function getFreeDish(): array|bool
     {
         return $this->select(["promotions.*", "promo_buy1get1free.*", "dishes1.dish_name as dish1_name", "dishes2.dish_name as dish2_name"])->
         join('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
@@ -69,7 +126,7 @@ class Promotion extends Model
 
 
     // Add a new entry to the promotions table and sub tables
-    public function addpromotion($data)
+    public function addpromotion($data): void
     {
         $this->insert([
             'title' => $data['title'],
@@ -97,7 +154,7 @@ class Promotion extends Model
     }
 
     // get one promotion by id
-    public function getpromotion($id)
+    public function getpromotion($id):Object|bool
     {
         return $this->select()->
         leftJoin('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
@@ -106,12 +163,12 @@ class Promotion extends Model
         where('promotions.promo_id', $id)->and('promotions.deleted', 0)->fetch();
     }
 
-    public function deletepromo($id)
+    public function deletepromo($id): void
     {
         $this->update(["deleted" => 1])->where('promo_id', $id)->execute();
     }
 
-    public function editpromo($data)
+    public function editpromo($data): void
     {
         $this->update([
             'title' => $data['title'],

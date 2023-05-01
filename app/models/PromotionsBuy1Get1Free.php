@@ -9,6 +9,7 @@ use core\Model;
 class PromotionsBuy1Get1Free extends Model
 {
     public string $order_column = "promo_id";
+
     public function __construct()
     {
         $this->table = "promo_buy1get1free";
@@ -26,6 +27,7 @@ class PromotionsBuy1Get1Free extends Model
         leftJoin('promotions', 'promo_buy1get1free.promo_id', 'promotions.promo_id')->fetchAll();
     }
 
+
     // Add a new entry to the promos_get1buy1free table given the promo_id, dish1_id and dish2_id
     public function addPromotion($pid, $d1, $d2)
     {
@@ -37,10 +39,46 @@ class PromotionsBuy1Get1Free extends Model
     }
 
     // get one promotion by id
-    public function getPromotion($id): bool|array
+    public function getPromotion($id): bool|object
     {
-        $l = $this->select()->where('promo_id', $id)->fetch();
-        return $l;
+        return $this->select()->where('promo_id', $id)->fetch();
+    }
+
+    public function checkValidPromotion($promo_id, $order_id): bool
+    {
+        $od = new Order();
+        $dishes = $od->getDishes($order_id);
+        //check if any of the dishes in the order are in the promotion
+        foreach ($dishes as $dish) {
+            $promotion = $this->getPromotion($promo_id);
+            if ($dish->dish_id == $promotion->dish1_id || $dish->dish_id == $promotion->dish2_id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getReduction($promo_id, $order_id): float
+    {
+        $od = new Order();
+        $dishes = $od->getDishes($order_id);
+        $promotion = $this->getPromotion($promo_id);
+
+        //check how many of dish 1 is in the order
+        $dish1_count = 0;
+        foreach ($dishes as $dish) {
+            if ($dish->dish_id == $promotion->dish1_id) {
+                $dish1_count = $dish->quantity;
+            }
+        }
+
+        //if dish1 is same as dish2
+        if ($promotion->dish1_id == $promotion->dish2_id) {
+            $dish1_count = $dish1_count / 2;
+        }
+
+        $dish2price = (new Dish())->getDishById($promotion->dish2_id)->selling_price;
+        return $dish1_count * $dish2price;
     }
 
     public function editPromotion($id, $d1, $d2): void

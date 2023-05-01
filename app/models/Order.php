@@ -75,7 +75,12 @@ class Order extends Model
         return $order_id;
     }
 
-    // Get all orders placed between two dates
+    /**
+     * @param string|null $sd
+     * @param string|null $ed
+     * @return array|false
+     * Returns an array of orders between the two given dates
+     */
     public function getOrders($sd = null, $ed = null): array|false
     {
         //Converts date to timestamp format for database compatibility
@@ -173,15 +178,15 @@ class Order extends Model
     }
 
     //get all completed orders that are placed or scheduled for today
-    public function getTodayCashierOrders($paid = 0,$collected = 0, $status = "completed"): array|false
+    public function getTodayCashierOrders($paid = 0, $collected = 0, $status = "completed"): array|false
     {
         $a1 = $this->select(["orders.*", "reg_users.*"])
             ->join("reg_users", "orders.reg_customer_id", "reg_users.user_id")
             ->where("paid", $paid)
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
-            ->and("collected",$collected)
-            ->and("status",$status)
+            ->and("collected", $collected)
+            ->and("status", $status)
             ->checkNull("AND", "scheduled_time")
             ->orderBy("time_placed", "ASC")
             ->fetchAll();
@@ -190,8 +195,8 @@ class Order extends Model
             ->where("paid", $paid)
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
-            ->and("collected",$collected)
-            ->and("status",$status)
+            ->and("collected", $collected)
+            ->and("status", $status)
             ->orderBy("scheduled_time", "ASC")
             ->fetchAll();
         $a3 = $this->select(["orders.*", "guest_users.*"])
@@ -199,8 +204,8 @@ class Order extends Model
             ->where("paid", $paid)
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
-            ->and("collected",$collected)
-            ->and("status",$status)
+            ->and("collected", $collected)
+            ->and("status", $status)
             ->checkNull("AND", "scheduled_time")
             ->orderBy("time_placed", "ASC")
             ->fetchAll();
@@ -209,8 +214,8 @@ class Order extends Model
             ->where("paid", $paid)
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
-            ->and("collected",$collected)
-            ->and("status",$status)
+            ->and("collected", $collected)
+            ->and("status", $status)
             ->orderBy("scheduled_time", "ASC")
             ->fetchAll();
 
@@ -244,10 +249,6 @@ class Order extends Model
         if ($status == 'completed') {
             //reduce stock
             $this->complete($order_id);
-            //add to stats
-//            show("HI I'm adding to stats");
-            (new Stats())->addOrder($order_id);
-            (new MenuStats())->addOrder($order_id);
         }
     }
 
@@ -258,8 +259,13 @@ class Order extends Model
         return $order_dishes->getOrderDishes($order);
     }
 
-    //calculate the total price of the order based on the dishes and their quantities only
-    public function calculateTotal($order_id): float
+
+    /**
+     * @param $order_id
+     * @return float
+     * Description: Calculates the total cost of the order based on the dishes and their quantities without promotion or service charge
+     */
+    public function calculateSubTotal($order_id): float
     {
         $dishes = $this->getDishes($order_id);
         $total = 0;
@@ -269,17 +275,53 @@ class Order extends Model
         return $total;
     }
 
-    //update cost of the order
-    public function updateCost($order_id): void
+    /**
+     * @param $order_id
+     * @return float
+     * Description: Calculates the total cost of the order based on the dishes and their quantities with promotion and service charge included
+     */
+    public function calculateFullTotal($order_id): float
     {
+        $order = $this->getOrder($order_id);
+        $total = $this->calculateSubTotal($order_id);
+
+        //if order type is dine-in add 0.05 service charge
+        if ($order->type == "dine-in") {
+            $total = $total + ($total * 0.05);
+        }
+
+        //Check if the order has a promotion
+        $pcode = $this->select(["promo"])->where("order_id", $order_id)->fetch()->promo;
+        if ($pcode != 1) {
+            //Get the promotion
+            $pcost = (new Promotion())->reducedCost($order_id, $pcode);
+            $total = $total - $pcost;
+        }
+
+        return $total;
+    }
+
+    /**
+     * @param $order_id
+     * @param $cost
+     * Description: Updates the total cost of the order, can override cost manually
+     * @return void
+     */
+    public function updateCost($order_id, $cost = null): void
+    {
+        $cost = $cost ?? $this->calculateFullTotal($order_id);
         $this->update([
-            'total_cost' => $this->calculateTotal($order_id)
+            'total_cost' => $cost
         ])->where('order_id', $order_id)->execute();
     }
 
-    // Complete the order by removing the ingredient amount from the inventory
+    // Complete the order by removing the ingredient amount from the inventory and adding details to stats
     public function complete($order_id): void
     {
+        //add to stats
+        (new Stats())->addOrder($order_id);
+        (new MenuStats())->addOrder($order_id);
+
         $d = (new OrderDishes())->getOrderDishes($order_id);
         $t2 = new Ingredient();
         $t3 = new InventoryDetail();
@@ -324,6 +366,21 @@ class Order extends Model
         return false;
     }
 
+    //    Add a promotion to an order
+    public function addPromo($order_id, $promo): void
+    {
+        $this->update([
+            'promo' => $promo
+        ])->where('order_id', $order_id)->execute();
+    }
+
+    //    Remove a promotion from an order
+    public function removePromo($order_id): void
+    {
+        $this->update([
+            'promo' => 1
+        ])->where('order_id', $order_id)->execute();
+    }
 
     public function addOrder($data): void
     {
