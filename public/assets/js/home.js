@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch((error) => {
           console.log(error);
-          new Toast("fa-solid fa-exclamation", "#FF4D4D", "Error", "Something went wrong", false, 5000);
+          new Toast("fa-solid fa-triangle-exclamation", "#FF4D4D", "Error", "Something went wrong", false, 5000);
         })
     };
   });

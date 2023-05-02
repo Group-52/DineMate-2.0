@@ -111,6 +111,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // function to do ajax call to update order status
     function updateOrderStatus(oid, status) {
         let data = {"order_id": oid, "status": status};
+
+        //get card with data-order-id = oid
+        let card = document.querySelector(`[data-order-id="${oid}"]`);
+        let uid = card.getAttribute('data-user-id');
+        let utype = card.getAttribute('data-user-type');
+        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+
         fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
             headers: {
@@ -138,6 +145,8 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-id", order.order_id);
         card.setAttribute("data-order-type", order.type);
         card.setAttribute("data-order-status", order.status);
+        card.setAttribute("data-user-id", order.user_id);
+        card.setAttribute("data-user-type", order.user_type);
         if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
 
         card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
@@ -209,16 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Uses a websocket to receive data and add it to the table
-    var socket = new WebSocket("ws://localhost:8080");
-    socket.onmessage = function (event) {
-        let d = JSON.parse(event.data);
-        if (d.event_type === "new_order") {
-            console.log(d);
-            addCard(d);
-            //tick icon
-            new Toast("fa-solid fa-check","#28a745", "Order Received", "",true, 3000);
-        }
-    };
+    // Uses a websocket to receive data and add a new card
+    (new Socket()).receive_data('new_order', function (d) {
+        console.log(d);
+        addCard(d);
+        new Toast("fa-solid fa-check", "#28a745", "Order Received", "", true, 3000);
+    });
+
 
 });

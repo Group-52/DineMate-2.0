@@ -138,7 +138,8 @@ class Form
 
     public function htmlButton(bool $fullWidth = true): string
     {
-        return "<button type='submit' class='btn btn-primary text-uppercase " . ($fullWidth ? "w-100" : "") . "'>{$this->submitText}</button>";
+        $btnId = strtolower(str_replace(" ", "-", $this->submitText));
+        return "<button type='submit' class='btn btn-primary text-uppercase " . ($fullWidth ? "w-100" : "") . "' id='{$btnId}'>{$this->submitText}</button>";
     }
 
     public function beginForm(): void

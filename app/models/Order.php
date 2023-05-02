@@ -30,8 +30,12 @@ class Order extends Model
         ];
     }
 
-    // Get all orders with pagination
-    public function getAllOrders($page = 1): array
+    /**
+     * Get all orders with pagination.
+     * @param int $page
+     * @return array
+     */
+    public function getAllOrders(int $page = 1): array
     {
         $q = $this->select(['orders.*'])
             ->orderBy('time_placed', 'DESC');
@@ -42,8 +46,8 @@ class Order extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
-    // Create a new order
-    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): void
+    // Create a new order and returns the order id
+    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): int
     {
         $data = [];
         $time_placed = date("Y-m-d H:i:s");
@@ -71,6 +75,8 @@ class Order extends Model
         foreach ($dishlist as $dish) {
             $m->addOrderDish($order_id, $dish->dish_id, $dish->quantity);
         }
+
+        return $order_id;
     }
 
     /**
@@ -87,13 +93,16 @@ class Order extends Model
             $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
             return $this->select()->where('time_placed', $sd_timestamp, ">=")
                 ->and('time_placed', $ed_timestamp, "<=")
-                ->orderBy("time_placed", "ASC")->fetchAll();
+                ->orderBy("time_placed")->fetchAll();
         } else
             return $this->select()->fetchAll();
     }
 
-    // Get all orders that are placed or scheduled for today and also are pending or accepted
-    public function getActiveOrders(): array|false
+    public function getTodayChefOrders(): array|false
+    /**
+     * @return array|false
+     * Description: Returns an array of orders that are placed or scheduled for today and also are pending or accepted
+     */
     {
         //Get orders placed today and not scheduled
         $q1 = $this->select()
@@ -102,7 +111,7 @@ class Order extends Model
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("time_placed", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
             ->checkNull("AND", "scheduled_time")
-            ->orderBy("time_placed", "ASC")
+            ->orderBy("time_placed")
             ->fetchAll();
         //Get orders scheduled for today
         $q2 = $this->select()
@@ -110,7 +119,7 @@ class Order extends Model
             ->and("status", "completed", "!=")
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('today')), ">=")
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
-            ->orderBy("scheduled_time", "ASC")
+            ->orderBy("scheduled_time")
             ->fetchAll();
 
 
@@ -135,8 +144,54 @@ class Order extends Model
         return $q;
     }
 
-    //get all completed orders that are placed or scheduled for today
-    public function getTodayCashierOrders($paid = 0, $collected = 0, $status = "completed"): array|false
+    public function getActiveOrders($user_id, $limit = 10, $offset = 0): array
+    {
+        $this->select()
+            ->where("status", "completed", "!=")
+            ->and("reg_customer_id", $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
+    public function getActiveOrdersCount($user_id): int
+    {
+        $this->count()
+            ->where("status", "completed", "!=")
+            ->and("reg_customer_id", $user_id);
+        return $this->fetch()->{'COUNT(*)'};
+    }
+
+    // Get all orders that are marked as completed
+    public function getPreviousOrders($user_id, $limit = 10, $offset = 0): array|false
+    {
+        $this->select("orders.*, feedback.rating")
+            ->leftJoin("feedback", "orders.order_id", "feedback.order_id")
+            ->where("status", "completed")
+            ->and("reg_customer_id", $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
+    public function getPreviousOrdersCount($user_id): int
+    {
+        $this->count()
+            ->where("status", "completed")
+            ->and("reg_customer_id", $user_id);
+        return $this->fetch()->{'COUNT(*)'};
+    }
+
+    /**
+     * @param int $paid
+     * @param int $collected
+     * @param string $status
+     * @return array|false
+     * Returns an array of orders that are placed or scheduled for today with given status
+     */
+    public function getTodayCashierOrders(int $paid = 0, int $collected = 0, string $status = "completed"): array|false
     {
         $a1 = $this->select(["orders.*", "reg_users.*"])
             ->join("reg_users", "orders.reg_customer_id", "reg_users.user_id")
@@ -146,7 +201,7 @@ class Order extends Model
             ->and("collected", $collected)
             ->and("status", $status)
             ->checkNull("AND", "scheduled_time")
-            ->orderBy("time_placed", "ASC")
+            ->orderBy("time_placed")
             ->fetchAll();
         $a2 = $this->select(["orders.*", "reg_users.*"])
             ->join("reg_users", "orders.reg_customer_id", "reg_users.user_id")
@@ -155,7 +210,7 @@ class Order extends Model
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
             ->and("collected", $collected)
             ->and("status", $status)
-            ->orderBy("scheduled_time", "ASC")
+            ->orderBy("scheduled_time")
             ->fetchAll();
         $a3 = $this->select(["orders.*", "guest_users.*"])
             ->join("guest_users", "orders.guest_id", "guest_users.guest_id")
@@ -165,7 +220,7 @@ class Order extends Model
             ->and("collected", $collected)
             ->and("status", $status)
             ->checkNull("AND", "scheduled_time")
-            ->orderBy("time_placed", "ASC")
+            ->orderBy("time_placed")
             ->fetchAll();
         $a4 = $this->select(["orders.*", "guest_users.*"])
             ->join("guest_users", "orders.guest_id", "guest_users.guest_id")
@@ -174,7 +229,7 @@ class Order extends Model
             ->and("scheduled_time", date('Y-m-d H:i:s', strtotime('tomorrow')), "<")
             ->and("collected", $collected)
             ->and("status", $status)
-            ->orderBy("scheduled_time", "ASC")
+            ->orderBy("scheduled_time")
             ->fetchAll();
 
         return array_merge($a2, $a1, $a3, $a4);
@@ -198,7 +253,11 @@ class Order extends Model
         $this->update($order)->where("order_id", $order['order_id'])->execute();
     }
 
-    // Change order from pending/accepted/rejected/completed
+    /**
+     * @param $order_id
+     * @param $status
+     * Description: Changes the status of an order(pending,accepted, rejected, completed)
+     */
     public function changeStatus($order_id, $status): void
     {
         $this->update([
@@ -210,7 +269,11 @@ class Order extends Model
         }
     }
 
-    // Get the dishes in a given order
+    /**
+     * @param $order
+     * @return array
+     * Description: Gets the dishes in a given order
+     */
     public function getDishes($order): array
     {
         $order_dishes = new OrderDishes();
@@ -273,7 +336,11 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-    // Complete the order by removing the ingredient amount from the inventory and adding details to stats
+    /**
+     * @param $order_id
+     * Description: Completes the order by removing the ingredient amount from the inventory and adding details to stats
+     * @return void
+     */
     public function complete($order_id): void
     {
         //add to stats
@@ -294,14 +361,18 @@ class Order extends Model
         }
     }
 
-    //Get all orders ahead of this one for today
+    /**
+     * @param $order_id
+     * @return int
+     * Description: Returns the number of orders ahead of the given order
+     */
     public function getOrdersAhead($order_id): int
     {
         $o = $this->getOrder($order_id);
         $q = $this->select()->where("time_placed", $o->time_placed, "<")
             ->and("status", "completed", "!=")
             ->and("status", "rejected", "!=")
-            ->orderBy("time_placed", "ASC")->fetchAll();
+            ->orderBy("time_placed")->fetchAll();
 
         // if they are scheduled for a different day, they are not ahead
         foreach ($q as $key => $order) {
@@ -311,20 +382,12 @@ class Order extends Model
         return count($q);
     }
 
-    public function validate(array $data): bool
-    {
-        $this->errors = [];
-
-        if (empty($data['name']))
-            $this->errors['name'] = 'Name is required';
-
-        if (empty($this->errors))
-            return true;
-
-        return false;
-    }
-
-    //    Add a promotion to an order
+    /**
+     * @param $order_id
+     * @param $promo
+     * @return void
+     * Description: Adds a promotion to an order
+     */
     public function addPromo($order_id, $promo): void
     {
         $this->update([
@@ -332,7 +395,11 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-    //    Remove a promotion from an order
+    /**
+     * @param $order_id
+     * @return void
+     * Description: Removes a promotion from an order
+     */
     public function removePromo($order_id): void
     {
         $this->update([
@@ -340,12 +407,11 @@ class Order extends Model
         ])->where('order_id', $order_id)->execute();
     }
 
-    public function addOrder($data): void
-    {
-        $this->insert($data);
-    }
-
-    //Get estimate of time for an order
+    /**
+     * @param $order_id
+     * @return int
+     * Description: Estimates in minutes the time it will take to prepare a given order
+     */
     public function getEstimate($order_id): int
     {
         $ods = (new OrderDishes())->getOrderDishes($order_id);
@@ -355,27 +421,45 @@ class Order extends Model
         //Adjust prep time of dishes for quantity
         foreach ($ods as $d) {
             //multiples of 5 of dish quantity
-            $m = $d->quantity / 5;
+            $m = floor($d->quantity / 5);
             // 20% of prep time
             $p = $d->prep_time * 0.2;
             $t[] = ceil($d->prep_time + $p * $m);
         }
-        //get average time
-        $x = array_sum($t) / count($t);
         //get max time
-        $m = max($t);
-        //weigh between average and max time
-        $x = ($x + $m) / 2;
+        $x = max($t);
 
-        //add 5 minutes for each order ahead of this one (account for no.of staff)
+        //add x minutes for each order ahead of this one (account for no.of staff)
         $staff = (new GeneralDetails())->getDetails()->kitchen_staff;
         $staffcoeff = 5 - $staff;
         if ($staffcoeff < 0)
             $staffcoeff = 0;
         $x += $this->getOrdersAhead($order_id) * $staffcoeff;
 
-        return ceil($x);
+        return floor($x);
     }
+
+    /**
+     * @param $order_id
+     * @return int
+     * Description: Returns the time remaining in minutes for the order to be completed, if order is not completed adds 5 minutes
+     * Assumes chef accepts order within 2 minutes of placement
+     */
+    public function getTimeRemaining($order_id): int
+    {
+        $o = $this->getOrder($order_id);
+        if ($o->status == "completed")
+            return 0;
+        $time_placed = date("Y-m-d H:i:s", strtotime($o->time_placed));
+        $estimate = $this->getEstimate($order_id);
+        $remaining = ceil((strtotime($time_placed) + $estimate * 60 - time())/60);
+
+        if ($remaining <= 0)
+            return 5;
+        else
+            return $remaining;
+    }
+
 
     public function deleteOrder($order_id): void
     {
