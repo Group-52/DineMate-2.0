@@ -23,4 +23,4 @@ jobs:
             cd /var/www/html
             sudo git pull origin main
       - name: Install composer dependencies
-        run: composer install --no-dev
+        run: sudo composer install --no-dev
