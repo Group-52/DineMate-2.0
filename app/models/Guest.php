@@ -48,18 +48,33 @@ class Guest extends Model
         return $this->select()->fetchAll();
     }
 
-    //will return current time if successful
-    public function addGuest($fname=null,$lname=null,$contactno=null,$email=null): bool|string
+    public function getGuestById($guest_id): false|object
     {
-        $now = date('Y-m-d H:i:s');
+        return $this->select()->where('guest_id', $guest_id)->fetch();
+    }
+
+    /**
+     * @param $fName
+     * @param $lName
+     * @param $contactNo
+     * @param $email
+     * @return false|int Returns false if query fails, else returns the last inserted id.
+     */
+    public function createGuest($fName = null, $lName = null, $contactNo = null, $email = null): false|int
+    {
         $data = [
-            'first_name' => $fname,
-            'last_name' => $lname,
-            'contact_no' => $contactno,
+            'first_name' => $fName,
+            'last_name' => $lName,
+            'contact_no' => $contactNo,
             'email' => $email,
-            'date_created' => $now
+            'date_created' => date('Y-m-d H:i:s')
         ];
         $this->insert($data);
-        return $now;
+        return $this->lastInsertId();
+    }
+
+    public function deleteGuest($guest_id): void
+    {
+       $this->delete()->where('guest_id', $guest_id)->execute();
     }
 }
