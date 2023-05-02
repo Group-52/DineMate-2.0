@@ -118,3 +118,16 @@ function isNotLoggedIn(): bool
 {
     return !isset($_SESSION['user']);
 }
+
+function userId(): int | null
+{
+    if (isLoggedIn())
+        return $_SESSION['user']->user_id;
+    else
+        return null;
+}
+
+function userColumn($isGuest = false): string
+{
+    return ($isGuest) ? 'guest_id' : 'reg_customer_id';
+}
