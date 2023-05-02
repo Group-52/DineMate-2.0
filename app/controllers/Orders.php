@@ -22,8 +22,8 @@ class Orders
             $order = new Order();
             $limit = 10;
             $offset = (($_GET["page"] ?? 1) - 1) * $limit;
-            $data["orders"] = $order->getActiveOrders($_SESSION["user"]->user_id, $limit, $offset);
-            $totalCount = $order->getActiveOrdersCount($_SESSION["user"]->user_id);
+            $data["orders"] = $order->getActiveOrders(userId(), $limit, $offset, isGuest());
+            $totalCount = $order->getActiveOrdersCount(userId(), isGuest());
             $data = $this->paginateOrders($totalCount, $limit, $data);
             $data["title"] = "Active Orders";
             $this->view("orders.active", $data);
@@ -38,8 +38,8 @@ class Orders
             $order = new Order();
             $limit = 10;
             $offset = (($_GET["page"] ?? 1) - 1) * $limit;
-            $data["orders"] = $order->getPreviousOrders($_SESSION["user"]->user_id, $limit, $offset);
-            $totalCount = $order->getPreviousOrdersCount($_SESSION["user"]->user_id);
+            $data["orders"] = $order->getPreviousOrders(userId(), $limit, $offset, isGuest());
+            $totalCount = $order->getPreviousOrdersCount(userId(), isGuest());
             $data = $this->paginateOrders($totalCount, $limit, $data);
             $data["title"] = "Previous Orders";
             $this->view("orders.previous", $data);
