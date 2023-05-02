@@ -10,7 +10,7 @@ class App
 {
     private mixed $module = "";
     private array $modules = ["admin", "api"];
-    private mixed $controller = "home";
+    private mixed $controller = "Home";
     private string $method = "index";
     private array $params = [];
 
