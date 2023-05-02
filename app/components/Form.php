@@ -121,6 +121,9 @@ class Form
         return $html;
     }
 
+    /**
+     * @return array Array of HTML fields
+     */
     public function htmlFields(): array
     {
         $fields = [];
@@ -131,22 +134,36 @@ class Form
         return $fields;
     }
 
-    public function htmlField($id): string
+    /**
+     * @param $id int Field id
+     * @return string HTML representation of field
+     */
+    public function htmlField(int $id): string
     {
         return $this->getHtml($this->fields[$id]);
     }
 
+    /**
+     * @param bool $fullWidth
+     * @return string HTML representation of submit button
+     */
     public function htmlButton(bool $fullWidth = true): string
     {
         $btnId = strtolower(str_replace(" ", "-", $this->submitText));
         return "<button type='submit' class='btn btn-primary text-uppercase " . ($fullWidth ? "w-100" : "") . "' id='{$btnId}'>{$this->submitText}</button>";
     }
 
+    /**
+     * @return void Set form start tag
+     */
     public function beginForm(): void
     {
         echo "<form class='w-100' action='{$this->action}' method='{$this->method}'>";
     }
 
+    /**
+     * @return void Set form end tag
+     */
     public function endForm(): void
     {
         echo "</form>";
@@ -159,9 +176,11 @@ class Form
     public function getHtml(mixed $field): string
     {
         $html = "<div class='form-group'>";
+        // Displays label before input field if not a checkbox
         if (!empty($field["label"] && $field["type"] != "checkbox")) {
             $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . "' for='{$field['id']}'>{$field['label']}</label>";
         }
+        // Displays options if select input field
         if ($field["type"] == "select") {
             $html .= "<select name='{$field['name']}' id='{$field['id']}' class='form-control'" . (($field['required']) ? " required" : "") . (($field['disabled']) ? " disabled" : "");
             if (!empty($field["options"])) {
@@ -171,9 +190,12 @@ class Form
             }
             $html .= ">";
 
+            // Displays placeholder if set
             if (!empty($field["placeholder"])) {
                 $html .= "<option value=''>{$field['placeholder']}</option>";
             }
+
+            // Displays options
             foreach ($field["options"] as $option => $value) {
                 $html .= "<option value='{$option}'>{$value}</option>";
             }
@@ -191,6 +213,7 @@ class Form
             }
             $html .= ">";
         }
+        // Displays label after checkbox
         if (!empty($field["label"] && $field["type"] == "checkbox")) {
             $html .= "<label class='label text-uppercase fw-bold " . ($field["required"] ? "required" : "") . "' for='{$field['id']}'>{$field['label']}</label>";
         }
@@ -198,6 +221,9 @@ class Form
         return $html;
     }
 
+    /**
+     * @return int Number of fields in form
+     */
     public function countFields(): int
     {
         return count($this->fields);
