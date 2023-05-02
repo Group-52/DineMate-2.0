@@ -80,17 +80,17 @@ class Order extends Model
     }
 
     /**
-     * @param string|null $sd
-     * @param string|null $ed
+     * @param string|null $startDate
+     * @param string|null $endDate
      * @return array|false
      * Returns an array of orders between the two given dates
      */
-    public function getOrders($sd = null, $ed = null): array|false
+    public function getOrders(string $startDate = null, string $endDate = null): array|false
     {
         //Converts date to timestamp format for database compatibility
-        if ($sd && $ed) {
-            $sd_timestamp = date('Y-m-d H:i:s', strtotime($sd));
-            $ed_timestamp = date('Y-m-d H:i:s', strtotime($ed));
+        if ($startDate && $endDate) {
+            $sd_timestamp = date('Y-m-d H:i:s', strtotime($startDate));
+            $ed_timestamp = date('Y-m-d H:i:s', strtotime($endDate));
             return $this->select()->where('time_placed', $sd_timestamp, ">=")
                 ->and('time_placed', $ed_timestamp, "<=")
                 ->orderBy("time_placed")->fetchAll();
@@ -144,43 +144,43 @@ class Order extends Model
         return $q;
     }
 
-    public function getActiveOrders($user_id, $limit = 10, $offset = 0): array
+    public function getActiveOrders($user_id, $limit = 10, $offset = 0, $isGuest = false): array
     {
         $this->select()
             ->where("status", "completed", "!=")
-            ->and("reg_customer_id", $user_id)
+            ->and(userColumn($isGuest), $user_id)
             ->orderBy("time_placed", "DESC")
             ->limit($limit)
             ->offset($offset);
         return $this->fetchAll();
     }
 
-    public function getActiveOrdersCount($user_id): int
+    public function getActiveOrdersCount($user_id, $isGuest = false): int
     {
         $this->count()
             ->where("status", "completed", "!=")
-            ->and("reg_customer_id", $user_id);
+            ->and(userColumn($isGuest), $user_id);
         return $this->fetch()->{'COUNT(*)'};
     }
 
     // Get all orders that are marked as completed
-    public function getPreviousOrders($user_id, $limit = 10, $offset = 0): array|false
+    public function getPreviousOrders($user_id, $limit = 10, $offset = 0, $isGuest = false): array|false
     {
         $this->select("orders.*, feedback.rating")
             ->leftJoin("feedback", "orders.order_id", "feedback.order_id")
             ->where("status", "completed")
-            ->and("reg_customer_id", $user_id)
+            ->and(userColumn($isGuest), $user_id)
             ->orderBy("time_placed", "DESC")
             ->limit($limit)
             ->offset($offset);
         return $this->fetchAll();
     }
 
-    public function getPreviousOrdersCount($user_id): int
+    public function getPreviousOrdersCount($user_id, $isGuest = false): int
     {
         $this->count()
             ->where("status", "completed")
-            ->and("reg_customer_id", $user_id);
+            ->and(userColumn($isGuest), $user_id);
         return $this->fetch()->{'COUNT(*)'};
     }
 

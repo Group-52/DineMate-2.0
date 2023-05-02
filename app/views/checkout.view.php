@@ -17,12 +17,12 @@
             ?>
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <?php for ($i = 0; $i < 5; $i++) {
+                    <?php for ($i = 0; $i < (isGuest() ? 3 : 5); $i++) {
                         echo $form->htmlField($i);
                     } ?>
-                    <?php if (!isset($_SESSION["user"])): ?>
+                    <?php if (isGuest()): ?>
                         <h2 class='display-5 mb-3'>Personal Info</h2>
-                        <?php for ($i = 5; $i < $form->countFields(); $i++) {
+                        <?php for ($i = 3; $i < $form->countFields(); $i++) {
                             echo $form->htmlField($i);
                         } ?>
                     <?php endif; ?>

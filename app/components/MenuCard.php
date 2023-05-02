@@ -28,8 +28,8 @@ class MenuCard
 
     private function inCart(): bool
     {
-        if (isset($_SESSION['user'])) {
-            return (new Cart)->getQty($_SESSION['user']->user_id, $this->id);
+        if (isLoggedIn()) {
+            return (new Cart)->getQty(userId(), $this->id, isGuest());
         } else {
             return false;
         }

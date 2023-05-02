@@ -150,6 +150,7 @@ $nav-height: 4rem;
     .sidebar-items {
       flex-direction: column;
       padding: 0;
+      min-width: 20rem;
     }
 
     .sidebar-item i {
