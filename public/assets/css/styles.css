@@ -4318,6 +4318,7 @@ select.form-control {
 .nav.nav-home .sidebar .sidebar-items {
   flex-direction: column;
   padding: 0;
+  min-width: 20rem;
 }
 .nav.nav-home .sidebar .sidebar-item i {
   margin-right: 0.5rem;

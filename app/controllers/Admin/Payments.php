@@ -69,7 +69,7 @@ class Payments
 			$email = $_POST['email'];
 
 			$guest = new Guest;
-			$guest ->addGuest([
+			$guest ->createGuest([
                 
 				'first_name'=> $first_name,
                 'last_name'=> $last_name,

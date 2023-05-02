@@ -19,7 +19,7 @@ class RouteAuth
             "Chef" => ["orders", "orderdishes"],
             "Cashier" => [],
             "Inventory Manager" => ["dishes", "ingredients", "vendors", "inventory", "items", "purchases", "stats"],
-            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback"]
+            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest"]
         ]
     ];
 

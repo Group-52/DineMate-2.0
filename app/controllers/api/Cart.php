@@ -11,11 +11,11 @@ class Cart
     public function all(): void
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            if (isset($_SESSION['user'])) {
+            if (isLoggedIn()) {
                 $cart = new \models\Cart();
                 $this->json([
                     'status' => 'success',
-                    'cart_items' => $cart->getCartItems()
+                    'cart_items' => $cart->getCartItems(userId(), isGuest())
                 ]);
             } else {
                 $this->json([
@@ -38,13 +38,12 @@ class Cart
                 try {
                     $post = json_decode(file_get_contents('php://input'));
                     $item_id = $post->id;
-                    $user_id = $_SESSION['user']->user_id;
                     $cart = new \models\Cart();
-                    $cart->addToCart($user_id, $item_id);
+                    $cart->addToCart(userId(), $item_id, 1, isGuest());
                     $this->json([
                         'status' => 'success',
                         'message' => 'Items added to cart',
-                        'cart_count' => $cart->getNoOfItems($user_id)
+                        'cart_count' => $cart->getNoOfItems(userId(), isGuest())
                     ]);
                 } catch (\Exception $e) {
                     $this->json([
@@ -73,13 +72,12 @@ class Cart
             try {
                 $post = json_decode(file_get_contents('php://input'));
                 $item_id = $post->id;
-                $user_id = $_SESSION['user']->user_id;
                 $cart = new \models\Cart();
-                $cart->deleteFromCart($user_id, $item_id);
+                $cart->deleteFromCart(userId(), $item_id, isGuest());
                 $this->json([
                     'status' => 'success',
                     'message' => 'Items deleted from cart',
-                    'cart_count' => $cart->getNoOfItems($user_id)
+                    'cart_count' => $cart->getNoOfItems(userId(), isGuest())
                 ]);
             } catch (\Exception $e) {
                 $this->json([
@@ -109,13 +107,12 @@ class Cart
                 $post = json_decode(file_get_contents('php://input'));
                 $item_id = $post->id;
                 $item_qty = $post->qty;
-                $user_id = $_SESSION['user']->user_id;
                 $cart = new \models\Cart();
-                $cart->editCartItemQty($user_id, $item_id, $item_qty);
+                $cart->editCartItemQty(userId(), $item_id, $item_qty, isGuest());
                 $this->json([
                     'status' => 'success',
                     'message' => 'Items edited from cart',
-                    'cart_count' => $cart->getNoOfItems($user_id)
+                    'cart_count' => $cart->getNoOfItems(userId(), isGuest())
                 ]);
             } catch (\Exception $e) {
                 $this->json([

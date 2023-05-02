@@ -6,6 +6,7 @@ use components\Form;
 use core\Controller;
 use Exception;
 use models\RegUser;
+use models\Cart;
 
 /**
  * Login Controller
@@ -41,7 +42,17 @@ class Auth
                         $data["error"] = "Invalid email or password.";
                     else {
                         if (password_verify($_POST["password"], $result->password)) {
+                            $newUserId = $result->user_id;
+
+                            // Transfer cart items to registered user account
+                            $cart = new Cart;
+                            if ($cart->getNoOfItems(userId(), true) > 0) {
+                               $cart->moveCartToRegistered(userId(), $newUserId);
+                            }
+
+                            // Log in user
                             $_SESSION["user"] = $result;
+                            $_SESSION["user"]->registered = true;
                             redirect("home");
                         } else {
                             $data["error"] = "Invalid email or password.";
