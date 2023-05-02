@@ -53,7 +53,16 @@ class Auth
                             // Log in user
                             $_SESSION["user"] = $result;
                             $_SESSION["user"]->registered = true;
-                            redirect("home");
+
+                            if (isset($_GET["redirect"])) {
+                                $redirect = $_GET["redirect"];
+                                if (str_starts_with(strtolower($redirect), "/dinemate"))
+                                    redirect(substr($redirect, strlen("/dinemate") + 1));
+                                else
+                                    redirect($redirect);
+                            } else {
+                                redirect("home");
+                            }
                         } else {
                             $data["error"] = "Invalid email or password.";
                         }
