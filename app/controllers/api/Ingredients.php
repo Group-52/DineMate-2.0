@@ -7,7 +7,6 @@ use models\Ingredient;
 
 class Ingredients
 {
-    // TODO auth user in APIs first
     use Controller;
 
     public function index(): void

@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         cart = data["cart_items"];
+        updateButtonState();
         const cartTable = document.getElementById("cart-table");
         const cartCount = document.getElementById("cart-count");
         if (data.status === "success" && cartTable && cartCount) {
@@ -152,4 +153,24 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   getCart();
+
+  const checkoutBtn = document.getElementById("checkout-btn");
+  const clearCartBtn = document.getElementById("clear-cart-btn");
+
+  const updateButtonState = () => {
+    if (cart.length === 0) {
+      checkoutBtn.disabled = true;
+      clearCartBtn.disabled = true;
+    } else {
+      checkoutBtn.disabled = false;
+      clearCartBtn.disabled = false;
+    }
+  }
+
+  checkoutBtn.onclick = () => {
+    window.location.href = `${ROOT}/checkout`;
+  }
+  clearCartBtn.onclick = () => {
+    window.location.href = `${ROOT}/cart/clear`;
+  }
 });
