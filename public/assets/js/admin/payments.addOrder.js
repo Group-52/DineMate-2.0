@@ -78,8 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dishInput.value = "";
         quantityInput.value = 1;
 
-        // Recalculate the total cost
-        // calculateCost();
     }
 
     dishtable.addEventListener('click', (e) => {
@@ -127,42 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         calculateCost();
     })
 
-    function getData() {
-        const firstName = document.querySelector('#fname').value;
-        const lastName = document.querySelector('#lname').value;
-        const email = document.querySelector('#email').value;
-        const contactNo = document.querySelector('#contact_no').value;
-        const total = document.querySelector('#subtotal').textContent;
-        let time = null;
-        if (document.querySelector('#timecheck').checked) {
-            time = document.querySelector('#sctime').value;
-        }
-
-        const dishList = [];
-        const lis = document.querySelectorAll('#order-list li');
-        lis.forEach(li => {
-            const dishId = li.getAttribute('data-dishid');
-            const quantity = parseInt(li.querySelector('.liquantity').textContent);
-            dishList.push({dishId: dishId, quantity: quantity});
-        });
-
-        const otype = document.querySelector('#order-type').value;
-
-        const orderData = {
-            firstname: firstName,
-            lastname: lastName,
-            email: email,
-            contactno: contactNo,
-            total: total,
-            dishlist: dishList,
-            type: otype
-        };
-        if (time && time !== '') {
-            orderData.sctime = time;
-        }
-
-        console.log(orderData);
-    }
 
     document.querySelector('#timecheck').addEventListener('change', () => {
         if (timecheck.checked) {
@@ -176,12 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function collectData() {
         const dishRows = Array.from(document.querySelectorAll('#dishes tbody tr'));
-        const dishes = dishRows.map(row => ({
+        const dishlist = dishRows.map(row => ({
             //first td
-            id: parseFloat(row.children[0].textContent),
-            name: row.children[1].textContent,
+            dish_id: parseFloat(row.children[0].textContent),
+            // name: row.children[1].textContent,
             quantity: parseFloat(row.children[2].textContent),
-            cost: parseFloat(row.children[3].textContent),
+            // cost: parseFloat(row.children[3].textContent),
         }));
 
         const subtotal = parseInt(document.querySelector('#subtotal-view').textContent);
@@ -191,12 +153,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const customerName = document.querySelector('#fname').value;
         const contactNo = document.querySelector('#contact_no').value;
-        const orderType = document.querySelector('#order-type').value;
+        const type = document.querySelector('#order-type').value;
         const scheduledTimeCheckbox = document.querySelector('#timecheck');
-        const scheduledTime = scheduledTimeCheckbox.checked ? document.querySelector('#sctime').value : null;
+        const scheduled_time = scheduledTimeCheckbox.checked ? document.querySelector('#sctime').value : null;
+
+
+        //check url to see if utype parameter exists
+        let url = new URL(window.location.href);
+        let utype = url.searchParams.get("utype");
+        let gid, regid;
+        gid = regid = null;
+        if (utype && utype === 'guest') {
+            gid = parseInt(document.querySelector('#guest-id').innerHTML);
+        } else {
+            //Nipun's code
+            // regid =
+
+        }
 
         return {
-            dishes,
+            reg_customer_id: regid,
+            guest_id: gid,
+            dishlist,
             subtotal,
             promotion,
             serviceCharge,
@@ -205,17 +183,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: customerName,
                 contactNo,
             },
-            orderType,
-            scheduledTime,
+            type,
+            scheduled_time,
         };
     }
 
-    // console.log(collectData());
-    addDishButton.addEventListener('click', () => {
-        console.log(collectData());
+    const createbtn = document.querySelector('#create-order-button');
+    createbtn.addEventListener('click', () => {
+        let data = collectData();
+        console.log(data);
+        if (data.guest_id){
+            updateGuest(data.guest_id, data.customer.name, data.customer.contactNo)
+        }
+        makeOrder(data);
+
     });
-
-
 
     const customerNameSpan = document.getElementById("customer-name");
     const customerContactSpan = document.getElementById("customer-contact");
@@ -230,5 +212,37 @@ document.addEventListener('DOMContentLoaded', () => {
     contactInput.addEventListener("input", () => {
         customerContactSpan.textContent = contactInput.value;
     });
+
+    //send order data to api and redirect to orders page
+    function makeOrder(data) {
+        fetch(`${ROOT}/api/orders/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // window.location.href = `${ROOT}/orders`;
+            });
+    }
+    function updateGuest(guest_id, name, contactNo) {
+        fetch(`${ROOT}/api/guest/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                guest_id: guest_id,
+                fname: name,
+                contact: contactNo,
+            }),
+        }).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            });
+    }
+
 
 });  

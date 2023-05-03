@@ -26,11 +26,14 @@ class Orders
                     $request = $post->request ?? null;
                     $type = $post->type;
                     $table = $post->table ?? null;
+                    $total = $post->netTotal ?? null;
                     $dishlist = $post->dishlist;
                     $od = new Order();
-                    // TODO debug the dishlist
-                    $od->create($type, $dishlist, $reg_customer_id, $request, $guest_id, $table, $scheduled_time);
+                    $od->create($type, $dishlist, $reg_customer_id, $guest_id,$request, $table, $scheduled_time, $total);
 
+                    if ($_SESSION['guest_id']){
+                        unset($_SESSION['guest_id']);
+                    }
                     $this->json([
                         'status' => 'success',
                         'message' => 'Order created'

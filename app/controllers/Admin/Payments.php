@@ -39,26 +39,6 @@ class Payments
     }
 
 
-    public function addOrder(): void
-    {
-        if(isset($_POST['add-dish-button'])){
-        
-        }
-        $d = new Dish();
-        $m = new Menu();
-        $m2 = new MenuDishes();
-      
-       
-        $data['controller'] = 'menus';
-        $data['dishes'] = $m2->getDishes();
-
-    //    $RegUser = new RegUser();
-    //    $data['username'] = $RegUser->getReguser($RegUser);
-
-        $this->view('admin/payments.addOrder',$data);
-    }
-
-
     public function create(): void
     {
         if(isset($_POST['submit-button'])){
@@ -82,6 +62,26 @@ class Payments
         }
         $this->view('admin/payments');
     }
+
+    public function addOrder():void{
+        //get parameter
+        $utype = $_GET['utype'] ?? "registered";
+        if ($utype=="guest"){
+            $guest = new Guest;
+            if (!isset($_SESSION['guest_id'])) {
+                $guestId = $guest->createGuest();
+                $_SESSION['guest_id'] = $guestId;
+            } else {
+                $guestId = $_SESSION['guest_id'];
+            }
+        }
+
+        $m2 = new MenuDishes();
+        $data['controller'] = 'menus';
+        $data['dishes'] = $m2->getDishes();
+        $this->view('admin/payments.addOrder',$data);
+    }
+
     
 
     

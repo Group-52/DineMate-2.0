@@ -64,7 +64,6 @@
                 <div class="row">
                     <div class="fieldset-container d-flex justify-content-space-between w-50">
                         <fieldset class="w-100">
-                            <legend>Dishes</legend>
                             <label for="item1">Dishes: &nbsp&nbsp&nbsp&nbsp</label>
                             <select id="item1" name="item1" class="form-control d-inline w-75">
                                 <option value="" selected>Select Dish</option>
