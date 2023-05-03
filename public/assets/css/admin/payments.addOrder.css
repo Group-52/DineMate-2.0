@@ -1,24 +1,9 @@
 fieldset {
-  border: none;
-  margin-bottom: 20px;
-  background-color: #fff;
-  padding: 20px;
-  border: 2px solid #588c7e3e;
-  border-radius: 10px;
-  border-width: 1px;
-}
-#customer-data-formdiv{
-  height: 0px;
-  overflow: hidden;
-}
-
-#sidebar-order{
-  border:2px solid black;
-  border-radius: 5px;
-  height: auto;
-}
-
-#dishes{
-  border-bottom: #dadada 1px solid;
-  border-top: #dadada 1px solid;
-}
+    border: none;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border: 2px solid #588c7e3e;
+    border-radius: 10px;
+    border-width: 1px;
+  }
