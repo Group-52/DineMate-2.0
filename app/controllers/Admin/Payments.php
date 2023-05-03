@@ -50,7 +50,7 @@ class Payments
       
        
         $data['controller'] = 'menus';
-        $data['dishes'] = $d->getDishes();
+        $data['dishes'] = $m2->getDishes();
 
     //    $RegUser = new RegUser();
     //    $data['username'] = $RegUser->getReguser($RegUser);
