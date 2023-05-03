@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
     <script src="<?= ASSETS ?>/js/admin/inventory.js"></script>
+    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
 </head>
 
 <body class="dashboard">
@@ -18,7 +19,7 @@
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
-                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/inventory/info" id="switch-button">Detailed View</a>
+                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/inventory/info" id="switch-button">View Batches</a>
             </div>
         </div>
 
@@ -28,11 +29,10 @@
                 <th>Name</th>
                 <th>Amount Remaining</th>
                 <th>Last Updated</th>
-                <th> Max Stock Level</th>
-                <th> Buffer Stock Level</th>
+                <th>Max Stock Level</th>
+                <th>Buffer Stock Level</th>
                 <th>Reorder Level</th>
-                <th> Lead Time</th>
-                <th>Status</th>
+                <th>Lead Time (Weeks)</th>
 
             </tr>
             </thead>
@@ -42,14 +42,11 @@
                     <tr data-item-id="<?= $item->item_id ?>">
                         <td><?= $item->item_name ?></td>
                         <td><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
-                        <td><?= $item->last_updated ?></td>
+                        <td><?= substr($item->last_updated, 0, 10) ?></td>
                         <td data-field-name="max_stock_level"><?= $item->max_stock_level ?></td>
                         <td data-field-name="buffer_stock_level"><?= $item->buffer_stock_level ?></td>
                         <td data-field-name="reorder_level"><?= $item->reorder_level ?></td>
                         <td data-field-name="lead_time"><?= $item->lead_time ?></td>
-                        <td>
-                        <div id="circle" class="pending"></div>
-                        </td>
                         <td><i class="fa fa-pencil-square-o edit-icon" aria-hidden="true"></i></td>
                         <td><i class="fa fa-trash trash-icon" aria-hidden="true"></i></td>
                         <td><i class="fa fa-check-circle tick-icon edit-options" aria-hidden="true"></i></td>

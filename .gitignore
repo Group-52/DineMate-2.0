@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 /.idea
 /vendor
+=======
+/vendor
+/.idea
+/app/core/config.php
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440

@@ -20,11 +20,13 @@ class Dish extends Model
             "selling_price",
             "description",
             "prep_time",
-            "image_url"
+            "image_url",
+            "deleted"
         ];
     }
 
     /**
+<<<<<<< HEAD
      * Validate data.
      * @param $data array
      * @return bool
@@ -43,11 +45,13 @@ class Dish extends Model
     }
 
     /**
+=======
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
      * Get all dishes.
      */
     public function getDishes(): bool|array
     {
-        $l = $this->select()->orderBy("dish_name")->fetchAll();
+        $l = $this->select()->where("deleted", 0)->orderBy("dish_name")->fetchAll();
         $dishes = [];
         foreach ($l as $d) {
             $dishes[$d->dish_id] = $d;
@@ -58,7 +62,7 @@ class Dish extends Model
     #get dish by id
     public function getDishById($id): bool|object
     {
-        return $this->select()->where("dish_id", $id)->fetch();
+        return $this->select()->where("dish_id", $id)->and("deleted", 0)->fetch();
     }
 
     /**
@@ -78,6 +82,37 @@ class Dish extends Model
         ]);
     }
 
+    /**
+     * Check if dish is safe to add to an order. i.e. if it has any ingredients where the stock is below buffer level.
+     * @param $dish_id
+     * @return bool
+     */
+    public function SafeToAdd($dish_id): bool
+    {
+        $temp1 = (new Inventory())->getBufferItems();
+        $riskstockids = [];
+        foreach ($temp1 as $t) {
+            $riskstockids[] = $t->item_id;
+        }
+        $temp2 = (new Ingredient())->getDishIngredients($dish_id);
+        //If dish has no ingredients, it is safe to add
+        if (count($temp2) == 0) {
+            return true;
+        }
+        $ingids = [];
+        foreach ($temp2 as $t) {
+            $ingids[] = $t->item_id;
+        }
+
+        $result = array_intersect($riskstockids, $ingids);
+        if (count($result) > 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     public function searchDishes($data): array
     {
         $query = $this->select();
@@ -89,6 +124,23 @@ class Dish extends Model
         }
         // TODO search by Menu
         return $query->fetchAll();
+    }
+
+    public function updateDish($data): void
+    {
+        $this->update([
+            'dish_name' => $data['name'],
+            'net_price' => $data['net_price'],
+            'selling_price' => $data['selling_price'],
+            'description' => $data['description'],
+            'prep_time' => $data['prep_time'],
+//            'image_url' => $data['image_url']
+        ])->where('dish_id', $data['dish_id'])->execute();
+    }
+
+    public function deleteDish($id): void
+    {
+        $this->update(["deleted" => 1])->where('dish_id', $id)->execute();
     }
 }
 

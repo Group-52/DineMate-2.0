@@ -6,8 +6,11 @@
 
   th, td {
     padding: 0.5rem 0;
-    border-bottom: 1px solid $border;
     font-weight: normal;
+    &.fit {
+        width: 1%;
+        white-space: nowrap;
+    }
   }
 
   & thead {
@@ -17,7 +20,7 @@
     }
   }
 
-  &.cart {
+  &.cart, &.order {
     td {
       padding: 0.25rem 0;
       text-align: center;
@@ -33,6 +36,13 @@
       td {
         padding-bottom: 0.5rem;
       }
+    }
+
+  }
+
+  &.cart {
+    th, td {
+      border-bottom: 1px solid $border;
     }
 
     .cart-qty-btn {

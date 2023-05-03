@@ -9,7 +9,7 @@ use core\Model;
  */
 class Inventory extends Model
 {
-    protected int $nrows=5;
+    protected int $nrows=30;
     public function __construct()
     {
         $this->table = "inventory";
@@ -31,13 +31,24 @@ class Inventory extends Model
         $skip = ($page - 1) * $this->nrows;
         $q = $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
-            ->join("units", "units.unit_id", "items.unit");
+            ->join("units", "units.unit_id", "items.unit")
+            ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
         else
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
+//    TODO group by category
+    public function getInventorybyCategory():array|bool
+    {
+        return $this->select(["inventory.*", "items.item_name","items.image_url", "units.abbreviation","categories.category_name"])
+            ->join("items", "items.item_id", "inventory.item_id")
+            ->join("units", "units.unit_id", "items.unit")
+            ->join("categories","categories.category_id","items.category")
+            ->orderBy("items.item_name")
+            ->fetchAll();
+    }
     public function deleteInventory($item_id):void
     {
         $this->delete()

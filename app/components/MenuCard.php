@@ -26,14 +26,19 @@ class MenuCard
         $this->new_price = $dish->selling_price;
     }
 
+    /**
+     * Check if dish is in cart
+     * @return bool
+     */
     private function inCart(): bool
     {
-        if (isset($_SESSION['user'])) {
-            return (new Cart)->getQty($_SESSION['user']->user_id, $this->id);
+        if (isLoggedIn()) {
+            return (new Cart)->getQty(userId(), $this->id, isGuest());
         } else {
             return false;
         }
     }
+
 
     /**
      * Render HTML
@@ -50,21 +55,35 @@ class MenuCard
      */
     public function html(): string
     {
+        $inCart = $this->inCart();
         $html = "<div class='menu-item-card rounded-sm'>";
+
+        // Wrap card in link
         $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+
+        // Dish image
         $html .= "<div class='card-img-wrapper'>";
         $html .= "<img src=" . ASSETS . "/images/dishes/{$this->image_url} class='card-img' alt='{$this->name}'>";
         $html .= "</a></div>";
-        $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($this->inCart() ? "disabled" : "") . ">";
-        $html .= "<i class='fa-sharp fa-solid fa-cart-plus'></i>";
+
+        // Add to Cart floating button (between links to prevent click event propagation)
+        $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($inCart ? "disabled" : "") . ">";
+        $html .= "<i class='".($inCart ? "fa-solid fa-check" : "fa-sharp fa-solid fa-cart-plus")."'></i>";
         $html .= "</button>";
+
+        // Card link
         $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+
+        // Card body
         $html .= "<div class='card-body'>";
         $html .= "<h3 class='card-title'>{$this->name}</h2>";
         $html .= "<div class='card-prices'>";
+
+        // Old price
         if ($this->old_price) {
             $html .= "<span class='card-price-old'>LKR {$this->old_price}</span>";
         }
+
         $html .= "<div class='card-price-new'>LKR {$this->new_price}</div>";
         $html .= "</div></div></a></div>";
         return $html;

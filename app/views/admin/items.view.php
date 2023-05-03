@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/items.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/items.js"></script>
@@ -21,16 +21,16 @@
                 <!-- TODO add filters and bulk actions and actions to each item  -->
                 <form action="" method="GET">
                     <div class="row">
-                        <div class="form-search col-10">
-                            <input type="text" class="form-control" name="query" placeholder="Search items" value="<?= $query ?? "" ?>">
-                            <button class="form-search-icon" type="submit">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
+<!--                        <div class="form-search col-10">-->
+<!--                            <input type="text" class="form-control" name="query" placeholder="Search items" value="--><?php //= $query ?? "" ?><!--">-->
+<!--                            <button class="form-search-icon" type="submit">-->
+<!--                                <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--                            </button>-->
+<!--                        </div>-->
                         <div class="pl-2 col-2">
                             <select class="form-control" name="category">
-                                <option value="">Filter Category</option>
                                 <?php if (isset($categories) && is_array($categories)) : ?>
+                                    <option value="All" selected>All Categories</option>
                                     <?php foreach ($categories as $category) : ?>
                                         <option value="<?= $category->category_name ?>" <?= (isset($category_name) && $category->category_name == $category_name) ? " selected" : "" ?>>
                                             <?= $category->category_name ?>
@@ -46,7 +46,7 @@
                 <table class=" table">
                     <thead>
                         <tr>
-                            <th>#</th>
+<!--                            <th>#</th>-->
                             <th>Name</th>
                             <th>Description</th>
                             <th>Unit</th>
@@ -55,10 +55,11 @@
                     </thead>
                     <?php if (isset($items) && !empty($items)) : ?>
                         <?php foreach ($items as $item) : ?>
-                            <tr>
-                                <?php foreach ($item as $col) : ?>
-                                    <th><?= $col ?></th>
-                                <?php endforeach ?>
+                            <tr data-id="<?=$item->item_id?>">
+                                <th> <?= $item->item_name ?> </th>
+                                <th> <?= $item->description ?> </th>
+                                <th> <?= $item->units_name ?> </th>
+                                <th> <?= $item->category_name?> </th>
                             </tr>
                         <?php endforeach ?>
                     <?php else : ?>

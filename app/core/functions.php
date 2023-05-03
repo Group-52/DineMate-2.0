@@ -33,6 +33,14 @@ function redirect(string $path): void
 }
 
 /**
+ * Redirect to login page with current page as redirect parameter
+ */
+function redirectToLogin(): void
+{
+    redirect("auth/login?redirect=" . urlencode($_SERVER['REQUEST_URI']));
+}
+
+/**
  * Generates a unique name for the file using timestamp
  *
  * @param string $name
@@ -85,4 +93,49 @@ function isImage(array $file): bool
     } else {
         return false;
     }
+}
+
+/**
+ * Check if a registered user is logged in
+ */
+function isRegistered(): bool
+{
+    return isset($_SESSION['user']) && $_SESSION['user']->registered;
+}
+
+/**
+ * Check if a guest user is logged in
+ */
+function isGuest(): bool
+{
+    return isset($_SESSION['user']) && !$_SESSION['user']->registered;
+}
+
+/**
+ * Check if a user is logged in
+ */
+function isLoggedIn(): bool
+{
+    return isset($_SESSION['user']);
+}
+
+/**
+ * Check if a user is not logged in
+ */
+function isNotLoggedIn(): bool
+{
+    return !isset($_SESSION['user']);
+}
+
+function userId(): int | null
+{
+    if (isLoggedIn())
+        return $_SESSION['user']->user_id;
+    else
+        return null;
+}
+
+function userColumn($isGuest = false): string
+{
+    return ($isGuest) ? 'guest_id' : 'reg_customer_id';
 }

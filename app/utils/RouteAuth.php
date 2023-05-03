@@ -13,13 +13,13 @@ class RouteAuth
             "Chef" => ["home","orders"],
             "Cashier" => ["home","payments"],
             "Inventory Manager" => ["home","dishes", "ingredients", "vendors", "inventory", "items", "purchases"],
-            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile"]
+            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders"]
         ],
         "api" => [
             "Chef" => ["orders", "orderdishes"],
             "Cashier" => [],
             "Inventory Manager" => ["dishes", "ingredients", "vendors", "inventory", "items", "purchases", "stats"],
-            "Customer" => ["home", "cart", "dishes", "profile", "purchases"]
+            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest"]
         ]
     ];
 

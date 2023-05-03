@@ -21,7 +21,7 @@ class Ingredient extends Model
     }
 
     // add ingredient to dish
-    public function addIngredient($dish, $item, $quantity, $unit)
+    public function addIngredient($dish, $item, $quantity, $unit): void
     {
         $data = [
             "item_id" => $item,
@@ -39,6 +39,7 @@ class Ingredient extends Model
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
+            ->where("dishes.deleted", 0)
             ->fetchAll();
         $ingredientList = [];
         foreach ($ingredients as $ingredient) {
@@ -55,11 +56,12 @@ class Ingredient extends Model
             ->join("units", "ingredients.unit", "units.unit_id")
             ->join("dishes", "dishes.dish_id", "ingredients.dish_id")
             ->where("ingredients.item_id", $item)
+            ->and("dishes.deleted", 0)
             ->fetchAll();
     }
 
     // update an ingredient
-    public function updateIngredient($dish, $item, $quantity = null, $unit = null)
+    public function updateIngredient($dish, $item, $quantity = null, $unit = null): void
     {
         $data = [];
         if ($quantity) {
@@ -85,7 +87,7 @@ class Ingredient extends Model
     }
 
     // delete an ingredient
-    public function deleteIngredient($dish, $ingredient)
+    public function deleteIngredient($dish, $ingredient): void
     {
         $this->delete()
             ->where("item_id", $ingredient)

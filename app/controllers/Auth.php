@@ -6,6 +6,7 @@ use components\Form;
 use core\Controller;
 use Exception;
 use models\RegUser;
+use models\Cart;
 
 /**
  * Login Controller
@@ -38,19 +39,39 @@ class Auth
                 try {
                     $result = $user->getUserByEmail($_POST["email"]);
                     if (!$result)
-                        $data["errors"] = "Invalid email or password.";
+                        $data["error"] = "Invalid email or password.";
                     else {
                         if (password_verify($_POST["password"], $result->password)) {
+                            $newUserId = $result->user_id;
+
+                            // Transfer cart items to registered user account
+                            $cart = new Cart;
+                            if ($cart->getNoOfItems(userId(), true) > 0) {
+                               $cart->moveCartToRegistered(userId(), $newUserId);
+                            }
+
+                            // Log in user
                             $_SESSION["user"] = $result;
-                            redirect("home");
+                            $_SESSION["user"]->registered = true;
+
+                            if (isset($_GET["redirect"])) {
+                                $redirect = $_GET["redirect"];
+                                if (str_starts_with(strtolower($redirect), "/dinemate"))
+                                    redirect(substr($redirect, strlen("/dinemate") + 1));
+                                else
+                                    redirect($redirect);
+                            } else {
+                                redirect("home");
+                            }
                         } else {
-                            $data["errors"] = "Invalid email or password.";
+                            $data["error"] = "Invalid email or password.";
                         }
                     }
                 } catch (Exception $e) {
-                    $data["errors"] = "Unknown error.";
+                    $data["error"] = "Unknown error.";
                 }
             } else {
+                $data["error"] = "Invalid email or password.";
                 $data["errors"] = $loginForm->getErrors();
             }
         }

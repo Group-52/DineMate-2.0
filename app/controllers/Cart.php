@@ -10,29 +10,39 @@ class Cart
 
     public function index(): void
     {
-        if (isset($_SESSION["user"])) {
+        if (isLoggedIn()) {
             $cart = new \models\Cart();
-            $data["cart_items"] = $cart->getCartItems();
+            $data["cart_items"] = $cart->getCartItems(userId(), isGuest());
             $data["title"] = "Cart";
             $this->view("cart", $data);
         } else {
-            redirect("auth");
+            redirectToLogin();
         }
     }
 
     public function add(): void
     {
-        if (isset($_SESSION["user"])) {
+        if (isLoggedIn()) {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $item_id = $_POST["dish_id"];
                 $qty = $_POST["quantity"] ?? 1;
-                $user_id = $_SESSION["user"]->user_id;
                 $cart = new \models\Cart();
-                $cart->addToCart($user_id, $item_id, $qty);
+                $cart->addToCart(userId(), $item_id, $qty, isGuest());
             }
             redirect("cart");
         } else {
-            redirect("auth");
+            redirectToLogin();
+        }
+    }
+
+    public function clear(): void
+    {
+        if (isLoggedIn()) {
+            $cart = new \models\Cart();
+            $cart->clearCart(userId(), isGuest());
+            redirect("cart");
+        } else {
+            redirectToLogin();
         }
     }
 }

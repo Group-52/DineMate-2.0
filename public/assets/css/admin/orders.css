@@ -23,17 +23,6 @@
     transform: scale(0.8);
 }
 
-.filter {
-    width: 700px;
-}
-
-.filter * {
-    display: inline;
-    float: left;
-    padding: 5px;
-    margin: 5px;
-}
-
 .dummy-card {
     display: none;
 }
@@ -45,7 +34,7 @@
     margin-right: 10px;
     width: 250px;
     /*border: 1px solid gray;*/
-    /*border: 1px solid maroon;*/
+    border: 5px solid goldenrod;
     border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -62,61 +51,25 @@
     font-weight: bold;
     height: 50px;
     /*    make bottom border red*/
-    border-bottom: 1px solid red;
+    border-bottom: 2px solid goldenrod;
 }
 
 .card-body {
     padding: 10px;
-    height: 130px;
+    height: 120px;
     overflow: scroll;
 }
 .card-body:hover {
     cursor: pointer;
 }
-.card-deck {
-    clear: both;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-}
-
-/*notification*/
-.notification {
-    width: 200px;
-    text-align: center;
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out 1s;
-}
-
-.notification.show {
-    display: block;
-}
-
-.message {
-    font-size: 16px;
-}
-
-.close-icon {
-    cursor: pointer;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 10px;
-}
-
-.close-icon:hover {
-    color: #bbb;
-}
 .time {
     font-size: 12px;
     margin-left: 15px;
     margin-right: 0px;
+}
+.card-body::-webkit-scrollbar {
+    width: 5px;
+}
+.timer{
+    background-color: lightgreen;
 }

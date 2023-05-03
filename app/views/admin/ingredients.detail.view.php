@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/ingredients.detail.css">
     <script src="<?= ASSETS ?>/js/admin/ingredients.detail.js"></script>
+    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
@@ -15,23 +16,24 @@
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-3 active">Ingredients</h1>
             <div class="dashboard-buttons">
+                <div class="form-group d-inline-block pr-3" style="width:200px">
+                    <select id="dish-select" class="form-control">
+                        <option value="" disabled selected>Select a dish</option>
+                        <?php if (isset($dishes)): ?>
+                            <?php foreach ($dishes as $d) : ?>
+                                <option value="<?= $d->dish_id ?>" data-id="<?= $d->dish_id ?>"
+                                        data-imgurl="<?= $d->image_url ?>">
+                                    <?= $d->dish_name ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
                 <a class="btn btn-primary text-uppercase fw-bold" id="add-button">Add Ingredient</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
             </div>
-        </div>
-        <div class="form-group" style="width: 300px">
-            <select id="dish-select" class="form-control">
-                <option value="" disabled selected>Select a dish</option>
-                <?php if (isset($dishes)): ?>
-                    <?php foreach ($dishes as $d) : ?>
-                        <option value="<?= $d->dish_id ?>" data-id="<?= $d->dish_id ?>"
-                                data-imgurl="<?= $d->image_url ?>">
-                            <?= $d->dish_name ?>
-                        </option>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </select>
         </div>
         <!--        div with two columns-->
 
@@ -45,8 +47,8 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
+        <div class="row justify-content-start">
+            <div class="col-10">
                 <!-- create a table for ingredients of dish -->
                 <table class="table table-striped" data-dish="<?= $dish->dish_id ?>">
                     <thead>
@@ -57,6 +59,7 @@
                     </tr>
                     </thead>
                     <tbody class="text-center">
+                    <?php if (isset($dishIngredients) && count($dishIngredients) > 0) : ?>
                     <?php foreach ($dishIngredients as $ingredient) : ?>
                         <tr data-ingredient="<?= $ingredient->item_id ?>" data-unit="<?= $ingredient->unit_id ?>"
                             data-quantity="<?= $ingredient->quantity ?>">
@@ -67,10 +70,15 @@
                             <td><i class="fa fa-trash trash-icon edit-icon"></i></td>
                         </tr>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No ingredients found</td>
+                        </tr>
+                    <?php endif; ?>
 
                     <tr class="input-row">
                         <td>
-                            <select name="ingredient">
+                            <select name="ingredient" class="p-1">
                                 <option value="" disabled selected>Select an ingredient</option>
                                 <?php if (isset($ingredients)) : ?>
                                     <?php foreach ($ingredients as $ingredient) : ?>
@@ -82,11 +90,11 @@
                             </select>
                         </td>
                         <td>
-                            <input type="number" placeholder="Quantity" name="quantity" min="0.001" step="0.001"
+                            <input class="p-1" type="number" placeholder="Quantity" name="quantity" min="0.001" step="0.001"
                                    oninput="validity.valid||(value='');" required>
                         </td>
                         <td>
-                            <select name="unit">
+                            <select name="unit" class="p-1">
                                 <option value="" disabled selected>Select a unit</option>
                                 <?php if (isset($units)) : ?>
                                     <?php foreach ($units as $unit) : ?>
@@ -118,7 +126,6 @@
         </div>
     </div>
 
-</div>
 </div>
 </body>
 </html>

@@ -50,12 +50,12 @@ class Vendor extends Model
         $this->insert($data);
     }
 
-    public function editVendor($vendor)
+    public function editVendor($vendor): void
     {
         $this->update($vendor)->where("vendor_id", $vendor['vendor_id'])->execute();
     }
 
-    public function deleteVendor($data)
+    public function deleteVendor($data): void
     {
         $this->delete()->where("vendor_id", $data)->execute();
     }

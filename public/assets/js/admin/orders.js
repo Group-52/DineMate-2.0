@@ -1,7 +1,53 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+<<<<<<< HEAD
     const cards = document.querySelectorAll('.card');
     const circles = document.querySelectorAll('#circle');
+=======
+    //Kitchen Display System mode
+    const KDSbutton = document.querySelector('#KDS-button');
+    if (sessionStorage.getItem('KDSmode') === "true") {
+        KDSmode();
+    }
+    KDSbutton.addEventListener('click', function (e) {
+        KDSmode();
+    });
+
+    //function to hide/display unnecessary elements
+    function KDSmode() {
+        let maindiv = document.querySelector('.w-100');
+        let nav = document.querySelector('.nav');
+        let sidebar = document.querySelector('#sidebar');
+        let mode = KDSbutton.innerHTML !== "Exit KDS mode";
+        let h1title = document.querySelector('h1');
+
+        if (mode) {
+            sessionStorage.setItem('KDSmode', "true");
+            nav.style.display = "none";
+            sidebar.style.display = "none";
+            KDSbutton.innerHTML = "Exit KDS mode";
+            //got to full screen
+            if (document.fullscreenEnabled) {
+                document.documentElement.requestFullscreen();
+            }
+            maindiv.classList.remove('p-5')
+            maindiv.classList.add('p-2')
+            h1title.style.display = "none";
+        } else {
+            sessionStorage.setItem('KDSmode', "false");
+            nav.style.display = 'flex';
+            sidebar.style.display = 'block';
+            KDSbutton.innerHTML = "KDS Mode";
+            //exit full screen
+            if (document.fullscreenEnabled) {
+                document.exitFullscreen();
+            }
+            maindiv.classList.add('p-5')
+            maindiv.classList.remove('p-2')
+            h1title.style.display = "block";
+        }
+    }
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
 
     // set initial color of circle based on status
     circles.forEach(circle => {
@@ -64,7 +110,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // function to do ajax call to update order status
     function updateOrderStatus(oid, status) {
         let data = {"order_id": oid, "status": status};
-        fetch(`${ROOT}/api/orders/update`, {
+
+        //get card with data-order-id = oid
+        let card = document.querySelector(`[data-order-id="${oid}"]`);
+        let uid = card.getAttribute('data-user-id');
+        let utype = card.getAttribute('data-user-type');
+        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+
+        fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,7 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-id", order.order_id);
         card.setAttribute("data-order-type", order.type);
         card.setAttribute("data-order-status", order.status);
+        card.setAttribute("data-user-id", order.user_id);
+        card.setAttribute("data-user-type", order.user_type);
+        if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
 
+<<<<<<< HEAD
         var cardHeader = document.createElement("div");
         cardHeader.classList.add("card-header");
 
@@ -109,6 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
         typeImg.width = "30";
         typeImg.height = "30";
         typeImg.alt = order.type;
+=======
+        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
+        card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
+        let iconimg = card.querySelector('.type-icon').children[0];
+        let url = ""
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
         if (order.type == "dine-in") {
             typeImg.src = `${ASSETS}/icons/table.png`;
         } else if (order.type == "takeaway") {
@@ -186,27 +249,16 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             const scheduledDate = new Date(scheduled_time);
             const scheduledDay = scheduledDate.toLocaleString('en-US', {timeZone: 'Asia/Colombo', day: 'numeric'});
-
-            if (scheduledDay === today) {
-                return scheduledDate.toLocaleString('en-US', {
-                    timeZone: 'Asia/Colombo',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: true
-                });
-            } else if (scheduledDay === today + 1) {
-                return 'tomorrow';
-            } else {
-                return scheduledDate.toLocaleString('en-US', {
-                    timeZone: 'Asia/Colombo',
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit'
-                });
-            }
+            return scheduledDate.toLocaleString('en-US', {
+                timeZone: 'Asia/Colombo',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
         }
     }
 
+<<<<<<< HEAD
     // Get the notification and close icon elements
     const notification = document.querySelector('.notification');
     const closeIcon = document.querySelector('.close-icon');
@@ -229,5 +281,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 5000);
         }
     };
+=======
+    // Uses a websocket to receive data and add a new card
+    (new Socket()).receive_data('new_order', function (d) {
+        console.log(d);
+        addCard(d);
+        new Toast("fa-solid fa-check", "#28a745", "Order Received", "", true, 3000);
+    });
+
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
 
 });

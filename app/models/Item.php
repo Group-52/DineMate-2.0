@@ -18,6 +18,7 @@ class Item extends Model
             "description",
             "unit",
             "category",
+            "image_url"
         ];
     }
 
@@ -40,7 +41,7 @@ class Item extends Model
 
     public function itemsSearch(array $data): array
     {
-        $like_columns = ["items.item_name", "items.brand", "items.description", "units.unit_name", "categories.category_name"];
+        $like_columns = ["items.item_name","items.description", "units.unit_name", "categories.category_name"];
 
         return $this->select(["item_id", "item_name", "description", "units.unit_name AS units_name", "categories.category_name AS category_name"])
             ->join("units", "unit", "unit_id")
@@ -52,7 +53,11 @@ class Item extends Model
 
     public function getItems(): array
     {
+<<<<<<< HEAD
         return $this->select(["item_id", "item_name", "description", "units.abbreviation, categories.category_name"])
+=======
+        return $this->select(["item_id", "item_name","image_url", "description","units.abbreviation", "units.unit_name AS units_name","categories.category_name"])
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
             ->join("units", "unit", "unit_id")
             ->join("categories", "category", "category_id")
             ->orderBy("item_name")
@@ -61,9 +66,22 @@ class Item extends Model
 
     public function getItemById($id): bool|object
     {
-        return $this->select(["item_id", "item_name", "description", "unit", "category"])
+        return $this->select(["item_id", "item_name", "description", "unit", "category","image_url"])
             ->where("item_id", $id)
             ->fetch();
+    }
+    public function addItem($name, $unit, $category, $description=null, $image_url=null):void
+    {
+        $data = [
+            "item_name" => $name,
+            "description" => $description,
+            "unit" => $unit,
+            "category" => $category,
+            "image_url" => $image_url
+        ];
+        //remove keys with null values
+        $data = array_filter($data, fn($v) => !is_null($v));
+        $this->insert($data);
     }
 
 }

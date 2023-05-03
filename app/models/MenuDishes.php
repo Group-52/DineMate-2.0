@@ -30,7 +30,11 @@ class MenuDishes extends Model
     {
         $d = new Dish();
 
-        $records = $this->select()->where('menu_id', $menu_id)->limit($num)->offset($offset)->fetchAll();
+        $records = $this->select()
+            ->join("dishes", "menu_dishes.dish_id","dishes.dish_id")
+            ->where('menu_id', $menu_id)
+            ->and('dishes.deleted', 0)
+            ->limit($num)->offset($offset)->fetchAll();
         $menu_dishes = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu_id) {
@@ -47,5 +51,18 @@ class MenuDishes extends Model
             'dish_id' => $data['dish_id']
         ]);
     }
+<<<<<<< HEAD
+=======
+
+    //get menu id of a dish
+    public function getMenuOfDish($dish_id){
+        return $this->select()->where('dish_id',$dish_id)->fetch()->menu_id;
+    }
+
+    public function deleteDishes($menu_id,$dish_id)
+    {
+        $this->delete()->where('menu_id', $menu_id)->and('dish_id', $dish_id)->execute();
+    }
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
 }
 

@@ -7,6 +7,10 @@
     {
       "name": "W D N C Weerasiri",
       "email": "2020cs203@stu.ucsc.cmb.ac.lk"
+    },
+    {
+      "name":"D D Hettiarachchi",
+      "email":"dinethhettiarachchi5@gmail.com"
     }
   ],
   "config": {
@@ -17,6 +21,11 @@
   "require": {
     "phpmailer/phpmailer": "^6.6",
     "cboden/ratchet": "^0.4",
+<<<<<<< HEAD
     "ext-pdo": "*"
+=======
+    "ext-pdo": "*",
+    "textalk/websocket": "1.6.3"
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
   }
 }

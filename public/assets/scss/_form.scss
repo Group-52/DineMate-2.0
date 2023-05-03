@@ -25,7 +25,10 @@
     display: block;
     width: 100%;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
   padding: 0.75rem 0.5rem;
   font-size: 1rem;
   border: 1px solid $border;
@@ -36,7 +39,10 @@
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
   &[type="checkbox"] + .label {
     display: inline;
     margin-left: 5px;
@@ -46,7 +52,7 @@
 select.form-control {
   -moz-appearance: none;
   -webkit-appearance: none;
-  background: url("../images/ChevronDownsvg.svg") no-repeat right 0.75rem center;
+  background: url("../images/ChevronDownsvg.svg") no-repeat 95%;
   appearance: none;
   padding: 0.75rem;
 }
@@ -81,5 +87,4 @@ select.form-control {
     border: none;
     cursor: pointer;
   }
-
 }

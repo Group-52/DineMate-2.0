@@ -1,0 +1,38 @@
+@import "colors";
+.orders {
+  .order {
+    overflow: hidden;
+    height: 5rem;
+    transition: 0.3s ease-in-out;
+    .table {
+      opacity: 0;
+    }
+    .chevron {
+      transition: 0.3s ease-in-out;
+      cursor: pointer;
+    }
+    &.expanded {
+      height: auto;
+      .chevron {
+        transform: rotate(180deg);
+      }
+
+      .table {
+        opacity: 1;
+      }
+    }
+
+    .pending {
+      color: #BC6D34;
+    }
+    .accepted {
+      color: $secondary-color;
+    }
+    .completed {
+      color: #B8BB1E;
+    }
+    .complete {
+      color: #59BB1E;
+    }
+  }
+}

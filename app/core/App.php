@@ -5,7 +5,7 @@ class App
 {
     private mixed $module = "";
     private array $modules = ["admin", "api"];
-    private mixed $controller = "home";
+    private mixed $controller = "Home";
     private string $method = "index";
     private array $params = [];
 
@@ -33,8 +33,25 @@ class App
         // checks if the controller exists
         if (isset($url[0])) {
             if (file_exists($path)) {
+<<<<<<< HEAD
                 $this->controller = $url[0];
                 unset($url[0]);
+=======
+                $this->controller = ucfirst($url[0]);
+
+                //Check if the user is allowed to access the controller
+                if (!(RouteAuth::checkAuth($this->controller, $this->module))) {
+                    //Send to 401 page if not authorized
+                    if ($this->module === "api")
+                        (new _401())->index();
+                    else
+                        (new \controllers\_401())->index();
+                } else {
+                    $allowed = true;
+                    unset($url[0]);
+                }
+                $found = true;
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440
             } else {
                 $this->controller = null;
             }

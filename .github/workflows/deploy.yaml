@@ -24,6 +24,7 @@ jobs:
           script: |
             cd /var/www/html
             sudo git pull origin main
+<<<<<<< HEAD
       - name: Install Dependencies
         uses: appleboy/ssh-action@master
         with:
@@ -44,3 +45,7 @@ jobs:
           script: |
             cd /var/www/html/app/bin
             sudo php socket-server.php &
+=======
+      - name: Install composer dependencies
+        run: sudo composer install --no-dev
+>>>>>>> f10f7c0659e90f0badd5c5173d2df0cac462f440

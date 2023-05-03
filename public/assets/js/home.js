@@ -32,9 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
           if (data.status === "success") {
             cartCount.innerText = data["cart_count"] || 0;
             button.disabled = true;
+            button.firstChild.className = "fa-solid fa-check";
+            new Toast("fa-solid fa-check", "#59BB1E", "Success", "Added to cart successfully", false, 5000);
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+          new Toast("fa-solid fa-triangle-exclamation", "#FF4D4D", "Error", "Something went wrong", false, 5000);
+        })
     };
   });
 
@@ -96,6 +101,40 @@ document.addEventListener("DOMContentLoaded", () => {
       searchField.value = "";
     };
   }
+
+  const states = ({
+    "accepted_order": {
+      "from": "pending",
+      "to": "accepted"
+    },
+    "rejected_order": {
+      "from": "pending",
+      "to": "rejected"
+    },
+    "completed_order": {
+      "from": "accepted",
+      "to": "completed"
+    }
+  });
+
+  Object.keys(states).forEach((state) => {
+    (new Socket()).receive_data(state, (data) => {
+      const userId = data["user_id"];
+      if (userId === USER_ID) {
+        const orderId = data["order_id"];
+        const orderStatusText = states[state]["to"].slice(0, 1).toUpperCase() + states[state]["to"].slice(1);
+        if (state !== "rejected_order")
+        {
+          new Toast("fa-solid fa-check", "#59BB1E", orderStatusText, "Order #" + orderId + " has been " + states[state]["to"], false, 5000);
+        } else {
+          new Toast("fa-solid fa-triangle-exclamation", "#FF4D4D", orderStatusText, "Order #" + orderId + " has been " + states[state]["to"], false, 5000);
+        }
+      }
+    })
+
+  });
+
+
   // navigator.serviceWorker &&
   //   navigator.serviceWorker
   //     .register(ROOT + "/service-worker.js")
