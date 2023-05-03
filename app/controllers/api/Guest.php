@@ -17,7 +17,7 @@ class Guest
 
     public function create(): void
     {
-        if (!isset($_SESSION['user'])) {
+        if (isNotLoggedIn()) {
             $guest = new \models\Guest();
             $guestId = $guest->createGuest(null, null, null, null);
             $this->createSessionGuest($guestId);
@@ -26,7 +26,7 @@ class Guest
                 'message' => 'Guest created',
                 'guestId' => $guestId
             ]);
-        } else if (!$_SESSION['user']->registered) {
+        } else if (isGuest()) {
             $this->json([
                 'status' => 'success',
                 'message' => 'Guest already created',
@@ -42,19 +42,27 @@ class Guest
 
     public function get($guest_id): void
     {
-        $guest = new \models\Guest();
-        $result = $guest->getGuestById($guest_id);
-        if ($result) {
-            $this->createSessionGuest($result->guest_id);
-            $this->json([
-                'status' => 'success',
-                'message' => 'Guest found',
-                'guest' => $result
-            ]);
+        if (!isRegistered())
+        {
+            $guest = new \models\Guest();
+            $result = $guest->getGuestById($guest_id);
+            if ($result) {
+                $this->createSessionGuest($result->guest_id);
+                $this->json([
+                    'status' => 'success',
+                    'message' => 'Guest found',
+                    'guest' => $result
+                ]);
+            } else {
+                $this->json([
+                    'status' => 'error',
+                    'message' => 'Guest not found'
+                ]);
+            }
         } else {
             $this->json([
                 'status' => 'error',
-                'message' => 'Guest not found'
+                'message' => 'User already registered'
             ]);
         }
     }

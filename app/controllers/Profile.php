@@ -13,17 +13,16 @@ class Profile
 
     public function index(): void
     {
-        if (isset($_SESSION["user"])) {
+        if (isRegistered()) {
             redirect("profile/info");
         } else {
-            redirect("login");
+            redirectToLogin();
         }
     }
 
     public function info(): void
     {
-        if (isset($_SESSION["user"])) {
-            # TODO Handle POST request
+        if (isRegistered()) {
             $data = [];
             $form = new Form("", "POST", "Update Profile");
             $form->addInputField("first_name", "first_name", "text", "First Name", true, value: $_SESSION["user"]->first_name);
@@ -33,13 +32,13 @@ class Profile
             $data["form"] = $form;
             $this->view("profile", $data);
         } else {
-            redirect("login");
+            redirectToLogin();
         }
     }
 
     public function verify(): void
     {
-        if (isset($_SESSION["user"])) {
+        if (isRegistered()) {
             $user = $_SESSION["user"];
             if ($user->verified_email == 1) {
                 redirect("profile/info");
@@ -60,7 +59,7 @@ class Profile
                 $this->view("verify-email", $data);
             }
         } else {
-            redirect("auth");
+            redirectToLogin();
         }
     }
 }

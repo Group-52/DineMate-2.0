@@ -33,6 +33,14 @@ function redirect(string $path): void
 }
 
 /**
+ * Redirect to login page with current page as redirect parameter
+ */
+function redirectToLogin(): void
+{
+    redirect("auth/login?redirect=" . urlencode($_SERVER['REQUEST_URI']));
+}
+
+/**
  * Generates a unique name for the file using timestamp
  *
  * @param string $name

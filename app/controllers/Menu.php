@@ -10,6 +10,11 @@ class Menu
 {
     use Controller;
 
+    public function index(): void
+    {
+        redirect("home");
+    }
+
     public function id(int $menu_id): void
     {
         $menu = new \models\Menu();

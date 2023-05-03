@@ -16,7 +16,7 @@ class Cart
             $data["title"] = "Cart";
             $this->view("cart", $data);
         } else {
-            redirect("auth");
+            redirectToLogin();
         }
     }
 
@@ -31,7 +31,7 @@ class Cart
             }
             redirect("cart");
         } else {
-            redirect("auth");
+            redirectToLogin();
         }
     }
 
@@ -42,7 +42,7 @@ class Cart
             $cart->clearCart(userId(), isGuest());
             redirect("cart");
         } else {
-            redirect("auth");
+            redirectToLogin();
         }
     }
 }

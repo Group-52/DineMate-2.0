@@ -77,7 +77,7 @@ class Cart extends Model
     public function moveCartToRegistered($guest_id, $reg_customer_id): void
     {
         $this->update(['reg_customer_id' => $reg_customer_id, 'guest_id' => null])
-            ->where('guest_id', $guest_id);
+            ->where('guest_id', $guest_id)->execute();
     }
 
     /**
