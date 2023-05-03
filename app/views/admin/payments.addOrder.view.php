@@ -19,6 +19,10 @@
                 <div class="col">
                     <div id="customer-parent" class="row">
                     <span>
+                        <?php if(isset($_SESSION['guest_id'])){
+                            echo "<span class='d-none'' id='guest-id'>".$_SESSION['guest_id']."</span>";
+                        }
+                        ?>
                         Customer Details
                         <i class="fas fa-chevron-down" id="customer-dropdown"></i>
                         </span>
@@ -95,7 +99,7 @@
                             <th>Dish Name</th>
                             <th>Quantity</th>
                             <th>Cost</th>
-                            <th>Remove</th>
+                            <th>&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -111,7 +115,7 @@
                     <div class="row justify-content-space-between p-1"> <span class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbspLKR</b></span></div>
                 </div>
                 <div id="pay-btn-view" class="m-5 row justify-content-center">
-                    <a href="#" class="d-block w-75 btn btn-success text-center">Create Order</a>
+                    <a href="#" id="create-order-button" class="d-block w-75 btn btn-success text-center">Create Order</a>
                 </div>
             </div>
 

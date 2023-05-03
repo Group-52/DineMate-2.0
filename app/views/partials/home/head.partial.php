@@ -20,7 +20,7 @@
 <script>
   const ROOT = '<?= ROOT ?>';
   const ASSETS = '<?= ASSETS ?>';
-  const DB_HOST = '<?= DB_HOST ?>';
+  const SOCKET_HOST = '<?= SOCKET_HOST ?>';
 </script>
 <script src="<?= ASSETS ?>/js/components/Socket.js"></script>
 <script src="<?= ASSETS ?>/js/components/Toast.js"></script>
