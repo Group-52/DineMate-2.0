@@ -8,19 +8,12 @@ class Guest
 {
     use Controller;
 
-    function createSessionGuest($guestId): void
-    {
-        $_SESSION['user'] = new \stdClass();
-        $_SESSION['user']->user_id = $guestId;
-        $_SESSION['user']->registered = false;
-    }
-
     public function create(): void
     {
         if (isNotLoggedIn()) {
             $guest = new \models\Guest();
             $guestId = $guest->createGuest(null, null, null, null);
-            $this->createSessionGuest($guestId);
+            createSessionGuest($guestId);
             $this->json([
                 'status' => 'success',
                 'message' => 'Guest created',
@@ -47,7 +40,7 @@ class Guest
             $guest = new \models\Guest();
             $result = $guest->getGuestById($guest_id);
             if ($result) {
-                $this->createSessionGuest($result->guest_id);
+                createSessionGuest($result->guest_id);
                 $this->json([
                     'status' => 'success',
                     'message' => 'Guest found',

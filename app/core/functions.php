@@ -135,6 +135,13 @@ function userId(): int | null
         return null;
 }
 
+function createSessionGuest($guestId): void
+{
+    $_SESSION['user'] = new \stdClass();
+    $_SESSION['user']->user_id = $guestId;
+    $_SESSION['user']->registered = false;
+}
+
 function userColumn($isGuest = false): string
 {
     return ($isGuest) ? 'guest_id' : 'reg_customer_id';
