@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const toBeCollectedDiv = document.querySelector('#tobecollected-table');
     const toBePaidHeader = document.querySelector('#unpaid-header');
     const toBeCollectedHeader = document.querySelector('#tocollect-header');
+    const addOrderbtn = document.querySelector('#add-order-button');
+
+    const rcustomer = document.querySelector('#return-customer')
+    const ncustomer = document.querySelector('#new-customer')
+    const popup = document.querySelector('#customer-type-popup')
+    const close = document.querySelector('#close-icon')
+    const container = document.querySelector('#blur-container')
+
+    addOrderbtn.addEventListener('click', function () {
+        event.preventDefault();
+        popup.style.display = 'block'
+        container.style.filter = 'blur(5px)'
+    })
+    close.addEventListener('click', function () {
+        popup.style.display = 'none'
+        container.style.filter = 'blur(0px)'
+    })
+
 
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
@@ -57,5 +75,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update the estimated time cell
         estimatedTimeCell.textContent = "Completed";
     });
+
 
 });
