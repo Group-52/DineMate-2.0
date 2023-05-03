@@ -46,7 +46,7 @@ class App
         } else {
             // checks if the controller exists
             if (file_exists($path)) {
-                $this->controller = ucfirst($url[0]);
+                $this->controller = $url[0];
 
                 //Check if the user is allowed to access the controller
                 if (!(RouteAuth::checkAuth($this->controller, $this->module))) {
