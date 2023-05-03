@@ -63,27 +63,35 @@
                     <div class="col justify-content-space-evenly">
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Sub-total:</div>
-                            <div class="w-50 p-1 payment-input-value" ><?=(new models\Order())->calculateTotal($order->order_id); ?> LKR</div>
+                            <div
+                                class="w-50 p-1 payment-input-value"><?= (new models\Order())->calculateSubTotal($order->order_id); ?>
+                                LKR
+                            </div>
                         </div>
                         <div class="row">
-                            <div class="w-50 p-1 payment-input-label">Promotion: </div>
+                            <div class="w-50 p-1 payment-input-label">Promotion:</div>
                             <div class="w-50 p-1 payment-input-value"><span id="promo">0</span> LKR</div>
                         </div>
                         <div class="row">
-                            <div class="w-50 p-1 payment-input-label">Service Charge: </div>
-                            <div class="w-50 p-1 payment-input-value"><span id="sv-charge"><?php if ($order->type=="dine-in") echo (new models\Order())->calculateTotal($order->order_id)*0.05; else echo"0"?></span> LKR</div>
+                            <div class="w-50 p-1 payment-input-label">Service Charge:</div>
+                            <div class="w-50 p-1 payment-input-value"><span
+                                    id="sv-charge"><?php if ($order->type == "dine-in") echo (new models\Order())->calculateSubTotal($order->order_id) * 0.05; else echo "0" ?></span>
+                                LKR
+                            </div>
                         </div>
-                         <div class="row">
-                            <div class="w-50 p-1 payment-input-label">Net Total: </div>
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Net Total:</div>
                             <div class="w-50 p-1 payment-input-value"><span id="Net-total">0</span> LKR</div>
                         </div>
                         <?php if ($order->paid == 0): ?>
                             <div class="row">
-                                <div class="w-50 p-1 payment-input-label">Cash: </div>
-                                <div class="w-50 p-1 payment-input-value"><input id="cash" type="number" class="w-25" required> LKR</div>
+                                <div class="w-50 p-1 payment-input-label">Cash:</div>
+                                <div class="w-50 p-1 payment-input-value"><input id="cash" type="number" class="w-25"
+                                                                                 required> LKR
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="w-50 p-1 payment-input-label">Balance: </div>
+                                <div class="w-50 p-1 payment-input-label">Balance:</div>
                                 <div class="w-50 p-1 payment-input-value"><span id="change">0</span> LKR</div>
                             </div>
                         <?php endif ?>
@@ -115,7 +123,10 @@
     let promo = document.querySelector("#promo");
     let nettotal = document.querySelector("#Net-total");
     let servicecharge = document.querySelector("#sv-charge");
-    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML)+ "";
+    let user_id = <?=$order->reg_customer_id ?? $order->guest_id ?>;
+    let user_type = "<?= $order->reg_customer_id ? "registered" : "guest" ?>";
+
+    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
 
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
@@ -123,20 +134,31 @@
             let data = {
                 order_id: <?=$order->order_id ?>,
                 collected: 1
-            }
-            fetch(`${ROOT}/api/orders/update`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }).then(res => res.json()).then(res => {
-                if (res.status) {
+            };
+            (new Socket()).send_data("collected_order", {
+                user_id: user_id,
+                user_type: user_type,
+                order_id: <?=$order->order_id ?>
+            });
+        }
+
+        fetch(`${ROOT}/api/orders/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json()).then(res => {
+            if (res.status) {
+                //after 2 seconds
+                setTimeout(function () {
                     window.location.href = `${ROOT}/admin/payments/`;
-                    // console.log(res.status)
-                }
-            })
+                }, 2000);
+                // console.log(res.status)
+            }
         })
+    }
+    )
     }
     if (paidbutton) {
         let balancespan = document.querySelector("#change");
@@ -145,14 +167,14 @@
         cash.addEventListener("keyup", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance;
-            else balancespan.innerHTML = 0;
+                balancespan.innerHTML = balance+"";
+            else balancespan.innerHTML = "0";
         });
         cash.addEventListener("keydown", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance;
-            else balancespan.innerHTML = 0;
+                balancespan.innerHTML = balance+"";
+            else balancespan.innerHTML = "0";
         });
         paidbutton.addEventListener('click', function (e) {
             e.preventDefault();
@@ -165,7 +187,13 @@
                 paid: 1,
                 service_charge: parseFloat(servicecharge.innerHTML),
                 total_cost: parseFloat(nettotal.innerHTML),
-            }
+            };
+
+            (new Socket()).send_data("paid_order", {
+                user_id: user_id,
+                user_type: user_type,
+                order_id: <?=$order->order_id ?>
+            });
             fetch(`${ROOT}/api/orders/update`, {
                 method: 'POST',
                 headers: {
@@ -174,7 +202,10 @@
                 body: JSON.stringify(data)
             }).then(res => res.json()).then(res => {
                 if (res.status) {
-                    window.location.href = `${ROOT}/admin/payments/id/<?=$order->order_id ?>`
+                    //after 2 seconds
+                    setTimeout(function () {
+                        window.location.href = `${ROOT}/admin/payments/id/<?=$order->order_id ?>`
+                    }, 2000);
                 }
             })
 

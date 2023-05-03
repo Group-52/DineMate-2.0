@@ -20,6 +20,8 @@
   },
   "require": {
     "phpmailer/phpmailer": "^6.6",
-    "cboden/ratchet": "^0.4"
+    "cboden/ratchet": "^0.4",
+    "ext-pdo": "*",
+    "textalk/websocket": "1.6.3"
   }
 }

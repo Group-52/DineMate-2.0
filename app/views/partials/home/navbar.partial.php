@@ -31,13 +31,13 @@ use models\Cart;
             </div>
         </div>
         <div class="nav-items">
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if (isLoggedIn()) : ?>
                 <div class="nav-item">
                     <div class="nav-shopping-cart">
                         <a href="<?= ROOT ?>/cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span class="badge"
-                                  id="cart-count"><?php echo (new Cart)->getNoOfItems($_SESSION['user']->user_id) ?? 0 ?></span>
+                                  id="cart-count"><?php echo (new Cart)->getNoOfItems(userId(), isGuest()) ?? 0 ?></span>
                         </a>
                     </div>
                 </div>
@@ -55,26 +55,34 @@ use models\Cart;
         <div class="sidebar-items px-5 pt-5 pb-3 bg-grey">
             <div class="sidebar-user">
                 <div class="display-4">
-                    <?= (isset($_SESSION["user"])) ? $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name : "" ?>
+                    <?= (isRegistered()) ? $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name : "Guest" ?>
                 </div>
-                <div class="secondary">
-                    <a class="link" href="<?= ROOT ?>/profile">View Profile</a>
-                </div>
+                <?php if (isRegistered()) : ?>
+                    <div class="secondary">
+                        <a class="link" href="<?= ROOT ?>/profile">View Profile</a>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         <div class="sidebar-items px-5">
             <div class="sidebar-item">
                 <i class="fa-solid fa-burger"></i>
-                <span class="sidebar-text">My Orders</span>
+                <span class="sidebar-text"><a class="link" href="<?= ROOT ?>/orders">My Orders</a></span>
             </div>
             <div class="sidebar-item">
                 <i class="fa-solid fa-tag"></i>
                 <span class="sidebar-text">My Promotions</span>
             </div>
             <a class="sidebar-item">
+                <?php if (isRegistered()):  ?>
                 <a href="<?= ROOT ?>/auth/logout">
                     <span class="secondary text-uppercase">Sign Out</span>
                 </a>
+                <?php else: ?>
+                <a href="<?= ROOT ?>/auth/login">
+                    <span class="secondary text-uppercase">Sign In</span>
+                </a>
+                <?php endif ?>
         </div>
     </div>
 </nav>

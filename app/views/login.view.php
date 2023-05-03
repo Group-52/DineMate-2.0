@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include VIEWS . "/partials/home/head.partial.php" ?>
+<head>
+    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+</head>
 
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">
@@ -30,5 +32,11 @@
 
     <div class="login-bg"></div>
 </div>
+<script>
+   <?php if(isset($error)) : ?>
+    const errorMessage = "<?= $error ?>";
+    new Toast("fa-solid fa-triangle-exclamation", "red", "Error", errorMessage, true);
+   <?php endif ?>
+</script>
 </body>
 </html>

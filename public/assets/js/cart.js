@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   let cart = [];
+  let isGuest = (localStorage.getItem("guestID") !== null);
 
   /**
    * Get total price of cart
@@ -81,9 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <input class="cart-qty" type="number" step="1" min="1" max="10" value="${
             item["quantity"]
           }" readonly>
-          <button class="cart-qty-btn" type="button" ${
-            item["quantity"] >= 10 ? "disabled" : ""
-          } data-id="${item["dish_id"]}">+</button>
+          <button class="cart-qty-btn" type="button" data-id="${item["dish_id"]}">+</button>
           </td>
           <td class="fw-bold">LKR ${
             item["selling_price"] * item["quantity"]
@@ -109,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         cart = data["cart_items"];
+        updateButtonState();
         const cartTable = document.getElementById("cart-table");
         const cartCount = document.getElementById("cart-count");
         if (data.status === "success" && cartTable && cartCount) {
@@ -152,4 +152,24 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   getCart();
+
+  const checkoutBtn = document.getElementById("checkout-btn");
+  const clearCartBtn = document.getElementById("clear-cart-btn");
+
+  const updateButtonState = () => {
+    if (cart.length === 0) {
+      checkoutBtn.disabled = true;
+      clearCartBtn.disabled = true;
+    } else {
+      checkoutBtn.disabled = false;
+      clearCartBtn.disabled = false;
+    }
+  }
+
+  checkoutBtn.onclick = () => {
+    window.location.href = `${ROOT}/checkout`;
+  }
+  clearCartBtn.onclick = () => {
+    window.location.href = `${ROOT}/cart/clear`;
+  }
 });

@@ -10,7 +10,7 @@ class App
 {
     private mixed $module = "";
     private array $modules = ["admin", "api"];
-    private mixed $controller = "home";
+    private mixed $controller = "Home";
     private string $method = "index";
     private array $params = [];
 
@@ -46,7 +46,7 @@ class App
         } else {
             // checks if the controller exists
             if (file_exists($path)) {
-                $this->controller = $url[0];
+                $this->controller = ucfirst($url[0]);
 
                 //Check if the user is allowed to access the controller
                 if (!(RouteAuth::checkAuth($this->controller, $this->module))) {

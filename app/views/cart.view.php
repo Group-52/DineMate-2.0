@@ -13,7 +13,8 @@
         <table id="cart-table" class="table cart"></table>
     </div>
     <div class="text-center">
-        <a href="<?= ROOT ?>/checkout" class="btn btn-primary text-uppercase">Checkout</a>
+        <button class="btn btn-primary text-uppercase mr-2" id="clear-cart-btn">Clear Cart</button>
+        <button class="btn btn-primary text-uppercase" id="checkout-btn">Checkout</button>
     </div>
 </div>
 <?php include VIEWS . "/partials/home/footer.partial.php"; ?>

@@ -40,7 +40,7 @@ class Model
         return $this;
     }
 
-    public function count(string $column): Model
+    public function count(string $column = '*'): Model
     {
         $this->query = "SELECT COUNT($column) FROM $this->table";
         return $this;
@@ -261,5 +261,14 @@ class Model
     public function getErrors(): array
     {
         return $this->errors;
+    }
+    
+    /**
+     * Return last insert id
+     * @return int
+     */
+    public function lastInsertId(): int
+    {
+        return $this->db->lastInsertId();
     }
 }

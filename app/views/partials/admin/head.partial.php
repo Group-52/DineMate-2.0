@@ -20,5 +20,8 @@
 <script>
   const ROOT = '<?= ROOT ?>';
   const ASSETS = '<?= ASSETS ?>';
+  const DB_HOST = '<?= DB_HOST ?>';
 </script>
 <script src="<?= ROOT ?>/assets/js/admin.js"></script>
+<script src="<?= ASSETS ?>/js/components/Toast.js"></script>
+<script src="<?= ASSETS ?>/js/components/Socket.js"></script>

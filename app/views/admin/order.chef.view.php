@@ -20,11 +20,12 @@
         </div>
         <br>
         <div id="order-table">
-            <div class="card-deck">
+            <div class="card-deck row justify-content-start">
                 <?php if (isset($order_list)) : ?>
                     <?php foreach ($order_list as $order) : ?>
                         <div class="card" data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>"
-                             data-order-status="<?= $order->status ?>">
+                             data-order-status="<?= $order->status ?>" data-user-id="<?= $order->guest_id ?? $order->reg_customer_id ?>"
+                            data-user-type="<?php if ($order->reg_customer_id) echo "registered"; else echo "guest" ?>">
                             <div class="card-header <?php if (isset($order->scheduled_time)) echo "timer" ?>">
                                 <div class="d-flex justify-content-between">
                                     <div class="id-strip">#<?= $order->order_id ?>&nbsp</div>
@@ -64,11 +65,6 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div class="notification">
-            <span class="message">New Order</span>
-            <span class="close-icon">&times;</span>
-        </div>
-
     </div>
 </div>
 </body>

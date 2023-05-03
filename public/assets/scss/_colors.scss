@@ -5,21 +5,10 @@ $tertiary-color: #FFA2A3;
 $primary-text: #1F1C1C;
 $headings: #3A3131;
 $secondary-text: #4D4242;
+$tertiary-text: #9f9f9f;
 $border: #dadada;
 
 $bg-color: #FFFFFF;
 $bg-color-light: #FAFAFA;
 
 $alert-colors: (success: #29A645, warning: #FFC000, danger: #DF3B31);
-
-.dark {
-  color: $primary-text !important;
-}
-
-.primary {
-  color: $primary-color !important;
-}
-
-.secondary {
-  color: $secondary-color !important;
-}
