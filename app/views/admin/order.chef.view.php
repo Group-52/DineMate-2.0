@@ -28,7 +28,7 @@
                             data-user-type="<?php if ($order->reg_customer_id) echo "registered"; else echo "guest" ?>">
                             <div class="card-header <?php if (isset($order->scheduled_time)) echo "timer" ?>">
                                 <div class="d-flex justify-content-between">
-                                    <div class="id-strip">#<?= $order->order_id ?>&nbsp</div>
+                                    <div class="id-strip">#<?= $order->order_id ?>&nbsp;</div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <div class="type-icon">
                                         <?php

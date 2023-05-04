@@ -25,5 +25,4 @@
 </script>
 <script src="<?= ASSETS ?>/js/components/Socket.js"></script>
 <script src="<?= ASSETS ?>/js/components/Toast.js"></script>
-<script src="<?= ASSETS ?>/js/guest.js"></script>
 <script src="<?= ASSETS ?>/js/home.js"></script>

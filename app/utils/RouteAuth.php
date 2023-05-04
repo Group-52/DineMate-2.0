@@ -65,7 +65,7 @@ class RouteAuth
         }
         $role = "Customer";
 
-        if (isset($_SESSION['user']) && isset($_SESSION['user']->role)) {
+        if (isset($_SESSION['user']->role)) {
             $role = self::$role_list[$_SESSION['user']->role];
             if ($role == 'General Manager' || $role == 'Admin') {
                 return true;
@@ -76,6 +76,27 @@ class RouteAuth
             }
         }
         return false;
+    }
+
+
+    public static function guestSession($controller, $module): void
+    {
+        if (isNotLoggedIn() && empty($module)) {
+            if (in_array($controller, self::$allowed_controllers["not_api"]["Customer"])) {
+
+                $cookieName = "guest";
+
+                $guest = new \models\Guest();
+
+                if (isset($_COOKIE["guest"])) {
+                    $guestId = $_COOKIE["guest"];
+                } else {
+                    $guestId = $guest->createGuest();
+                    setcookie($cookieName, $guestId, time() + (86400 * 30 * 7), "/");
+                }
+                createSessionGuest($guestId);
+            }
+        }
     }
 }
 

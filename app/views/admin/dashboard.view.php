@@ -25,8 +25,8 @@
                     <option> Past Year</option>
                     <option disabled>Custom</option>
                 </select>
-                <input type="date" class="m-1" name="start-date" value="<?= date('Y-m-d', strtotime('-1 week')) ?>">&nbsp
-                - &nbsp <input type="date" class="m-1" name="end-date" value="<?= date('Y-m-d') ?>">
+                <input type="date" class="m-1" name="start-date" value="<?= date('Y-m-d', strtotime('-1 week')) ?>">
+                - <input type="date" class="m-1" name="end-date" value="<?= date('Y-m-d') ?>">
             </div>
 
         </div>

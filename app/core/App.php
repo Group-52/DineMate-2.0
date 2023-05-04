@@ -5,7 +5,7 @@ class App
 {
     private mixed $module = "";
     private array $modules = ["admin", "api"];
-    private mixed $controller = "Home";
+    private mixed $controller = "home";
     private string $method = "index";
     private array $params = [];
 
@@ -34,10 +34,14 @@ class App
         if (isset($url[0])) {
             if (file_exists($path)) {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 $this->controller = $url[0];
                 unset($url[0]);
 =======
                 $this->controller = ucfirst($url[0]);
+=======
+                $this->controller = $url[0];
+>>>>>>> f89be9ccaf1258b7066f4b2dd4a3fd47ca3e46b2
 
                 //Check if the user is allowed to access the controller
                 if (!(RouteAuth::checkAuth($this->controller, $this->module))) {
@@ -57,12 +61,19 @@ class App
             }
         }
 
+<<<<<<< HEAD
         if ($this->controller) {
             include $path;
+=======
+        RouteAuth::guestSession($this->controller, $this->module);
+
+        if ($allowed && $found) {
+            //Create an instance of the controller
+>>>>>>> f89be9ccaf1258b7066f4b2dd4a3fd47ca3e46b2
             if ($this->module) {
-                $this->controller = "controllers\\" . $this->module . "\\" . $this->controller;
+                $this->controller = "controllers\\" . $this->module . "\\" . ucfirst($this->controller);
             } else {
-                $this->controller = "controllers\\" . $this->controller;
+                $this->controller = "controllers\\" . ucfirst($this->controller);
             }
             $this->controller = new $this->controller;
 

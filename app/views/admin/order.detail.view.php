@@ -20,9 +20,9 @@
             <h1 class="display-3">Order Details</h1>
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Back</a>
-                <button class="btn btn-warning ml-3" value="rejected" id="reject-button">Reject</button>
-                <button class="btn btn-success mr-3" value="accepted" id="accept-button">Accept</button>
-                <button class="btn btn-success" value="completed" id="complete-button">Complete</button>
+                <button class="btn text-danger ml-3" value="rejected" id="reject-button">Reject</button>
+                <button class="btn text-warning mr-3" value="accepted" id="accept-button">Accept</button>
+                <button class="btn text-success" value="completed" id="complete-button">Complete</button>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">+ <i
                         class="fa-solid fa-bowl-rice d-inline"></i></a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
@@ -61,7 +61,7 @@
                             </option>
                         </select>
                 </span>
-                <h4 class="pr-5">Placed Time: &nbsp &nbsp&nbsp &nbsp <?= substr($order->time_placed, 0, 16) ?></h4>
+                <h4 class="pr-5">Placed Time: &nbsp;&nbsp;&nbsp; &nbsp; <?= substr($order->time_placed, 0, 16) ?></h4>
             </div>
 
             <div class="row p-5">

@@ -48,7 +48,7 @@ class Order extends Model
     }
 
     // Create a new order and returns the order id
-    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): int
+    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null,$total_cost=0,$promo=1,$service_charge=0): int
     {
         $data = [];
         $time_placed = date("Y-m-d H:i:s");
@@ -71,7 +71,14 @@ class Order extends Model
             'scheduled_time' => $scheduled_time,
             'request' => (empty($request)) ? null : $request,
             'status' => 'pending',
+<<<<<<< HEAD
             'table_id' => (empty($table_id)) ? null : $table_id,
+=======
+            'table_id' => $table_id,
+            'total_cost' => $total_cost,
+            'promo' => $promo,
+            'service_charge' => $service_charge
+>>>>>>> f89be9ccaf1258b7066f4b2dd4a3fd47ca3e46b2
         ];
 
         $this->insert($data);
