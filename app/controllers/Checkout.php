@@ -51,19 +51,21 @@ class Checkout
                 } else {
                     $data["success"] = "Order placed successfully";
 
-                    $ws = new Client("ws://localhost:8080");
+                    $ws = new Client("ws://" . SOCKET_HOST . ":8080");
                     $ws->text(json_encode([
                         "event_type" => "new_order",
-                        "order_id" => $order_id,
-                        "status" => "pending",
-                        "time_placed" => date("Y-m-d H:i:s"),
-                        "request" => $_POST["request"],
-                        "user_id" => userId(),
-                        "user_type" => (isRegistered()) ? "registered" : "guest",
-                        "type" => $_POST["order-type"],
-                        "scheduled_time" => $_POST["schedule-order"] ?? null,
-                        "table_id" => $_POST["table-number"] ?? null,
-                        "order_dishes" => $cart_items
+                        "data" => [
+                            "order_id" => $order_id,
+                            "status" => "pending",
+                            "time_placed" => date("Y-m-d H:i:s"),
+                            "request" => $_POST["request"],
+                            "user_id" => userId(),
+                            "user_type" => (isRegistered()) ? "registered" : "guest",
+                            "type" => $_POST["order-type"],
+                            "scheduled_time" => $_POST["schedule-order"] ?? null,
+                            "table_id" => $_POST["table-number"] ?? null,
+                            "order_dishes" => $cart_items
+                        ]
                     ]));
                     if ($_SESSION["user"])
                         $cart->clearCart(userId(), isGuest());
