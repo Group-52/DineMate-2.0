@@ -22,6 +22,7 @@ body {
   color: $primary-text;
   background-color: $bg-color;
   overflow-x: hidden;
+  width: 100%;
 }
 
 ::-webkit-scrollbar {
@@ -57,12 +58,17 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .dashboard-container {
     width: 100%;
+    height: calc(100% - 4rem);
     display: flex;
     flex-direction: row;
-    flex: 1;
+
+    > div {
+      overflow: auto;
+    }
   }
 
   .sidebar {
@@ -87,6 +93,7 @@ body {
       text-decoration: none;
       color: $headings;
       transition: color 0.3s ease-in-out;
+      white-space: nowrap;
 
       &.active {
         color: $primary-color;
@@ -121,6 +128,9 @@ a {
 .banner {
   position: relative;
   height: 15rem;
+  @media (max-width: 990px) {
+    height: 10rem;
+  }
 
   .banner-text {
     position: absolute;
@@ -133,6 +143,19 @@ a {
     flex-direction: column;
     justify-content: center;
     padding: 0 5rem;
+    font-size: 3rem;
+    color: $headings;
+    font-weight: 300;
+
+    h1 {
+      font-size: 3rem;
+      color: $headings;
+      font-weight: 300;
+    }
+
+    @media (max-width: 990px) {
+      font-size: 2rem;
+    }
   }
 
   .banner-bg-gradient {
