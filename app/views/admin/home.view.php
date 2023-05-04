@@ -9,9 +9,10 @@
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>
 <div class="dashboard-container">
     <div class="w-100 h-100 p-5 maindiv">
-        <div class="row justify-content-space-evenly">
+        <h1 class="display-3 text-center mb-3">Dashboard</h1>
+        <div class="row justify-content-space-evenly h-100">
             <div class="col-4 justify-content-center text-center">
-                <span class="display-3 type-header pb-3 mb-5">Kitchen</span>
+                <span class="display-4 type-header pb-3 mb-5">Kitchen</span>
                 <br>
                 <a href="<?= ROOT ?>/admin/items">
                     <div class="card">
@@ -52,7 +53,7 @@
 
             </div>
             <div class="col-4 justify-content-center text-center">
-                <span class="display-3 type-header pb-3 mb-5">Admin</span>
+                <span class="display-4 type-header pb-3 mb-5">Admin</span>
                 <br>
                 <a href="<?= ROOT ?>/admin/employees">
                     <div class="card">
