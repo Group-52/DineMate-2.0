@@ -1,4 +1,4 @@
-<div id="sidebar" class="sidebar pb-5 pt-4 px-4">
+<div id="sidebar" class="sidebar pb-5 pt-4 px-3 opened">
 
     <a class="fw-bold d-block mb-4 fs-5<?php if (isset($controller) && $controller == "home") echo " active" ?>"
        href="<?= ROOT ?>/admin/home">
@@ -88,6 +88,5 @@
 <style>
     #sidebar {
         font-size: smaller;
-        width:fit-content;
     }
 </style>

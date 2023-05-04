@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarToggle = document.getElementById("sidebar-toggle");
   if (sidebar && sidebarToggle) {
     sidebarToggle.onclick = () => {
-      sidebar.classList.toggle("open");
+      sidebar.classList.toggle("opened");
       sidebar.classList.toggle("closed");
     };
   }
