@@ -4,6 +4,7 @@
 namespace controllers\admin;
 
 use core\Controller;
+use models\Cart;
 use models\Order;
 use models\Menu;
 use models\MenuDishes;
@@ -39,26 +40,6 @@ class Payments
     }
 
 
-    public function addOrder(): void
-    {
-        if(isset($_POST['add-dish-button'])){
-        
-        }
-        $d = new Dish();
-        $m = new Menu();
-        $m2 = new MenuDishes();
-      
-       
-        $data['controller'] = 'menus';
-        $data['dishes'] = $d->getDishes();
-
-    //    $RegUser = new RegUser();
-    //    $data['username'] = $RegUser->getReguser($RegUser);
-
-        $this->view('admin/payments.addOrder',$data);
-    }
-
-
     public function create(): void
     {
         if(isset($_POST['submit-button'])){
@@ -82,6 +63,29 @@ class Payments
         }
         $this->view('admin/payments');
     }
+
+    public function addOrder():void{
+        //get parameter
+        $utype = $_GET['utype'] ?? "registered";
+        if ($utype=="guest"){
+            $guest = new Guest;
+            if (!isset($_SESSION['guest_id'])) {
+                $guestId = $guest->createGuest();
+                $_SESSION['guest_id'] = $guestId;
+            } else {
+                $guestId = $_SESSION['guest_id'];
+                //clear the cart for the guest
+                $c = new Cart;
+                $c->clearCart($guestId,true);
+            }
+        }
+
+        $m2 = new MenuDishes();
+        $data['controller'] = 'payments';
+        $data['dishes'] = $m2->getDishes();
+        $this->view('admin/payments.addOrder',$data);
+    }
+
     
 
     

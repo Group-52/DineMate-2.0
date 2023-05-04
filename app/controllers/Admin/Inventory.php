@@ -31,7 +31,7 @@ class Inventory
     public function dashboard():void
     {
         $data = [];
-        $invlist = (new \models\Inventory())->getInventorybyCategory();
+        $invlist = (new \models\Inventory())->getInventoryByCategory();
         $data['controller'] = 'inventory';
         $data['invlist'] = $invlist;
         $data['batchcounts']=(new \models\InventoryDetail())->getCount();

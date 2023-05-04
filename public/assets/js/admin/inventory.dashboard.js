@@ -64,4 +64,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
+    //Search bar
+    const search = document.getElementById('search-field');
+    search.addEventListener('keyup', (e) => {
+        const searchString = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const name = card.querySelector('.card-name').innerText.toLowerCase();
+            if (name.includes(searchString)) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        })
+
+        //hide the category if all the cards in it are hidden
+        let categories = document.querySelectorAll('.category');
+        categories.forEach(category => {
+            let cards = category.querySelectorAll('.card');
+            let cardsArray = Array.from(cards);
+            let cardsDisplayed = cardsArray.filter(card => card.style.display !== 'none');
+            if (cardsDisplayed.length === 0) {
+                category.style.display = 'none';
+            }else{
+                category.style.display = 'flex';
+            }
+        })
+    })
+
 });
