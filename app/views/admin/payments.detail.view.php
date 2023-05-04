@@ -70,18 +70,32 @@
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Promotion:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="promo"><?= (new models\Promotion())->reducedCost($order->order_id,$order->promo); ?></span> LKR</div>
+                            <div class="w-50 p-1 payment-input-value"><span
+                                    id="promo"><?= (new models\Promotion())->reducedCost($order->order_id, $order->promo); ?></span>
+                                LKR
+                            </div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Service Charge:</div>
                             <div class="w-50 p-1 payment-input-value"><span
-                                    id="sv-charge"><?php if ($order->type == "dine-in") echo (new models\Order())->calculateSubTotal($order->order_id) * 0.05; else echo "0" ?></span>
+                                    id="sv-charge"><?= $sv_charge ?></span>
                                 LKR
                             </div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Net Total:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="Net-total"><?= (new models\Order())->calculateFullTotal($order->order_id); ?></span> LKR</div>
+                            <div id="net-total-value" class="w-50 p-1 payment-input-value"><span
+                                    id="Net-total"><?= $net_total ?></span> LKR
+
+                                &nbsp;&nbsp;
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <div id="net-total-input" class="w-50 p-1 payment-input-value">
+                                <input class="d-inline w-50" type="number" min="0" oninput="validity.valid||(value='');"
+                                       value="<?= $net_total ?>">
+                                <i class="fas fa-circle-xmark"></i>
+                                <i class="fa fa-check-circle tick-icon"></i>
+                            </div>
                         </div>
                         <?php if ($order->paid == 0): ?>
                             <div class="row">
@@ -125,8 +139,55 @@
     let servicecharge = document.querySelector("#sv-charge");
     let user_id = <?=$order->reg_customer_id ?? $order->guest_id ?>;
     let user_type = "<?= $order->reg_customer_id ? "registered" : "guest" ?>";
+    let netinput = document.querySelector("#net-total-input");
+    let netvalue = document.querySelector("#net-total-value");
+    let pencil = document.querySelector(".fa-pencil-alt");
+    let tick = document.querySelector(".fa-check-circle");
+    let cross = document.querySelector(".fa-circle-xmark");
 
-    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
+    pencil.style.display = "none";
+    netinput.style.display = "none";
+    tick.style.display = "none";
+    cross.style.display = "none";
+
+    pencil.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "block";
+        netvalue.style.display = "none";
+        pencil.style.display = "none";
+        tick.style.display = "inline";
+        cross.style.display = "inline";
+        paidbutton.disabled = true;
+    });
+
+    cross.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "none";
+        netvalue.style.display = "block";
+        pencil.style.display = "inline";
+        tick.style.display = "none";
+        cross.style.display = "none";
+        paidbutton.disabled = false;
+    });
+
+    tick.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "none";
+        netvalue.style.display = "block";
+        pencil.style.display = "inline";
+        tick.style.display = "none";
+        cross.style.display = "none";
+        paidbutton.disabled = false;
+        if (netinput.querySelector("input").value == "") {
+            netinput.querySelector("input").value = 0;
+        }
+        nettotal.innerHTML = netinput.querySelector("input").value;
+    });
+
+    if (<?=$order->paid?> != 1){
+        nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
+        pencil.style.display = "inline";
+    }
 
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
@@ -171,7 +232,7 @@
             else balancespan.innerHTML = "0";
         });
         cash.addEventListener("keydown", function () {
-            var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
+            var balance = parseFloat(cash.value) - parseFloat(document.querySelector("#Net-total").innerHTML)
             if (balance >= 0)
                 balancespan.innerHTML = balance + "";
             else balancespan.innerHTML = "0";
@@ -186,7 +247,7 @@
                 order_id: <?=$order->order_id ?>,
                 paid: 1,
                 service_charge: parseFloat(servicecharge.innerHTML),
-                total_cost: parseFloat(nettotal.innerHTML),
+                total_cost: parseFloat(document.querySelector("#Net-total").innerHTML),
             };
 
             (new Socket()).send_data("paid_order", {
