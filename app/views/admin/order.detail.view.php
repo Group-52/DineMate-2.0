@@ -61,7 +61,7 @@
                             </option>
                         </select>
                 </span>
-                <h4 class="pr-5">Placed Time: &nbsp &nbsp&nbsp &nbsp <?= substr($order->time_placed, 0, 16) ?></h4>
+                <h4 class="pr-5">Placed Time: &nbsp;&nbsp;&nbsp; &nbsp; <?= substr($order->time_placed, 0, 16) ?></h4>
             </div>
 
             <div class="row p-5">

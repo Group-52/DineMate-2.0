@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
@@ -70,7 +70,7 @@
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Promotion:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="promo">0</span> LKR</div>
+                            <div class="w-50 p-1 payment-input-value"><span id="promo"><?= (new models\Promotion())->reducedCost($order->order_id,$order->promo); ?></span> LKR</div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Service Charge:</div>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Net Total:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="Net-total">0</span> LKR</div>
+                            <div class="w-50 p-1 payment-input-value"><span id="Net-total"><?= (new models\Order())->calculateFullTotal($order->order_id); ?></span> LKR</div>
                         </div>
                         <?php if ($order->paid == 0): ?>
                             <div class="row">
@@ -153,7 +153,7 @@
                         //after 2 seconds
                         setTimeout(function () {
                             window.location.href = `${ROOT}/admin/payments/`;
-                        }, 2000);
+                        }, 1000);
                         // console.log(res.status)
                     }
                 })

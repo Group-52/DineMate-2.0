@@ -7,7 +7,7 @@
  */
 
 class Socket {
-    constructor(url=`ws://${DB_HOST}:8080`) {
+    constructor(url=`ws://${SOCKET_HOST}:8080`) {
         this.url = url;
     }
 

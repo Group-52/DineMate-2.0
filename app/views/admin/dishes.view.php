@@ -46,10 +46,10 @@
                             <img src="<?= ASSETS ?>/images/dishes/<?= $d->image_url ?>" alt="dish image">
                         </div>
                         <div class="card-text pt-1 pl-2">
-                            <p><span class="dish-details">Prep Time:</span>&nbsp &nbsp<?= $d->prep_time ?> minutes</p>
-                            <p><span class="dish-details">Net Price:</span>&nbsp &nbsp<?= $d->net_price ?> LKR</p>
-                            <p><span class="dish-details">Selling Price:</span>&nbsp &nbsp<?= $d->selling_price ?> LKR</p>
-                            <p><span class="dish-details">Description:</span>&nbsp &nbsp<?=$d->description?></p>
+                            <p><span class="dish-details">Prep Time:</span>&nbsp; &nbsp;<?= $d->prep_time ?> minutes</p>
+                            <p><span class="dish-details">Net Price:</span>&nbsp; &nbsp;<?= $d->net_price ?> LKR</p>
+                            <p><span class="dish-details">Selling Price:</span>&nbsp; &nbsp;<?= $d->selling_price ?> LKR</p>
+                            <p><span class="dish-details">Description:</span>&nbsp; &nbsp;<?=$d->description?></p>
                         </div>
                         <span class="d-flex justify-content-space-between pt-2">
                             <span class="p-1 mr-2">
