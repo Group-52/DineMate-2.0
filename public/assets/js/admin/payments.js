@@ -4,6 +4,44 @@ document.addEventListener('DOMContentLoaded', function () {
     const toBeCollectedDiv = document.querySelector('#tobecollected-table');
     const toBePaidHeader = document.querySelector('#unpaid-header');
     const toBeCollectedHeader = document.querySelector('#tocollect-header');
+    const addOrderbtn = document.querySelector('#add-order-button');
+
+    const rcustomer = document.querySelector('#return-customer')
+    const ncustomer = document.querySelector('#new-customer')
+    const popup = document.querySelector('#customer-type-popup')
+    const close = document.querySelector('#close-icon')
+    const container = document.querySelector('#blur-container')
+
+    //when clicked on r or n customer, redirect to the respective page
+    rcustomer.addEventListener('click', function () {
+        const registeredQR = document.getElementById("registered-qr");
+        const registeredClose = registeredQR?.querySelector(".close-icon");
+        const qrCodeElement = document.getElementById("qr-code");
+        close.click();
+        if (registeredQR) {
+            registeredQR.style.display = "block";
+            registeredClose.onclick = () => {
+                registeredQR.style.display = "none";
+                qrCodeElement.innerHTML = "";
+            }
+        }
+        qrCode = Math.floor(Math.random() * 10000)
+        new QRCode(qrCodeElement, qrCode+"");
+    })
+    ncustomer.addEventListener('click', function () {
+        window.location.href = `${ROOT}/admin/payments/addOrder?utype=guest`;
+    })
+
+    addOrderbtn.addEventListener('click', function () {
+        event.preventDefault();
+        popup.style.display = 'block'
+        container.style.filter = 'blur(5px)'
+    })
+    close.addEventListener('click', function () {
+        popup.style.display = 'none'
+        container.style.filter = 'blur(0px)'
+    })
+
 
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
@@ -45,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         new Toast("fa-solid fa-check", "#28a745", title, message, true, 3000);
 
         // Get the row of the order
-        const row = document.querySelector(`tr[data-order-id="${d.order_id}"]`);
+        const row = document.querySelector(`tr[data-order-id = "${d.order_id}"]`);
         //make row border glow light green and fade back to white slowly
         row.style.border = "4px solid #00ff00";
         row.style.transition = "border 2s ease-in-out";
@@ -57,5 +95,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update the estimated time cell
         estimatedTimeCell.textContent = "Completed";
     });
+
 
 });

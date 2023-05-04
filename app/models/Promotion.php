@@ -83,6 +83,62 @@ class Promotion extends Model
         return $reduction;
     }
 
+    /**
+     * @param $user_id
+     * @param $isGuest
+     * @return array
+     * Description: Get all valid promotions for the given cart
+     */
+    public function getValidPromotionsCart($user_id, $isGuest):array{
+        $promotions = $this->getAllPromotions();
+        $valid_promotions = [];
+        foreach ($promotions as $promotion) {
+            if ($promotion->type == 'spending_bonus') {
+                $obj = new PromotionsSpendingBonus();
+                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            } else if ($promotion->type == 'discounts') {
+                $obj = new PromotionsDiscounts();
+                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            } else if ($promotion->type == 'free_dish') {
+                $obj = new PromotionsBuy1Get1Free();
+                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                if ($valid) {
+                    $valid_promotions[] = $promotion;
+                }
+            }
+        }
+        return $valid_promotions;
+    }
+
+    /**
+     * @param $user_id
+     * @param $isGuest
+     * @param $promo_id
+     * @return float
+     * Description: Get price reduction of cart after applying promotion
+     */
+    public function reducedCostCart($user_id, $isGuest, $promo_id): float
+    {
+        $promotion = $this->getPromotion($promo_id);
+        $reduction = 0;
+        if ($promotion->type == 'spending_bonus') {
+            $obj = new PromotionsSpendingBonus();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        } else if ($promotion->type == 'discounts') {
+            $obj = new PromotionsDiscounts();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        } else if ($promotion->type == 'free_dish') {
+            $obj = new PromotionsBuy1Get1Free();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        }
+        return $reduction;
+    }
     public function getAllPromotions(): array
     {
         $a1 = $this->getDiscounts();

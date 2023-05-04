@@ -130,35 +130,35 @@
 
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
-            e.preventDefault();
-            let data = {
-                order_id: <?=$order->order_id ?>,
-                collected: 1
-            };
-            (new Socket()).send_data("collected_order", {
-                user_id: user_id,
-                user_type: user_type,
-                order_id: <?=$order->order_id ?>
-            });
-        }
+                e.preventDefault();
+                let data = {
+                    order_id: <?=$order->order_id ?>,
+                    collected: 1
+                };
+                (new Socket()).send_data("collected_order", {
+                    user_id: user_id,
+                    user_type: user_type,
+                    order_id: <?=$order->order_id ?>
+                });
 
-        fetch(`${ROOT}/api/orders/update`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json()).then(res => {
-            if (res.status) {
-                //after 2 seconds
-                setTimeout(function () {
-                    window.location.href = `${ROOT}/admin/payments/`;
-                }, 2000);
-                // console.log(res.status)
+
+                fetch(`${ROOT}/api/orders/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                }).then(res => res.json()).then(res => {
+                    if (res.status) {
+                        //after 2 seconds
+                        setTimeout(function () {
+                            window.location.href = `${ROOT}/admin/payments/`;
+                        }, 2000);
+                        // console.log(res.status)
+                    }
+                })
             }
-        })
-    }
-    )
+        )
     }
     if (paidbutton) {
         let balancespan = document.querySelector("#change");
@@ -167,13 +167,13 @@
         cash.addEventListener("keyup", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance+"";
+                balancespan.innerHTML = balance + "";
             else balancespan.innerHTML = "0";
         });
         cash.addEventListener("keydown", function () {
             var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
             if (balance >= 0)
-                balancespan.innerHTML = balance+"";
+                balancespan.innerHTML = balance + "";
             else balancespan.innerHTML = "0";
         });
         paidbutton.addEventListener('click', function (e) {
