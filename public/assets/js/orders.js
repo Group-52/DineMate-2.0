@@ -56,34 +56,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  [...editableStars.children].forEach((editableStar) => {
-    editableStar.onclick = () => {
-      const stars = editableStar.dataset.stars;
-      ratingField.value = stars;
-      [...editableStars.children].forEach((editableStar) => {
-        if (editableStar.dataset.stars <= stars) {
-          editableStar.classList.add("star");
-        } else {
-          editableStar.classList.remove("star");
-        }
-      });
-    }
-    editableStar.onmouseover = () => {
-      const stars = editableStar.dataset.stars;
-      [...editableStars.children].forEach((editableStar) => {
-        if (editableStar.dataset.stars <= stars) {
-          editableStar.classList.add("hover");
-        } else {
-          editableStar.classList.remove("hover");
-        }
-      });
-    }
-  })
-
-  editableStars.onmouseleave = () => {
+  if (editableStars) {
     [...editableStars.children].forEach((editableStar) => {
-      editableStar.classList.remove("hover");
-    });
+      editableStar.onclick = () => {
+        const stars = editableStar.dataset.stars;
+        ratingField.value = stars;
+        [...editableStars.children].forEach((editableStar) => {
+          if (editableStar.dataset.stars <= stars) {
+            editableStar.classList.add("star");
+          } else {
+            editableStar.classList.remove("star");
+          }
+        });
+      }
+      editableStar.onmouseover = () => {
+        const stars = editableStar.dataset.stars;
+        [...editableStars.children].forEach((editableStar) => {
+          if (editableStar.dataset.stars <= stars) {
+            editableStar.classList.add("hover");
+          } else {
+            editableStar.classList.remove("hover");
+          }
+        });
+      }
+    })
+
+    editableStars.onmouseleave = () => {
+      [...editableStars.children].forEach((editableStar) => {
+        editableStar.classList.remove("hover");
+      });
+    }
   }
 
   const closeFeedbackModal = () => {
@@ -118,7 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
     editFeedbackButton.classList.remove("d-none");
   }
 
-  modalClose.onclick = closeFeedbackModal;
+  if (modalClose)
+    modalClose.onclick = closeFeedbackModal;
 
   const submitFeedbackForm = (type) => {
     const orderId = orderIdField.value;
@@ -166,4 +169,37 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => new Toast("fa-solid fa-triangle-exclamation", "#FF4D4D", "Error", "Something went wrong", false, 5000))
     }
   }
+
+  const states = ({
+    "accepted_order": {
+      "from": "pending",
+      "to": "accepted"
+    },
+    "rejected_order": {
+     "from": "pending",
+      "to": "rejected"
+    },
+    "completed_order": {
+      "from": "accepted",
+      "to": "completed"
+    }
+  });
+
+  Object.keys(states).forEach((state) => {
+    (new Socket()).receive_data(state, (data) => {
+      const userId = data["user_id"];
+      if (userId === USER_ID) {
+        const orderId = data["order_id"];
+        const orderStatusElement = document.querySelector(`.order-status[data-order="${orderId}"]`);
+        if (orderStatusElement) {
+          const toState = states[state]["to"];
+          orderStatusElement.innerHTML = toState.slice(0, 1).toUpperCase() + toState.slice(1);
+            orderStatusElement.classList.remove(states[state]["from"]);
+          orderStatusElement.classList.add(toState);
+        }
+      }
+    })
+
+  });
+
 })

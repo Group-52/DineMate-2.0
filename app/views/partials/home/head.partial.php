@@ -21,6 +21,7 @@
   const ROOT = '<?= ROOT ?>';
   const ASSETS = '<?= ASSETS ?>';
   const SOCKET_HOST = '<?= SOCKET_HOST ?>';
+  const USER_ID = '<?= userId() ?>';
 </script>
 <script src="<?= ASSETS ?>/js/components/Socket.js"></script>
 <script src="<?= ASSETS ?>/js/components/Toast.js"></script>

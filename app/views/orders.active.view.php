@@ -27,7 +27,7 @@
                        <div class="fs-6"><?= $order->time_placed ?></div>
                    </div>
                    <div class="col-md-4 text-center">
-                       <span class="<?= $order->status ?>"><?= ucwords($order->status) ?></span>
+                       <span class="order-status <?= $order->status ?>" data-order="<?= $order->order_id ?>"><?= ucwords($order->status) ?></span>
                    </div>
                    <div class="col-md-4 d-flex flex-row justify-content-end align-items-center">
                        <i class="fa-solid fa-chevron-down chevron"></i>
