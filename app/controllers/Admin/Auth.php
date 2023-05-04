@@ -18,7 +18,7 @@ class Auth
 
     public function index(): void
     {
-        if (!isset($_SESSION["user"])) {
+        if (!isEmployee()) {
             redirect("admin/auth/login");
         } else {
             redirect("admin/home");

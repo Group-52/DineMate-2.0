@@ -96,7 +96,7 @@
                     <input type="text" name="description" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="fileToUpload">Select image to upload:</label>
+                    <label for="fileToUpload">Upload Image</label>
                     <input type="file" name="fileToUpload" id="fileToUpload" class='form-control' required>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Save</button>

@@ -17,7 +17,7 @@ class Auth
 
     public function index(): void
     {
-        if (!isset($_SESSION["user"])) {
+        if (!isRegistered()) {
             redirect("auth/login");
         } else {
             redirect("home");

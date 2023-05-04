@@ -23,7 +23,7 @@ class Home
         ];
         $this->view('admin/dashboard', $data);
     }
-    public function index():void{
+    public function index(): void{
         $this->view('admin/home');
     }
 
