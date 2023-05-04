@@ -54,7 +54,7 @@
                             <label class="label" for="sctime">Scheduled Time</label>
                             <span class="d-inline-block">
                             <input type="checkbox" id="timecheck" name="timecheck" class="d-inline">
-                            <input style="width:180px;" class="form-control d-inline fs-6" type="datetime-local"
+                            <input style="width:220px;" class="form-control d-inline fs-6" type="datetime-local"
                                    name="sctime" id="sctime" disabled>
                             </span>
                         </div>
@@ -64,7 +64,7 @@
                 <div class="row">
                     <div class="fieldset-container d-flex justify-content-space-between w-50">
                         <fieldset class="w-100">
-                            <label for="item1">Dishes: &nbsp&nbsp&nbsp&nbsp</label>
+                            <label for="item1">Dishes:</label>
                             <select id="item1" name="item1" class="form-control d-inline w-75">
                                 <option value="" selected>Select Dish</option>
                                 <?php foreach ($dishes as $dish) : ?>
@@ -73,12 +73,26 @@
                                 <?php endforeach; ?>
                             </select>
                             <br><br>
-                            <label for="quantity1">Quantity: &nbsp</label>
+                            <label for="quantity1">Quantity: &nbsp;</label>
                             <input type="number" id="quantity1" name="quantity1" min="1" max="100" value="1"
                                    class="d-inline w-25 form-control mb-3">
                             <br>
                             <a href class="btn btn-primary text-uppercase fw-bold py-2 px-4 my-3"
                                id="add-dish-button">+</a>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="w-100">Select Promotion</label>
+                    <select class="form-control w-50" id="promotion-select">
+                        <option value="1" selected>None</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="fieldset-container d-flex justify-content-center w-75">
+                        <fieldset class="w-100">
+                            <label for="item1">Special Instructions:</label>
+                            <textarea id="special-instructions" name="special-instructions" class="form-control d-inline w-100" rows="5" cols="50"></textarea>
                         </fieldset>
                     </div>
                 </div>
@@ -107,11 +121,11 @@
                 </div>
 
                 <div id="cost-view" class="p-2 col">
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Subtotal : </span><span><span id="subtotal-view">0</span> &nbspLKR</span></div>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Promotion : </span><span><span id="promotion-view">0</span> &nbspLKR</span></div>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Service Charge : </span><span><span id="service-charge-view">0</span> &nbspLKR</span></div>
+                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Subtotal : </span><span><span id="subtotal-view">0</span> &nbsp;LKR</span></div>
+                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Promotion : </span><span><span id="promotion-view">0</span> &nbsp;LKR</span></div>
+                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Service Charge : </span><span><span id="service-charge-view">0</span> &nbsp;LKR</span></div>
                     <hr>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbspLKR</b></span></div>
+                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbsp;LKR</b></span></div>
                 </div>
                 <div id="pay-btn-view" class="m-5 row justify-content-center">
                     <a href="#" id="create-order-button" class="d-block w-75 btn btn-success text-center">Create Order</a>

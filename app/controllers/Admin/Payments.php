@@ -4,6 +4,7 @@
 namespace controllers\admin;
 
 use core\Controller;
+use models\Cart;
 use models\Order;
 use models\Menu;
 use models\MenuDishes;
@@ -73,11 +74,14 @@ class Payments
                 $_SESSION['guest_id'] = $guestId;
             } else {
                 $guestId = $_SESSION['guest_id'];
+                //clear the cart for the guest
+                $c = new Cart;
+                $c->clearCart($guestId,true);
             }
         }
 
         $m2 = new MenuDishes();
-        $data['controller'] = 'menus';
+        $data['controller'] = 'payments';
         $data['dishes'] = $m2->getDishes();
         $this->view('admin/payments.addOrder',$data);
     }

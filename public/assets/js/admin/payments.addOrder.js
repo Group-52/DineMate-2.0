@@ -1,7 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    //check url to see if utype parameter exists
+    const url = new URL(window.location.href);
+    const utype = url.searchParams.get("utype");
+    const dishtable = document.querySelector('#dishes table tbody');
+    const addDishButton = document.querySelector('#add-dish-button');
     const chevron = document.querySelector('#customer-dropdown')
     const customerdata = document.querySelector('#customer-data-formdiv')
+    const promoselect = document.querySelector('#promotion-select');
+
+    var gid, regid;
+    gid = regid = null;
+    if (utype && utype === 'guest') {
+        gid = parseInt(document.querySelector('#guest-id').innerHTML);
+    } else {
+        //Nipun's code
+        // regid =
+    }
+
+    //Hides/displays customer detail form
     chevron.addEventListener('click', function () {
         if (chevron.classList.contains('fa-chevron-down')) {
             chevron.classList.remove('fa-chevron-down')
@@ -13,10 +30,81 @@ document.addEventListener('DOMContentLoaded', () => {
             customerdata.style.height = '0px';
         }
     })
-    const dishtable = document.querySelector('#dishes table tbody');
 
-    const addDishButton = document.querySelector('#add-dish-button');
+    //Applies promtion when select is changed
+    promoselect.addEventListener('change', () => {
+        let promotionId = promoselect.value;
+        if (utype == 'guest') {
+            getReduction(gid, promotionId, "guest");
+        }
+        calculateCost();
+    });
+    //Deletes a dish from the table
+    dishtable.addEventListener('click', (e) => {
+        if (e.target.classList.contains('fa-trash-alt')) {
+            e.target.parentElement.parentElement.remove();
+            calculateCost();
 
+            if (utype == 'guest') {
+                //remove from cart
+                const dishId = e.target.parentElement.parentElement.children[0].textContent;
+                deleteFromCart(dishId, gid, "guest");
+                getValidPromotions(gid, "guest")
+            }
+        }
+    })
+
+    //Adds a dish to the table
+    addDishButton.addEventListener('click', () => {
+        event.preventDefault();
+        if (document.getElementById("item1").value !== "") {
+            addItem();
+            calculateCost();
+        }
+    });
+
+    //Add/Removes service charge when order type is changed
+    document.querySelector('#order-type').addEventListener("change", () => {
+        calculateCost();
+    })
+
+    //Disables/Enables scheduled time
+    document.querySelector('#timecheck').addEventListener('change', () => {
+        if (timecheck.checked) {
+            document.querySelector('#sctime').disabled = false;
+        } else {
+            document.querySelector('#sctime').disabled = true;
+            //clear the value
+            document.querySelector('#sctime').value = '';
+        }
+    });
+
+    //Creates the order
+    const createbtn = document.querySelector('#create-order-button');
+    createbtn.addEventListener('click', () => {
+        let data = collectData();
+        console.log(data);
+        if (data.guest_id) {
+            updateGuest(data.guest_id, data.customer.name, data.customer.contactNo)
+        }
+        makeOrder(data);
+        // getCart(gid, "guest");
+
+    });
+
+    //Updates the view when the form changes
+    const customerNameSpan = document.getElementById("customer-name");
+    const customerContactSpan = document.getElementById("customer-contact");
+    const nameInput = document.getElementById("fname");
+    const contactInput = document.getElementById("contact_no");
+    nameInput.addEventListener("input", () => {
+        customerNameSpan.textContent = nameInput.value;
+    });
+    contactInput.addEventListener("input", () => {
+        customerContactSpan.textContent = contactInput.value;
+    });
+
+    //Takes the dish from the select option and add/update view
     function addItem() {
         // Get the selected dish and quantity inputs
         const dishInput = document.getElementById("item1");
@@ -41,6 +129,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // Recalculate the cost
             const costCell = existingRow.children[3];
             costCell.textContent = selectedOption.dataset.price * newQuantity;
+
+            if (utype == 'guest') {
+                //add to cart
+                const dishId = selectedOption.dataset.dishid;
+                const quantity = newQuantity;
+                updateCart(dishId, quantity, gid, "guest");
+                getValidPromotions(gid, "guest")
+            }
+
         } else {
             // If the dish doesn't exist, create a new row
             // Get the selected option
@@ -72,6 +169,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Append the new row to the table body
             tableBody.appendChild(newRow);
+
+            if (utype == 'guest') {
+                //add to cart
+                const dishId = selectedOption.dataset.dishid;
+                const quantity = quantityInput.value;
+                addToCart(dishId, quantity, gid, "guest");
+                getValidPromotions(gid, "guest")
+
+            }
         }
 
         // Clear the inputs
@@ -80,21 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    dishtable.addEventListener('click', (e) => {
-        if (e.target.classList.contains('fa-trash-alt')) {
-            e.target.parentElement.parentElement.remove();
-        }
-    })
-
-    addDishButton.addEventListener('click', () => {
-        event.preventDefault();
-        if (document.getElementById("item1").value !== "") {
-            addItem();
-            calculateCost();
-        }
-    });
-
-
+    //Calculates the cost of the order and updates the view
     function calculateCost() {
         // Calculate subtotal
         let subtotal = 0;
@@ -120,34 +212,19 @@ document.addEventListener('DOMContentLoaded', () => {
         netTotalView.textContent = netTotal;
     }
 
-
-    document.querySelector('#order-type').addEventListener("change", () => {
-        calculateCost();
-    })
-
-
-    document.querySelector('#timecheck').addEventListener('change', () => {
-        if (timecheck.checked) {
-            document.querySelector('#sctime').disabled = false;
-        } else {
-            document.querySelector('#sctime').disabled = true;
-            //clear the value
-            document.querySelector('#sctime').value = '';
-        }
-    });
-
+    //Gets all the data from different input fields and views
     function collectData() {
         const dishRows = Array.from(document.querySelectorAll('#dishes tbody tr'));
         const dishlist = dishRows.map(row => ({
             //first td
             dish_id: parseFloat(row.children[0].textContent),
-            // name: row.children[1].textContent,
+            dish_name: row.children[1].textContent,
             quantity: parseFloat(row.children[2].textContent),
             // cost: parseFloat(row.children[3].textContent),
         }));
 
         const subtotal = parseInt(document.querySelector('#subtotal-view').textContent);
-        const promotion = parseInt(document.querySelector('#promotion-view').textContent);
+        const promotion = promoselect.value
         const serviceCharge = parseInt(document.querySelector('#service-charge-view').textContent);
         const netTotal = parseInt(document.querySelector('#net-total-view').textContent);
 
@@ -156,20 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const type = document.querySelector('#order-type').value;
         const scheduledTimeCheckbox = document.querySelector('#timecheck');
         const scheduled_time = scheduledTimeCheckbox.checked ? document.querySelector('#sctime').value : null;
+        const request = document.querySelector('#special-instructions').value;
 
-
-        //check url to see if utype parameter exists
-        let url = new URL(window.location.href);
-        let utype = url.searchParams.get("utype");
-        let gid, regid;
-        gid = regid = null;
-        if (utype && utype === 'guest') {
-            gid = parseInt(document.querySelector('#guest-id').innerHTML);
-        } else {
-            //Nipun's code
-            // regid =
-
-        }
 
         return {
             reg_customer_id: regid,
@@ -185,33 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             type,
             scheduled_time,
+            request,
         };
     }
-
-    const createbtn = document.querySelector('#create-order-button');
-    createbtn.addEventListener('click', () => {
-        let data = collectData();
-        console.log(data);
-        if (data.guest_id){
-            updateGuest(data.guest_id, data.customer.name, data.customer.contactNo)
-        }
-        makeOrder(data);
-
-    });
-
-    const customerNameSpan = document.getElementById("customer-name");
-    const customerContactSpan = document.getElementById("customer-contact");
-
-    const nameInput = document.getElementById("fname");
-    const contactInput = document.getElementById("contact_no");
-
-    nameInput.addEventListener("input", () => {
-        customerNameSpan.textContent = nameInput.value;
-    });
-
-    contactInput.addEventListener("input", () => {
-        customerContactSpan.textContent = contactInput.value;
-    });
 
     //send order data to api and redirect to orders page
     function makeOrder(data) {
@@ -224,9 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }).then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                // window.location.href = `${ROOT}/orders`;
+                window.location.href = `${ROOT}/admin/payments`;
             });
     }
+
     function updateGuest(guest_id, name, contactNo) {
         fetch(`${ROOT}/api/guest/update`, {
             method: 'POST',
@@ -244,5 +286,134 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
+    function addToCart($dish, $quantity, $user_id, $utype = "guest") {
+        fetch(`${ROOT}/api/cart/cashierAdd`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+                ,
+                body: JSON.stringify({
+                    dish_id: $dish,
+                    qty: $quantity,
+                    user_id: $user_id,
+                    utype: $utype,
+                }),
+            }
+        ).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            });
+    }
 
-});  
+    function deleteFromCart($dish, $user_id, $utype = "guest") {
+        fetch(`${ROOT}/api/cart/cashierDelete`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+                ,
+                body: JSON.stringify({
+                    dish_id: $dish,
+                    user_id: $user_id,
+                    utype: $utype,
+                }),
+            }
+        ).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            });
+    }
+
+    //gets cart and console logs it
+    function updateCart($dish, $quantity, $user_id, $utype = "guest") {
+        fetch(`${ROOT}/api/cart/cashierUpdate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+                ,
+                body: JSON.stringify({
+                    dish_id: $dish,
+                    qty: $quantity,
+                    user_id: $user_id,
+                    utype: $utype,
+                }),
+            }
+        ).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            });
+    }
+
+    function getCart($user_id, $utype = "guest") {
+        fetch(`${ROOT}/api/cart/cashierGet`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+                ,
+                body: JSON.stringify({
+                    user_id: $user_id,
+                    utype: $utype,
+                }),
+            }
+        ).then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            });
+    }
+
+    //Gets all valid promotions for order and updates the select field
+    function getValidPromotions(user_id, user_type = 'guest') {
+        fetch(`${ROOT}/api/promotions/getValidPromotions`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify({
+                uid: user_id,
+                utype: user_type
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // getCart(user_id, user_type);
+                console.log('Success:', data);
+                let promotions = data.promotions;
+                promoselect.innerHTML = "";
+                //add default option
+                let option = document.createElement('option');
+                option.value = "1";
+                option.innerHTML = "None";
+                promoselect.appendChild(option);
+                promotions.forEach((promo) => {
+                    let option = document.createElement('option');
+                    option.value = promo.promo_id;
+                    option.innerHTML = promo.title;
+                    promoselect.appendChild(option);
+                });
+            });
+    }
+
+    //gets the reduction and updates the field and recalculates the cost
+    function getReduction(user_id, promo_id, user_type = 'guest') {
+        fetch(`${ROOT}/api/promotions/getReduction`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json',},
+            body: JSON.stringify({
+                uid: user_id,
+                utype: user_type,
+                promo: promo_id
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.querySelector('#promotion-view').innerHTML = data.reduction;
+                calculateCost();
+            });
+    }
+
+
+});
+
+
