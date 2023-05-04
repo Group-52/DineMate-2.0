@@ -40,6 +40,27 @@ class Guest
         }
     }
 
+    public function cashierCreateGuest(): void
+    {
+        $fName = $_GET['fname'];
+        $contactNo = $_GET['contact'];
+        $guest = new \models\Guest();
+        $guestId = null;
+
+        if (!isset($_SESSION['guest_id'])) {
+            $guestId = $guest->createGuest($fName, null, $contactNo, null);
+            $_SESSION['guest_id'] = $guestId;
+        } else {
+            $guestId = $_SESSION['guest_id'];
+        }
+
+        $this->json([
+            'status' => 'success',
+            'message' => 'Guest created',
+            'guestId' => $guestId
+        ]);
+    }
+
     public function get($guest_id): void
     {
         if (!isRegistered())
@@ -65,6 +86,24 @@ class Guest
                 'message' => 'User already registered'
             ]);
         }
+    }
+
+    public function update(): void
+    {
+
+        $post = json_decode(file_get_contents('php://input'));
+        $guest = new \models\Guest();
+        $guest_id = $post->guest_id;
+        $fname = $post->fname ?? null;
+        $lname = $post->lname ?? null;
+        $contact = $post->contact ??null;
+        $email = $post->email ?? null;
+        $guest->updateGuest($guest_id,$fname, $lname, $contact, $email);
+        $this->json([
+            'status' => 'success',
+            'message' => 'Guest updated'
+        ]);
+
     }
 
 }

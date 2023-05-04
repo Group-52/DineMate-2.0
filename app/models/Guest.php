@@ -77,4 +77,17 @@ class Guest extends Model
     {
        $this->delete()->where('guest_id', $guest_id)->execute();
     }
+
+    public function updateGuest($guest_id,$fName = null, $lName = null, $contactNo = null, $email = null): void
+    {
+        $data = [
+            'first_name' => $fName,
+            'last_name' => $lName,
+            'contact_no' => $contactNo,
+            'email' => $email,
+            'date_created' => date('Y-m-d H:i:s')
+        ];
+        array_filter($data);
+        $this->update($data)->where('guest_id', $guest_id)->execute();
+    }
 }
