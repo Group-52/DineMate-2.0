@@ -83,6 +83,7 @@ class Ingredient extends Model
             ->join("items", "items.item_id", "ingredients.item_id")
             ->join("units", "ingredients.unit", "units.unit_id")
             ->where("ingredients.dish_id", $dish_id)
+            ->and("items.deleted", 0)
             ->fetchAll();
     }
 

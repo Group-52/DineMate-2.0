@@ -86,6 +86,7 @@ class InventoryDetail extends Model
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
+            ->where('items.deleted', 0)
             ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
@@ -96,15 +97,22 @@ class InventoryDetail extends Model
     // get non-zero inventory with items set to expire in the next x weeks or less in order of expiry date
     public function expiring($weeks): array
     {
-        return $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
+        $temp =  $this->select(["inventory2.*", "items.item_name","inventory2.amount_remaining","items.deleted", "units.*", "purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
             ->where('inventory2.expiry_risk', 1)
             ->or("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
-            ->and ("amount_remaining", 0, ">")
             ->orderBy("purchases.expiry_date", "ASC")
             ->fetchAll();
+
+        // remove items with 0 amount_remaining and deleted
+        $result = [];
+        foreach ($temp as $t){
+            if ($t->amount_remaining > 0 && $t->deleted == 0)
+                $result[] = $t;
+        }
+        return $result;
     }
 
     // Make sure to give named arguments
