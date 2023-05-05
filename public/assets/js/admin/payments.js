@@ -46,18 +46,14 @@ document.addEventListener('DOMContentLoaded', function () {
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
         toBeCollectedDiv.style.display = 'none';
-        toBePaidHeader.style.backgroundColor = 'white';
-        toBePaidHeader.style.color = 'black';
-        toBeCollectedHeader.style.backgroundColor = '#ff0000';
-        toBeCollectedHeader.style.color = 'white';
+        toBePaidHeader.style.backgroundColor = '#802323';
+        toBeCollectedHeader.style.backgroundColor = '#FF4546';
     }
     toBeCollectedHeader.onclick = function () {
         toBePaidDiv.style.display = 'none';
         toBeCollectedDiv.style.display = 'block';
-        toBePaidHeader.style.backgroundColor = '#ff0000';
-        toBePaidHeader.style.color = 'white';
-        toBeCollectedHeader.style.backgroundColor = 'white';
-        toBeCollectedHeader.style.color = 'black';
+        toBePaidHeader.style.backgroundColor = '#FF4546';
+        toBeCollectedHeader.style.backgroundColor = '#802323';
     }
     toBePaidHeader.onclick();
 

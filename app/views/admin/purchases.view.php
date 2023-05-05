@@ -19,9 +19,9 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Purchases</h1>
+            <h1 class="display-5 mb-2">Purchases</h1>
             <div class="dashboard-buttons">
-                <a class="btn btn-primary text-uppercase fw-bold" id="add-purchase-button">Add Purchase</a>
+                <a class="btn btn-primary text-uppercase fw-bold" id="add-purchase-button">+ Add Purchase</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
             </div>
@@ -138,8 +138,10 @@
                         <input type="number" step="1" min="0" required name="final_price" id="final_price"
                                class="form-control d-inline w-75 mr-2">  LKR </span>
                 </div>
-                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
-                <button type="button" name="cancel" class="btn btn-danger" id="cancel-button">Cancel</button>
+                <div class="d-flex justify-content-space-between">
+                    <button type="button" name="cancel" class="btn btn-secondary text-uppercase" id="cancel-button">Cancel</button>
+                    <button type="submit" name="submit" class="btn btn-primary text-uppercase" id="submit-button">Submit</button>
+                </div>
             </form>
         </div>
     </div>

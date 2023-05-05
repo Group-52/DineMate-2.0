@@ -15,7 +15,7 @@
         <div class="w-100 h-100">
             <div class="p-5">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                <h1 class="display-3">Items</h1>
+                <h1 class="display-5 mb-2">Items</h1>
                 <a class="btn btn-primary text-uppercase fw-bold" href="items/create" id="add-item-button">+ Create Item</a>
             </div>
             <div>
