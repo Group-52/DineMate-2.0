@@ -5046,9 +5046,12 @@ select.form-control {
 .menu-item-card .add-to-cart:disabled {
   color: grey;
 }
+.menu-item-card .card-body-wrapper {
+  width: 100%;
+}
 @media (max-width: 990px) {
   .menu-item-card .card-body-wrapper {
-    width: 100%;
+    width: calc(100% - 8rem);
   }
 }
 .menu-item-card .card-body-wrapper .card-body {
@@ -5064,10 +5067,22 @@ select.form-control {
     height: 100%;
   }
 }
-.menu-item-card .card-body-wrapper .card-body .card-title {
+.menu-item-card .card-body-wrapper .card-body .card-content {
+  width: calc(100% - 105px);
+}
+.menu-item-card .card-body-wrapper .card-body .card-content .card-title {
   font-weight: 600;
   color: #3A3131;
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.menu-item-card .card-body-wrapper .card-body .card-content .card-description {
+  font-size: 0.9rem;
+  color: #4D4242;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .menu-item-card .card-body-wrapper .card-body .card-prices {
   display: flex;
@@ -5353,7 +5368,8 @@ a {
 
 .banner {
   position: relative;
-  height: 15rem;
+  height: 20rem;
+  max-height: 50vh;
 }
 @media (max-width: 990px) {
   .banner {
