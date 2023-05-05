@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <label class="label" for="role">Role</label>
                     <select class="form-control" name="role" id="role" required>
-                        <option value="0" disabled selected>----</option>
+                        <option value="" disabled selected>----</option>
                         <option value="1">Chef</option>
                         <option value="2">General Manager</option>
                         <option value="3">Cashier</option>
@@ -143,3 +143,36 @@
     }
 </style>
 </html>
+
+<script>
+    //don't allow duplicate usernames or ones with spaces or special characters
+    function validateUsername(username){
+        let usernames = <?php echo json_encode($ulist); ?>;
+        console.log(usernames);
+        var regex = /^[a-zA-Z0-9]+$/;
+
+        if(username.length < 5){
+            alert("Username must be at least 5 characters long");
+            return false;
+        }
+        if(!regex.test(username)){
+            alert("Username must contain only letters and numbers");
+            return false;
+        }
+        if(usernames.includes(username)){
+            alert("Username already exists");
+            return false;
+        }
+    }
+
+    let usernameinput = document.getElementById("username");
+    usernameinput.addEventListener("change", function(){
+        if (validateUsername(usernameinput.value) == false){
+            //disable submit button
+            document.getElementById("submit-button").disabled = true;
+        }else{
+            //enable submit button
+            document.getElementById("submit-button").disabled = false;
+        }
+    });
+</script>

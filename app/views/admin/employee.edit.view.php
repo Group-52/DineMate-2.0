@@ -61,6 +61,10 @@
                 <input class="form-control" name="contact_no" value="<?= $e1->contact_no ?>" required>
             </div>
             <div class="form-group">
+                <label class="label" for="email">Email</label>
+                <input class="form-control" name="email" value="<?= $e1->email ?>">
+            </div>
+            <div class="form-group">
                 <label class="label" for="NIC">NIC</label>
                 <input class="form-control" name="NIC" value="<?= $e1->NIC ?>" required>
             </div>

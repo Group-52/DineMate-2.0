@@ -16,6 +16,11 @@ class Employees
     {
         $employee = new Employee;
         $results['employee'] = $employee->getEmployees();
+        $ulist = [];
+        foreach ($results['employee'] as $e1) {
+            $ulist[] = $e1->username;
+        }
+        $results['ulist'] = $ulist;
         $this->view('admin/employee', $results);
     }
 
@@ -27,6 +32,7 @@ class Employees
             $role = $_POST['role'];
             $salary = $_POST['salary'];
             $username = $_POST['username'];
+            $email = $_POST['email'];
             // $DOB = $_POST['DOB'];
             $contact_no = $_POST['contact_no'];
             $NIC = $_POST['NIC'];
@@ -43,6 +49,7 @@ class Employees
                 'role' => $role,
                 'salary' => $salary,
                 'username' => $username,
+                'email' => $email,
                 // 'DOB'=> $DOB,
                 'password' => $hashed,
                 'contact_no' => $contact_no,
