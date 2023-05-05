@@ -17,8 +17,9 @@ class Users
     {
         $guest = new Guest;
         $r = new RegUser();
-        $results['reg'] = $r->getReg();
-        $results['guest'] = $guest->getGuest();      
-        $this->view('admin/user', $results);
+        $data['reg'] = $r->getReg();
+        $data['guest'] = $guest->getGuest();
+        $data['controller'] = 'users';
+        $this->view('admin/user', $data);
     }
 }

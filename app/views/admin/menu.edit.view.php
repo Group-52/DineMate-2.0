@@ -16,7 +16,8 @@
         <?php if (isset($m)): ?>
             <form method="POST">
                 <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                    <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/menus">Menus</a> > Edit Menu</h1>
+<!--                    chevron right-->
+                    <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/menus">Menus</a><i class="fa-solid fa-chevron-right mx-2"></i>Edit</h1>
                     <button class="btn btn-success text-uppercase fw-bold" type="submit" href="<?= ROOT ?>/admin/menus">
                         Update Menu
                     </button>

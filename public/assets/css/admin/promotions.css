@@ -13,27 +13,8 @@
 }
 
 /* Style the buttons inside the tab */
-.tablinks{
-    color: white;
-    background-color: inherit;
-    height: 80%;
-    width: fit-content;
-    padding: 0px 10px;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-    background-color: red;
-    color: white;
-    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
+.tablinks {
+    cursor: pointer;
 }
 
 #discount-form, #free_dish-form, #spending_bonus-form {

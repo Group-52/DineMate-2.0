@@ -12,11 +12,12 @@ class Employees
 {
     use Controller;
 
-    public function index()
+    public function index(): void
     {
         $employee = new Employee;
-        $results['employee'] = $employee->getEmployees();
-        $this->view('admin/employee', $results);
+        $data['employee'] = $employee->getEmployees();
+        $data['controller'] = 'employees';
+        $this->view('admin/employee', $data);
     }
 
     public function addEmployee(): void
@@ -59,23 +60,21 @@ class Employees
     public function edit($emp_id): void
     {
         $employee = new Employee;
-        $results['e1'] = $employee->getEmployee($emp_id);
+        $data['e1'] = $employee->getEmployee($emp_id);
+        $data['controller'] = 'employees';
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //            show($_POST);
             $employee = new Employee;
             $employee->editEmployee($_POST);
             redirect('admin/employees');
         }
-        $this->view('admin/employee.edit', $results);
+        $this->view('admin/employee.edit', $data);
     }
 
     public function delete($emp_id): void
     {
         $employee = new Employee;
         $employee->deleteEmployee($emp_id);
-
         redirect('admin/employees');
-
-
     }
 }

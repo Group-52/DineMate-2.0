@@ -142,6 +142,11 @@ function createSessionGuest($guestId): void
     $_SESSION['user']->registered = false;
 }
 
+function isEmployee(): bool
+{
+    return isset($_SESSION['user']->emp_id);
+}
+
 function userColumn($isGuest = false): string
 {
     return ($isGuest) ? 'guest_id' : 'reg_customer_id';

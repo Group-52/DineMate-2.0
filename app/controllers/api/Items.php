@@ -22,4 +22,29 @@ class Items
                 "message" => "Invalid Request"
             ]);
     }
+
+    public function delete($id): void
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $item = new Item();
+            try {
+                $item->deleteItem($id);
+                $this->json([
+                    "status" => "success",
+                    "message" => "Item deleted successfully."
+                ]);
+            } catch (\Exception $e) {
+               $this->json([
+                    "status" => "error",
+                    "message" => "Item not found."
+                ]);
+            }
+        } else {
+            $this->json([
+                "status" => "error",
+                "message" => "Invalid Request"
+            ]);
+        }
+    }
+
 }

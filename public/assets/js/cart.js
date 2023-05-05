@@ -29,9 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((data) => {
         if (data.status === "success") {
           getCart();
+          new Toast("fa-solid fa-check-circle", "green", "Success", "Item removed from cart", false, 3000);
+        } else {
+          new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Item could not be removed from cart", false, 3000);
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) =>
+        new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Item could not be removed from cart", false, 3000)
+      );
   };
 
   /**

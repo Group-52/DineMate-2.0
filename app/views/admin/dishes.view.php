@@ -20,7 +20,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Dishes</h1>
+            <h1 class="display-5 mb-2">Dishes</h1>
             <div id="search" class="form-search order-md-0 order-1 w-50">
                 <input type="text" class="form-control" placeholder="Search inventory" id="search-field">
                 <button class="form-search-icon">
@@ -29,13 +29,11 @@
             </div>
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" id="add-dish-button"
-                   href="<?php echo ROOT ?>/admin/dishes/addDish">Add Dish</a>
+                   href="<?php echo ROOT ?>/admin/dishes/addDish">+ Add Dish</a>
             </div>
-
-
         </div>
 
-        <div class="card-deck d-flex flex-wrap justify-content-space-evenly">
+        <div class="card-deck grid-xl-6 grid-lg-4 grid-md-2 grid-1 grid-gap-2">
             <?php if (isset($dish_list) && count($dish_list) > 0) : ?>
                 <?php foreach ($dish_list as $d) : ?>
                     <div class="card p-2" data-dish-id="<?= $d->dish_id ?>" data-name="<?= $d->dish_name ?>" data-description="<?= $d->description ?>" data-prep-time="<?= $d->prep_time ?>" data-net-price="<?= $d->net_price ?>" data-selling-price="<?= $d->selling_price ?>" data-image-url="<?= $d->image_url ?>">
@@ -46,10 +44,12 @@
                             <img src="<?= ASSETS ?>/images/dishes/<?= $d->image_url ?>" alt="dish image">
                         </div>
                         <div class="card-text pt-1 pl-2">
-                            <p><span class="dish-details">Prep Time:</span>&nbsp; &nbsp;<?= $d->prep_time ?> minutes</p>
-                            <p><span class="dish-details">Net Price:</span>&nbsp; &nbsp;<?= $d->net_price ?> LKR</p>
-                            <p><span class="dish-details">Selling Price:</span>&nbsp; &nbsp;<?= $d->selling_price ?> LKR</p>
-                            <p><span class="dish-details">Description:</span>&nbsp; &nbsp;<?=$d->description?></p>
+                            <div class="grid-2">
+                                <div class="dish-details">Prep Time:</div><div class="text-right"><?= $d->prep_time ?> minutes</div>
+                                <div class="dish-details">Net Price:</div><div class="text-right"><?= $d->net_price ?> LKR</div>
+                                <div class="dish-details">Selling Price:</div><div class="text-right"><?= $d->selling_price ?> LKR</div>
+                            </div>
+                            <div class="dish-details">Description:</div><div><?=$d->description?></div>
                         </div>
                         <span class="d-flex justify-content-space-between pt-2">
                             <span class="p-1 mr-2">
@@ -66,7 +66,7 @@
 
         </div>
         <div id="dish-add-formdiv" class="overlay">
-
+            <h1 class="display-6 mb-2">Edit Dish</h1>
             <form method="post" enctype="multipart/form-data" action="<?= ROOT ?>/admin/dishes/addDish">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -96,20 +96,22 @@
                     <input type="text" name="description" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="fileToUpload">Select image to upload:</label>
+                    <label for="fileToUpload">Upload Image</label>
                     <input type="file" name="fileToUpload" id="fileToUpload" class='form-control' required>
                 </div>
-                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Save</button>
-                <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
+                <div class="d-flex justify-content-space-between w-100">
+                    <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
+                    <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Save</button>
+                </div>
             </form>
         </div>
         <div class="popup" id="delete-popup">
             <p>
                 Are you sure you want to delete <span></span>? This would remove the dish from all menus, promotions, and recipes
             </p>
-            <div class="popup-button-div">
+            <div class="popup-button-div d-flex justify-content-space-between w-100">
+                <button class="btn btn-primary btn-secondary" id="cancel">No</button>
                 <button class="btn btn-primary btn-success" id="confirm">Yes</button>
-                <button class="btn btn-primary btn-danger" id="cancel">No</button>
             </div>
         </div>
     </div>

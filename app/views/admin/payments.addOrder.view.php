@@ -18,15 +18,14 @@
             <div class="col-7">
                 <div class="col">
                     <div id="customer-parent" class="row">
-                    <span>
+                    <span class="mb-2">
                         <?php if(isset($_SESSION['guest_id'])){
                             echo "<span class='d-none'' id='guest-id'>".$_SESSION['guest_id']."</span>";
                         }
                         ?>
                         Customer Details
-                        <i class="fas fa-chevron-down" id="customer-dropdown"></i>
+                        <i class="fas fa-chevron-down mr-2 pointer" id="customer-dropdown"></i>
                         </span>
-                        <br><br><br>
                         <div id="customer-data-formdiv" class="w-100">
                     <span class="d-inline-flex w-75 justify-content-space-between">
                         <div class="form-group d-inline w-45">
@@ -128,7 +127,7 @@
                     <div class="row justify-content-space-between p-1"> <span class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbsp;LKR</b></span></div>
                 </div>
                 <div id="pay-btn-view" class="m-5 row justify-content-center">
-                    <a href="#" id="create-order-button" class="d-block w-75 btn btn-success text-center">Create Order</a>
+                    <a href="#" id="create-order-button" class="d-block w-75 btn btn-primary text-center text-uppercase fw-bold">Create Order</a>
                 </div>
             </div>
 

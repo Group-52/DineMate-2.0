@@ -19,6 +19,7 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   letter-spacing: 0.1em;
+  white-space: nowrap;
 
   &:hover {
     text-decoration: none;
@@ -33,6 +34,18 @@
       color: $primary-color;
       background-color: $bg-color;
       border-color: $primary-color;
+    }
+  }
+
+  &.btn-secondary {
+      color: $bg-color;
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+
+    &:hover {
+      color: $secondary-color;
+      background-color: $bg-color;
+      border-color: $secondary-color;
     }
   }
 
@@ -120,6 +133,10 @@ $nav-height: 4rem;
       height: 2.75rem;
       margin-right: 0.5rem;
     }
+
+    &.only-mobile img {
+      width: 2.75rem;
+    }
   }
 
   &.nav-home {
@@ -127,7 +144,6 @@ $nav-height: 4rem;
     top: 0;
     left: 0;
   }
-
 
   // sidebar
   &.nav-home .sidebar {
@@ -164,7 +180,6 @@ $nav-height: 4rem;
       line-height: inherit;
       white-space: nowrap;
       text-decoration: none;
-
     }
   }
 
@@ -271,11 +286,26 @@ $nav-height: 4rem;
   transition: box-shadow 0.5s;
   border: 1px solid $border;
 
+  @media (max-width: 990px) {
+    flex-direction: row;
+    height: 8rem;
+  }
+
+  .card-link {
+    height: 100%;
+  }
+
   .card-img-wrapper {
     overflow: hidden;
     flex: 1 0 auto;
     position: relative;
     border-radius: 0 0 1rem 1rem;
+    height: 100%;
+
+    @media (max-width: 990px) {
+      width: 8rem;
+      border-radius: 0 1rem 1rem 0;
+    }
 
     .card-img {
       width: 100%;
@@ -286,7 +316,6 @@ $nav-height: 4rem;
       left: 0;
     }
   }
-
 
   .add-to-cart {
     position: absolute;
@@ -315,40 +344,48 @@ $nav-height: 4rem;
     color: grey;
   }
 
-  .card-body {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 4rem;
-    padding: 0.5rem 1rem;
-
-    .card-title {
-      font-weight: 600;
-      color: $headings;
-      text-overflow: ellipsis;
+  .card-body-wrapper {
+    @media (max-width: 990px) {
+      width: 100%;
     }
-
-    .card-prices {
+    .card-body {
       display: flex;
-      flex-direction: column;
-      align-items: end;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+      padding: 0.5rem 1rem;
 
-      .card-price-old {
-        font-size: 0.75rem;
-        text-decoration: line-through;
-        color: $secondary-text;
-        white-space: nowrap;
+      @media (max-width: 990px) {
+        height: 100%;
       }
 
-      .card-price-new {
-        font-size: 1.25rem;
-        font-weight: bold;
-        color: $secondary-color;
-        white-space: nowrap;
+      .card-title {
+        font-weight: 600;
+        color: $headings;
+        text-overflow: ellipsis;
+      }
+
+      .card-prices {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+
+        .card-price-old {
+          font-size: 0.75rem;
+          text-decoration: line-through;
+          color: $secondary-text;
+          white-space: nowrap;
+        }
+
+        .card-price-new {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: $secondary-color;
+          white-space: nowrap;
+        }
       }
     }
-
   }
 
   &:hover {
@@ -364,11 +401,15 @@ $nav-height: 4rem;
   * Toast
  */
 
-.toast {
+#toast-container {
   position: fixed;
   bottom: 1rem;
   right: 1rem;
   z-index: 9999;
+
+.toast {
+  position: relative;
+  margin-top: 1rem;
   background-color: white;
   color: $primary-text;
   animation: toast 0.5s ease-in-out;
@@ -395,7 +436,7 @@ $nav-height: 4rem;
     }
   }
 }
-
+}
 
 /**
   * Pagination

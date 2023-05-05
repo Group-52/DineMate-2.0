@@ -51,7 +51,7 @@ class Checkout
                 } else {
                     $data["success"] = "Order placed successfully";
 
-                    $ws = new Client("ws://" . SOCKET_HOST . ":8080");
+                    $ws = new Client("ws://" . SERVER_SOCKET_HOST . ":8080");
                     $ws->text(json_encode([
                         "event_type" => "new_order",
                         "data" => [
