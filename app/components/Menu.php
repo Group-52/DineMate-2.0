@@ -48,13 +48,14 @@ class Menu
      */
     public function html(): string
     {
-        $html = "<div class='menu mb-3'>";
+        $html = "<div class='menu mb-4'>";
         $html .= "<div class='row justify-content-md-space-between justify-content-center'>";
         $html .= "<div>";
 
         // Menu name and time column
-        $html .= "<div class='d-flex flex-column justify-content-space-between align-items-md-start align-items-center mb-2'>";
-        $html .= "<h2 class='menu-title'>{$this->name}</h2>";
+        $html .= "<div class='d-flex flex-column justify-content-space-between align-items-md-start align-items-center mb-3'>";
+        $html .= "<h2 class='menu-title not-mobile'>{$this->name}</h2>";
+        $html .= "<h1 class='menu-title only-mobile'>{$this->name}</h1>";
         $html .= "<h4 class='menu-time secondary'>";
         if ($this->all_day) {
             $html .= "All Day";

@@ -198,7 +198,9 @@ class Model
      */
     public function limit(int $limit): Model
     {
-        $this->query .= " LIMIT $limit";
+        if ($limit != 0) {
+            $this->query .= " LIMIT $limit";
+        }
         return $this;
     }
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/employees.js"></script>
 </head>
@@ -11,7 +11,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-employees-center justify-content-space-between w-100">
-            <h1 class="display-3">Employees</h1>
+            <h1 class="display-5 mb-2">Employees</h1>
             <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee" id="add-employee-button">+
                 New Employee</a>
         </div>

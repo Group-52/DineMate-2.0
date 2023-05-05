@@ -44,9 +44,9 @@ class Payments
         }
         if ($data['order'] == false)
             redirect('admin/404');
+        $data['controller'] = $this->controller;
         $this->view('admin/payments.detail', $data);
     }
-
 
     public function create(): void
     {
@@ -67,8 +67,8 @@ class Payments
             ]);
 
             redirect('admin/payments');
-
         }
+        $data['controller'] = $this->controller;
         $this->view('admin/payments');
     }
 
@@ -91,9 +91,8 @@ class Payments
 
         $m2 = new MenuDishes();
         $data['controller'] = 'payments';
+        $data['controller'] = $this->controller;
         $data['dishes'] = $m2->getDishes();
         $this->view('admin/payments.addOrder', $data);
     }
-
-
 }

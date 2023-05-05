@@ -14,7 +14,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Ingredients</h1>
+            <h1 class="display-5 active">Ingredients</h1>
             <div class="dashboard-buttons">
                 <div class="form-group d-inline-block pr-3" style="width:200px">
                     <select id="dish-select" class="form-control">
@@ -38,17 +38,21 @@
         <!--        div with two columns-->
 
         <div class="row">
-            <div class="col-6 text-center">
-                <img src="<?= ASSETS ?>/images/dishes/<?= $dish->image_url ?>" alt="dish image">
+            <div class="col-offset-lg-1"></div>
+            <div class="col-lg-4 col-md-5 col-12 text-center">
+                <img src="<?php echo ASSETS . "/images/dishes/" . $dish->image_url ?>" alt="<?= $dish->dish_name ?>"
+                     class="img-fluid rounded-sm shadow" style="max-height: 50vh; ">
             </div>
-            <div class="col-6 text-center">
-                <h1 class="display-3 active"><?= $dish->dish_name ?></h1>
+            <div class="col-offset-lg-1"></div>
+            <div class="col-lg-5 col-md-7 col-12 d-flex flex-column justify-content-center p-3">
+                <h1><?= $dish->dish_name ?></h1>
                 <p class="lead"><?= $dish->description ?></p>
             </div>
         </div>
 
-        <div class="row justify-content-start">
-            <div class="col-10">
+        <div class="row">
+            <div class="col-offset-2"></div>
+            <div class="col-8">
                 <!-- create a table for ingredients of dish -->
                 <table class="table table-striped" data-dish="<?= $dish->dish_id ?>">
                     <thead>
@@ -78,8 +82,8 @@
 
                     <tr class="input-row">
                         <td>
-                            <select name="ingredient" class="p-1">
-                                <option value="" disabled selected>Select an ingredient</option>
+                            <select name="ingredient" class="form-control m-2 w-75">
+                                <option value="" disabled selected>Ingredient</option>
                                 <?php if (isset($ingredients)) : ?>
                                     <?php foreach ($ingredients as $ingredient) : ?>
                                         <option value="<?= $ingredient->item_id ?>">
@@ -90,12 +94,12 @@
                             </select>
                         </td>
                         <td>
-                            <input class="p-1" type="number" placeholder="Quantity" name="quantity" min="0.001" step="0.001"
+                            <input class="form-control m-2 w-75" type="number" placeholder="Quantity" name="quantity" min="0.001" step="0.001"
                                    oninput="validity.valid||(value='');" required>
                         </td>
                         <td>
-                            <select name="unit" class="p-1">
-                                <option value="" disabled selected>Select a unit</option>
+                            <select name="unit" class="form-control m-2 w-75">
+                                <option value="" disabled selected>Unit</option>
                                 <?php if (isset($units)) : ?>
                                     <?php foreach ($units as $unit) : ?>
                                         <option value="<?= $unit->unit_id ?>">
@@ -108,9 +112,9 @@
                         <td><i class="fa fa-check-circle tick-icon edit-options"></i></td>
                         <td><i class="fa fa-times-circle cross-icon edit-options"></i></td>
                         <td>
-                            <button class="add-new-row">Add</button>
+                            <button class="add-new-row btn btn-primary m-2">Add</button>
                         </td>
-                        <td><i class="fa-solid fa-circle-xmark"></i></td>
+                        <td><i class="fa-solid fa-circle-xmark m-3"></i></td>
 
                     </tr>
                     <tr class="dummy-row" data-ingredient="0" data-unit="0" data-quantity="0">
@@ -123,6 +127,7 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-offset-2"></div>
         </div>
     </div>
 

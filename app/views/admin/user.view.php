@@ -17,14 +17,16 @@
         <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
         <div class="w-100 h-100 p-5">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                <h1 class="display-3">Users</h1>
+                <div>
+                    <h1 class="display-5 mb-2">Users</h1>
+                    <div class="mb-2 d-flex flex-row">
+                        <div class="tablinks display-6 fw-bold mr-4 pointer" onclick="openTab(event, 'register')">Registered Users</div>
+                        <div class="tablinks display-6 fw-bold mr-4 pointer" onclick="openTab(event, 'guest')">Guests</div>
+                        <div class="tablinks display-6 fw-bold pointer" onclick="openTab(event, 'blocklist')">Blacklisted Users</div>
+                    </div>
+                </div>
             </div>
             <div id="user-tables">
-                <div class="tab w-100 d-flex justify-content-space-evenly">
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'register')">Registered Users</button>
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'guest')">Guests</button>
-                    <button class="tablinks btn btn-success" onclick="openTab(event, 'blocklist')">Blacklisted Users</button>
-                </div>
 
                 <div id="register" class="tabcontent">
                     <table class="table table-striped">
@@ -135,10 +137,10 @@
         }
         tablinks = document.getElementsByClassName("tablinks");
         for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            tablinks[i].className = tablinks[i].className.replace(" secondary", "");
         }
         document.getElementById(divName).style.display = "block";
-        evt.currentTarget.className += " active";
+        evt.currentTarget.className += " secondary";
     }
     //click tab
     document.querySelector('.tablinks').click();

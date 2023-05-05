@@ -19,6 +19,17 @@ class Toast {
     this.show();
   }
 
+  createToastContainer() {
+    let toastContainer = document.querySelector('#toast-container')
+    if (toastContainer == null) {
+      toastContainer = document.createElement('div');
+      toastContainer.id = 'toast-container';
+      toastContainer.className = 'toast-container d-flex flex-column align-items-center justify-content-end';
+      document.body.appendChild(toastContainer);
+    }
+    return toastContainer;
+  }
+
   createToast() {
     const toast = document.createElement('div');
     toast.className = 'toast p-4 d-flex align-items-center rounded-sm shadow-sm';
@@ -57,7 +68,7 @@ class Toast {
       toast.appendChild(toastClose);
     }
 
-    document.body.appendChild(toast);
+    this.createToastContainer().appendChild(toast);
     this.toast = toast;
   }
 

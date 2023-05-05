@@ -3,14 +3,6 @@
     display: none;
 }
 
-
-.order-status {
-    width: 120px;
-    height: 40px;
-    display: inline;
-    font-size: 13px;
-}
-
 .editorderoption {
     display: none;
     width: 30px;
@@ -24,10 +16,6 @@
     display: none;
 }
 
-
-#order-details-table {
-    padding-left:100px;
-}
 
 /*change default height of textarea*/
 textarea {
