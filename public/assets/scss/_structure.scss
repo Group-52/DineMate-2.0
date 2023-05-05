@@ -23,7 +23,7 @@ $columns: (1: 8.333333%, 2: 16.666667%, 3: 25%, 4: 33.333333%, 5: 41.666667%, 6:
   }
 }
 
-$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px);
 @each $type, $vp-width in $viewport-types {
   @each $column, $width in $columns {
     @media (min-width: $vp-width) {
