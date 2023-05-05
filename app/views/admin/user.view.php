@@ -18,8 +18,14 @@
         <div class="w-100 h-100 p-5">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
                 <div>
-                    <h1 class="display-5 mb-2">Users</h1>
-                    <div class="mb-2 d-flex flex-row">
+                    <h1 class="display-5 mb-2 d-inline-block">Users</h1>
+                    <div id="search" class="form-search order-md-0 order-1 ml-5 w-50 d-inline-block">
+                        <input type="text" class="form-control" placeholder="Search Customers" id="search-field">
+                        <button class="form-search-icon">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <div class="my-4 d-flex flex-row">
                         <div class="tablinks display-6 fw-bold mr-4 pointer" onclick="openTab(event, 'register')">Registered Users</div>
                         <div class="tablinks display-6 fw-bold mr-4 pointer" onclick="openTab(event, 'guest')">Guests</div>
                         <div class="tablinks display-6 fw-bold pointer" onclick="openTab(event, 'blocklist')">Blacklisted Users</div>
@@ -98,8 +104,8 @@
                                 <th scope="col">User ID</th>
                                 <th scope="col">First Name</th>
                                 <th scope="col">Last Name</th>
-                                <th scope="col">Reason</th>
-                                <th scope="col">Date/Time</th>
+                                <th scope="col">Contact No</th>
+                                <th scope="col">Email</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
@@ -109,8 +115,8 @@
                                         <td><?= $b1->user_id ?></td>
                                         <td><?= $b1->first_name ?></td>
                                         <td><?= $b1->last_name ?></td>
-                                        <td><?= $b1->reason ?></td>
-                                        <td><?= $b1->date ?></td>
+                                        <td><?= $b1->contact_no ?></td>
+                                        <td><?= $b1->email ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -129,6 +135,16 @@
 </html>
 
 <script>
+
+    //when clicked on row send to user page
+    document.querySelectorAll('tbody tr').forEach(e => {
+        e.addEventListener('click', () => {
+            //if they aren't guests
+            if (e.closest('.tabcontent').id != 'guest')
+                window.location.href = `<?= ROOT ?>/admin/users/profile/${e.children[0].innerHTML}`
+        })
+    })
+
     function openTab(evt, divName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tabcontent");
@@ -144,4 +160,16 @@
     }
     //click tab
     document.querySelector('.tablinks').click();
+
+    //search
+    document.querySelector('#search-field').addEventListener('keyup', () => {
+        let search = document.querySelector('#search-field').value.toLowerCase();
+        let rows = document.querySelectorAll('tbody tr');
+        rows.forEach(e => {
+            if (e.children[1].innerHTML.toLowerCase().includes(search) || e.children[2].innerHTML.toLowerCase().includes(search) || e.children[3].innerHTML.toLowerCase().includes(search) || e.children[4].innerHTML.toLowerCase().includes(search))
+                e.style.display = 'table-row';
+            else
+                e.style.display = 'none';
+        })
+    })
 </script>

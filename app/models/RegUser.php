@@ -22,7 +22,8 @@ class RegUser extends Model
             "registered_date",
             "contact_no",
             "last_login",
-            "verified_email"
+            "verified_email",
+            'blacklisted'
         ];
     }
 
@@ -49,12 +50,20 @@ class RegUser extends Model
 
     public function getReg(): bool|array
     {
-        return $this->select()->fetchAll();
+        return $this->select()->where("blacklisted", 0)->fetchAll();
     }
 
+    public function getUserById($id): object|false
+    {
+        return $this->select()->where("user_id", $id)->fetch();
+    }
 
-    // public function getReguser($firstname): object|false
-    // {
-    //     return $this->select()->where("first_name", $firstname)->fetch();
-    // }
+    public function blacklist($id,$blacklist=1): void
+    {
+        $this->update(['blacklisted' => $blacklist])->where('user_id', $id)->execute();
+    }
+    public function getBlacklist(): bool|array
+    {
+        return $this->select()->where("blacklisted", 1)->fetchAll();
+    }
 }

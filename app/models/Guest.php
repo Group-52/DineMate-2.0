@@ -45,7 +45,18 @@ class Guest extends Model
      */
     public function getGuest(): bool|array
     {
-        return $this->select()->fetchAll();
+        $temp =  $this->select()->fetchAll();
+        //remove ones with only id
+        $guests = [];
+        if (!$temp) {
+            return false;
+        }
+        foreach ($temp as $guest) {
+            if ($guest->first_name != null && $guest->contact_no != null) {
+                $guests[] = $guest;
+            }
+        }
+        return $guests;
     }
 
     public function getGuestById($guest_id): false|object
