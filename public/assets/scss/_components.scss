@@ -345,8 +345,9 @@ $nav-height: 4rem;
   }
 
   .card-body-wrapper {
+    width: 100%;
     @media (max-width: 990px) {
-      width: 100%;
+      width: calc(100% - 8rem);
     }
     .card-body {
       display: flex;
@@ -359,11 +360,24 @@ $nav-height: 4rem;
       @media (max-width: 990px) {
         height: 100%;
       }
+      .card-content {
+        width: calc(100% - 105px);
 
-      .card-title {
-        font-weight: 600;
-        color: $headings;
-        text-overflow: ellipsis;
+        .card-title {
+          font-weight: 600;
+          color: $headings;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .card-description {
+          font-size: 0.9rem;
+          color: $secondary-text;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
       }
 
       .card-prices {

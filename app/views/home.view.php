@@ -26,7 +26,18 @@
             }
             ?>, <?= $user->first_name ?? "User" ?></h1>
     </div>
-    <div class="container">
+    <div class="container py-5" style="margin-top: -90px">
+        <div class='menu mb-4'>
+            <div class='grid-lg-4 grid-md-2 grid-1 grid-gap-2'>
+                <?php if (isset($promotions)) {
+                    foreach ($promotions as $promotion) {
+                        $promotion->render();
+                    }
+                }
+                ?>
+            </div>
+            <div class='text-center my-4'><a href='/promotions' class='btn btn-primary text-uppercase'>View More Promotions</a></div>
+        </div>
         <?php
         /** @var $menus Menu[] */
         if (isset($menus)) foreach ($menus as $menu) $menu->render() ?>

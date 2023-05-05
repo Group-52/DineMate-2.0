@@ -126,7 +126,8 @@ a {
 
 .banner {
   position: relative;
-  height: 15rem;
+  height: 20rem;
+  max-height: 50vh;
   @media (max-width: 990px) {
     height: 10rem;
   }
