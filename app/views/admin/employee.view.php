@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/employees.js"></script>
 </head>

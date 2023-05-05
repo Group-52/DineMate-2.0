@@ -36,9 +36,9 @@ class Payments
         $data['order'] = $order->getOrder($order_id);
         if($data['order'] == false)
             redirect('admin/404');
+        $data['controller'] = $this->controller;
         $this->view('admin/payments.detail', $data);
     }
-
 
     public function create(): void
     {
@@ -59,11 +59,10 @@ class Payments
 			]);
 
             redirect('admin/payments');
-
         }
+        $data['controller'] = $this->controller;
         $this->view('admin/payments');
     }
-
     public function addOrder():void{
         //get parameter
         $utype = $_GET['utype'] ?? "registered";
@@ -82,16 +81,8 @@ class Payments
 
         $m2 = new MenuDishes();
         $data['controller'] = 'payments';
+        $data['controller'] = $this->controller;
         $data['dishes'] = $m2->getDishes();
         $this->view('admin/payments.addOrder',$data);
     }
-
-    
-
-    
-
-
-   
-
-   
 }
