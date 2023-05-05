@@ -13,7 +13,6 @@ use models\RegUser;
 use models\Guest;
 
 
-
 class Payments
 {
     use Controller;
@@ -23,8 +22,8 @@ class Payments
     public function index(): void
     {
         $order = new Order;
-        $data['tobepaid'] = array_merge($order->getTodayCashierOrders(0,0,"completed"),$order->getTodayCashierOrders(0,0,"accepted"),$order->getTodayCashierOrders(0,0,"pending"));
-        $data['tobecollected']= array_merge($order->getTodayCashierOrders(1),$order->getTodayCashierOrders(1,0,"accepted"),$order->getTodayCashierOrders(1,0,"pending"));
+        $data['tobepaid'] = array_merge($order->getTodayCashierOrders(0, 0, "completed"), $order->getTodayCashierOrders(0, 0, "accepted"), $order->getTodayCashierOrders(0, 0, "pending"));
+        $data['tobecollected'] = array_merge($order->getTodayCashierOrders(1), $order->getTodayCashierOrders(1, 0, "accepted"), $order->getTodayCashierOrders(1, 0, "pending"));
         $data['controller'] = $this->controller;
         $this->view('admin/payments', $data);
     }
@@ -33,8 +32,17 @@ class Payments
     {
         $order = new Order;
         $data['dishes'] = $order->getDishes($order_id);
-        $data['order'] = $order->getOrder($order_id);
-        if($data['order'] == false)
+        $orderobj = $order->getOrder($order_id);
+        $data['order'] = $orderobj;
+        $data['subtotal'] = $order->calculateSubTotal($order_id);
+        if ($orderobj->paid == 1) {
+            $data['net_total'] = $orderobj->total_cost;
+            $data['sv_charge'] = $orderobj->service_charge;
+        }else{
+            $data['net_total'] = $order->calculateFullTotal($order_id);
+            $data['sv_charge'] = $order->calculateSubTotal($order_id)*0.05;
+        }
+        if ($data['order'] == false)
             redirect('admin/404');
         $data['controller'] = $this->controller;
         $this->view('admin/payments.detail', $data);
@@ -42,31 +50,33 @@ class Payments
 
     public function create(): void
     {
-        if(isset($_POST['submit-button'])){
-          
-			$first_name = $_POST['fname'];
-			$last_name = $_POST['lname'];
-			$contact_no = $_POST['contact_no'];
-			$email = $_POST['email'];
+        if (isset($_POST['submit-button'])) {
 
-			$guest = new Guest;
-			$guest ->createGuest([
-                
-				'first_name'=> $first_name,
-                'last_name'=> $last_name,
-				'contact_no'=> $contact_no,
-				'email'=> $email
-			]);
+            $first_name = $_POST['fname'];
+            $last_name = $_POST['lname'];
+            $contact_no = $_POST['contact_no'];
+            $email = $_POST['email'];
+
+            $guest = new Guest;
+            $guest->createGuest([
+
+                'first_name' => $first_name,
+                'last_name' => $last_name,
+                'contact_no' => $contact_no,
+                'email' => $email
+            ]);
 
             redirect('admin/payments');
         }
         $data['controller'] = $this->controller;
         $this->view('admin/payments');
     }
-    public function addOrder():void{
+
+    public function addOrder(): void
+    {
         //get parameter
         $utype = $_GET['utype'] ?? "registered";
-        if ($utype=="guest"){
+        if ($utype == "guest") {
             $guest = new Guest;
             if (!isset($_SESSION['guest_id'])) {
                 $guestId = $guest->createGuest();
@@ -75,7 +85,7 @@ class Payments
                 $guestId = $_SESSION['guest_id'];
                 //clear the cart for the guest
                 $c = new Cart;
-                $c->clearCart($guestId,true);
+                $c->clearCart($guestId, true);
             }
         }
 
@@ -83,6 +93,6 @@ class Payments
         $data['controller'] = 'payments';
         $data['controller'] = $this->controller;
         $data['dishes'] = $m2->getDishes();
-        $this->view('admin/payments.addOrder',$data);
+        $this->view('admin/payments.addOrder', $data);
     }
 }

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <script src="<?= ASSETS ?>/js/components/qrcode.min.js"></script>
     <script src="<?= ASSETS ?>/js/admin/payments.js"></script>
     <title>Payments</title>
 </head>
@@ -195,6 +196,11 @@
                 <button class="btn btn-danger" id="new-customer">New Customer</button>
                 <br>
             </div>
+        </div>
+        <div class="popup pt-1" id="registered-qr">
+            <span class="p-0 row justify-content-end"><i class="fa fa-times close-icon"></i></span>
+            <h1 class="heading-4 text-center w-100 mb-3">Scan QR</h1>
+            <div id="qr-code"></div>
         </div>
         <div class="overlay">
             <form>
