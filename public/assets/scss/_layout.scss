@@ -2,7 +2,7 @@
   Layout
  */
 
-$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+$viewport-types: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px);
 
 $flex-directions: (row, row-reverse, column, column-reverse);
 @each $direction in $flex-directions {
@@ -125,7 +125,7 @@ $flex-align-self: (auto, start, end, center, baseline, stretch);
 
 $grid-columns: 1 2 3 4 5 6 7 8 9 10 11 12;
 $grid-gutters: 0 1 2 3 4 5 6 7 8 9 10 11 12;
-$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px);
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1400px);
 
 @each $columns in $grid-columns {
   .grid-#{$columns} {

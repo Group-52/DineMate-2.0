@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (cardsDisplayed.length === 0) {
                 category.style.display = 'none';
             }else{
-                category.style.display = 'flex';
+                category.style.display = 'block';
             }
         })
     })
