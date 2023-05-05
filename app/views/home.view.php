@@ -14,7 +14,7 @@
     <div class="banner mb-3">
         <img class="banner-bg-img" src="<?= ASSETS ?>/images/home/banner.jpg" alt="banner">
         <div class="banner-bg-gradient"></div>
-        <h1 class="banner-text display-3">Good
+        <h1 class="banner-text">Good
             <?php
             $hour = date('G');
             if ($hour >= 5 && $hour < 12) {

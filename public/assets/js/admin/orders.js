@@ -116,7 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let card = document.querySelector(`[data-order-id="${oid}"]`);
         let uid = card.getAttribute('data-user-id');
         let utype = card.getAttribute('data-user-type');
-        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        if (status === "accepted") {
+            (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        }
 
         fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
@@ -149,21 +151,21 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-user-type", order.user_type);
         if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
 
-        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
+        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp;";
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
         let iconimg = card.querySelector('.type-icon').children[0];
         let url = ""
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             url = `${ASSETS}/icons/table.png`;
-        } else if (order.type == "takeaway") {
+        } else if (order.type === "takeaway") {
             url = `${ASSETS}/icons/fastcart.png`;
-        } else if (order.type == "bulk") {
+        } else if (order.type === "bulk") {
             url = `${ASSETS}/icons/bulk.svg`;
         }
         iconimg.src = url;
         iconimg.alt = order.type;
 
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             iconimg.nextSibling.innerHTML = order.table_id;
         }
         card.querySelector('#circle').setAttribute('data-order-status', order.status);

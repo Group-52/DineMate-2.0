@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/vendors.js"></script>
 </head>
@@ -11,7 +11,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-vendors-center justify-content-space-between w-100">
-            <h1 class="display-3">Vendors</h1>
+            <h1 class="display-5 mb-2">Vendors</h1>
             <a class="btn btn-primary text-uppercase fw-bold h-50" href="vendors/addVendor" id="add-vendor-button">+ New Vendors</a>
         </div>
         <div>
@@ -78,8 +78,10 @@
                 <label class="label" for="email">Email</label>
                 <input class="form-control" type="text" name="email" id="email">
             </div>
-            <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Vendor</button>
-            <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
+            <div class="d-flex justify-content-space-between w-100">
+                <button type="button" class="btn btn-secondary text-uppercase fw-bold" id="cancel-button">Cancel</button>
+                <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save</button>
+            </div>
         </form>
     </div>
     </div>

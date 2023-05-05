@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const close = document.querySelector('#close-icon')
     const container = document.querySelector('#blur-container')
 
+    let qrCode = null;
+
     //when clicked on r or n customer, redirect to the respective page
     rcustomer.addEventListener('click', function () {
         const registeredQR = document.getElementById("registered-qr");
@@ -19,10 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const qrCodeElement = document.getElementById("qr-code");
         close.click();
         if (registeredQR) {
+            container.style.filter = 'blur(5px)'
             registeredQR.style.display = "block";
             registeredClose.onclick = () => {
                 registeredQR.style.display = "none";
                 qrCodeElement.innerHTML = "";
+                container.style.filter = 'blur(0px)'
             }
         }
         qrCode = Math.floor(Math.random() * 10000)
@@ -32,10 +36,10 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = `${ROOT}/admin/payments/addOrder?utype=guest`;
     })
 
-    addOrderbtn.addEventListener('click', function () {
-        event.preventDefault();
+    addOrderbtn.addEventListener('click', function (event) {
         popup.style.display = 'block'
         container.style.filter = 'blur(5px)'
+        event.preventDefault()
     })
     close.addEventListener('click', function () {
         popup.style.display = 'none'
@@ -46,18 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
         toBeCollectedDiv.style.display = 'none';
-        toBePaidHeader.style.backgroundColor = 'white';
-        toBePaidHeader.style.color = 'black';
-        toBeCollectedHeader.style.backgroundColor = '#ff0000';
-        toBeCollectedHeader.style.color = 'white';
+        toBePaidHeader.style.backgroundColor = '#802323';
+        toBeCollectedHeader.style.backgroundColor = '#FF4546';
     }
     toBeCollectedHeader.onclick = function () {
         toBePaidDiv.style.display = 'none';
         toBeCollectedDiv.style.display = 'block';
-        toBePaidHeader.style.backgroundColor = '#ff0000';
-        toBePaidHeader.style.color = 'white';
-        toBeCollectedHeader.style.backgroundColor = 'white';
-        toBeCollectedHeader.style.color = 'black';
+        toBePaidHeader.style.backgroundColor = '#FF4546';
+        toBeCollectedHeader.style.backgroundColor = '#802323';
     }
     toBePaidHeader.onclick();
 

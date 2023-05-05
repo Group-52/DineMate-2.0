@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/common.css">
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/feedback.css">
 
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
 </head>
 
 <body class="dashboard">
@@ -20,8 +20,7 @@
         <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
         <div class="w-100 h-100 p-5">
             <div class="dashboard-header">
-
-                <h1 class="display-3 active">Feedback</h1>
+                <h1 class="display-5 mb-2">Feedback</h1>
             </div>
 
             <div id="feedback-table">
@@ -50,7 +49,7 @@
 
                                 <td><?= $f->description ?></td>
                                 <td><?= $f->time_placed ?></td>
-                                <td><?= $f->first_name . " " . $f->last_name ?></td>
+                                <?= $f->reg ? "<td>" . $f->reg . "</td>" : "<td>" . $f->guest . "</td>" ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

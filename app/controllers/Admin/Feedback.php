@@ -18,8 +18,6 @@ class Feedback
         $data['controller'] = 'feedback';
 
         $this->view('admin/feedback', $data);
-
     }
-
 }
 

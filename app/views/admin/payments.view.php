@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
+    <script src="<?= ASSETS ?>/js/components/qrcode.min.js"></script>
     <script src="<?= ASSETS ?>/js/admin/payments.js"></script>
     <title>Payments</title>
 </head>
@@ -15,9 +16,9 @@
     <div class="w-100 h-100 p-5">
         <div  id="blur-container">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                <h1 class="display-3">Payments</h1>
+                <h1 class="display-5 mb-2">Payments</h1>
                 <div class="dashboard-buttons" style="width:400px;">
-                    <select class="form-control d-inline px-2 mx-4" name="status" style="width:30%;">
+                    <select class="form-control d-inline mx-4" name="status" style="width:30%;">
                         <option value="all">All</option>
                         <option value="completed">Completed</option>
                         <option value="pending">Pending</option>
@@ -29,9 +30,9 @@
 
                 </div>
             </div>
-            <div class="w-100 p-2 d-flex justify-content-space-evenly" style="background-color: red">
-                <span class="btn" id="unpaid-header">Unpaid</span>
-                <span class="btn" id="tocollect-header">To Collect</span>
+            <div class="w-100 p-2 d-flex justify-content-space-evenly" style="color: white">
+                <span class="btn text-uppercase fw-bold" id="unpaid-header">Unpaid</span>
+                <span class="btn text-uppercase fw-bold" id="tocollect-header">To Collect</span>
             </div>
             <div id="tobepaid-table" style="display: none;">
                 <table class="table">
@@ -195,6 +196,11 @@
                 <button class="btn btn-danger" id="new-customer">New Customer</button>
                 <br>
             </div>
+        </div>
+        <div class="popup pt-1" id="registered-qr">
+            <span class="p-0 row justify-content-end"><i class="fa fa-times close-icon"></i></span>
+            <h1 class="heading-4 text-center w-100 mb-3">Scan QR</h1>
+            <div id="qr-code"></div>
         </div>
         <div class="overlay">
             <form>

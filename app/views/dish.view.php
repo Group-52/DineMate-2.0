@@ -12,14 +12,14 @@
                  src="<?php echo ASSETS . "/images/dishes/" . $dish->image_url ?? ASSETS . '/images/home/banner.jpg' ?>"
                  alt="banner">
             <div class="banner-bg-gradient"></div>
-            <h1 class="banner-text display-3">Dish Details</h1>
+            <h1 class="banner-text">Dish Details</h1>
         </div>
-        <div class="container my-5">
+        <div class="container py-5">
             <div class="row">
                 <div class="col-offset-lg-1"></div>
                 <div class="col-lg-4 col-md-5 col-12 text-center">
                     <img src="<?php echo ASSETS . "/images/dishes/" . $dish->image_url ?>" alt="<?= $dish->dish_name ?>"
-                         class="img-fluid rounded-sm" style="max-height: 50vh; ">
+                         class="img-fluid rounded-sm shadow" style="max-height: 50vh; ">
                 </div>
                 <div class="col-offset-lg-1"></div>
                 <div class="col-lg-5 col-md-7 col-12 d-flex flex-column justify-content-center p-3">

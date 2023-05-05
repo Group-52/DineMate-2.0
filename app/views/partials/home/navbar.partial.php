@@ -7,15 +7,18 @@ use models\Cart;
     <div class="d-flex justify-content-space-between w-100">
         <div class="nav-brand">
             <div class="nav-items">
-                <div class="nav-item">
+                <div class="nav-item not-mobile">
                     <a href="<?= ROOT ?>/home"><img src="<?= ROOT ?>/assets/images/logos/logo_Full Logo.svg" alt="Logo"></a>
+                </div>
+                <div class="nav-item only-mobile">
+                    <a href="<?= ROOT ?>/home"><img src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="Logo"></a>
                 </div>
             </div>
         </div>
         <div class="d-flex flex-column nav-items w-100">
             <div id="home-search" class="form-search order-md-0 order-1">
                 <input type="text" class="form-control" name="query"
-                       placeholder="Search items" id="home-search-field">
+                       placeholder="Search" id="home-search-field">
                 <button class="form-search-icon" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>

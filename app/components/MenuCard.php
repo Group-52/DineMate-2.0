@@ -64,15 +64,15 @@ class MenuCard
         // Dish image
         $html .= "<div class='card-img-wrapper'>";
         $html .= "<img src=" . ASSETS . "/images/dishes/{$this->image_url} class='card-img' alt='{$this->name}'>";
-        $html .= "</a></div>";
+        $html .= "</div></a>";
 
         // Add to Cart floating button (between links to prevent click event propagation)
-        $html .= "<button class='add-to-cart' data-id='{$this->id}' " . ($inCart ? "disabled" : "") . ">";
+        $html .= "<button class='add-to-cart not-mobile' data-id='{$this->id}' " . ($inCart ? "disabled" : "") . ">";
         $html .= "<i class='".($inCart ? "fa-solid fa-check" : "fa-sharp fa-solid fa-cart-plus")."'></i>";
         $html .= "</button>";
 
         // Card link
-        $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+        $html .= "<a class='card-body-wrapper' href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
 
         // Card body
         $html .= "<div class='card-body'>";

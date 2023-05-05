@@ -17,11 +17,10 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3">Order Details</h1>
+            <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/orders">Orders</a><i class="fa-solid fa-chevron-right mx-2"></i>Details</h1>
             <div class="dashboard-buttons">
-                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Back</a>
-                <button class="btn text-danger ml-3" value="rejected" id="reject-button">Reject</button>
-                <button class="btn text-warning mr-3" value="accepted" id="accept-button">Accept</button>
+                <button class="btn btn-secondary ml-3" value="rejected" id="reject-button">Reject</button>
+                <button class="btn btn-success mr-3" value="accepted" id="accept-button">Accept</button>
                 <button class="btn text-success" value="completed" id="complete-button">Complete</button>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">+ <i
                         class="fa-solid fa-bowl-rice d-inline"></i></a>
@@ -31,25 +30,20 @@
             </div>
         </div>
         <div class="blur-container d-flex flex-column">
-            <div class="px-5 pt-1" style="height: 40px">
-                <h2>
-                    <?php if ($order->reg_customer_id)
-                        echo "Customer ID: " . $order->reg_customer_id;
-                    else echo "Guest ID: ".$order->guest_id; ?>
-                </h2>
-
-            </div>
-            <div class="row justify-content-space-between px-5 pt-2" style="height: 40px">
-                <span class="order-id"
-                      data-order-id="<?= $order->order_id ?>" data-user-id="<?=$order->reg_customer_id ?? $order->guest_id?>"
-                      data-user-type="<?= $order->reg_customer_id ? 'registered' : 'guest' ?>">
-                    <h2 class="d-inline">Order ID: <?= $order->order_id ?></h2>
-                </span>
-                <h5 class="pr-5">Estimated Time: <?= (new models\Order())->getEstimate($order->order_id) ?> minutes</h5>
-            </div>
-            <div class="row justify-content-space-between px-5 pt-2" style="height: 40px">
-                <span>
-                    <h4 class="d-inline pb-5">Order Status:</h4>
+            <div class="row p-5">
+                <div class="col-6 pr-1">
+                    <div class="order-id fs-3"
+                          data-order-id="<?= $order->order_id ?>" data-user-id="<?=$order->reg_customer_id ?? $order->guest_id?>"
+                          data-user-type="<?= $order->reg_customer_id ? 'registered' : 'guest' ?>">
+                        <h2 class="d-inline">Order ID: <?= $order->order_id ?></h2>
+                    </div>
+                    <div class="fs-3 mb-3">
+                        <?php if ($order->reg_customer_id)
+                            echo "Customer ID: " . $order->reg_customer_id;
+                        else echo "Guest ID: ".$order->guest_id; ?>
+                    </div>
+                    <div>
+                        <h4 class="d-inline pb-5">Order Status:</h4>
                         <select data-order-status="<?= $order->status ?>" class="order-status form-control">
                             <option value="pending" <?= ($order->status == 'pending') ? 'selected' : '' ?>>Pending
                             </option>
@@ -60,12 +54,7 @@
                             <option value="completed" <?= ($order->status == 'completed') ? 'selected' : '' ?>>Completed
                             </option>
                         </select>
-                </span>
-                <h4 class="pr-5">Placed Time: &nbsp &nbsp&nbsp &nbsp <?= substr($order->time_placed, 0, 16) ?></h4>
-            </div>
-
-            <div class="row p-5">
-                <div class="col-6 pr-5">
+                    </div>
                     <?php if ($order->scheduled_time != null) : ?>
                         <h4 class="sctime-display py-3">
                             Scheduled Time: <span><?= substr($order->scheduled_time, 0, 16) ?></span>
@@ -108,7 +97,7 @@
 
                     <h4 class="promo-display pt-3">
                         Promo Code:
-                        <select class="promo-select p-1" disabled>
+                        <select class="promo-select form-control" disabled>
                             <option value="1" <?= ($order->promo === 1) ? 'selected' : '' ?>>none</option>
                             <?php foreach ($promo_list as $promo) : ?>
                                 <option
@@ -118,12 +107,18 @@
                             <?php endforeach; ?>
                         </select>
                     </h4>
-                    <h4 class="pt-3">
-                        Order Total: <?= (new models\Order())->calculateSubTotal($order->order_id) ?> LKR
+                    <h4 class="pt-3 fs-4">
+                        Order Cost: <span class="secondary">LKR <?= (new models\Order())->calculateSubTotal($order->order_id) ?></span>
                     </h4>
 
                 </div>
-                <div class="col-6 pl-5 mr-0">
+                <div class="col-6 pl-1">
+                    <div class="row fs-4 mb-4">
+                        <table class="table">
+                            <tr><td>Estimated Time: </td><td><?= (new models\Order())->getEstimate($order->order_id) ?> minutes</td></tr>
+                            <tr style="background: white"><td>Placed Time: </td><td><?= substr($order->time_placed, 0, 16) ?></td></tr>
+                        </table>
+                    </div>
                     <div id="order-details-table">
                         <table class="table">
                             <thead>

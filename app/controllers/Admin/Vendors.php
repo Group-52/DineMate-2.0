@@ -13,8 +13,9 @@ class Vendors
     public function index(): void
     {
         $vendor = new Vendor;
-        $results['Vendor'] = $vendor->getVendors();      
-        $this->view('admin/vendor', $results);
+        $data['Vendor'] = $vendor->getVendors();
+        $data['controller']  = 'vendors';
+        $this->view('admin/vendor', $data);
     }
 
     public function addVendor(): void
@@ -46,14 +47,15 @@ class Vendors
     public function edit($vendor_id): void
     {
         $vendor = new Vendor;
-        $results['v1'] = $vendor->getVendor($vendor_id);
+        $data['v1'] = $vendor->getVendor($vendor_id);
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //            show($_POST);
             $vendor = new Vendor;
             $vendor->editVendor($_POST);
             redirect('admin/vendors');
         }
-        $this->view('admin/vendor.edit', $results);
+        $data['controller']  = 'vendors';
+        $this->view('admin/vendor.edit', $data);
     }
 
     public function delete($vendor_id): void
@@ -61,6 +63,5 @@ class Vendors
         $vendor = new Vendor;
         $vendor->deleteVendor($vendor_id);
         redirect('admin/vendors'); 
-            
     }
 }

@@ -30,7 +30,7 @@ class Purchase extends Model
     }
 
     // Insert purchase data into database
-    public function addPurchase(array $data)
+    public function addPurchase(array $data): void
     {
         $data = [
             "purchase_date" => $data["purchase_date"],
@@ -49,10 +49,25 @@ class Purchase extends Model
             return $value !== null && $value !== "";
         });
         $this->insert($data);
+        $pid = $this->lastInsertId();
+
+        //update inventory tables
+        $im = new Inventory();
+        $im2 = new InventoryDetail();
+        //check if exists
+        if ($im->checkInventory($data["item"])) {
+            $im->adjustAmount($data["item"], $data["quantity"], "add");
+        }
+        else {
+            $existing = $im2->getQuantity($data["item"]);
+            $im->add($data["item"], $data["quantity"]+$existing);
+        }
+        $im2->add($pid, $data["item"], $data["quantity"]);
+
     }
 
 //  Update purchase data in database
-    public function updatePurchase($id, array $data)
+    public function updatePurchase($id, array $data): void
     {
         $this->update($data)
             ->where("purchase_id", $id)
@@ -66,7 +81,7 @@ class Purchase extends Model
     }
 
     // Delete purchase data from database
-    public function deletePurchase($id)
+    public function deletePurchase($id): void
     {
         $this->delete()
             ->where("purchase_id", $id)
@@ -92,7 +107,7 @@ class Purchase extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
-    public function getAll($sd,$ed): array
+    public function getAll($sd, $ed): array
     {
         $sd = date("Y-m-d H:i:s", strtotime($sd));
         $ed = date("Y-m-d H:i:s", strtotime($ed));

@@ -15,6 +15,7 @@ trait Database
 {
     protected string $query = "";
     protected array $data = [];
+    protected bool $display = false;
     private ?PDO $db = null;
 
     /**
@@ -32,6 +33,11 @@ trait Database
     public function execute(): PDOStatement
     {
         try {
+            if ($this->display) {
+                show($this->query);
+                show($this->data);
+                $this->display = false;
+            }
             $statement = $this->prepare($this->query);
             $statement->execute($this->data);
             $this->query = "";
@@ -89,6 +95,12 @@ trait Database
     public function getQuery(): string
     {
         return $this->query;
+    }
+
+    public function displayQuery(): object|false
+    {
+        $this->display = true;
+        return $this;
     }
 
 }

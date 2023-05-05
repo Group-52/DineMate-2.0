@@ -17,18 +17,20 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3">Promotions</h1>
-            <a class="btn btn-primary" id="add-promo-button">Add Promotion</a>
-
-        </div>
-        <div id="promo-maindiv">
-            <div class="tab">
-                <button class="tablinks btn" onclick="openTab(event, 'discount')">Discount</button>
-                <button class="tablinks btn" onclick="openTab(event, 'free_dish')">Free Dish</button>
-                <button class="tablinks btn" onclick="openTab(event, 'spending_bonus')">Spending Bonus
-                </button>
+        <div class="dashboard-header">
+            <div class="d-flex flex-row align-items-center justify-content-space-between w-100">
+                <h1 class="display-5 mb-2">Promotions</h1>
+                <a class="btn btn-primary text-uppercase" id="add-promo-button">+ Add Promotion</a>
             </div>
+            <div class="mb-2 d-flex flex-row">
+                <div class="tablinks display-6 fw-bold mr-4" onclick="openTab(event, 'discount')">Discount</div>
+                <div class="tablinks display-6 fw-bold mr-4" onclick="openTab(event, 'free_dish')">Free Dish</div>
+                <div class="tablinks display-6 fw-bold" onclick="openTab(event, 'spending_bonus')">Spending Bonus</div>
+            </div>
+        </div>
+
+
+        <div id="promo-maindiv">
             <div id="discount" class="tabcontent">
                 <div class="card-deck">
                     <?php if (isset($discount)) : ?>
@@ -201,8 +203,10 @@
                         </select>
                     </div>
                 </div>
-                <input type="submit" name="submit" class="btn btn-primary" id="submit-button">
-                <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
+                <div class="d-flex justify-content-space-between w-100">
+                    <button type="button" class="btn btn-secondary text-uppercase fw-bold" id="cancel-button">Cancel</button>
+                    <input type="submit" name="submit" class="btn btn-primary text-uppercase fw-bold" id="submit-button">
+                </div>
             </form>
 
         </div>

@@ -54,7 +54,7 @@ class Orders
      * @param array $data
      * @return array
      */
-    public function paginateOrders(int $totalCount, int $limit, array $data): array
+    private function paginateOrders(int $totalCount, int $limit, array $data): array
     {
         $data["pagination"] = new Pagination($totalCount, $_GET["page"] ?? 1, $limit);
         $od = new OrderDishes();

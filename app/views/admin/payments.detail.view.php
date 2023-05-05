@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
@@ -15,15 +15,14 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header">
-            <h1 class="display-3 active">Payment Details</h1>
+            <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/payments">Payments</a><i class="fa-solid fa-chevron-right mx-2"></i>Details</h1>
         </div>
         <?php
         if (isset($order)) : ?>
-            <h3>Order ID: #<?= $order->order_id ?></h3>
-            <h3>Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3>
-            <?php if (isset($order->first_name)) : ?><h3>Customer
-                Name: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
-            <?php if (isset($order->table_id)) : ?><h4>Table: <?= $order->table_id ?></h4><?php endif ?>
+            <h3 class="heading-3">Order ID: #<?= $order->order_id ?></h3>
+            <h3 class="heading-4">Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3>
+            <?php if (isset($order->first_name)) : ?><h3 class="heading-4">CustomerName: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
+            <?php if (isset($order->table_id)) : ?><h3>Table: <?= $order->table_id ?></h3><?php endif ?>
             <br><br>
         <?php endif ?>
 
@@ -59,50 +58,60 @@
 
             <form>
                 <div class="col-offset-6 p-5">
-                    <h3 class="py-5 ml-5 text-left">Payment</h3>
-                    <div class="col justify-content-space-evenly">
+                    <h3 class="mb-2 heading-2">Payment</h3>
+                    <div class="col justify-content-space-evenly fs-4">
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Sub-total:</div>
                             <div
-                                class="w-50 p-1 payment-input-value"><?= (new models\Order())->calculateSubTotal($order->order_id); ?>
+                                class="w-25 p-1 payment-input-value text-right"><?= (new models\Order())->calculateSubTotal($order->order_id); ?>
                                 LKR
                             </div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Promotion:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="promo">0</span> LKR</div>
+                            <div class="w-25 p-1 payment-input-value text-right"><span id="promo">
+                              <?= (new models\Promotion())->reducedCost($order->order_id, $order->promo); ?></span> LKR
+                            </div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Service Charge:</div>
-                            <div class="w-50 p-1 payment-input-value"><span
-                                    id="sv-charge"><?php if ($order->type == "dine-in") echo (new models\Order())->calculateSubTotal($order->order_id) * 0.05; else echo "0" ?></span>
+                            <div class="w-25 p-1 payment-input-value text-right"><span
+                                    id="sv-charge"><?= $sv_charge ?></span>
                                 LKR
                             </div>
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Net Total:</div>
-                            <div class="w-50 p-1 payment-input-value"><span id="Net-total">0</span> LKR</div>
+                            <div id="net-total-value" class="w-25 p-1 payment-input-value fw-bold secondary text-right"><span id="Net-total">0</span> LKR</div>
+                                &nbsp;&nbsp;
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <div id="net-total-input" class="w-25 p-1 payment-input-value">
+                                <input class="d-inline w-25" type="number" min="0" oninput="validity.valid||(value='');"
+                                       value="<?= $net_total ?>">
+                                <i class="fas fa-circle-xmark"></i>
+                                <i class="fa fa-check-circle tick-icon"></i>
+                            </div>
                         </div>
                         <?php if ($order->paid == 0): ?>
                             <div class="row">
                                 <div class="w-50 p-1 payment-input-label">Cash:</div>
-                                <div class="w-50 p-1 payment-input-value"><input id="cash" type="number" class="w-25"
-                                                                                 required> LKR
+                                <div class="w-25 p-1 payment-input-value text-right"><input class="p-1 w-50 text-right" id="cash" type="number" required> LKR
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="w-50 p-1 payment-input-label">Balance:</div>
-                                <div class="w-50 p-1 payment-input-value"><span id="change">0</span> LKR</div>
+                                <div class="w-25 p-1 payment-input-value text-right"><span id="change">0</span> LKR</div>
                             </div>
                         <?php endif ?>
                     </div>
                     <div class="row w-100 justify-content-start">
                         <?php if ($order->paid == 0): ?>
-                            <button class="m-5 ml-0 btn btn-primary" id="complete-payment-button" type="submit">Complete
+                            <button class="btn btn-primary text-uppercase fw-bold" id="complete-payment-button" type="submit">Complete
                                 Payment
                             </button>
                         <?php else: ?>
-                            <button class="m-5 ml-0 btn btn-primary" id="complete-collected-button" type="submit">Order
+                            <button class="btn btn-primary text-uppercase fw-bold" id="complete-collected-button" type="submit">Order
                                 Collected
                             </button>
                         <?php endif ?>
@@ -125,8 +134,55 @@
     let servicecharge = document.querySelector("#sv-charge");
     let user_id = <?=$order->reg_customer_id ?? $order->guest_id ?>;
     let user_type = "<?= $order->reg_customer_id ? "registered" : "guest" ?>";
+    let netinput = document.querySelector("#net-total-input");
+    let netvalue = document.querySelector("#net-total-value");
+    let pencil = document.querySelector(".fa-pencil-alt");
+    let tick = document.querySelector(".fa-check-circle");
+    let cross = document.querySelector(".fa-circle-xmark");
 
-    nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
+    pencil.style.display = "none";
+    netinput.style.display = "none";
+    tick.style.display = "none";
+    cross.style.display = "none";
+
+    pencil.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "block";
+        netvalue.style.display = "none";
+        pencil.style.display = "none";
+        tick.style.display = "inline";
+        cross.style.display = "inline";
+        paidbutton.disabled = true;
+    });
+
+    cross.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "none";
+        netvalue.style.display = "block";
+        pencil.style.display = "inline";
+        tick.style.display = "none";
+        cross.style.display = "none";
+        paidbutton.disabled = false;
+    });
+
+    tick.addEventListener('click', function (e) {
+        e.preventDefault();
+        netinput.style.display = "none";
+        netvalue.style.display = "block";
+        pencil.style.display = "inline";
+        tick.style.display = "none";
+        cross.style.display = "none";
+        paidbutton.disabled = false;
+        if (netinput.querySelector("input").value == "") {
+            netinput.querySelector("input").value = 0;
+        }
+        nettotal.innerHTML = netinput.querySelector("input").value;
+    });
+
+    if (<?=$order->paid?> != 1){
+        nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
+        pencil.style.display = "inline";
+    }
 
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
@@ -153,7 +209,7 @@
                         //after 2 seconds
                         setTimeout(function () {
                             window.location.href = `${ROOT}/admin/payments/`;
-                        }, 2000);
+                        }, 1000);
                         // console.log(res.status)
                     }
                 })
@@ -171,7 +227,7 @@
             else balancespan.innerHTML = "0";
         });
         cash.addEventListener("keydown", function () {
-            var balance = parseFloat(cash.value) - parseFloat(nettotal.innerHTML)
+            var balance = parseFloat(cash.value) - parseFloat(document.querySelector("#Net-total").innerHTML)
             if (balance >= 0)
                 balancespan.innerHTML = balance + "";
             else balancespan.innerHTML = "0";
@@ -186,7 +242,7 @@
                 order_id: <?=$order->order_id ?>,
                 paid: 1,
                 service_charge: parseFloat(servicecharge.innerHTML),
-                total_cost: parseFloat(nettotal.innerHTML),
+                total_cost: parseFloat(document.querySelector("#Net-total").innerHTML),
             };
 
             (new Socket()).send_data("paid_order", {

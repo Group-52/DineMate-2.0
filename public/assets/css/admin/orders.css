@@ -28,13 +28,13 @@
 }
 
 .card {
-    height: 180px;
-    margin-bottom: 20px;
+    height: 200px;
+    margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
-    width: 250px;
+    width: 280px;
     /*border: 1px solid gray;*/
-    border: 5px solid goldenrod;
+    border: 2px solid #dadada;
     border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -51,7 +51,7 @@
     font-weight: bold;
     height: 50px;
     /*    make bottom border red*/
-    border-bottom: 2px solid goldenrod;
+    border-bottom: 2px solid #dadada;
 }
 
 .card-body {
