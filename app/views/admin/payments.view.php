@@ -15,9 +15,9 @@
     <div class="w-100 h-100 p-5">
         <div  id="blur-container">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                <h1 class="display-3">Payments</h1>
+                <h1 class="display-5 mb-2">Payments</h1>
                 <div class="dashboard-buttons" style="width:400px;">
-                    <select class="form-control d-inline px-2 mx-4" name="status" style="width:30%;">
+                    <select class="form-control d-inline mx-4" name="status" style="width:30%;">
                         <option value="all">All</option>
                         <option value="completed">Completed</option>
                         <option value="pending">Pending</option>
@@ -29,9 +29,9 @@
 
                 </div>
             </div>
-            <div class="w-100 p-2 d-flex justify-content-space-evenly" style="background-color: red">
-                <span class="btn" id="unpaid-header">Unpaid</span>
-                <span class="btn" id="tocollect-header">To Collect</span>
+            <div class="w-100 p-2 d-flex justify-content-space-evenly" style="color: white">
+                <span class="btn text-uppercase fw-bold" id="unpaid-header">Unpaid</span>
+                <span class="btn text-uppercase fw-bold" id="tocollect-header">To Collect</span>
             </div>
             <div id="tobepaid-table" style="display: none;">
                 <table class="table">
