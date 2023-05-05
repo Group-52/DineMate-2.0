@@ -24,6 +24,15 @@ class InventoryDetail extends Model
         ];
     }
 
+    public function add($pid, $item_id, $amount_remaining, $special_notes=""):void{
+        $this->insert([
+            'pid' => $pid,
+            'item_id' => $item_id,
+            'amount_remaining' => $amount_remaining,
+            'special_notes' => $special_notes,
+        ]);
+    }
+
     // get a single inventory item
     public function getInventoryItem($pid): object|bool
     {
@@ -112,6 +121,18 @@ class InventoryDetail extends Model
         if ($risk !== null) {
             $data['expiry_risk'] = $risk;
         }
+        if ($amount !== null) {
+            $temp = $this->select(["amount_remaining", "item_id"])->where("pid", $pid)->fetch();
+            if ($temp->amount_remaining > $amount) {
+                // reduce from inventory before updating
+                $inv = new Inventory();
+                $inv->adjustAmount($temp->item_id, $temp->amount_remaining - $amount, "reduce");
+            }elseif ($temp->amount_remaining < $amount){
+                // increase inventory before updating
+                $inv = new Inventory();
+                $inv->adjustAmount($temp->item_id, $amount - $temp->amount_remaining, "add");
+            }
+        }
         $this->update($data)
             ->where("pid", $pid)
             ->execute();
@@ -149,5 +170,18 @@ class InventoryDetail extends Model
             $data[$t->item_id] = $t->count;
         }
         return $data;
+    }
+
+    //get quantity left of an item
+    public function getQuantity($itemid):float{
+        $temp = $this->select('amount_remaining')
+            ->where('item_id',$itemid)
+            ->fetchAll();
+        $total = 0;
+        if (!$temp) return $total;
+        foreach ($temp as $t){
+            $total += $t->amount_remaining;
+        }
+        return $total;
     }
 }

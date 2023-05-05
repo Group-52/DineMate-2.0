@@ -23,6 +23,17 @@ class Inventory extends Model
             'lead_time'
         ];
     }
+    public function add($item_id, $amount_remaining): void
+    {
+        $this->insert([
+            "item_id" => $item_id,
+            "amount_remaining" => $amount_remaining,
+            "max_stock_level" => 100,
+            "buffer_stock_level" => 25,
+            "reorder_level" => 50,
+            "lead_time" => 0
+        ]);
+    }
 
     // Get all inventory data from database with pagination
 //    give 0 as a parameter to not have pagination
@@ -85,7 +96,7 @@ class Inventory extends Model
     }
 
     // update inventory
-    public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null)
+    public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null): void
     {
         $data = [];
         if ($amount) {
@@ -109,7 +120,7 @@ class Inventory extends Model
     }
 
     // reduce or add to inventory
-    public function adjustAmount($item, $amount, $operation)
+    public function adjustAmount($item, $amount, $operation): void
     {
         $current = $this->select(["amount_remaining"])->where("item_id", $item)->fetch();
         $current = $current->amount_remaining;
@@ -120,5 +131,15 @@ class Inventory extends Model
             $this->update(["amount_remaining" => $current - $amount])
                 ->where("item_id", $item)->execute();
         }
+    }
+
+    //check if a given inventory exists
+    public function checkInventory($item_id):bool
+    {
+        $inventory = $this->select(["item_id"])->where("item_id",$item_id)->fetch();
+        if($inventory)
+            return true;
+        else
+            return false;
     }
 }
