@@ -16,7 +16,10 @@
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-5 mb-2">Orders</h1>
+            <div class="dashboard-buttons">
             <a class="btn btn-primary" id="KDS-button">KDS mode</a>
+            <a class="btn btn-primary" href="<?=ROOT?>/admin/orders/history">History</a>
+            </div>
         </div>
         <br>
         <div id="order-table">

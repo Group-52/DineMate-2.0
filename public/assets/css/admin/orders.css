@@ -56,7 +56,7 @@
 
 .card-body {
     padding: 10px;
-    height: 120px;
+    height: 150px;
     overflow: scroll;
 }
 .card-body:hover {
@@ -72,4 +72,12 @@
 }
 .timer{
     background-color: lightgreen;
+}
+
+.hide-buttons {
+    visibility: hidden;
+}
+
+.dashboard-buttons:hover .hide-buttons {
+    visibility: visible;
 }

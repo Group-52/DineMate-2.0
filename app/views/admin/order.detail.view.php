@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
@@ -108,7 +109,10 @@
                         </select>
                     </h4>
                     <h4 class="pt-3 fs-4">
-                        Order Cost: <span class="secondary">LKR <?= (new models\Order())->calculateSubTotal($order->order_id) ?></span>
+                        Food-cost: <span class="secondary">LKR <?= (new models\Order())->calculateSubTotal($order->order_id) ?></span>
+                    </h4>
+                    <h4 class="pt-3 fs-4">
+                        Full-total: <span class="secondary">LKR <?= (new models\Order())->calculateFullTotal($order->order_id) ?></span>
                     </h4>
 
                 </div>
