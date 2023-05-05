@@ -153,17 +153,17 @@ document.addEventListener("DOMContentLoaded", () => {
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
         let iconimg = card.querySelector('.type-icon').children[0];
         let url = ""
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             url = `${ASSETS}/icons/table.png`;
-        } else if (order.type == "takeaway") {
+        } else if (order.type === "takeaway") {
             url = `${ASSETS}/icons/fastcart.png`;
-        } else if (order.type == "bulk") {
+        } else if (order.type === "bulk") {
             url = `${ASSETS}/icons/bulk.svg`;
         }
         iconimg.src = url;
         iconimg.alt = order.type;
 
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             iconimg.nextSibling.innerHTML = order.table_id;
         }
         card.querySelector('#circle').setAttribute('data-order-status', order.status);
