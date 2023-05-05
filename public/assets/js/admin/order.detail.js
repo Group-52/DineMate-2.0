@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const finishbutton = document.querySelector('#finish-button');
     const deletebutton = document.querySelector('#delete-button');
     const addbutton = document.querySelector('#add-button');
-    const tablebody = document.querySelector('tbody');
+    const tablebody = document.querySelector(' #order-details-table tbody');
     const inputrow = document.querySelector('.input-row');
     const dummyrow = document.querySelector('.dummy-row');
 
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Event delegation on table
-    document.querySelector('table').addEventListener('click', function (event) {
+    document.querySelector(' #order-details-table table').addEventListener('click', function (event) {
         if (event.target.classList.contains('save-dish')) {
             if (checkQuantity(event) && checkDish(event)) {
                 addRow(event);

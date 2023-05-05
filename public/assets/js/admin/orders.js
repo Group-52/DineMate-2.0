@@ -16,12 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
         let sidebar = document.querySelector('#sidebar');
         let mode = KDSbutton.innerHTML !== "Exit KDS mode";
         let h1title = document.querySelector('h1');
+        let dashboardbuttons = document.querySelectorAll('.dashboard-buttons a');
 
         if (mode) {
             sessionStorage.setItem('KDSmode', "true");
             nav.style.display = "none";
             sidebar.style.display = "none";
             KDSbutton.innerHTML = "Exit KDS mode";
+            dashboardbuttons.forEach(button => {
+                button.classList.add('hide-buttons')
+            });
             //got to full screen
             if (document.fullscreenEnabled) {
                 document.documentElement.requestFullscreen();
@@ -34,6 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
             nav.style.display = 'flex';
             sidebar.style.display = 'block';
             KDSbutton.innerHTML = "KDS Mode";
+            dashboardbuttons.forEach(button => {
+                button.classList.remove('hide-buttons')
+            });
             //exit full screen
             if (document.fullscreenEnabled) {
                 document.exitFullscreen();

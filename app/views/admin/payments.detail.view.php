@@ -15,13 +15,15 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header">
-            <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/payments">Payments</a><i class="fa-solid fa-chevron-right mx-2"></i>Details</h1>
+            <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/payments">Payments</a><i
+                    class="fa-solid fa-chevron-right mx-2"></i>Details</h1>
         </div>
         <?php
         if (isset($order)) : ?>
             <h3 class="heading-3">Order ID: #<?= $order->order_id ?></h3>
             <h3 class="heading-4">Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3>
-            <?php if (isset($order->first_name)) : ?><h3 class="heading-4">CustomerName: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
+            <?php if (isset($order->first_name)) : ?><h3 class="heading-4">
+                CustomerName: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
             <?php if (isset($order->table_id)) : ?><h3>Table: <?= $order->table_id ?></h3><?php endif ?>
             <br><br>
         <?php endif ?>
@@ -82,45 +84,52 @@
                         </div>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Net Total:</div>
-                            <div id="net-total-value" class="w-25 p-1 payment-input-value fw-bold secondary text-right"><span id="Net-total">0</span> LKR</div>
-                                &nbsp;&nbsp;
-                                <i class="fas fa-pencil-alt"></i>
+                            <div id="net-total-value" class="w-25 p-1 payment-input-value fw-bold secondary text-right">
+                                <span id="Net-total"><?= $net_total ?></span> LKR
                             </div>
-                            <div id="net-total-input" class="w-25 p-1 payment-input-value">
-                                <input class="d-inline w-25" type="number" min="0" oninput="validity.valid||(value='');"
+                            &nbsp;&nbsp;
+                            <i class="fas fa-pencil-alt"></i>
+                            <div id="net-total-input" class="row w-25 p-1 payment-input-value mr-0 justify-content-end">
+                                <input class="d-inline w-50" type="number" min="0" oninput="validity.valid||(value='');"
                                        value="<?= $net_total ?>">
                                 <i class="fas fa-circle-xmark"></i>
                                 <i class="fa fa-check-circle tick-icon"></i>
                             </div>
                         </div>
-                        <?php if ($order->paid == 0): ?>
-                            <div class="row">
-                                <div class="w-50 p-1 payment-input-label">Cash:</div>
-                                <div class="w-25 p-1 payment-input-value text-right"><input class="p-1 w-50 text-right" id="cash" type="number" required> LKR
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="w-50 p-1 payment-input-label">Balance:</div>
-                                <div class="w-25 p-1 payment-input-value text-right"><span id="change">0</span> LKR</div>
-                            </div>
-                        <?php endif ?>
-                    </div>
-                    <div class="row w-100 justify-content-start">
-                        <?php if ($order->paid == 0): ?>
-                            <button class="btn btn-primary text-uppercase fw-bold" id="complete-payment-button" type="submit">Complete
-                                Payment
-                            </button>
-                        <?php else: ?>
-                            <button class="btn btn-primary text-uppercase fw-bold" id="complete-collected-button" type="submit">Order
-                                Collected
-                            </button>
-                        <?php endif ?>
-                    </div>
 
+                    </div>
+                    <?php if ($order->paid == 0): ?>
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Cash:</div>
+                            <div class="w-25 p-1 payment-input-value text-right"><input class="p-1 w-50 text-right"
+                                                                                        id="cash" type="number"
+                                                                                        required> LKR
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="w-50 p-1 payment-input-label">Balance:</div>
+                            <div class="w-25 p-1 payment-input-value text-right"><span id="change">0</span> LKR</div>
+                        </div>
+                    <?php endif ?>
                 </div>
+                <div class="row w-100 justify-content-start">
+                    <?php if ($order->paid == 0): ?>
+                        <button class="btn btn-primary text-uppercase fw-bold" id="complete-payment-button"
+                                type="submit">Complete
+                            Payment
+                        </button>
+                    <?php else: ?>
+                        <button class="btn btn-primary text-uppercase fw-bold" id="complete-collected-button"
+                                type="submit">Order
+                            Collected
+                        </button>
+                    <?php endif ?>
+                </div>
+
             </form>
         </div>
     </div>
+</div>
 </body>
 </html>
 <style>
@@ -179,7 +188,7 @@
         nettotal.innerHTML = netinput.querySelector("input").value;
     });
 
-    if (<?=$order->paid?> != 1){
+    if (<?=$order->paid?> != 1) {
         nettotal.innerHTML = parseFloat(subtotal) - parseFloat(promo.innerHTML) + parseFloat(servicecharge.innerHTML) + "";
         pencil.style.display = "inline";
     }

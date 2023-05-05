@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <meta charset="utf-8">
@@ -100,7 +101,7 @@
                                     } ?>
 
                                 </td>
-                                <td> <?= $order->total_cost ?></td>
+                                <td> <?=(new models\Order())->calculateFullTotal($order->order_id) ?></td>
                                 <td><a class='edit-icon-link text-danger'
                                        href='<?= ROOT ?>/admin/payments/id/<?= $order->order_id ?>'><i
                                             class='fa fa-credit-card'></i></a></td>

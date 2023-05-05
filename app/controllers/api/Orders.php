@@ -4,6 +4,7 @@ namespace controllers\api;
 
 use core\Controller;
 use models\Order;
+use models\Stats;
 use WebSocket\Client;
 
 class Orders
@@ -129,6 +130,10 @@ class Orders
                 //remove null values
                 $data = array_filter($data, fn($v) => !is_null($v));
                 $od->editOrder($data);
+
+                if($collected==1){
+                    (new Stats())->addOrder($order_id);
+                }
 
                 $this->json([
                     'status' => 'success',

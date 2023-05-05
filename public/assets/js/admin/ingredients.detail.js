@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const finishbutton = document.getElementById("finish-button");
     const inputrow = document.querySelector(".input-row");
     const dummyrow = document.querySelector(".dummy-row");
-    const table = document.querySelector('table');
+    const table = document.querySelector('.table-striped');
 
     editbutton.addEventListener("click", () => {
         event.preventDefault();
