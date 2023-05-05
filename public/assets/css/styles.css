@@ -2783,6 +2783,18 @@ a.link:hover {
   grid-gap: 96px;
 }
 
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.float-none {
+  float: none;
+}
+
 @media (min-width: 991px) {
   .only-mobile {
     display: none !important;
@@ -4185,6 +4197,7 @@ select.form-control {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 .btn:hover {
   text-decoration: none;
@@ -4706,7 +4719,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -4754,14 +4767,11 @@ body {
   border-radius: 5rem 0 0 0;
   box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
-.dashboard .sidebar.opened a {
-  margin-right: 1rem;
+.dashboard .sidebar .sidebar-text {
+  display: none;
 }
 .dashboard .sidebar.opened .sidebar-text {
   display: inline;
-}
-.dashboard .sidebar.closed .sidebar-text {
-  display: none;
 }
 .dashboard .sidebar a {
   text-decoration: none;

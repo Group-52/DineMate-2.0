@@ -19,6 +19,7 @@
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   letter-spacing: 0.1em;
+  white-space: nowrap;
 
   &:hover {
     text-decoration: none;

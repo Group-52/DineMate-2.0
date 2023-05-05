@@ -26,7 +26,7 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.25rem;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -77,15 +77,13 @@ body {
     border-radius: 5rem 0 0 0;
     box-shadow: 0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 
+    .sidebar-text {
+      display: none;
+    }
+
     &.opened {
       .sidebar-text {
         display: inline;
-      }
-    }
-
-    &.closed {
-      .sidebar-text {
-        display: none;
       }
     }
 
