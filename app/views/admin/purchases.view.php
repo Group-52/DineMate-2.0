@@ -54,7 +54,7 @@
                         <td data-field-name="quantity"
                             data-unit="<?= $purchase->abbreviation ?>"><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
                         <td data-field-name="brand"><?= $purchase->brand ?></td>
-                        <td data-field-name="expiry_date"><?= $purchase->expiry_date ?></td>
+                        <td data-field-name="expiry_date"><?php if($purchase->expiry_date!='0000-00-00') echo $purchase->expiry_date ?></td>
                         <td data-field-name="cost"><?= $purchase->cost ?></td>
                         <td data-field-name="discount"><?= $purchase->discount ?></td>
                         <td data-field-name="final_price"><?= $purchase->final_price ?></td>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="form-group">
                     <label for="expiry_date">Expiry Date</label>
-                    <input type="date" name="expiry_date" id="expiry_date" class="form-control">
+                    <input type="date" name="expiry_date" id="expiry_date" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="cost">Cost</label>
@@ -123,13 +123,13 @@
                 <div class="form-group">
                     <label for="discount">Discount</label>
                     <span class="d-block">
-                        <input type="number" step="1" min="0" name="discount" id="discount"
+                        <input type="number" step="1" min="0" name="discount" id="discount" value="0"
                                class="form-control d-inline w-75 mr-2"> LKR
                         </span>
                 </div>
                 <div class="form-group">
                     <label for="tax">Tax</label>
-                    <span class="d-block"> <input type="number" step="1" min="0" name="tax" id="tax"
+                    <span class="d-block"> <input type="number" step="1" min="0" name="tax" id="tax" value="0"
                                                    class="form-control d-inline w-75 mr-2"> LKR </span>
                 </div>
                 <div class="form-group">
@@ -150,3 +150,16 @@
 </body>
 
 </html>
+
+<script>
+    //Update final price
+    let cost = document.getElementById('cost');
+    let discount = document.getElementById('discount');
+    let tax = document.getElementById('tax');
+    let final_price = document.getElementById('final_price');
+    [cost, discount, tax].forEach(function (element) {
+        element.addEventListener('change', function () {
+            final_price.value = parseFloat(cost.value) - parseFloat(discount.value) + parseFloat(tax.value);
+        });
+    });
+</script>
