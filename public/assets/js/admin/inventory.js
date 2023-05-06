@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
             //check if displayed
-            if (icon.parentNode.style.display=="inline-block") {
+            if (icon.parentNode.style.display == "inline-block") {
                 icon.click();
             }
         });
@@ -186,7 +186,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         fetchRes.then(res => res.json())
+            .then(res => {
+                console.log(res);
+                new Toast("fa-solid fa-check", "#28a745", "Updated", "Item has been updated", false, 3000);
+            })
             .catch(err => {
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be updated", false, 3000);
                 console.log(err)
             })
 
@@ -220,7 +225,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 body: JSON.stringify({itemid: id})
             });
         fetchRes.then(res => res.json())
+            .then(res => {
+                console.log(res);
+                new Toast("fa-solid fa-check", "#28a745", "Deleted", "Item has been deleted", false, 3000);
+            })
             .catch(err => {
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be deleted", false, 3000);
                 console.log(err)
             })
         popup.style.display = 'none';
@@ -236,22 +246,21 @@ document.addEventListener("DOMContentLoaded", function () {
         let reorderlevel = parseFloat(values[2].value);
         let leadtime = parseFloat(values[3].value);
 
-        let y = row.getBoundingClientRect().top;
         if (maxlevel == "" || bufferlevel == "" || reorderlevel == "" || leadtime == "" || isNaN(maxlevel) || isNaN(bufferlevel) || isNaN(reorderlevel) || isNaN(leadtime)) {
-            displayError("All fields are required", y)
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Please fill all fields with valid values", false, 3000);
             return false;
         }
         if (maxlevel < bufferlevel) {
-            displayError("Max stock level cannot be less than buffer stock level", y)
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Max stock level cannot be less than buffer stock level", false, 3000);
             return false;
         } else if (maxlevel < reorderlevel) {
-            displayError("Max stock level cannot be less than re-order level", y)
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Max stock level cannot be less than re-order level", false, 3000);
             return false;
         } else if (reorderlevel < bufferlevel) {
-            displayError("Re-order level cannot be less than buffer stock level", y)
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Re-order level cannot be less than buffer stock level", false, 3000);
             return false;
         } else if (leadtime < 0) {
-            displayError("Lead time cannot be less than zero", y)
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Lead time cannot be less than zero", false, 3000);
             return false;
         }
         return true;

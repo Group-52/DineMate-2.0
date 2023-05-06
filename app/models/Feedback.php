@@ -33,6 +33,7 @@ class Feedback extends Model
             ->leftJoin("reg_users", "reg_users.user_id", "orders.reg_customer_id")
             ->leftJoin("guest_users", "guest_users.guest_id", "orders.guest_id")
             ->fetchAll();
+            
         $fb = array();
         foreach ($l as $f) {
             $fb[$f->feedback_id] = $f;
@@ -72,10 +73,11 @@ class Feedback extends Model
     {
         $sd = date("Y-m-d H:i:s", strtotime($sd));
         $ed = date("Y-m-d H:i:s", strtotime($ed));
-        return $this->select(["feedback.*","reg_users.first_name","reg_users.last_name"])
-            ->join("reg_users", "reg_users.user_id", "feedback.reg_customer_id")
-            ->where("feedback.time_placed", $sd, ">=")
-            ->and("feedback.time_placed", $ed, "<=")
+        return $this->select(["feedback.*","reg_users.first_name","reg_users.last_name","reg_users.user_id","orders.time_placed"])
+            ->join('orders', 'orders.order_id', 'feedback.order_id')
+            ->join("reg_users", "reg_users.user_id", "orders.reg_customer_id")
+            ->where("orders.time_placed", $sd, ">=")
+            ->and("orders.time_placed", $ed, "<=")
             ->fetchAll();
     }
 

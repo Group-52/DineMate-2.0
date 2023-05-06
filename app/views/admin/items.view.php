@@ -3,7 +3,6 @@
 
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/items.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/items.js"></script>
 </head>
@@ -62,6 +61,7 @@
                                 <th> <?= $item->units_name ?> </th>
                                 <th> <?= $item->category_name?> </th>
                                 <th> <i class="fa-solid fa-trash item-delete p-1 pointer" data-id="<?= $item->item_id ?>"></i> </th>
+                                <th> <i class="fa fa-pencil-square-o edit-icon p-1 pointer" data-id="<?= $item->item_id ?>"></i> </th>
                             </tr>
                         <?php endforeach ?>
                     <?php else : ?>
@@ -75,10 +75,6 @@
                     <div class="form-group">
                         <label class="label required" for="name">Name</label>
                         <input class="form-control" type="text" name="name" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="label" for="brand">Brand</label>
-                        <input class="form-control" type="text" name="brand" id="brand">
                     </div>
                     <div class="form-group">
                         <label class="label" for="description">Description</label>

@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/ingredients.detail.css">
     <script src="<?= ASSETS ?>/js/admin/ingredients.detail.js"></script>
-    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
 </head>
 <body class="dashboard">
 <?php include VIEWS . "/partials/admin/navbar.partial.php" ?>

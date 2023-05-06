@@ -94,4 +94,21 @@ class Item extends Model
             ->where("item_id", $item_id)
             ->execute();
     }
+
+    public function edit($item_id, $name=null, $unit=null, $category=null, $description=null, $image_url=null):void
+    {
+        $data = [
+            "item_name" => $name,
+            "description" => $description,
+            "unit" => $unit,
+            "category" => $category,
+            "image_url" => $image_url
+        ];
+        //remove keys with null values
+        $data = array_filter($data, fn($v) => !is_null($v));
+        $this->update($data)
+            ->where("item_id", $item_id)
+            ->execute();
+    }
+
 }
