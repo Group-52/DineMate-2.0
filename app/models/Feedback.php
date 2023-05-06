@@ -17,29 +17,22 @@ class Feedback extends Model
             "description",
         ];
     }
-    // TODO Add join to order table
     /**
      * Get all Feedbacks.
      */
     public function getFeedback(): bool|array
     {
-        $l = $this->select([
-                "feedback.*", "orders.order_id",
-                $this->concat(["reg_users.first_name","reg_users.last_name"], " ", "reg"),
-                $this->concat(["guest_users.first_name","guest_users.last_name"], " ", "guest"),
-                "orders.time_placed"
-            ])
-            ->join("orders", "orders.order_id", "feedback.order_id")
-            ->leftJoin("reg_users", "reg_users.user_id", "orders.reg_customer_id")
-            ->leftJoin("guest_users", "guest_users.guest_id", "orders.guest_id")
+        $l = $this->select(["feedback.*","reg_users.first_name","reg_users.last_name","reg_users.user_id","orders.time_placed"])
+            ->join('orders', 'orders.order_id', 'feedback.order_id')
+            ->join("reg_users", "reg_users.user_id", "orders.reg_customer_id")
             ->fetchAll();
-            
         $fb = array();
         foreach ($l as $f) {
             $fb[$f->feedback_id] = $f;
         }
         return $fb;
     }
+
 
     /**
      * Get a feedback by ID and Type
