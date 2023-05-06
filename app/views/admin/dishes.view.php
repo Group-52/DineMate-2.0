@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="card-deck grid-xl-6 grid-lg-4 grid-md-2 grid-1 grid-gap-2">
+        <div class="card-deck grid-xl-5 grid-lg-3 grid-md-2 grid-1 grid-gap-2">
             <?php if (isset($dish_list) && count($dish_list) > 0) : ?>
                 <?php foreach ($dish_list as $d) : ?>
                     <div class="card p-2" data-dish-id="<?= $d->dish_id ?>" data-name="<?= $d->dish_name ?>" data-description="<?= $d->description ?>" data-prep-time="<?= $d->prep_time ?>" data-net-price="<?= $d->net_price ?>" data-selling-price="<?= $d->selling_price ?>" data-image-url="<?= $d->image_url ?>">

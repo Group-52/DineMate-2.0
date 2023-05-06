@@ -14,7 +14,10 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-5 mb-2">Inventory</h1>
+
+            <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/inventory/dashboard">Inventory</a> <i class="fa-solid fa-chevron-right mx-2"></i> Details</h1>
+
+
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>

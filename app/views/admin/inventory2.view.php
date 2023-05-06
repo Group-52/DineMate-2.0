@@ -14,11 +14,11 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-5 mb-2">Batches</h1>
+            <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/inventory/dashboard">Inventory</a> <i class="fa-solid fa-chevron-right mx-2"></i> Batches</h1>
+
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
-                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/inventory" id="switch-button">Back</a>
             </div>
         </div>
         <table class="table">
@@ -35,7 +35,7 @@
             <tbody>
             <?php if (isset($inventory2)) : ?>
                 <?php foreach ($inventory2 as $item) : ?>
-                    <tr "style=display:none" data-item-id="<?= $item->item_id ?>" data-purchase-id="<?= $item->pid ?>">
+                    <tr data-item-id="<?= $item->item_id ?>" data-purchase-id="<?= $item->pid ?>" >
                     <td><?= $item->item_name ?></td>
                     <td data-field-name="amount_remaining"
                         data-unit="<?= $item->abbreviation ?>"><?= $item->amount_remaining ?> <?= $item->abbreviation ?></td>
