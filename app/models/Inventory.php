@@ -103,7 +103,7 @@ class Inventory extends Model
     public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null): void
     {
         $data = [];
-        if ($amount) {
+        if ($amount && $amount >= 0) {
             $data["amount_remaining"] = $amount;
         }
         if ($max) {
@@ -132,7 +132,10 @@ class Inventory extends Model
             $this->update(["amount_remaining" => $current + $amount])
                 ->where("item_id", $item)->execute();
         } else if ($operation == "reduce") {
-            $this->update(["amount_remaining" => $current - $amount])
+            // check if the amount is greater than the current amount
+            $new_amount = $current - $amount;
+            if ($new_amount < 0) $new_amount = 0;
+            $this->update(["amount_remaining" => $new_amount])
                 ->where("item_id", $item)->execute();
         }
     }
