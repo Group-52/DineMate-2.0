@@ -27,7 +27,7 @@ class Items
                 unset($_GET["category"]);
             }
             $data["items"] = (new Item())->itemsSearch($_GET);
-        }else{
+        } else {
             $data["items"] = (new Item())->getItems();
         }
         $data["categories"] = (new Category())->select()->fetchAll();
@@ -61,7 +61,6 @@ class Items
             if ($item->validate($_POST)) {
                 $item->insert([
                     "item_name" => $_POST["name"],
-                    "brand" => $_POST["brand"] ?? null,
                     "description" => $_POST["description"] ?? null,
                     "unit" => $_POST["unit"],
                     "category" => $_POST["category"] ?? 17,
@@ -69,6 +68,30 @@ class Items
                 ]);
                 redirect("admin/items");
             }
+        }
+    }
+
+    public function edit($id): void
+    {
+        $im = new Item();
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = $_POST["name"];
+            $description = $_POST["description"] ?? null;
+            $unit = $_POST["unit"];
+            $category = $_POST["category"] ?? 17;
+            $image_url = $_POST["image_url"] ?? null;
+show($_POST);
+            $im->edit($id, $name, $unit, $category, $description, $image_url);
+
+            redirect("admin/items");
+        } else {
+            $item = $im->getItemById($id);
+            $data["itemx"] = $item;
+            $data['controller'] = $this->controller;
+            $data["categories"] = (new Category())->select()->fetchAll();
+            $data["units"] = (new Unit())->select()->fetchAll();
+
+            $this->view("admin/items.edit", $data);
         }
     }
 }

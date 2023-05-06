@@ -3,12 +3,7 @@
 
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/order.history.css">
-    <script src="<?= ASSETS ?>/js/admin/order.history.js"></script>
-    <title>viewOrders</title>
 </head>
 
 <body class="dashboard">
@@ -17,32 +12,55 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-                <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/orders">Orders</a><i class="fa-solid fa-chevron-right mx-2"></i>History</h1>
+            <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/users">Customers</a><i class="fa-solid fa-chevron-right mx-2"></i>Profile</h1>
+
             <div class="dashboard-buttons">
-                <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Today's Orders</a>
+                <?php if ($user->blacklisted) : ?>
+                    <a href="<?= ROOT ?>/admin/users/blacklist?bl_id=<?=$user->user_id?>&bl=0" class="btn btn-primary">Unblock User</a>
+                <?php else : ?>
+                <a href="<?= ROOT ?>/admin/users/blacklist?bl_id=<?=$user->user_id?>&bl=1" class="btn btn-primary">Block User</a>
+                <?php endif; ?>
+
             </div>
         </div>
-        <div id="order-table">
-            <table class="table">
-                <thead>
+
+        <div class="row justify-content-space-evenly p-5">
+            <div class="w-25">
+                <h2>Customer Information</h2>
+                <p>Customer ID: <?= $user->user_id ?></p>
+                <p>Name: <?= $user->first_name ?>  <?= $user->last_name ?></p>
+                <p>Email: <?= $user->email ?></p>
+                <p>Contact Number: <?= $user->contact_no ?></p>
+                <p>Last Seen: <?= date("Y-m-d H:i:s", strtotime($user->last_login)) ?></p>
+            </div>
+            <div class="w-25">
+                <h2>Order Statistics</h2>
+                <p>Average Order Value: <?= $average_value ?> LKR</p>
+                <p>Orders Placed: <?= count($prev_orders) ?></p>
+            </div>
+        </div>
+
+
+        <h2>Order History</h2>
+        <br>
+        <div id="order-history">
+            <table class="table pt-3">
+                <thead class="mb-3">
                 <tr>
                     <th>Order ID</th>
-                    <th>Customer Id</th>
                     <th>Time Placed</th>
                     <th>Type</th>
-                    <th>Status</th>
                     <th>Time Completed</th>
                     <th>Paid</th>
-                    <th>Total Cost</th>
+                    <th>Total Cost (LKR)</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php if (isset($order_list)) : ?>
-                    <?php foreach ($order_list as $order) : ?>
+                <?php if (isset($prev_orders) && count($prev_orders) > 0) : ?>
+                    <?php foreach ($prev_orders as $order) : ?>
                         <tr data-order-id="<?= $order->order_id ?>" data-order-type="<?= $order->type ?>"
                             data-order-status="<?= $order->status ?>">
                             <td class="order-id-field"><?= $order->order_id ?></td>
-                            <td><?= $order->guest_id ? "G" : "" ?><?= $order->reg_customer_id ?? $order->guest_id ?></td>
                             <td>
                                 <?= $order->time_placed ?>
                             </td>
@@ -59,10 +77,6 @@
 
                             </td>
                             <td>
-                                <div data-order-status="<?= $order->status ?>" id="circle"
-                                     class="<?= $order->status ?>"></div>
-                            </td>
-                            <td>
                                 <?= $order->time_completed ?>
                             </td>
                             <td>
@@ -76,13 +90,43 @@
                             <td> <?= $order->total_cost ?></td>
                         </tr>
                     <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="6" class="text-center">No orders found</td>
+                    </tr>
                 <?php endif; ?>
                 </tbody>
 
             </table>
-            <?php include VIEWS . "/partials/admin/paginationbar.partial.php" ?>
         </div>
+
     </div>
+</div>
 </body>
 
 </html>
+<style>
+    #order-history {
+        height: 75vh;
+        overflow-y: scroll;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: grey;
+    }
+    .order-id-field:hover {
+        cursor: pointer;
+    }
+</style>
+<script>
+    //when clicked on td order id
+    //redirect to order details page
+    document.querySelector("#order-history").addEventListener("click", (e) => {
+        if (e.target.classList.contains("order-id-field")) {
+            const orderId = e.target.innerText;
+            window.location.href = `${ROOT}/admin/orders/id/${orderId}`;
+        }
+    })
+</script>

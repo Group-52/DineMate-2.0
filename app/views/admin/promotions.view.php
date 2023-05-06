@@ -164,7 +164,7 @@
                         <select class="form-control" id="dish" name="dish_id">
                             <option value="" selected disabled>Select Dish</option>
                             <?php foreach ($dishes as $d) : ?>
-                                <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?></option>
+                                <option value="<?= $d->dish_id ?>"><?= $d->dish_name ?> &nbsp; (<?=$d->selling_price?> LKR)</option>
                             <?php endforeach; ?>
                         </select>
                     </div>

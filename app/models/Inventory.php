@@ -43,6 +43,7 @@ class Inventory extends Model
         $q = $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
+            ->where("items.deleted", 0)
             ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
@@ -57,6 +58,7 @@ class Inventory extends Model
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->join("categories","categories.category_id","items.category")
+            ->where("items.deleted",0)
             ->orderBy("items.item_name")
             ->fetchAll();
         $inventory = [];
@@ -82,6 +84,7 @@ class Inventory extends Model
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->wherecolumn("inventory.amount_remaining", "inventory.reorder_level","<=")
+            ->and('items.deleted',0)
             ->fetchAll();
     }
 
@@ -92,6 +95,7 @@ class Inventory extends Model
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->wherecolumn("amount_remaining", "buffer_stock_level","<=")
+            ->and('items.deleted',0)
             ->fetchAll();
     }
 
@@ -99,7 +103,7 @@ class Inventory extends Model
     public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null): void
     {
         $data = [];
-        if ($amount) {
+        if ($amount && $amount >= 0) {
             $data["amount_remaining"] = $amount;
         }
         if ($max) {
@@ -128,7 +132,10 @@ class Inventory extends Model
             $this->update(["amount_remaining" => $current + $amount])
                 ->where("item_id", $item)->execute();
         } else if ($operation == "reduce") {
-            $this->update(["amount_remaining" => $current - $amount])
+            // check if the amount is greater than the current amount
+            $new_amount = $current - $amount;
+            if ($new_amount < 0) $new_amount = 0;
+            $this->update(["amount_remaining" => $new_amount])
                 ->where("item_id", $item)->execute();
         }
     }

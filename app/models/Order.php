@@ -347,7 +347,6 @@ class Order extends Model
     public function complete($order_id): void
     {
         //add to stats
-        (new Stats())->addOrder($order_id);
         (new MenuStats())->addOrder($order_id);
 
         $d = (new OrderDishes())->getOrderDishes($order_id);

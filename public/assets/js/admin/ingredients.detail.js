@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const finishbutton = document.getElementById("finish-button");
     const inputrow = document.querySelector(".input-row");
     const dummyrow = document.querySelector(".dummy-row");
-    const table = document.querySelector('table');
+    const table = document.querySelector('.table-striped');
 
     editbutton.addEventListener("click", () => {
         event.preventDefault();
@@ -262,13 +262,13 @@ document.addEventListener("DOMContentLoaded", () => {
         //if the ingredient is not selected
         if (!ingselect.value) {
             //show error message
-            displayError("Ingredient cannot be empty", ingselect.getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient cannot be empty", false, 3000);
             return false;
         }
         //if the selected value is already present in the table
         if (existing_ings_values.includes(ingselect.value)) {
             //show error message
-            displayError("Ingredient already present in the table", ingselect.getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient already present in the table", false, 3000);
             //reset the select to default value
             ingselect.value = "";
             return false;
@@ -276,13 +276,13 @@ document.addEventListener("DOMContentLoaded", () => {
         //if the quantity is empty
         if (!row.querySelector('input').value) {
             //show error message
-            displayError("Quantity cannot be empty", row.querySelector('input').getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Quantity cannot be empty", false, 3000);
             return false;
         }
         //if the unit is empty
         if (!row.querySelectorAll('select')[1].value) {
             //show error message
-            displayError("Unit cannot be empty", row.querySelectorAll('select')[1].getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Unit cannot be empty", false, 3000);
             return false;
         }
         return true;
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //if the selected value is already present in the table
         if (existing_ings_values.includes(ingselect.value) && ingselect.value != row.getAttribute("data-ingredient")) {
             //show error message
-            displayError("Ingredient already present in the table", ingselect.getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient already present in the table", false, 3000);
             //reset the select to default value
             ingselect.value = "";
             return false;
@@ -308,7 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //if the quantity is empty
         if (!row.querySelector('input').value) {
             //show error message
-            displayError("Quantity cannot be empty", row.querySelector('input').getBoundingClientRect().top);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Quantity cannot be empty", false, 3000);
             return false;
         }
         return true;
@@ -332,11 +332,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
+                if (data.status=='success') {
+                    new Toast("fa-solid fa-check", "#28a745", "Updated", "Ingredients have been updated", false, 3000);
                     console.log("success");
                 }
             })
             .catch((error) => {
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredients have not been updated", false, 3000);
                 console.error("Error:", error);
             });
 
@@ -358,11 +360,13 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
+                if (data.status=='success') {
+                    new Toast("fa-solid fa-check", "#28a745", "Deleted", "Ingredient has been deleted", false, 3000);
                     console.log("success");
                 }
             })
             .catch((error) => {
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient has not been deleted", false, 3000);
                 console.error("Error:", error);
             });
     }
@@ -384,8 +388,13 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
+                if (data.status=='success') {
+                    new Toast("fa-solid fa-check", "#28a745", "Added", "Ingredient has been added", false, 3000);
+                    console.log("success");
+                }
             })
             .catch((error) => {
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient has not been added", false, 3000);
                 console.error("Error:", error);
             });
     }
