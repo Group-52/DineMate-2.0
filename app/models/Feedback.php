@@ -23,8 +23,9 @@ class Feedback extends Model
      */
     public function getFeedback(): bool|array
     {
-        $l = $this->select(["feedback.*","reg_users.first_name","reg_users.last_name"])
-        ->join("reg_users", "reg_users.user_id", "feedback.reg_customer_id")
+        $l = $this->select(["feedback.*","reg_users.first_name","reg_users.last_name","reg_users.user_id","orders.time_placed"])
+            ->join('orders', 'orders.order_id', 'feedback.order_id')
+        ->join("reg_users", "reg_users.user_id", "orders.reg_customer_id")
         ->fetchAll();
         $fb = array();
         foreach ($l as $f) {

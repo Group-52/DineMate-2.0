@@ -45,18 +45,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                 }
             })
-              .then(response => response.json())
-              .then(result => {
-                 if (result?.status === "success") {
-                     deleteButton.parentElement.parentElement.remove();
-                     new Toast("fa-solid fa-check", "#28a745", "Deleted", "Item has been deleted", false, 3000);
-                 } else {
-                      new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be deleted", false, 3000);
-                 }
-              })
-              .catch(error => {
-                  new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be deleted", false, 3000);
-              })
+                .then(response => response.json())
+                .then(result => {
+                    if (result?.status === "success") {
+                        deleteButton.parentElement.parentElement.remove();
+                        new Toast("fa-solid fa-check", "#28a745", "Deleted", "Item has been deleted", false, 3000);
+                    } else {
+                        new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be deleted", false, 3000);
+                    }
+                })
+                .catch(error => {
+                    new Toast("fa-solid fa-times", "#dc3545", "Error", "Item could not be deleted", false, 3000);
+                })
         }
+    })
+    document.querySelectorAll('.edit-icon').forEach((editIcon) => {
+        //redirect to edit page
+        editIcon.onclick = () => {
+            const itemId = editIcon.dataset.id;
+            window.location.href = `${ROOT}/admin/items/edit/${itemId}`;
+        };
     })
 });
