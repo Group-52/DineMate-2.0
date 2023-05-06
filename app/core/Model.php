@@ -273,4 +273,18 @@ class Model
     {
         return $this->db->lastInsertId();
     }
+
+    public function concat(array $columns, string $separator, $as = null): string
+    {
+        $query = " CONCAT(";
+        foreach ($columns as $column) {
+            $query .= $column . ", '$separator', ";
+        }
+        $query = rtrim($query, ", '$separator', ");
+        $query .= ")";
+        if ($as) {
+            $query .= " AS $as";
+        }
+        return $query;
+    }
 }
