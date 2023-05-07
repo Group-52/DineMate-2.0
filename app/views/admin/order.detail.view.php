@@ -120,7 +120,7 @@
                     <div class="row fs-4 mb-4">
                         <table class="table">
                             <tr><td>Estimated Time: </td><td><?= (new models\Order())->getEstimate($order->order_id) ?> minutes</td></tr>
-                            <tr style="background: white"><td>Placed Time: </td><td><?= substr($order->time_placed, 0, 16) ?></td></tr>
+                            <tr style="background: white"><td>Placed Time: </td><td><?= date('Y M jS g:i A',strtotime($order->time_placed)) ?></td></tr>
                         </table>
                     </div>
                     <div id="order-details-table">

@@ -21,9 +21,9 @@
         <?php
         if (isset($order)) : ?>
             <h3 class="heading-3">Order ID: #<?= $order->order_id ?></h3>
-            <h3 class="heading-4">Customer ID: #<?= $order->reg_customer_id ?? $order->guest_id ?></h3>
+            <h3 class="heading-4">Customer ID: # <?= $order->reg_customer_id ?? "G" . $order->guest_id ?></h3>
             <?php if (isset($order->first_name)) : ?><h3 class="heading-4">
-                CustomerName: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
+                Customer Name: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
             <?php if (isset($order->table_id)) : ?><h3>Table: <?= $order->table_id ?></h3><?php endif ?>
             <br><br>
         <?php endif ?>
@@ -90,10 +90,11 @@
                             &nbsp;&nbsp;
                             <i class="fas fa-pencil-alt"></i>
                             <div id="net-total-input" class="row w-25 p-1 payment-input-value mr-0 justify-content-end">
-                                <input class="d-inline w-50" type="number" min="0" oninput="validity.valid||(value='');"
+                                <input class="d-inline form-control p-0 m-0" style="width:70px; height:25px; font-size: small"
+                                       type="number" min="0" oninput="validity.valid||(value='');" step="0.1"
                                        value="<?= $net_total ?>">
-                                <i class="fas fa-circle-xmark"></i>
-                                <i class="fa fa-check-circle tick-icon"></i>
+                                <i class="fas fa-circle-xmark" style="font-size: smaller"></i>
+                                <i class="fa fa-check-circle tick-icon" style="font-size: smaller"></i>
                             </div>
                         </div>
 
@@ -101,9 +102,8 @@
                     <?php if ($order->paid == 0): ?>
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Cash:</div>
-                            <div class="w-25 p-1 payment-input-value text-right"><input class="p-1 w-50 text-right"
-                                                                                        id="cash" type="number"
-                                                                                        required> LKR
+                            <div class="w-25 p-1 payment-input-value text-right">
+                                <input style="display:inline-block; width:80px; font-size: small" class="p-1 text-right form-control" id="cash" type="number" required> LKR
                             </div>
                         </div>
                         <div class="row">

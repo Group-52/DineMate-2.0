@@ -84,8 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
     createbtn.addEventListener('click', () => {
         let data = collectData();
         console.log(data);
+        //if no dishes are added
+        if (data.dishlist.length == 0) {
+            new Toast("fa-solid fa-exclamation-circle", "red", "Empty Order", "No Dishes Added", false, 3000);
+            return;
+        }
         if (data.guest_id) {
-            updateGuest(data.guest_id, data.customer.name, data.customer.contactNo)
+            updateGuest(data.guest_id, data.customer.fname, data.customer.lname, data.customer.contactNo, data.customer.email);
         }
         makeOrder(data);
         // getCart(gid, "guest");
@@ -95,10 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     //Updates the view when the form changes
     const customerNameSpan = document.getElementById("customer-name");
     const customerContactSpan = document.getElementById("customer-contact");
-    const nameInput = document.getElementById("fname");
+    const FnameInput = document.getElementById("fname");
+    const LnameInput = document.getElementById("lname");
     const contactInput = document.getElementById("contact_no");
-    nameInput.addEventListener("input", () => {
-        customerNameSpan.textContent = nameInput.value;
+    FnameInput.addEventListener("input", () => {
+        customerNameSpan.textContent = FnameInput.value + " " + LnameInput.value;
+    });
+    LnameInput.addEventListener("input", () => {
+        customerNameSpan.textContent = FnameInput.value + " " + LnameInput.value;
     });
     contactInput.addEventListener("input", () => {
         customerContactSpan.textContent = contactInput.value;
@@ -133,8 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (utype == 'guest') {
                 //add to cart
                 const dishId = selectedOption.dataset.dishid;
-                const quantity = newQuantity;
-                updateCart(dishId, quantity, gid, "guest");
+                updateCart(dishId, newQuantity, gid, "guest");
                 getValidPromotions(gid, "guest")
             }
 
@@ -228,8 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const serviceCharge = parseInt(document.querySelector('#service-charge-view').textContent);
         const netTotal = parseInt(document.querySelector('#net-total-view').textContent);
 
-        const customerName = document.querySelector('#fname').value;
-        const contactNo = document.querySelector('#contact_no').value;
+        const customerFname = document.querySelector('#fname').value;
+        const customerLname = document.querySelector('#lname').value;
+        const contactNo = document.querySelector('#contact_no').value || null;
+        const email = document.querySelector('#email').value || null;
         const type = document.querySelector('#order-type').value;
         const scheduledTimeCheckbox = document.querySelector('#timecheck');
         const scheduled_time = scheduledTimeCheckbox.checked ? document.querySelector('#sctime').value : null;
@@ -245,8 +255,10 @@ document.addEventListener('DOMContentLoaded', () => {
             serviceCharge,
             netTotal,
             customer: {
-                name: customerName,
+                fname: customerFname,
+                lname: customerLname,
                 contactNo,
+                email,
             },
             type,
             scheduled_time,
@@ -269,17 +281,23 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    function updateGuest(guest_id, name, contactNo) {
+    function updateGuest(guest_id, fname = "", lname = "", email = null, contactNo = null) {
+        let data = {
+            guest_id: guest_id,
+            email: email,
+            contact: contactNo,
+            fname: fname,
+            lname: lname,
+        }
+        //remove null values
+        Object.keys(data).forEach(key => data[key] == null ? delete data[key] : '');
+
         fetch(`${ROOT}/api/guest/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                guest_id: guest_id,
-                fname: name,
-                contact: contactNo,
-            }),
+            body: JSON.stringify(data),
         }).then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
