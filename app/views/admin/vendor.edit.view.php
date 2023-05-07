@@ -38,7 +38,7 @@
                     </div>
                     <div class="form-group">
                         <label class="label" for="contact_no">Contact No</label>
-                        <input class="form-control" type="text" name="contact_no" value="<?= $v1->contact_no ?>">
+                        <input class="form-control" type="number" name="contact_no" value="<?= $v1->contact_no ?>">
                     </div>
                     <div class="form-group">
                         <label class="label" for="email">Email</label>
@@ -63,18 +63,41 @@
     vendor_name.addEventListener('input', () => {
         if (vendor_name.value == "") {
             submit.disabled = true;
-            displayError("Vendor name is required", vendor_name.getBoundingClientRect().top);
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Vendor name is required", false, 3000);
         } else {
             submit.disabled = false;
         }
     });
-    contact_no.addEventListener('input', () => {
+    contact_no.addEventListener('change', () => {
         if (contact_no.value == "") {
             submit.disabled = true;
-            displayError("Contact number is required", contact_no.getBoundingClientRect().top);
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no is required", false, 3000);
+        } else if (contact_no.value.length != 10) {
+            submit.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no must be 10 digits", false, 3000);
         } else {
             submit.disabled = false;
         }
     });
+
+    //if email is not valid, disable submit button and view error
+    function validateEmail(email) {
+        if (email == "") {
+            return true;
+        }
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    const email = document.querySelector('input[name="email"]');
+    email.addEventListener('change', () => {
+        if (!validateEmail(email.value)) {
+            submit.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email is not valid", false, 3000);
+        } else {
+            submit.disabled = false;
+        }
+    });
+
 
 </script>

@@ -59,13 +59,15 @@
             <div class="col-lg-5 col-md-7 col-12 d-flex flex-column justify-content-center p-3">
                 <h1><?= $menu->menu_name ?></h1>
                 <p class="lead"><?= $menu->description ?></p>
-                <?php if ($menu->start_time) : ?>
-                    <h3>Start-Time : <?= $menu->start_time ?></h3>
+                <?php if ($menu->start_time && $menu->start_time!='00:00:00') : ?>
+                    <h3>Start-Time : <?=date('g:i A',strtotime($menu->start_time))?></h3>
                 <?php endif; ?>
-                <?php if ($menu->end_time) : ?>
-                    <h3>End-Time : <?= $menu->end_time ?></h3>
+                <?php if ($menu->end_time && $menu->end_time!='00:00:00') : ?>
+                    <h3>End-Time : <?=date('g:i A',strtotime($menu->end_time))?></h3>
                 <?php endif; ?>
+                <?php if (!$menu->end_time || $menu->end_time=='00:00:00') : ?>
                 <h3>All Day: <input type="checkbox" name="all_day" disabled <?php echo ($menu->all_day == 1 ? 'checked' : ''); ?> /></h3>
+                <?php endif; ?>
             </div>
         </div>
         <div>

@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const endTime = document.querySelector('#end_time').value;
         // Ensure start time is before end time
         if (startTime >= endTime) {
-            displayError('Start time must be less than end time', startTimeDiv.getBoundingClientRect().top);
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Start time must be less than end time", false, 3000);
             submitButton.disabled = true;
         } else {
             submitButton.disabled = false;
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // validate time when start,end time is changed and all-day is checked
 document.querySelector('#start_time').addEventListener('change', validateTime);
 document.querySelector('#end_time').addEventListener('change', validateTime);
-document.querySelector('#all_day').addEventListener('change', validateTime);
+// document.querySelector('#all_day').addEventListener('change', validateTime);
 
 
 });
