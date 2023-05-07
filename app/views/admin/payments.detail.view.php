@@ -244,7 +244,7 @@
         paidbutton.addEventListener('click', function (e) {
             e.preventDefault();
             if ((cash.value == "") || (cash.value < parseFloat(nettotal.innerHTML))) {
-                alert("Cash is not enough");
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Insufficient Cash", false, 3000);
                 return;
             }
             let data = {
