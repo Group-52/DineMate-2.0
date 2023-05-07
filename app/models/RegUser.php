@@ -66,4 +66,9 @@ class RegUser extends Model
     {
         return $this->select()->where("blacklisted", 1)->fetchAll();
     }
+
+    public function updateLogin($id): void
+    {
+        $this->update(['last_login' => date("Y-m-d H:i:s")])->where('user_id', $id)->execute();
+    }
 }

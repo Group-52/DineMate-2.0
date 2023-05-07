@@ -43,6 +43,8 @@ class Auth
                     else {
                         if (password_verify($_POST["password"], $result->password)) {
                             $newUserId = $result->user_id;
+                            //update last login
+                            $user->updateLogin($newUserId);
 
                             // Transfer cart items to registered user account
                             $cart = new Cart;
