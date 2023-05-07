@@ -152,17 +152,18 @@
         var regex = /^[a-zA-Z0-9]+$/;
 
         if(username.length < 5){
-            alert("Username must be at least 5 characters long");
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username must be at least 5 characters long", false, 3000);
             return false;
         }
         if(!regex.test(username)){
-            alert("Username must contain only letters and numbers");
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username must contain only letters and numbers", false, 3000);
             return false;
         }
         if(usernames.includes(username)){
-            alert("Username already exists");
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username already exists", false, 3000);
             return false;
         }
+        return true;
     }
 
     let usernameinput = document.getElementById("username");
