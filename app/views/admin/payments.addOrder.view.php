@@ -19,8 +19,8 @@
                 <div class="col">
                     <div id="customer-parent" class="row">
                     <span class="mb-2">
-                        <?php if(isset($_SESSION['guest_id'])){
-                            echo "<span class='d-none'' id='guest-id'>".$_SESSION['guest_id']."</span>";
+                        <?php if (isset($_SESSION['guest_id'])) {
+                            echo "<span class='d-none'' id='guest-id'>" . $_SESSION['guest_id'] . "</span>";
                         }
                         ?>
                         Customer Details
@@ -29,12 +29,23 @@
                         <div id="customer-data-formdiv" class="w-100">
                     <span class="d-inline-flex w-75 justify-content-space-between">
                         <div class="form-group d-inline w-45">
-                            <label class="label" for="fname">Name</label>
+                            <label class="label" for="fname">First Name</label>
                             <input class="form-control" type="text" name="fname" id="fname">
                         </div>
+                        <div class="form-group d-inline w-45">
+                            <label class="label" for="lname">Last Name</label>
+                            <input class="form-control" type="text" name="lname" id="lname">
+                        </div>
+                    </span>
+                        <span class="d-inline-flex w-75 justify-content-space-between">
+
                         <div class="form-group d-inline">
                             <label class="label" for="contact_no">Contact No</label>
                             <input class="form-control" type="text" name="contact_no" id="contact_no">
+                        </div>
+                            <div class="form-group d-inline">
+                            <label class="label" for="email">Email</label>
+                            <input class="form-control" type="text" name="email" id="email">
                         </div>
                     </span>
                         </div>
@@ -91,7 +102,8 @@
                     <div class="fieldset-container d-flex justify-content-center w-75">
                         <fieldset class="w-100">
                             <label for="item1">Special Instructions:</label>
-                            <textarea id="special-instructions" name="special-instructions" class="form-control d-inline w-100" rows="5" cols="50"></textarea>
+                            <textarea id="special-instructions" name="special-instructions"
+                                      class="form-control d-inline w-100" rows="5" cols="50"></textarea>
                         </fieldset>
                     </div>
                 </div>
@@ -120,14 +132,23 @@
                 </div>
 
                 <div id="cost-view" class="p-2 col">
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Subtotal : </span><span><span id="subtotal-view">0</span> &nbsp;LKR</span></div>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Promotion : </span><span><span id="promotion-view">0</span> &nbsp;LKR</span></div>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block">Service Charge : </span><span><span id="service-charge-view">0</span> &nbsp;LKR</span></div>
+                    <div class="row justify-content-space-between p-1"><span
+                            class="d-inline-block">Subtotal : </span><span><span
+                                id="subtotal-view">0</span> &nbsp;LKR</span></div>
+                    <div class="row justify-content-space-between p-1"><span
+                            class="d-inline-block">Promotion : </span><span><span id="promotion-view">0</span> &nbsp;LKR</span>
+                    </div>
+                    <div class="row justify-content-space-between p-1"><span
+                            class="d-inline-block">Service Charge : </span><span><span id="service-charge-view">0</span> &nbsp;LKR</span>
+                    </div>
                     <hr>
-                    <div class="row justify-content-space-between p-1"> <span class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbsp;LKR</b></span></div>
+                    <div class="row justify-content-space-between p-1"><span
+                            class="d-inline-block"><b>Net Total : </span><span><span id="net-total-view">0</span> &nbsp;LKR</b></span>
+                    </div>
                 </div>
                 <div id="pay-btn-view" class="m-5 row justify-content-center">
-                    <a href="#" id="create-order-button" class="d-block w-75 btn btn-primary text-center text-uppercase fw-bold">Create Order</a>
+                    <a href="#" id="create-order-button"
+                       class="d-block w-75 btn btn-primary text-center text-uppercase fw-bold">Create Order</a>
                 </div>
             </div>
 

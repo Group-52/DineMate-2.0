@@ -57,7 +57,7 @@
                                 <td class="order-id-field"><?= $order->order_id ?></td>
                                 <td><?= $order->guest_id ? "G" : "" ?><?= $order->reg_customer_id ?? $order->guest_id ?></td>
                                 <td>
-                                    <?php if (isset($order->first_name))
+                                    <?php if (isset($order->first_name) && isset($order->last_name) && $order->first_name != "" && $order->last_name != "")
                                         echo $order->first_name . " " . $order->last_name;
                                     else
                                         echo "Guest";
@@ -65,7 +65,8 @@
                                 </td>
 
                                 <td>
-                                    <?= $order->time_placed ?>
+                                    <?= date('M jS g:i A',strtotime($order->time_placed)) ?>
+
                                 </td>
 
                                 <td>
@@ -146,7 +147,7 @@
                                 </td>
 
                                 <td>
-                                    <?= $order->time_placed ?>
+                                    <?= date('M jS g:i A',strtotime($order->time_placed)) ?>
                                 </td>
 
                                 <td>
