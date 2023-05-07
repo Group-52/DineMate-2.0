@@ -17,10 +17,15 @@ class GeneralDetails extends Model
             "closing_time",
             "email",
             "contact_no",
+            "twitter_url",
+            "instagram_url",
             "introduction",
-            "image_url",
-            "kitchen_staff"
-
+            "background_image_url",
+            "favicon_url",
+            "logo_url",
+            "kitchen_staff",
+            "max_guest_bill",
+            "max_nonbulk"
         ];
     }
 
