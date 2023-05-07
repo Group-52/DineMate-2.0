@@ -21,7 +21,7 @@
         <?php
         if (isset($order)) : ?>
             <h3 class="heading-3">Order ID: #<?= $order->order_id ?></h3>
-            <h3 class="heading-4">Customer ID: # <?= $order->reg_customer_id ?? "G" . $order->guest_id ?></h3>
+            <h3 class="heading-4">Customer ID: #<?= $order->reg_customer_id ?? "G" . $order->guest_id ?></h3>
             <?php if (isset($order->first_name)) : ?><h3 class="heading-4">
                 Customer Name: <?= $order->first_name . " " . $order->last_name ?></h3><?php endif ?>
             <?php if (isset($order->table_id)) : ?><h3>Table: <?= $order->table_id ?></h3><?php endif ?>
