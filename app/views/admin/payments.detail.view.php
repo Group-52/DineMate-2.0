@@ -90,7 +90,8 @@
                             &nbsp;&nbsp;
                             <i class="fas fa-pencil-alt"></i>
                             <div id="net-total-input" class="row w-25 p-1 payment-input-value mr-0 justify-content-end">
-                                <input class="d-inline form-control p-0 m-0" style="width:70px; height:25px; font-size: small"
+                                <input class="d-inline form-control p-0 m-0"
+                                       style="width:70px; height:25px; font-size: small"
                                        type="number" min="0" oninput="validity.valid||(value='');" step="0.1"
                                        value="<?= $net_total ?>">
                                 <i class="fas fa-circle-xmark" style="font-size: smaller"></i>
@@ -103,7 +104,8 @@
                         <div class="row">
                             <div class="w-50 p-1 payment-input-label">Cash:</div>
                             <div class="w-25 p-1 payment-input-value text-right">
-                                <input style="display:inline-block; width:80px; font-size: small" class="p-1 text-right form-control" id="cash" type="number" required> LKR
+                                <input style="display:inline-block; width:80px; font-size: small"
+                                       class="p-1 text-right form-control" id="cash" type="number" required> LKR
                             </div>
                         </div>
                         <div class="row">
@@ -196,6 +198,10 @@
     if (collectedbutton) {
         collectedbutton.addEventListener('click', function (e) {
                 e.preventDefault();
+                if ('<?=$order->status?>' != 'completed') {
+                    new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Order is not yet completed", false, 3000);
+                    return;
+                }
                 let data = {
                     order_id: <?=$order->order_id ?>,
                     collected: 1
@@ -243,6 +249,10 @@
         });
         paidbutton.addEventListener('click', function (e) {
             e.preventDefault();
+            if ('<?=$order->status?>' == 'pending') {
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Order is not yet accepted", false, 3000);
+                return;
+            }
             if ((cash.value == "") || (cash.value < parseFloat(nettotal.innerHTML))) {
                 new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Insufficient Cash", false, 3000);
                 return;
