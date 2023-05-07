@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" type="text" name="contact_no" id="contact_no" required>
+                <input class="form-control" type="number" name="contact_no" id="contact_no" required>
             </div>
             <div class="form-group">
                 <label class="label" for="email">Email</label>

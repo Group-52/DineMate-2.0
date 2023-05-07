@@ -252,11 +252,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 addbutton.style.display = 'inline-block';
                 editbutton.style.display = 'inline-block';
             } else if (checkDish(event)) {
-                let row = event.target.parentNode.parentNode;
-                displayError("Quantity must be greater than 0", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Quantity must be greater than zero", false, 3000);
             } else if (checkQuantity(event)) {
-                let row = event.target.parentNode.parentNode;
-                displayError("Dish already added", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Dish is already added", false, 3000);
+            }else{
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Dish is already added", false, 3000);
             }
         } else if (event.target.classList.contains('trash-icon')) {
             removeRow(event);
