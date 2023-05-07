@@ -15,7 +15,7 @@
 <div class="dashboard-container">
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
-        <div  id="blur-container">
+        <div id="blur-container">
             <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
                 <h1 class="display-5 mb-2">Payments</h1>
                 <div class="dashboard-buttons" style="width:400px;">
@@ -65,7 +65,7 @@
                                 </td>
 
                                 <td>
-                                    <?= date('M jS g:i A',strtotime($order->time_placed)) ?>
+                                    <?= date('M jS g:i A', strtotime($order->time_placed)) ?>
 
                                 </td>
 
@@ -80,29 +80,23 @@
                                     ?>
 
                                 </td>
-                                <td><?php if ($order->status == "completed") echo "Completed";
-                                    else if ($order->status == "rejected") echo "Rejected";
-                                    else if ($order->status == "pending") echo "Pending";
+                                <td><?php
+                                    if ($order->scheduled_time != null)
+                                        echo "Scheduled for " . date('g:i A', strtotime($order->scheduled_time));
+                                    else if ($order->status == "completed")
+                                        echo "Completed";
+                                    else if ($order->status == "rejected")
+                                        echo "Rejected";
+                                    else if ($order->status == "pending")
+                                        echo "Pending";
                                     else {
-                                        //x is in minutes $x=20
-                                        $x = (new models\Order())->getEstimate($order->order_id);
-                                        //time when order is placed $time = 2023-04-20 15:00:42
-                                        $time = $order->time_placed;
-                                        //time when order is completed
-                                        $time2 = date('Y-m-d H:i:s', strtotime('+' . $x . ' minutes', strtotime($time)));
-                                        if (isset($order->scheduled_time)) $time2 = $order->scheduled_time;
-                                        //time now
-                                        $time3 = date('Y-m-d H:i:s');
-                                        //time remaining
-                                        $time4 = strtotime($time2) - strtotime($time3);
-                                        //time remaining in minutes
-                                        $time5 = round($time4 / 60);
-                                        if ($time5 > 0) echo $time5 . " minutes";
-                                        else if ($time5 < 0) echo "5 minutes";
-                                    } ?>
+                                        $x = (new models\Order())->getTimeRemaining($order->order_id);
+                                        echo $x . " minutes";
+                                    }
+                                    ?>
 
                                 </td>
-                                <td> <?=(new models\Order())->calculateFullTotal($order->order_id) ?></td>
+                                <td> <?= (new models\Order())->calculateFullTotal($order->order_id) ?></td>
                                 <td><a class='edit-icon-link text-danger'
                                        href='<?= ROOT ?>/admin/payments/id/<?= $order->order_id ?>'><i
                                             class='fa fa-credit-card'></i></a></td>
@@ -147,7 +141,7 @@
                                 </td>
 
                                 <td>
-                                    <?= date('M jS g:i A',strtotime($order->time_placed)) ?>
+                                    <?= date('M jS g:i A', strtotime($order->time_placed)) ?>
                                 </td>
 
                                 <td>
@@ -161,7 +155,10 @@
                                     ?>
 
                                 </td>
-                                <td><?php if ($order->status == "completed")
+                                <td><?php
+                                    if ($order->scheduled_time != null)
+                                        echo "Scheduled for " . date('g:i A', strtotime($order->scheduled_time));
+                                    else if ($order->status == "completed")
                                         echo "Completed";
                                     else if ($order->status == "rejected")
                                         echo "Rejected";

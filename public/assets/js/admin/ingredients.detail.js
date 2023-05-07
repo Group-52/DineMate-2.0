@@ -246,7 +246,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } else if (event.target.classList.contains("fa-circle-xmark")) {
             stopAddingRow(event);
+        }
+    });
 
+    //add event listener to select elements using event delegation
+    document.querySelector("table").addEventListener("change", (event) => {
+        if (event.target.classList.contains("ingredient-select")) {
+            validateItemUnit(event.target.parentNode.parentNode);
+        }else if (event.target.classList.contains("unit-select")) {
+            validateItemUnit(event.target.parentNode.parentNode);
         }
     });
 
@@ -315,6 +323,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    //given a tr check if unit matches the ingredient
+    function validateItemUnit(row) {
+        let ingselect = row.querySelectorAll('select')[0];
+        let unitselect = row.querySelectorAll('select')[1];
+        let ingredient = ingselect.value;
+        let unit = unitselect.value;
+        checkUnit(ingredient, unit);
+    }
+
     // Functions to send request to API
     function updateIngredient(dish, ingredient, quantity, unit) {
         let data = {
@@ -332,14 +349,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.status=='success') {
+                if (data.status == 'success') {
                     new Toast("fa-solid fa-check", "#28a745", "Updated", "Ingredients have been updated", false, 3000);
-                    console.log("success");
                 }
             })
             .catch((error) => {
                 new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredients have not been updated", false, 3000);
-                console.error("Error:", error);
             });
 
     }
@@ -360,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                if (data.status=='success') {
+                if (data.status == 'success') {
                     new Toast("fa-solid fa-check", "#28a745", "Deleted", "Ingredient has been deleted", false, 3000);
                     console.log("success");
                 }
@@ -388,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                if (data.status=='success') {
+                if (data.status == 'success') {
                     new Toast("fa-solid fa-check", "#28a745", "Added", "Ingredient has been added", false, 3000);
                     console.log("success");
                 }
@@ -396,6 +411,30 @@ document.addEventListener("DOMContentLoaded", () => {
             .catch((error) => {
                 new Toast("fa-solid fa-times", "#dc3545", "Error", "Ingredient has not been added", false, 3000);
                 console.error("Error:", error);
+            });
+    }
+
+    //function to check whether the unit matches the ingredient
+    function checkUnit(ingredient=0, unit=0) {
+        let data = {
+            item_id: ingredient,
+            unit_id: unit
+        }
+        fetch(`${ROOT}/api/Units/match`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (!data.match) {
+                    new Toast("fa-solid fa-exclamation-triangle", "#ffc107", "Incompatible Units", "Proceeding may result in inaccurate conversions", false, 3000);
+                }
+            })
+            .catch((error) => {
+                new Toast("fa-solid fa-times", "rgba(255,0,0,0.78)", "Error", "Something went wrong", false, 3000);
             });
     }
 });
