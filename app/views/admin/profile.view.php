@@ -121,4 +121,39 @@
     ['profile', 'password'].forEach(function (id) {
         document.getElementById(id).style.display = 'none';
     });
+
+
+    const submitButton = document.querySelector('#profile-submit-button');
+
+    function validateEmail(email) {
+        if (email == "") {
+            return true;
+        }
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    //validate email
+    const email = document.querySelector('input[name="email"]');
+    email.addEventListener('change', () => {
+        if (!validateEmail(email.value)) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email is not valid", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+
+    const contact_no = document.querySelector('input[name="contact_no"]');
+    contact_no.addEventListener('change', () => {
+        if (contact_no.value == "") {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no is required", false, 3000);
+        } else if (contact_no.value.length != 10) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no must be 10 digits", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
 </script>

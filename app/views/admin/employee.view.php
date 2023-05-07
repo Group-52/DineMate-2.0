@@ -102,7 +102,7 @@
                 </div>
                 <div class="form-group">
                     <label class="label" for="contact_no">Contact No</label>
-                    <input class="form-control" type="text" name="contact_no" id="contact_no" required>
+                    <input class="form-control" type="number" name="contact_no" id="contact_no" required>
                 </div>
                 <div class="form-group">
                     <label class="label" for="email">Email</label>
@@ -173,6 +173,40 @@
         }else{
             //enable submit button
             document.getElementById("submit-button").disabled = false;
+        }
+    });
+
+    const submitButton = document.querySelector('#submit-button');
+
+    function validateEmail(email) {
+        if (email == "") {
+            return true;
+        }
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    //validate email
+    const email = document.querySelector('input[name="email"]');
+    email.addEventListener('change', () => {
+        if (!validateEmail(email.value)) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email is not valid", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+
+    const contact_no = document.querySelector('input[name="contact_no"]');
+    contact_no.addEventListener('change', () => {
+        if (contact_no.value == "") {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no is required", false, 3000);
+        } else if (contact_no.value.length != 10) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no must be 10 digits", false, 3000);
+        } else {
+            submitButton.disabled = false;
         }
     });
 </script>
