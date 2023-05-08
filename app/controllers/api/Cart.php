@@ -40,19 +40,28 @@ class Cart
                     $post = json_decode(file_get_contents('php://input'));
                     $item_id = $post->id;
                     $cart = new \models\Cart();
-                    if ((new Dish)->safeToAdd($item_id))
-                    {
-                        $cart->addToCart(userId(), $item_id, 1, isGuest());
-                        $this->json([
-                            'status' => 'success',
-                            'message' => 'Items added to cart',
-                            'cart_count' => $cart->getNoOfItems(userId(), isGuest())
-                        ]);
-                    } else {
+                    $maxGuest = (new \models\GeneralDetails())->getDetails()->max_guest_bill;
+                    $increase = $cart->calculateSubTotal(userid(), true) + (new Dish)->getDishById($item_id)->selling_price;
+                    if (isGuest() && $increase>= $maxGuest) {
                         $this->json([
                             'status' => 'error',
-                            'message' => 'Item is not available'
+                            'message' => 'You have reached the maximum bill amount as guest'
                         ]);
+                    } else {
+                        if ((new Dish)->safeToAdd($item_id))
+                        {
+                            $cart->addToCart(userId(), $item_id, 1, isGuest());
+                            $this->json([
+                                'status' => 'success',
+                                'message' => 'Items added to cart',
+                                'cart_count' => $cart->getNoOfItems(userId(), isGuest())
+                            ]);
+                        } else {
+                            $this->json([
+                                'status' => 'error',
+                                'message' => 'Item is not available'
+                            ]);
+                        }
                     }
                 } catch (\Exception $e) {
                     $this->json([
@@ -117,12 +126,22 @@ class Cart
                     $item_id = $post->id;
                     $item_qty = $post->qty;
                     $cart = new \models\Cart();
-                    $cart->editCartItemQty(userId(), $item_id, $item_qty, isGuest());
-                    $this->json([
-                        'status' => 'success',
-                        'message' => 'Items edited from cart',
-                        'cart_count' => $cart->getNoOfItems(userId(), isGuest())
-                    ]);
+                    $maxGuest = (new \models\GeneralDetails())->getDetails()->max_guest_bill;
+                    $diff = $item_qty - $cart->getQty(userId(), $item_id, isGuest());
+                    if (isGuest() && ($cart->calculateSubTotal(userid(), true) + (new Dish)->getDishById($item_id)->selling_price * $diff ) >= $maxGuest) {
+                        $this->json([
+                            'status' => 'error',
+                            'message' => 'You have reached the maximum bill amount as guest'
+                        ]);
+                    }
+                    else {
+                        $cart->editCartItemQty(userId(), $item_id, $item_qty, isGuest());
+                        $this->json([
+                            'status' => 'success',
+                            'message' => 'Items edited from cart',
+                            'cart_count' => $cart->getNoOfItems(userId(), isGuest())
+                        ]);
+                    }
                 } catch (\Exception $e) {
                     $this->json([
                         'status' => 'error',

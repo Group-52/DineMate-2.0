@@ -24,7 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
       total += item["selling_price"] * item["quantity"];
     })
     if (promo && promo["promotion_type"] === "Buy 1 Get 1 Free") {
-      discount += Math.min(dish1Count, dish2Count) * promo["promotion"]["discount"];
+      if (promo["promotion"]["dish1_id"] === promo["promotion"]["dish2_id"]) {
+        discount += Math.floor((dish1Count + dish2Count) / 2) * promo["discount"];
+      } else {
+        discount += Math.min(dish1Count, dish2Count) * promo["discount"];
+      }
     }
     if (promo && promo["promotion_type"] === "Spending Bonus") {
       if (total >= promo["promotion"]["spent_amount"]) {
@@ -49,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.status === "success") {
           getCart();
           new Toast("fa-solid fa-check-circle", "green", "Success", "Item removed from cart", false, 3000);
+          updatePromotionBar();
         } else {
           new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Item could not be removed from cart", false, 3000);
         }
@@ -73,7 +78,10 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === "success") {
+          updatePromotionBar();
           getCart();
+        } else {
+          new Toast("fa-solid fa-exclamation-circle", "red", "Error", data.message ?? "Could not update dish quantity", false, 3000);
         }
       })
       .catch((error) => console.log(error));
