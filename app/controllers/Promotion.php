@@ -22,11 +22,15 @@ class Promotion
         $data['title'] = 'Promotion';
         $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
+        // Gets all active promotions
         $promotion = new \models\Promotion();
         $promotion_items = $promotion->getAllPromotions(true);
+
+        // Gets details of each active promotion
         foreach ($promotion_items as $promotion_item) {
             $data['promotion_items'][] = new MenuCard($promotion->generateCardObject($promotion_item), true);
         }
+
         $this->view('promotions', $data);
     }
 

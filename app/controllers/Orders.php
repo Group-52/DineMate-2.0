@@ -4,6 +4,7 @@ namespace controllers;
 
 use components\Pagination;
 use Core\Controller;
+use JetBrains\PhpStorm\NoReturn;
 use models\GeneralDetails;
 use models\Order;
 use models\OrderDishes;
@@ -13,7 +14,7 @@ class Orders
 {
     use Controller;
 
-    public function index(): void
+    #[NoReturn] public function index(): void
     {
         redirect("orders/active");
     }
@@ -79,7 +80,7 @@ class Orders
      * @param Promotion $promo
      * @return void
      */
-    public function extracted($orders, Order $order, Promotion $promo): void
+    private function extracted($orders, Order $order, Promotion $promo): void
     {
         for ($i = 0; $i < count($orders); $i++) {
             $orders[$i]->time_remaining = $order->getTimeRemaining($orders[$i]->order_id);
