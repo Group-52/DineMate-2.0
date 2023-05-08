@@ -29,6 +29,7 @@ class Dishes
             $preptime = $_POST['preptime'];
             $netprice = $_POST['netprice'];
             $sellprice = $_POST['sellprice'];
+            $veg = isset($_POST['veg']) ? 1 : 0;
             $description = $_POST['description'];
             $file = $_FILES["fileToUpload"];
 
@@ -55,6 +56,7 @@ class Dishes
                 'description' => $description,
                 'prep_time' => $preptime,
                 'image_url' => $target_file ?? null,
+                'veg' => $veg,
             ];
             // remove empty and null values
             $data = array_filter($data, function ($value) {
@@ -76,22 +78,9 @@ class Dishes
             $netprice = $_POST['netprice'];
             $sellprice = $_POST['sellprice'];
             $description = $_POST['description'];
+            $veg = isset($_POST['veg']) ? 1 : 0;
             $id = $_POST['id'];
-//            $file = $_FILES["fileToUpload"];
-//            // Check if image field is empty
-//            if ($file['size'] != 0) {
-//                $target_dir = '../public/assets/images/dishes/';
-//
-//                if (isImage($file) && isValidSize($file, 5000000) && isImageType($file)) {
-//
-//                    // 	// Set path to store the uploaded image
-//                    $target_file = getFileName($name, $file);
-//
-//                    if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_dir . $target_file)) {
-//                        echo "Sorry, there was an error uploading your file.";
-//                    }
-//                }
-//            }
+
             $d = new Dish;
             $data = [
                 'dish_id'=>$id,
@@ -100,6 +89,7 @@ class Dishes
                 'selling_price' => $sellprice,
                 'description' => $description,
                 'prep_time' => $preptime,
+                'veg' => $veg,
 //                'image_url' => $target_file ?? null,
             ];
 

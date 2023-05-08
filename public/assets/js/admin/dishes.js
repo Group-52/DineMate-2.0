@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let prep_time = parseFloat(card.getAttribute('data-prep-time'));
             let net_price = parseFloat(card.getAttribute('data-net-price'));
             let selling_price = parseFloat(card.getAttribute('data-selling-price'));
+            let veg = card.getAttribute('data-veg');
             let image_url = card.getAttribute('data-image-url');
 
             formdiv.style.display = 'block';
@@ -125,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.querySelector('input[name="preptime"]').value = prep_time;
             form.querySelector('input[name="netprice"]').value = net_price;
             form.querySelector('input[name="sellprice"]').value = selling_price;
+            if (veg=='1') form.querySelector('input[name="veg"]').checked = true;
 
             //hide the image field
             form.querySelector('input[name="fileToUpload"]').style.display = 'none';

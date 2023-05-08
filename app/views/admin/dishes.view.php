@@ -36,9 +36,9 @@
         <div class="card-deck grid-xl-5 grid-lg-3 grid-md-2 grid-1 grid-gap-2">
             <?php if (isset($dish_list) && count($dish_list) > 0) : ?>
                 <?php foreach ($dish_list as $d) : ?>
-                    <div class="card p-2" data-dish-id="<?= $d->dish_id ?>" data-name="<?= $d->dish_name ?>" data-description="<?= $d->description ?>" data-prep-time="<?= $d->prep_time ?>" data-net-price="<?= $d->net_price ?>" data-selling-price="<?= $d->selling_price ?>" data-image-url="<?= $d->image_url ?>">
+                    <div class="card p-2" data-dish-id="<?= $d->dish_id ?>" data-name="<?= $d->dish_name ?>" data-description="<?= $d->description ?>" data-prep-time="<?= $d->prep_time ?>" data-net-price="<?= $d->net_price ?>" data-selling-price="<?= $d->selling_price ?>" data-image-url="<?= $d->image_url ?>" data-veg="<?=$d->veg?>">
                         <div class="card-header p-1 mb-2">
-                            <?= $d->dish_name ?>
+                            <?= $d->dish_name ?> &nbsp; <?php if ($d->veg==1): ?><i style="color: green;" class="fa-solid fa-leaf"></i> <?php endif; ?>
                         </div>
                         <div class="card-image pb-2">
                             <img src="<?= ASSETS ?>/images/dishes/<?= $d->image_url ?>" alt="dish image">
@@ -94,6 +94,10 @@
                 <div class="form-group">
                     <label for="description">Description</label>
                     <input type="text" name="description" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="veg">Vegetarian</label>
+                    <input type="checkbox" name="veg" class="form-control d-inline w-75 mr-2">
                 </div>
                 <div class="form-group">
                     <label for="fileToUpload">Upload Image</label>

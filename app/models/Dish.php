@@ -21,6 +21,7 @@ class Dish extends Model
             "description",
             "prep_time",
             "image_url",
+            "veg",
             "deleted"
         ];
     }
@@ -57,7 +58,8 @@ class Dish extends Model
             'selling_price' => $data['selling_price'],
             'description' => $data['description'],
             'prep_time' => $data['prep_time'],
-            'image_url' => $data['image_url']
+            'image_url' => $data['image_url'],
+            'veg' => $data['veg']
         ]);
     }
 
@@ -113,6 +115,7 @@ class Dish extends Model
             'selling_price' => $data['selling_price'],
             'description' => $data['description'],
             'prep_time' => $data['prep_time'],
+            'veg' => $data['veg']
 //            'image_url' => $data['image_url']
         ])->where('dish_id', $data['dish_id'])->execute();
     }
