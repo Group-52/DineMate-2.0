@@ -14,9 +14,9 @@ class Dish
         $dish = (new \models\Dish())->getDishById($item_id);
         if ($dish) {
             $data["cartQty"] = 0;
-            if (isset($_SESSION['user'])) {
+            if (isLoggedIn()) {
                 $cart = new \models\Cart();
-                $data["cartQty"] = $cart->getQty($_SESSION['user']->user_id, $item_id);
+                $data["cartQty"] = $cart->getQty(userId(), $item_id, isGuest());
             }
             $data["dish"] = $dish;
             $data["title"] = $dish->dish_name;
