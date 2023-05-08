@@ -26,8 +26,21 @@ use models\Cart;
             <div id="home-search-modal" class="search-modal order-md-1 order-0">
                 <i class="fa-solid fa-x modal-close" id="home-modal-close"></i>
                 <div class="search-modal-container container">
-                    <div class="search-modal-filter">
-
+                    <div class="search-modal-filter d-flex" id="search-modal-filter">
+                        <div class="form-group">
+                            <label for="price-range" class="label text-uppercase fw-bold">Max Price</label>
+                            <input type="range" class="form-control" min="1" max="1000" id="price-range">
+                            <span class="range-min"></span>
+                            <span class="range-max"></span>
+                        </div>
+                        <div class="form-group ml-5">
+                            <label for="preference" class="label text-uppercase fw-bold">Preference</label>
+                            <select id="preference" class="form-control">
+                                <option value="2">All</option>
+                                <option value="1">Veg</option>
+                                <option value="0">Non-Veg</option>
+                            </select>
+                        </div>
                     </div>
                     <div id="home-search-results" class="grid-lg-4 grid-md-2 grid-1 grid-gap-2"></div>
                 </div>
