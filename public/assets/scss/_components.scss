@@ -283,7 +283,7 @@ $nav-height: 4rem;
   height: 18rem;
   display: flex;
   flex-direction: column;
-  transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s ease-in-out, transform 0.3s ease-in-out;
   border: 1px solid $border;
 
   @media (max-width: 990px) {
@@ -331,6 +331,7 @@ $nav-height: 4rem;
     border: none;
     border-radius: 50%;
     opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 
     i {
       position: absolute;
@@ -403,10 +404,20 @@ $nav-height: 4rem;
   }
 
   &:hover {
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
 
     .add-to-cart {
       opacity: 1;
+    }
+    .card-body {
+      height: auto;
+      min-height: 4rem;
+      .card-content {
+        .card-title, .card-description {
+          white-space: normal;
+        }
+      }
     }
   }
 }

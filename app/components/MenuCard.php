@@ -58,10 +58,14 @@ class MenuCard
     public function html(): string
     {
         $inCart = $this->inCart();
-        $html = "<div class='menu-item-card rounded-sm'>";
+        $html = "<div class='menu-item-card " . ((!$this->isPromo) ? "menu-dish" : ""). " rounded-sm'>";
 
         // Wrap card in link
-        $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+        if ($this->isPromo) {
+            $html .= "<a href='" . ROOT . "/promotion/id/{$this->id}' class='card-link'>";
+        } else {
+            $html .= "<a href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+        }
 
         // Dish image
         $html .= "<div class='card-img-wrapper'>";
@@ -80,7 +84,11 @@ class MenuCard
         }
 
         // Card link
-        $html .= "<a class='card-body-wrapper' href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+        if ($this->isPromo) {
+            $html .= "<a class='card-body-wrapper' href='" . ROOT . "/promotion/id/{$this->id}' class='card-link'>";
+        } else {
+            $html .= "<a class='card-body-wrapper' href='" . ROOT . "/dish/id/{$this->id}' class='card-link'>";
+        }
 
         // Card body
         $html .= "<div class='card-body'><div class='card-content'>";

@@ -4,6 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const orderTimeInput = document.getElementById("order-time");
   const tableNumberInput = document.getElementById("table-number");
 
+  let total = parseFloat(document.getElementById("total").innerHTML);
+  const serviceChargeElement = document.getElementById("service-charge");
+  const totalElement = document.getElementById("total");
+
   if (scheduleCheckbox !== null)
   {
     scheduleCheckbox.onchange = () =>
@@ -12,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   orderTypeSelect.onchange = () => {
     if (orderTypeSelect.value !== "dine-in") {
+      serviceChargeElement.innerHTML = "0";
+      totalElement.innerHTML = total.toFixed();
       if (scheduleCheckbox !== null)
       {
         scheduleCheckbox.disabled = false;
@@ -19,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       tableNumberInput.disabled = true;
     } else {
+      const serviceCharge = total * 0.05;
+      serviceChargeElement.innerHTML = serviceCharge.toFixed();
+      totalElement.innerHTML = (total + serviceCharge).toFixed();
       if (scheduleCheckbox !== null)
       {
         scheduleCheckbox.disabled = true;

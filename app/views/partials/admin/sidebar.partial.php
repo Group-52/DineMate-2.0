@@ -46,7 +46,7 @@
             "controller" => "promotions",
             "link" => "/promotions",
             "solid-icon" => "gift",
-            "text" => "Promotions"
+            "text" => "Promotion"
         ],
         [
             "controller" => "vendors",

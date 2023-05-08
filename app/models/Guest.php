@@ -18,7 +18,8 @@ class Guest extends Model
             "last_name",
             "contact_no",
             "email",
-            "date_created"
+            "date_created",
+            "promo_id"
         ];
     }
 
@@ -100,5 +101,15 @@ class Guest extends Model
         ];
         array_filter($data);
         $this->update($data)->where('guest_id', $guest_id)->execute();
+    }
+
+    public function getPromoId($guest_id): int
+    {
+        return $this->select()->where('guest_id', $guest_id)->fetch()->promo_id ?? 1;
+    }
+
+    public function setPromoId($guest_id, $promo_id): void
+    {
+        $this->update(['promo_id' => $promo_id])->where('guest_id', $guest_id)->execute();
     }
 }

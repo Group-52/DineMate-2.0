@@ -1,7 +1,7 @@
 <?php
 
 namespace models;
-// Sub Promotions class for the discounts promotion
+// Sub Promotion class for the discounts promotion
 
 use core\Model;
 

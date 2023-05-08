@@ -100,7 +100,7 @@ function isImage(array $file): bool
  */
 function isRegistered(): bool
 {
-    return isset($_SESSION['user']) && $_SESSION['user']->registered;
+    return isset($_SESSION['user']->registered) && $_SESSION['user']->registered;
 }
 
 /**
@@ -108,7 +108,7 @@ function isRegistered(): bool
  */
 function isGuest(): bool
 {
-    return isset($_SESSION['user']) && !$_SESSION['user']->registered;
+    return isset($_SESSION['user']->registered) && !$_SESSION['user']->registered;
 }
 
 /**

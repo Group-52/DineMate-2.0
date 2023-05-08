@@ -30,7 +30,7 @@ class Promotions
     public function delete(): void
     {
         $p = new Promotion();
-        $p->deletepromo($_GET['promoid']);
+        $p->deletePromo($_GET['promoid']);
         redirect('admin/promotions');
     }
 
@@ -55,7 +55,7 @@ class Promotions
                 }
             }
             $p = new Promotion();
-            $p->addpromotion($_POST);
+            $p->addPromotion($_POST);
             redirect('admin/promotions');
         } else {
             redirect('admin/promotions');
@@ -65,7 +65,7 @@ class Promotions
     public function edit(): void{
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $p = new Promotion();
-            $p->editpromo($_POST);
+            $p->editPromo($_POST);
         }
         redirect('admin/promotions');
     }
