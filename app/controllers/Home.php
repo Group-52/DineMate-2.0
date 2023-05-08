@@ -21,7 +21,7 @@ class Home
             $data['user'] = $_SESSION['user'] ?? null;
 
             $promotion = new Promotion();
-            $promotion_items = array_slice($promotion->getAllPromotions(), 0, 4);
+            $promotion_items = array_slice($promotion->getAllPromotions(true), 0, 4);
             foreach ($promotion_items as $promotion_item) {
                 $data['promotion_items'][] = new MenuCard($promotion->generateCardObject($promotion_item), true);
             }

@@ -145,45 +145,54 @@ class Promotion extends Model
         return $reduction;
     }
 
-    public function getAllPromotions(): array
+    public function getAllPromotions($onlyActive = false): array
     {
-        $a1 = $this->getDiscounts();
-        $a2 = $this->getSpendingBonus();
-        $a3 = $this->getFreeDish();
+        $a1 = $this->getDiscounts($onlyActive);
+        $a2 = $this->getSpendingBonus($onlyActive);
+        $a3 = $this->getFreeDish($onlyActive);
         return array_merge($a1, $a2, $a3);
     }
 
-    public function getDiscounts(): array|bool
+    public function getDiscounts($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->
+        $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->
         join('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         join('dishes', 'promo_discounts.dish_id', 'dishes.dish_id')->
         where('promotions.type', 'discounts')->
         and('promotions.deleted', 0)->
-        and('dishes.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('dishes.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getSpendingBonus(): array|bool
+    public function getSpendingBonus($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_spending_bonus.*"])->
+        $this->select(["promotions.*", "promo_spending_bonus.*"])->
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         where('promotions.type', 'spending_bonus')->
-        and('promotions.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('promotions.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getFreeDish(): array|bool
+    public function getFreeDish($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_buy1get1free.*", "dishes1.dish_name as dish1_name", "dishes2.dish_name as dish2_name"])->
+        $this->select(["promotions.*", "promo_buy1get1free.*", "dishes1.dish_name as dish1_name", "dishes2.dish_name as dish2_name"])->
         join('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
         join('dishes as dishes1', 'promo_buy1get1free.dish1_id', 'dishes1.dish_id')->
         join('dishes as dishes2', 'promo_buy1get1free.dish2_id', 'dishes2.dish_id')->
         where('promotions.type', 'free_dish')->
         and('promotions.deleted', 0)->
         and('dishes1.deleted', 0)->
-        and('dishes2.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('dishes2.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
 

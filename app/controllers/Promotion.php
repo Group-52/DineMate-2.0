@@ -21,7 +21,7 @@ class Promotion
         $data['title'] = 'Promotion';
 
         $promotion = new \models\Promotion();
-        $promotion_items = $promotion->getAllPromotions();
+        $promotion_items = $promotion->getAllPromotions(true);
         foreach ($promotion_items as $promotion_item) {
             $data['promotion_items'][] = new MenuCard($promotion->generateCardObject($promotion_item), true);
         }
