@@ -5,6 +5,7 @@ namespace controllers\admin;
 use core\Controller;
 use models\Dish;
 use models\Item;
+use utils\RouteAuth;
 
 class Home
 {
@@ -12,6 +13,11 @@ class Home
 
     public function stats(): void
     {
+        if ($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5') {
+            redirect('admin/_401');
+        }
+
+        if ($_SESSION)
         $d = new Dish();
         $dishes = $d->getDishes();
 
@@ -28,6 +34,9 @@ class Home
     }
 
     public function reports():void{
+        if ($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5') {
+            redirect('admin/_401');
+        }
         $this->view('admin/reports');
     }
 

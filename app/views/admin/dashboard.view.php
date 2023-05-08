@@ -6,7 +6,6 @@
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/dashboard.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
     <script src="<?= ASSETS ?>/js/admin/dashboard.js"></script>
 
 </head>

@@ -3,7 +3,6 @@
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
     <script src="<?= ASSETS ?>/js/admin/reports.js"></script>
 </head>
 <body class="dashboard">

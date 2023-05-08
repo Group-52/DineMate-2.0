@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/order.detail.css">
     <script src="<?= ASSETS ?>/js/admin/order.detail.js"></script>
-    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
     <title>Orders</title>
 </head>
 
@@ -23,13 +22,12 @@
                 <button class="btn btn-secondary ml-3" value="rejected" id="reject-button">Reject</button>
                 <button class="btn btn-success mr-3" value="accepted" id="accept-button">Accept</button>
                 <button class="btn text-success" value="completed" id="complete-button">Complete</button>
-                <?php if($_SESSION['user']->role == '2' || $_SESSION['user']->role == '5') : ?>
-                <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">+ <i
+                <?php if($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5') $disp = 'd-none'; else $disp = ''; ?>
+                <a class="btn btn-primary text-uppercase fw-bold <?=$disp?>" href="#" id="add-button">+ <i
                         class="fa-solid fa-bowl-rice d-inline"></i></a>
-                <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
-                <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
-                <a class="btn btn-primary text-uppercase fw-bold" href="#" id="delete-button">Delete</a>
-                <?php endif; ?>
+                <a class="btn btn-primary text-uppercase fw-bold <?=$disp?>" href="#" id="finish-button">Finish Editing</a>
+                <a class="btn btn-primary text-uppercase fw-bold <?=$disp?>" href="#" id="edit-button">Edit</a>
+                <a class="btn btn-primary text-uppercase fw-bold <?=$disp?>" href="#" id="delete-button">Delete</a>
             </div>
         </div>
         <div class="blur-container d-flex flex-column">

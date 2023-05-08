@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("sidebar");
   const sidebarToggle = document.getElementById("sidebar-toggle");
   const opened = localStorage.getItem("opened") === "true" ?? true;
-  if (opened) {
+  if (sidebar && opened) {
     sidebar.classList.add("opened");
   }
   if (sidebar && sidebarToggle) {

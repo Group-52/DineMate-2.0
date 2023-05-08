@@ -17,9 +17,6 @@
             <div class="banner-bg-gradient"></div>
             <h1 class="banner-text display-3">Hi <?= $_SESSION["user"]->first_name ?>!</h1>
         </div>
-        <!--        --><?php
-        //        show($_SESSION['user']);
-        //        ?>
         <h3></h3>
         <div id="parent-profile" class="p-4">
             <h3 class="d-inline">Personal Information</h3> <i class="fas mr-2 pointer fa-chevron-down"></i><br>
@@ -102,6 +99,7 @@
             profilediv.style.display = 'none';
         }
     });
+    profilechevron.click();
 
     let passwordchevron = document.querySelector('#password-profile i');
     let passworddiv = document.getElementById('password');

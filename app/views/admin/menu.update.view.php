@@ -6,39 +6,6 @@
     <title>Update Menu</title>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <script src="<?=ASSETS?>/js/admin/common.js"></script>
-    <style>
-        .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            transition: 0.3s;
-            width: 200px;
-            height: 150px;
-            margin: 10px;
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-        }
-
-        .container {
-            padding: 2px 16px;
-        }
-
-        .card img {
-            object-fit: cover;
-            width: 100%;
-            height: 200px;
-            border-radius: 10px;
-        }
-
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: left;
-            max-width: 1200px;
-        }
-    </style>
-
 </head>
 
 <body class="dashboard">
@@ -129,7 +96,8 @@
     addDishButton.addEventListener('click', (e) => {
         if (dishIdsArray.includes(selectedDish.value)) {
             e.preventDefault();
-            displayError('Dish already added to the menu',addDishButton.getBoundingClientRect().top);
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Dish already added to the menu", false, 3000);
+
         }
     });
 </script>

@@ -5,7 +5,7 @@ namespace controllers\admin;
 use components\Form;
 use core\Controller;
 use Exception;
-use models\AdminUser;
+use models\Employee;
 
 /**
  * Login Controller
@@ -34,7 +34,7 @@ class Auth
         $data["form"] = $loginForm;
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $user = new AdminUser();
+            $user = new Employee();
             if ($loginForm->isValid($_POST)) {
 
                 try {

@@ -22,7 +22,7 @@
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
             <h1 class="display-5 mb-2">Dishes</h1>
             <div id="search" class="form-search order-md-0 order-1 w-50">
-                <input type="text" class="form-control" placeholder="Search inventory" id="search-field">
+                <input type="text" class="form-control" placeholder="Search dishes" id="search-field">
                 <button class="form-search-icon">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>

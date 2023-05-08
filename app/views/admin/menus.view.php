@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ROOT ?>/assets/js/admin/menus.js"></script>
-    <script src="<?= ROOT ?>/assets/js/admin/common.js"></script>
 </head>
 
 <body class="dashboard">

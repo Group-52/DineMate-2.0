@@ -95,30 +95,6 @@
             </div>
         </div>
 
-        <!--        <div id="parent-appearance" class="p-4">-->
-        <!--            <h3 class="d-inline">Appearance</h3> <i class="fas mr-2 pointer fa-chevron-down"></i>-->
-        <!--            <div id="appearance" class="w-75 p-4">-->
-        <!--                <form action="-->
-        <?php //= ROOT ?><!--/admin/settings/updateAppearance" method="POST" class="form" enctype="multipart/form-data">-->
-        <!--                    <div class="form-group">-->
-        <!--                        <label class="label" for="logo_url">Restaurant Logo</label>-->
-        <!--                        <input class="form-control" type="file" name="logo_url" id="logo_url">-->
-        <!--                    </div>-->
-        <!--                    <div class="form-group">-->
-        <!--                        <label class="label" for="favicon_url">Favicon</label>-->
-        <!--                        <input class="form-control" type="file" name="favicon_url" id="favicon_url">-->
-        <!--                    </div>-->
-        <!--                    <div class="form-group">-->
-        <!--                        <label class="label" for="background_image_url">Background Image</label>-->
-        <!--                        <input class="form-control" type="file" name="background_image_url" id="background_image_url">-->
-        <!--                    </div>-->
-        <!---->
-        <!--                    <button class="btn btn-success text-uppercase fw-bold" type="submit" id="appearance-submit-button">-->
-        <!--                        Save Details-->
-        <!--                </form>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
         <?php if (isset($error)): ?>
             <script>
                 new Toast("fa-solid fa-exclamation-triangle", "#dc3545", "Error", "<?=$error?>", false, 3000);
@@ -155,6 +131,7 @@
             generaldiv.style.display = 'none';
         }
     });
+    generalchevron.click();
 
     // let appearancechevron = document.querySelector('#parent-appearance i');
     // let appearancediv = document.getElementById('appearance');

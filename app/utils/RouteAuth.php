@@ -7,13 +7,13 @@ use models\RegUser;
 
 class RouteAuth
 {
-    protected static array $common_controllers = ["auth", "_404", "_401", "_403"];
+    protected static array $common_controllers = ["auth", "_404", "_401", "_403",'logout','profile'];
 
     protected static array $role_list = [1 => "Chef", 2 => "General Manager", 3 => "Cashier", 4 => "Inventory Manager", 5 => "Admin", 6 => "Customer"];
 
-    protected static array $allowed_controllers = [
+    public static array $allowed_controllers = [
         "not_api" => [
-            "Chef" => ["home","orders"],
+            "Chef" => ["home","orders","dishes","ingredients"],
             "Cashier" => ["home","payments"],
             "Inventory Manager" => ["home","dishes", "ingredients", "vendors", "inventory", "items", "purchases"],
             "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders", "promotion"]
@@ -28,6 +28,7 @@ class RouteAuth
 
     public static function checkAuth($controller, string $module = ""): bool
     {
+        if ($module=='api') return true;
         if (!$controller) return false;
         $controller = strtolower($controller);
 
@@ -51,6 +52,7 @@ class RouteAuth
         }
         //check if the controller is in the allowed controllers
         $module = ($module === "api") ? "api" : "not_api";
+
         $allowed_controllers_arr = self::$allowed_controllers[$module][$role] ?? null;
         if ($allowed_controllers_arr && in_array($controller, $allowed_controllers_arr)) {
             return true;
