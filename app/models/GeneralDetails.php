@@ -33,7 +33,7 @@ class GeneralDetails extends Model
     {
         return $this->select()->fetch();
     }
-    public function updateDetails($data)
+    public function updateDetails($data): void
     {
         $this->update($data)->execute();
     }
