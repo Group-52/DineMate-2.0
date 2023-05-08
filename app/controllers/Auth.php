@@ -5,6 +5,7 @@ namespace controllers;
 use components\Form;
 use core\Controller;
 use Exception;
+use models\GeneralDetails;
 use models\RegUser;
 use models\Cart;
 
@@ -27,11 +28,11 @@ class Auth
     public function login(): void
     {
         $data = [];
-
         $loginForm = new Form("", "POST", "Login");
         $loginForm->addInputField("email", "email", "email", "Email", true);
         $loginForm->addInputField("password", "password", "password", "Password", true);
         $data["form"] = $loginForm;
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();
@@ -102,6 +103,7 @@ class Auth
         $registerForm->addInputField("confirm_password", "confirm_password", "password", "Confirm Password", true);
         $data["form"] = $registerForm;
         $data["page_titles"] = ["Your Details", "How can we contact you?", "Create a password"];
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = new RegUser();

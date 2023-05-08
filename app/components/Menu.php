@@ -27,7 +27,7 @@ class Menu
         $this->end_time = $menu->end_time ?? null;
         $this->all_day = $menu->all_day;
 
-        $menuDishes = (new MenuDishes())->getMenuDishes($this->id, $n);
+        $menuDishes = (new MenuDishes())->getMenuDishes($this->id, $n, 0, true);
         foreach ($menuDishes as $menuDish) {
             $this->menu_items[] = new MenuCard($menuDish);
         }
@@ -83,5 +83,10 @@ class Menu
         $html .= "</div>";
 
         return $html;
+    }
+
+    public function count(): int
+    {
+        return count($this->menu_items);
     }
 }

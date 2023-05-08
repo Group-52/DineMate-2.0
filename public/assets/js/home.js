@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
             button.firstChild.className = "fa-solid fa-check";
             new Toast("fa-solid fa-check", "#59BB1E", "Success", "Added to cart successfully", false, 5000);
             updatePromotionBar();
+          } else {
+            new Toast("fa-solid fa-exclamation-circle", "#FF4D4D", "Error", data.message, false, 5000);
           }
         })
         .catch((error) => {
@@ -50,52 +52,71 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchResults = document.getElementById("home-search-results");
   const modalClose = document.getElementById("home-modal-close");
   const html = document.querySelector("html");
-  if (searchField) {
-    searchField.onkeyup = () => {
-      const query = searchField.value;
-      if (query.length > 0) {
-        searchContainer.classList.add("open");
-        html.style.overflow = "hidden";
-        fetch(`${ROOT}/api/dishes/search?name=${query}`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.status === "success") {
-              searchResults.innerHTML = "";
-              data.dishes.forEach((dish) => {
-                searchResults.innerHTML += `
-              <div class='menu-item-card rounded-sm'>
-              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
-              <div class='card-img-wrapper'>
-              <img src='${ASSETS}/images/dishes/${
-                  dish.image_url
-                }' class='card-img' alt='${dish.dish_name}'>
-              </div>
-              </a>
-              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-body-wrapper'>
-              <div class='card-body'>
-              <div class="card-content">
-              <h3 class='card-title'>${dish.dish_name}</h3>
-              </div>
-              <div class='card-prices'>
-              ${
-                dish.old_price != null
-                  ? `<span class="card-price-old">LKR ${dish.old_price}</span>`
-                  : ""
-              }
-              <div class='card-price-new'>LKR ${dish.selling_price}</div>
-              </div></div></a></div>
-              `;
-              });
-            }
-          })
-          .catch((error) => console.log(error));
-      } else {
-        searchContainer.classList.remove("open");
-        html.style.overflow = "";
-        searchResults.innerHTML = "";
+  const rangeMinEl = document.querySelector(".range-min");
+  const rangeMaxEl = document.querySelector(".range-max");
+  const priceRangeEl = document.getElementById("price-range");
+  const prefEl = document.getElementById("preference");
+  const searchModalFilter = document.getElementById("search-modal-filter");
+
+  fetch(`${ROOT}/api/dishes/minmax`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status === "success") {
+        rangeMinEl.innerHTML = "LKR " + data.min;
+        rangeMaxEl.innerHTML = "LKR " + data.max;
+        priceRangeEl.min = data.min;
+        priceRangeEl.max = data.max;
+        priceRangeEl.value = data.max;
       }
-    };
+    })
+
+  const updateSearch = () => {
+    const query = searchField.value;
+    const price = priceRangeEl.value;
+    const pref = prefEl.value;
+    searchContainer.classList.add("open");
+    searchModalFilter.style.opacity = 1;
+    html.style.overflow = "hidden";
+    fetch(`${ROOT}/api/dishes/search?name=${query}&price=${price}&pref=${pref}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          searchResults.innerHTML = "";
+          data.dishes.forEach((dish) => {
+            searchResults.innerHTML += `
+            <div class='menu-item-card rounded-sm'>
+            <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
+            <div class='card-img-wrapper'>
+            <img src='${ASSETS}/images/dishes/${
+              dish.image_url
+            }' class='card-img' alt='${dish.dish_name}'>
+            </div>
+            </a>
+            <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-body-wrapper'>
+            <div class='card-body'>
+            <div class="card-content">
+            <h3 class='card-title'>${dish.dish_name}</h3>
+            </div>
+            <div class='card-prices'>
+            <div class='card-price-new'>LKR ${dish.selling_price}</div>
+            </div></div></a></div>
+            `;
+          });
+        }
+      })
+      .catch((error) => console.log(error));
   }
+
+  if (searchField) {
+    searchField.onfocus = () => {
+      setTimeout(() => {
+        updateSearch();
+      }, 300);
+    }
+    searchField.onkeyup = updateSearch;
+  }
+  priceRangeEl.onchange = updateSearch;
+  prefEl.onchange = updateSearch;
 
   if (modalClose) {
     modalClose.onclick = () => {
@@ -103,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       html.style.overflow = "";
       searchResults.innerHTML = "";
       searchField.value = "";
+      searchModalFilter.style.opacity = 0;
     };
   }
 
@@ -151,31 +173,4 @@ document.addEventListener("DOMContentLoaded", () => {
       bannerImg.classList.add("banner-hidden");
     }
   });
-
-  // Promotions
-  const promotionBar = document.querySelector(".promotion-bar");
-  const promotionTitle = document.querySelector(".promotion-title");
-  const promotionPrice = document.querySelector(".promotion-price");
-  const progressBar = document.querySelector(".progress-bar");
-  const updatePromotionBar = () => {
-    fetch(`${ROOT}/api/promotions/spendingBonusDetails`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === "success") {
-          const promotion = data.promotion;
-          if (promotion) {
-            promotionBar.classList.remove("d-none");
-            promotionTitle.innerText = "Spending Bonus"
-            promotionPrice.innerText = "LKR " + data['sub_total'] + " / LKR " + data['spent_amt'];
-            progressBar.style.width = (data['sub_total'] / data['spent_amt']) * 100 + "%";
-          }
-
-          promotionBar.onclick = () => {
-            window.location.href = `${ROOT}/promotion/id/${data.promotion.promo_id}`;
-          }
-        }
-      })
-      .catch((error) => console.log(error));
-  }
-  updatePromotionBar();
 });

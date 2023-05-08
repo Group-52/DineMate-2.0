@@ -51,11 +51,11 @@
                             <?php endforeach ?>
                             <tr class="secondary fs-5" id="cart-sub-total">
                                 <td colspan="2" class="fw-bold">SUB TOTAL</td>
-                                <td class="fw-bold"><?= $subtotal ?></td>
+                                <td class="fw-bold" id="sub-total"><?= $subtotal ?></td>
                             </tr>
                             <tr class="secondary fs-5">
                                 <td colspan="2" class="fw-bold">DISCOUNT</td>
-                                <td class="fw-bold"><?= $discount ?></td>
+                                <td class="fw-bold" id="discount"><?= $discount ?></td>
                             </tr>
                             <tr class="secondary fs-5">
                                 <td colspan="2" class="fw-bold">SERVICE CHARGE</td>

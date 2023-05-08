@@ -41,9 +41,10 @@
         </div>
         <?php
         /** @var $menus Menu[] */
-        if (isset($menus)) foreach ($menus as $menu) $menu->render() ?>
+        if (isset($menus)) foreach ($menus as $menu) if ($menu->count() > 0) $menu->render(); ?>
     </div>
 </div>
 <?php include VIEWS . "/partials/home/footer.partial.php"; ?>
+<script src="<?php echo ASSETS . "/js/promotion.js" ?>"></script>
 </body>
 </html>

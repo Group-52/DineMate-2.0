@@ -54,7 +54,7 @@
         </div>
     <?php endif ?>
 </div>
-
 <?php include VIEWS . "/partials/home/footer.partial.php"; ?>
+<script src="<?php echo ASSETS . "/js/promotion.js" ?>"></script>
 </body>
 </html>

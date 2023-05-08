@@ -97,13 +97,25 @@ class Dish extends Model
     public function searchDishes($data): array
     {
         $query = $this->select();
+        $and = false;
         if (isset($data['name'])) {
             $query->contains(["dish_name"], $data['name']);
+            $and = true;
         }
         if (isset($data['price'])) {
-            $query->where('selling_price', '<=', $data['price']);
+            if ($and) {
+                $query->and("selling_price", $data['price'], "<=");
+            } else {
+                $query->where('selling_price', $data['price'], "<=");
+            }
         }
-        // TODO search by Menu
+        if (isset($data['pref']) && $data['pref'] != 2) {
+            if ($and) {
+                $query->and("veg", $data['pref']);
+            } else {
+                $query->where("veg", $data['pref']);
+            }
+        }
         return $query->fetchAll();
     }
 
@@ -123,6 +135,16 @@ class Dish extends Model
     public function deleteDish($id): void
     {
         $this->update(["deleted" => 1])->where('dish_id', $id)->execute();
+    }
+
+    public function minPrice(): float
+    {
+        return $this->min("selling_price")->fetch()->selling_price;
+    }
+
+    public function maxPrice(): float
+    {
+        return $this->max("selling_price")->fetch()->selling_price;
     }
 }
 

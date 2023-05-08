@@ -158,6 +158,17 @@ class Order extends Model
         return $this->fetchAll();
     }
 
+    public function getUncollectedOrders($user_id, $limit = 10, $offset = 0, $isGuest = false): array
+    {
+        $this->select()
+            ->where("collected", "1", "!=")
+            ->and(userColumn($isGuest), $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
     public function getActiveOrdersCount($user_id, $isGuest = false): int
     {
         $this->count()
@@ -171,7 +182,7 @@ class Order extends Model
     {
         $this->select("orders.*, feedback.rating")
             ->leftJoin("feedback", "orders.order_id", "feedback.order_id")
-            ->where("status", "completed")
+            ->where("collected", "1")
             ->and(userColumn($isGuest), $user_id)
             ->orderBy("time_placed", "DESC")
             ->limit($limit)

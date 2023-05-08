@@ -18,5 +18,4 @@ class GeneralDetails
             'details' => $details
         ]);
     }
-
 }
