@@ -17,10 +17,7 @@ class Menu extends Model
             'menu_id',
             'menu_name',
             'description',
-            'start_time',
-            'end_time',
             'image_url',
-            'all_day'
         ];
     }
 

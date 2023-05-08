@@ -56,21 +56,6 @@
                     <input class="form-control" type="text" name="description" placeholder="Description" id="description" required>
                 </div>
 
-                <div class="form-group" id='start-time-div'>
-                    <label for="start_time"><b>From Time</b></label><br>
-                    <input class="form-control" type="time" name="start_time" placeholder="From Time" id="start_time">
-                </div>
-
-                <div class="form-group" id='end-time-div'>
-                    <label for="end_time"><b>To Time</b></label><br>
-                    <input class="form-control" type="time" name="end_time" placeholder="To Time" id="end_time">
-                </div>
-
-                <div class="form-group" id="all-day-div">
-                    <label for="all_day"><b>All Day</b></label>
-                    <input class="form-control d-inline-block w-25" type="checkbox" name="all_day" placeholder="All Day" id="all_day" checked>
-                </div>
-
                 <div class="form-group">
                     Select image to upload:
                     <input class="form-control" type="file" name="image_url" id="image_url" required>
