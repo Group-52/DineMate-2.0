@@ -3,6 +3,7 @@
 namespace models;
 
 use core\Model;
+use Exception;
 
 /**
  * User class
@@ -38,7 +39,12 @@ class RegUser extends Model
         return $this->select()->where("email", $email)->fetch();
     }
 
-    public function addUser($data)
+    /**
+     * Creates new registered user
+     * @param $data array User data
+     * @return void
+     */
+    public function addUser(array $data): void
     {
         $this->insert([
             "first_name" => $data["first_name"],
@@ -49,11 +55,18 @@ class RegUser extends Model
         ]);
     }
 
+    /**
+     * @return bool|array
+     */
     public function getReg(): bool|array
     {
         return $this->select()->where("blacklisted", 0)->fetchAll();
     }
 
+    /**
+     * @param $id
+     * @return object|false
+     */
     public function getUserById($id): object|false
     {
         return $this->select()->where("user_id", $id)->fetch();
@@ -83,4 +96,39 @@ class RegUser extends Model
     {
         $this->update(['last_login' => date("Y-m-d H:i:s")])->where('user_id', $id)->execute();
     }
+
+    /**
+     * Updates Registered User details
+     * @param $data array User data
+     * @param $userId int User ID
+     * @return void
+     */
+    public function updateUserDetails($data, $userId): void
+    {
+        $this->update($data)->where("user_id", $userId)->execute();
+    }
+
+    /**
+     * Updates Registered User password
+     * @param $currentPass string Current password
+     * @param $newPass string New password
+     * @param $confirmPass string Confirm password
+     * @param $userId int User ID
+     * @return void
+     * @throws Exception
+     */
+    public function updatePassword(string $newPass, string $confirmPass, int $userId, string $currentPass = null): void
+    {
+        $user = $this->getUserById($userId);
+        if (password_verify($currentPass, $user->password) || is_null($currentPass)) {
+            if ($newPass == $confirmPass) {
+                $this->update(["password" => password_hash($newPass, PASSWORD_DEFAULT)])->where("user_id", $userId)->execute();
+            } else {
+                throw new Exception("New password and confirm password do not match.");
+            }
+        } else {
+            throw new Exception("Current password is incorrect.");
+        }
+    }
+
 }
