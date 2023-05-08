@@ -22,7 +22,7 @@ class Menu
         if ($menuDetails) {
             $data = [];
             $data["menu"] = $menuDetails;
-            $menuDishes = (new MenuDishes())->getMenuDishes($menu_id);
+            $menuDishes = (new MenuDishes())->getMenuDishes($menu_id, 100, 0, true);
             $data["menu_items"] = [];
             foreach ($menuDishes as $menuDish) {
                 $data["menu_items"][] = new MenuCard($menuDish);

@@ -26,7 +26,7 @@ class MenuDishes extends Model
     }
 
     // get all dishes for a menu
-    public function getMenuDishes(int $menu_id, int $num = 100, int $offset = 0): array
+    public function getMenuDishes(int $menu_id, int $num = 100, int $offset = 0, $filterAvailable = false): array
     {
         $d = new Dish();
 
@@ -38,9 +38,15 @@ class MenuDishes extends Model
         $menu_dishes = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu_id) {
-                $menu_dishes[] = $d->getDishById($r->dish_id);
+                if ($filterAvailable) {
+                    if ($d->safeToAdd($r->dish_id))
+                        $menu_dishes[] = $d->getDishById($r->dish_id);
+                } else {
+                    $menu_dishes[] = $d->getDishById($r->dish_id);
+                }
             }
         }
+
         return $menu_dishes;
     }
 
