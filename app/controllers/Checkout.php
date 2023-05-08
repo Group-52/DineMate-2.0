@@ -30,10 +30,12 @@ class Checkout
         $form = new Form("", "POST", "Checkout");
         $form->addSelectField("order-type", "order-type", "Type of Order",true, ["dine-in" => "Dine-In", "takeaway" => "Take Away"], "Type of Order");
         if (isRegistered()) {
-            $form->addInputField("schedule-order", "schedule-order", "checkbox", "Schedule Order", false, "Schedule Order", "", true);
+            $form->addInputField("schedule-order", "schedule-order", "checkbox", "Schedule Order", false, "Schedule Order", "", false);
             $form->addInputField("schedule-time", "schedule-time", "datetime-local", "Schedule Time", false, "Schedule Time", date("Y-m-d H:i"), true);
         }
-        $form->addInputField("table-number", "table-number", "number", "Table Number", false, "", "", true);
+        $form->addInputField("table-number", "table-number", "number", "Table Number", false, "", "", true, [
+            "min" => 1
+        ]);
         $form->addInputField("request", "request", "text", "Request", false, "Less spicy, no salt, etc.");
         if (isGuest()) {
             $form->addInputField("full-name", "full-name", "text", "Full Name", true, "Full Name");
@@ -85,6 +87,7 @@ class Checkout
         $data["promotion"] = (object)array_merge((array)$promotion_item, (array)$promotion_item_type);
         $data["old_price"] = $old_price;
         $data["new_price"] = $new_price;
+        $data["promotion"]->discount = $old_price - $new_price;
 
         $subtotal = 0;
         $discount = 0;
@@ -98,16 +101,20 @@ class Checkout
                     }
                 } else if ($promotion_type == "Buy 1 Get 1 Free") {
                     if ($item->dish_id == $data["promotion"]->dish1_id) {
-                        $dish1Count++;
+                        $dish1Count += $item->quantity;
                     } else if ($item->dish_id == $data["promotion"]->dish2_id) {
-                        $dish2Count++;
+                        $dish2Count += $item->quantity;
                     }
                 }
             }
             $subtotal += $item->quantity * $item->selling_price;
         }
         if ($promotion_type == "Buy 1 Get 1 Free") {
-            $discount += min($dish1Count, $dish2Count) * $data["promotion"]->discount;
+            if ($data["promotion"]->dish1_id == $data["promotion"]->dish2_id) {
+               $discount += floor(($dish1Count + $dish2Count) / 2) * $data["promotion"]->discount;
+            } else {
+                $discount += min($dish1Count, $dish2Count) * $data["promotion"]->discount;
+            }
         }
         if ($promotion_type == "Spending Bonus") {
             if ($subtotal >= $data["promotion"]->spent_amount) {
@@ -124,14 +131,10 @@ class Checkout
                 $cart = new Cart();
                 $cart_items = $cart->getCartItems(userId(), isGuest());
                 $order = new Order();
-                $service_charge = 0;
-                if ($_POST["order-type"] == "dine-in") {
-                    $service_charge = $total * 0.05;
-                }
                 $order_id = $order->create($_POST["order-type"], $cart_items, reg_customer_id: (isRegistered()) ? userId() : null,
                     guest_id: (isGuest()) ? userId() : null, request: $_POST["request"], table_id: $_POST["table-number"] ?? null,
                     scheduled_time: isset($_POST["schedule-order"]) ? $_POST["schedule-time"] : null, total_cost: $total,
-                    promo: $promo_id, service_charge: $service_charge);
+                    promo: $promo_id);
 
                 if ($order->getErrors()) {
                     $data["errors"] = $order->getErrors();
@@ -155,8 +158,9 @@ class Checkout
                             "order_dishes" => $cart_items
                         ]
                     ]));
-                    if ($_SESSION["user"])
+                    if (isLoggedIn())
                         $cart->clearCart(userId(), isGuest());
+                    redirect("orders");
                 }
             } else {
                 $data["errors"] = $form->getErrors();
