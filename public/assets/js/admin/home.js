@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let roles = {1: "Chef", 2: "General Manager", 3: "Cashier", 4: "Inventory Manager"};
     let myrole = roles[myroleID];
     let controllers = {
-        "Chef": ["home", "orders", "ingredients"],
+        "Chef": ["home", "orders", "ingredients","inventory"],
         "Cashier": ["home", "payments"],
         "Inventory Manager": ["home", "ingredients", "vendors", "inventory", "items", "purchases"]
     };
