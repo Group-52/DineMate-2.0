@@ -287,4 +287,16 @@ class Model
         }
         return $query;
     }
+
+    public function min($column): Model
+    {
+        $this->query = "SELECT MIN($column) AS $column FROM $this->table";
+        return $this;
+    }
+
+    public function max($column): Model
+    {
+        $this->query = "SELECT MAX($column) AS $column FROM $this->table";
+        return $this;
+    }
 }
