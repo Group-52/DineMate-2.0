@@ -54,7 +54,7 @@ class Orders
 
                     ]));
 
-                    if ($_SESSION['guest_id']){
+                    if (isset($_SESSION['guest_id'])){
                         unset($_SESSION['guest_id']);
                     }
                     $this->json([

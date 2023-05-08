@@ -14,7 +14,7 @@
             <div class="circular">
                 <div class="circular-content">
                     <?php if (isset($_SESSION["user"])) : ?>
-                       <a href="<?=ROOT?>/admin/profile"> <?= substr($_SESSION["user"]->first_name, 0, 1) . substr($_SESSION["user"]->last_name, 0, 1) ?></a>
+                       <a class="link" href="<?=ROOT?>/admin/profile"> <?= substr($_SESSION["user"]->first_name, 0, 1) . substr($_SESSION["user"]->last_name, 0, 1) ?></a>
                     <?php endif; ?>
                 </div>
             </div>

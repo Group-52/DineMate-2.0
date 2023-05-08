@@ -196,16 +196,39 @@
                 <br>
             </div>
         </div>
-        <div class="popup pt-1" id="registered-qr">
-            <span class="p-0 row justify-content-end"><i class="fa fa-times close-icon"></i></span>
-            <h1 class="heading-4 text-center w-100 mb-3">Scan QR</h1>
-            <div id="qr-code"></div>
-        </div>
-        <div class="overlay">
-            <form>
 
-            </form>
+        <div class="popup pt-1 w-50" id="reg-email-popup">
+            <span class="p-0 row justify-content-end"> <i id="close-icon2" class="fa fa-times"></i></span>
+            <br>
+            <input class="form-control" type="text" placeholder="Enter Email" id="reg-email">
+            <br><br>
+            <button class="btn btn-success" id="reg-email-submit">Submit</button>
         </div>
+
     </div>
+
+
 </body>
 </html>
+
+<script>
+    const userlist = <?= json_encode($userlist) ?>;
+    const regsubmit = document.querySelector('#reg-email-submit')
+    let emails = []
+    userlist.forEach(user => {
+        emails.push(user.email)
+    })
+    // console.log(emails)
+    regsubmit.addEventListener('click', function () {
+        let email = document.querySelector('#reg-email-popup').querySelector('#reg-email').value
+        // console.log(email)
+        if (emails.includes(email)) {
+            //clear form
+            document.querySelector('#reg-email-popup').querySelector('#reg-email').value = ""
+            window.location.href = `${ROOT}/admin/payments/addOrder?utype=registered&email=${email}`;
+        } else {
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email not found", false, 3000);
+        }
+    })
+
+</script>

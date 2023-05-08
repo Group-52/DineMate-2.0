@@ -25,6 +25,7 @@ class Payments
         $data['tobepaid'] = array_merge($order->getTodayCashierOrders(0, 0, "completed"), $order->getTodayCashierOrders(0, 0, "accepted"), $order->getTodayCashierOrders(0, 0, "pending"));
         $data['tobecollected'] = array_merge($order->getTodayCashierOrders(1), $order->getTodayCashierOrders(1, 0, "accepted"), $order->getTodayCashierOrders(1, 0, "pending"));
         $data['controller'] = $this->controller;
+        $data['userlist'] = (new RegUser)->getReg();
         $this->view('admin/payments', $data);
     }
 
@@ -76,6 +77,19 @@ class Payments
     {
         //get parameter
         $utype = $_GET['utype'] ?? "registered";
+        $email = $_GET['email'] ?? null;
+        $data=[];
+        if ($email){
+            $user = new RegUser;
+            $user = $user->getUserByEmail($email);
+            if ($user){
+                $data['fname'] = $user->first_name;
+                $data['lname'] = $user->last_name;
+                $data['contact_no'] = $user->contact_no;
+                $data['email'] = $user->email;
+                $data['reg_user_id'] = $user->user_id;
+            }
+        }
         if ($utype == "guest") {
             $guest = new Guest;
             if (!isset($_SESSION['guest_id'])) {
@@ -90,7 +104,6 @@ class Payments
         }
 
         $m2 = new MenuDishes();
-        $data['controller'] = 'payments';
         $data['controller'] = $this->controller;
         $data['dishes'] = $m2->getDishes();
         $this->view('admin/payments.addOrder', $data);

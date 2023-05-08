@@ -23,6 +23,10 @@
                             echo "<span class='d-none'' id='guest-id'>" . $_SESSION['guest_id'] . "</span>";
                         }
                         ?>
+                        <?php if(isset($data['reg_user_id'])){
+                            echo "<span class='d-none'' id='reg-user-id'>" . $data['reg_user_id'] . "</span>";
+                        } ?>
+
                         Customer Details
                         <i class="fas fa-chevron-down mr-2 pointer" id="customer-dropdown"></i>
                         </span>
@@ -30,22 +34,30 @@
                     <span class="d-inline-flex w-75 justify-content-space-between">
                         <div class="form-group d-inline w-45">
                             <label class="label" for="fname">First Name</label>
-                            <input class="form-control" type="text" name="fname" id="fname">
+                            <input class="form-control" type="text" name="fname" id="fname" <?php if (isset($data['fname'])) {
+                                echo "value='" . $data['fname'] . "'";
+                            } ?>>
                         </div>
                         <div class="form-group d-inline w-45">
                             <label class="label" for="lname">Last Name</label>
-                            <input class="form-control" type="text" name="lname" id="lname">
+                            <input class="form-control" type="text" name="lname" id="lname" <?php if (isset($data['lname'])) {
+                                echo "value='" . $data['lname'] . "'";
+                            } ?>>
                         </div>
                     </span>
                         <span class="d-inline-flex w-75 justify-content-space-between">
 
                         <div class="form-group d-inline">
                             <label class="label" for="contact_no">Contact No</label>
-                            <input class="form-control" type="text" name="contact_no" id="contact_no">
+                            <input class="form-control" type="text" name="contact_no" id="contact_no" <?php if (isset($data['contact_no'])) {
+                                echo "value='" . $data['contact_no'] . "'";
+                            } ?>>
                         </div>
                             <div class="form-group d-inline">
                             <label class="label" for="email">Email</label>
-                            <input class="form-control" type="text" name="email" id="email">
+                            <input class="form-control" type="text" name="email" id="email" <?php if (isset($data['email'])) {
+                                echo "value='" . $data['email'] . "'";
+                            } ?>>
                         </div>
                     </span>
                         </div>

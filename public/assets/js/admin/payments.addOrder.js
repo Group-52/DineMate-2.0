@@ -14,8 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (utype && utype === 'guest') {
         gid = parseInt(document.querySelector('#guest-id').innerHTML);
     } else {
-        //Nipun's code
-        // regid =
+        regid = document.querySelector('#reg-user-id').innerHTML;
+        console.log(regid)
+        //disable all inputs in customer data
+        document.querySelectorAll('#customer-data-formdiv input').forEach(input => {
+            input.disabled = true;
+        })
     }
 
 
@@ -79,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let promotionId = promoselect.value;
         if (utype == 'guest') {
             getReduction(gid, promotionId, "guest");
-        }
+        } else
+            getReduction(regid, promotionId, "registered");
         calculateCost();
     });
     //Deletes a dish from the table
@@ -93,6 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dishId = e.target.parentElement.parentElement.children[0].textContent;
                 deleteFromCart(dishId, gid, "guest");
                 getValidPromotions(gid, "guest")
+            } else {
+                const dishId = e.target.parentElement.parentElement.children[0].textContent;
+                deleteFromCart(dishId, regid, "registered");
+                getValidPromotions(regid, "registered")
             }
         }
     })
@@ -187,6 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dishId = selectedOption.dataset.dishid;
                 updateCart(dishId, newQuantity, gid, "guest");
                 getValidPromotions(gid, "guest")
+            } else {
+                const dishId = selectedOption.dataset.dishid;
+                updateCart(dishId, newQuantity, regid, "registered");
+                getValidPromotions(regid, "registered")
             }
 
         } else {
@@ -228,6 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 addToCart(dishId, quantity, gid, "guest");
                 getValidPromotions(gid, "guest")
 
+            } else {
+                const dishId = selectedOption.dataset.dishid;
+                const quantity = quantityInput.value;
+                addToCart(dishId, quantity, regid, "registered");
+                getValidPromotions(regid, "registered")
             }
         }
 
