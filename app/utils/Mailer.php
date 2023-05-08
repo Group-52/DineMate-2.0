@@ -19,6 +19,7 @@ class Mailer
         $this->mailer->Password = PASS;
         $this->mailer->SMTPSecure = "tls";
         $this->mailer->Port = PORT;
+        $this->mailer->isHTML(true);
     }
 
     public function send($to, $subject, $body): bool

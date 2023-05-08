@@ -14,18 +14,16 @@
                     <img class="img-logo" src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="DineMate Logo">
                 </a>
                 <h1 class="display-3 mb-1">Login with DineMate</h1>
+                <h2 class="display-4 mb-3">Change Password</h2>
                 <?php if (isset($form)) : ?>
                     <?php $form->render(); ?>
                 <?php endif; ?>
                 <div class="fw-bold text-right mt-3">
-                    Forgot <a class="link" href="<?= ROOT ?>/auth/forgot">Password</a>?
-                </div>
-                <div class="fw-bold text-right mt-3">
-                    Don't have an account? <a class="link" href="<?= ROOT ?>/auth/register">Register</a>
+                    Have an account? Login <a class="link" href="<?= ROOT ?>/auth/login">here</a>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 not-mobile p-5 h-100">
+        <div class="col-6 not-mobile p-5 h-100">
             <img src="<?= ROOT ?>/assets/images/login/cover.jpg" alt="Login Cover" class="img-cover">
         </div>
     </div>

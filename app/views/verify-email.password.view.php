@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <?php include VIEWS . "/partials/home/head.partial.php" ?>
-    <script>const email = <?= $_SESSION["user"]->email ?? "null" ?>;</script>
+    <script>const email = <?= $email ?? "null" ?>;</script>
     <script src="<?= ASSETS ?>/js/verifyEmail.js"></script>
 </head>
 
@@ -27,7 +27,7 @@
                         <?php endif ?>
                     </p>
                 <?php endif ?>
-                <form class="my-3" action="" method="POST" id="verify-form">
+                <form class="my-3" action="<?= ROOT ?>/auth/change" method="POST">
                     <div class="form-group">
                         <div class="d-flex m-3 justify-content-center align-items-center code-container">
                             <?php for ($i = 0; $i < 6; $i++): ?>
@@ -38,10 +38,16 @@
                             <?php endfor ?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label text-uppercase fw-bold">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label text-uppercase fw-bold">Confirm Password</label>
+                        <input type="password" name="confirm-password" id="confirm-password" class="form-control" required>
+                    </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn text-uppercase">Verify
-                            Email
-                        </button>
+                        <button type="submit" class="btn btn-primary btn text-uppercase">Change Password</button>
                     </div>
                 </form>
                 <div class="text-center fw-bold" id="message"></div>
@@ -50,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 not-mobile p-5 h-100">
+        <div class="col-6 p-5 not-mobile h-100">
             <img src="<?= ROOT ?>/assets/images/login/cover.jpg" alt="Login Cover" class="img-cover">
         </div>
     </div>

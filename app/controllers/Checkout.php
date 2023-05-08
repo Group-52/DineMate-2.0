@@ -28,6 +28,8 @@ class Checkout
 
         $data = [];
         $data["title"] = "Checkout";
+
+        // Form building
         $form = new Form("", "POST", "Checkout");
         $form->addSelectField("order-type", "order-type", "Type of Order",true, ["dine-in" => "Dine-In", "takeaway" => "Take Away"], "Type of Order");
         if (isRegistered()) {
@@ -44,6 +46,7 @@ class Checkout
             $form->addInputField("email", "email", "email", "Email", true, "Email");
         }
 
+        // Get promotion details
         $promo_id = 1;
         if (isRegistered()) {
             $promo_id = (new RegUser())->getPromoId(userId());
@@ -60,6 +63,7 @@ class Checkout
         $new_price = null;
         $promotion_item_type = null;
 
+        // Promotion details based on promotion type
         if ($promotion_item->type == "discounts") {
             $promotion_model = new PromotionsDiscounts();
             $promotion_discount = $promotion_model->getPromotion($promo_id);
@@ -94,6 +98,8 @@ class Checkout
         $discount = 0;
         $dish1Count = 0;
         $dish2Count = 0;
+
+        // Calculate subtotal and discount
         foreach ($cartItems as $item) {
             if ($data["promotion"]->promo_id != 1) {
                 if ($promotion_type == "Discounts") {
@@ -127,6 +133,7 @@ class Checkout
         $total = $subtotal - $discount;
         $data["total"] = $total;
 
+        // Place order
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($form->isValid($_POST)) {
                 $cart = new Cart();
@@ -165,6 +172,7 @@ class Checkout
                 }
             } else {
                 $data["errors"] = $form->getErrors();
+                $data["error"] = "Order could not be placed";
             }
         }
         $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
