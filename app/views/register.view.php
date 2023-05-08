@@ -8,7 +8,7 @@
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">
     <div class="row h-100 p-5">
-        <div class="col-6 p-5 h-100 d-flex align-items-center">
+        <div class="col-lg-6 col-12 p-5 h-100 d-flex align-items-center">
             <div class="col-offset-xl-2 col-xl-8 col-12">
                 <a href="<?= ROOT ?>/home">
                     <img class="img-logo" src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="DineMate Logo">
@@ -25,9 +25,9 @@
                             </div>
                         <?php endfor; ?>
                         <div class="form-group text-center grid-2 grid-gap-2">
-                            <button class="btn btn-primary btn-lg text-uppercase" id="prev-button">Previous</button>
-                            <button class="btn btn-primary btn-lg text-uppercase" id="next-button">Next</button>
-                            <button type="submit" class="btn btn-primary btn-lg text-uppercase" id="register-button">
+                            <button class="btn btn-primary text-uppercase" id="prev-button">Previous</button>
+                            <button class="btn btn-primary text-uppercase" id="next-button">Next</button>
+                            <button type="submit" class="btn btn-primary text-uppercase" id="register-button">
                                 Register
                             </button>
                         </div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 p-5 h-100">
+        <div class="col-6 p-5 not-mobile h-100">
             <img src="<?= ROOT ?>/assets/images/login/cover.jpg" alt="Login Cover" class="img-cover">
         </div>
 
