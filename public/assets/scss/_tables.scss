@@ -85,10 +85,12 @@
   .cart-trash-icon {
     width: 1rem;
   }
-
+  #cart-sub-total {
+    td {
+      border-bottom: none;
+    }
+  }
   #cart-total {
-    border-top: 1px solid $border;
-
     td {
       padding: 2rem 0;
     }

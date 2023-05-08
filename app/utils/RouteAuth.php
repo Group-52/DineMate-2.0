@@ -2,6 +2,9 @@
 
 namespace utils;
 
+use models\Guest;
+use models\RegUser;
+
 class RouteAuth
 {
     protected static array $common_controllers = ["auth", "_404", "_401", "_403"];
@@ -13,13 +16,13 @@ class RouteAuth
             "Chef" => ["home","orders"],
             "Cashier" => ["home","payments"],
             "Inventory Manager" => ["home","dishes", "ingredients", "vendors", "inventory", "items", "purchases"],
-            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders"]
+            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders", "promotion"]
         ],
         "api" => [
             "Chef" => ["orders", "orderdishes"],
             "Cashier" => [],
             "Inventory Manager" => ["dishes", "ingredients", "vendors", "inventory", "items", "purchases", "stats"],
-            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest"]
+            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest", "promotions"]
         ]
     ];
 
@@ -81,12 +84,13 @@ class RouteAuth
 
     public static function guestSession($controller, $module): void
     {
+        $guest = new Guest();
+        $regUser = new RegUser();
+
         if (isNotLoggedIn() && empty($module)) {
             if (in_array($controller, self::$allowed_controllers["not_api"]["Customer"])) {
 
                 $cookieName = "guest";
-
-                $guest = new \models\Guest();
 
                 if (isset($_COOKIE["guest"])) {
                     $guestId = $_COOKIE["guest"];
@@ -95,6 +99,18 @@ class RouteAuth
                     setcookie($cookieName, $guestId, time() + (86400 * 30 * 7), "/");
                 }
                 createSessionGuest($guestId);
+            }
+        } else if (isGuest()) {
+            $guestData = $guest->getGuestById(userId());
+            if (!$guestData) {
+                session_destroy();
+                self::guestSession($controller, $module);
+            }
+        } else if (isRegistered()) {
+            $regUserData = $regUser->getUserById($_SESSION["user"]->user_id);
+            if (!$regUserData) {
+                unset($_SESSION["user_id"]);
+                self::guestSession($controller, $module);
             }
         }
     }

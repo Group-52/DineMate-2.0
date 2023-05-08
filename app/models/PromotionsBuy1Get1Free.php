@@ -2,7 +2,7 @@
 
 namespace models;
 
-// Sub Promotions class for the buy 1, get 1 free promotion
+// Sub Promotion class for the buy 1, get 1 free promotion
 
 use core\Model;
 
@@ -29,7 +29,7 @@ class PromotionsBuy1Get1Free extends Model
 
 
     // Add a new entry to the promos_get1buy1free table given the promo_id, dish1_id and dish2_id
-    public function addPromotion($pid, $d1, $d2)
+    public function addPromotion($pid, $d1, $d2): void
     {
         $this->insert([
             'promo_id' => $pid,

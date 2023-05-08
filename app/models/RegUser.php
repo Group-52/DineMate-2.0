@@ -23,7 +23,8 @@ class RegUser extends Model
             "contact_no",
             "last_login",
             "verified_email",
-            'blacklisted'
+            'blacklisted',
+            "promo_id"
         ];
     }
 
@@ -67,6 +68,16 @@ class RegUser extends Model
         return $this->select()->where("blacklisted", 1)->fetchAll();
     }
 
+
+    public function getPromoId($userId): int
+    {
+        return $this->select(["promo_id"])->where("user_id",$userId)->fetch()->promo_id ?? 1;
+    }
+
+    public function setPromoId($userId, $promoId): void
+    {
+        $this->update(["promo_id" => $promoId])->where("user_id", $userId)->execute();
+        
     public function updateLogin($id): void
     {
         $this->update(['last_login' => date("Y-m-d H:i:s")])->where('user_id', $id)->execute();
