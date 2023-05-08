@@ -45,9 +45,11 @@ class Auth
                             $newUserId = $result->user_id;
 
                             // Transfer cart items to registered user account
-                            $cart = new Cart;
-                            if ($cart->getNoOfItems(userId(), true) > 0) {
-                               $cart->moveCartToRegistered(userId(), $newUserId);
+                            if (isGuest()) {
+                                $cart = new Cart;
+                                if ($cart->getNoOfItems(userId(), true) > 0) {
+                                   $cart->moveCartToRegistered(userId(), $newUserId);
+                                }
                             }
 
                             // Log in user
