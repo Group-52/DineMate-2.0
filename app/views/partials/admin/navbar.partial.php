@@ -11,10 +11,18 @@
     </div>
     <div class="nav-items">
         <div class="nav-item">
-            <?= $_SESSION["user"]->first_name ?>
+            <div class="circular">
+                <div class="circular-content">
+                    <?php if (isset($_SESSION["user"])) : ?>
+                       <a class="link" href="<?=ROOT?>/admin/profile"> <?= substr($_SESSION["user"]->first_name, 0, 1) . substr($_SESSION["user"]->last_name, 0, 1) ?></a>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
         <div class="nav-item">
-            <a class="link text-uppercase fw-bold" href="<?= ROOT ?>/admin/auth/logout">Logout</a>
+            <?php if (isset($_SESSION["user"])) : ?>
+                <?= $_SESSION["user"]->first_name . " " . $_SESSION["user"]->last_name ?>
+            <?php endif; ?>
         </div>
     </div>
 </nav>

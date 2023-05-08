@@ -1,5 +1,7 @@
 <?php
 
+use JetBrains\PhpStorm\NoReturn;
+
 /**
  * Display information of a variable in a readable format
  * @param $data
@@ -27,17 +29,19 @@ function escape_string(string $string): string
  * @param string $path
  * @return void
  */
-function redirect(string $path): void
+#[NoReturn] function redirect(string $path): void
 {
     header("Location: " . ROOT . "/" . $path);
+    die;
 }
 
 /**
  * Redirect to login page with current page as redirect parameter
  */
-function redirectToLogin(): void
+#[NoReturn] function redirectToLogin(): void
 {
     redirect("auth/login?redirect=" . urlencode($_SERVER['REQUEST_URI']));
+    die;
 }
 
 /**
@@ -100,7 +104,7 @@ function isImage(array $file): bool
  */
 function isRegistered(): bool
 {
-    return isset($_SESSION['user']) && $_SESSION['user']->registered;
+    return isset($_SESSION['user']->registered) && $_SESSION['user']->registered;
 }
 
 /**
@@ -108,7 +112,7 @@ function isRegistered(): bool
  */
 function isGuest(): bool
 {
-    return isset($_SESSION['user']) && !$_SESSION['user']->registered;
+    return isset($_SESSION['user']->registered) && !$_SESSION['user']->registered;
 }
 
 /**
@@ -133,6 +137,18 @@ function userId(): int | null
         return $_SESSION['user']->user_id;
     else
         return null;
+}
+
+function createSessionGuest($guestId): void
+{
+    $_SESSION['user'] = new \stdClass();
+    $_SESSION['user']->user_id = $guestId;
+    $_SESSION['user']->registered = false;
+}
+
+function isEmployee(): bool
+{
+    return isset($_SESSION['user']->emp_id);
 }
 
 function userColumn($isGuest = false): string

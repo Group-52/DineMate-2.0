@@ -18,7 +18,8 @@ class Guest extends Model
             "last_name",
             "contact_no",
             "email",
-            "date_created"
+            "date_created",
+            "promo_id"
         ];
     }
 
@@ -45,7 +46,18 @@ class Guest extends Model
      */
     public function getGuest(): bool|array
     {
-        return $this->select()->fetchAll();
+        $temp =  $this->select()->fetchAll();
+        //remove ones with only id
+        $guests = [];
+        if (!$temp) {
+            return false;
+        }
+        foreach ($temp as $guest) {
+            if ($guest->first_name != null && $guest->contact_no != null) {
+                $guests[] = $guest;
+            }
+        }
+        return $guests;
     }
 
     public function getGuestById($guest_id): false|object
@@ -76,5 +88,28 @@ class Guest extends Model
     public function deleteGuest($guest_id): void
     {
        $this->delete()->where('guest_id', $guest_id)->execute();
+    }
+
+    public function updateGuest($guest_id,$fName = null, $lName = null, $contactNo = null, $email = null): void
+    {
+        $data = [
+            'first_name' => $fName,
+            'last_name' => $lName,
+            'contact_no' => $contactNo,
+            'email' => $email,
+            'date_created' => date('Y-m-d H:i:s')
+        ];
+        array_filter($data);
+        $this->update($data)->where('guest_id', $guest_id)->execute();
+    }
+
+    public function getPromoId($guest_id): int
+    {
+        return $this->select()->where('guest_id', $guest_id)->fetch()->promo_id ?? 1;
+    }
+
+    public function setPromoId($guest_id, $promo_id): void
+    {
+        $this->update(['promo_id' => $promo_id])->where('guest_id', $guest_id)->execute();
     }
 }

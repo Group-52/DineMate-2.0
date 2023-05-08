@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let crossIcons = document.querySelectorAll(".cross-icon");
         crossIcons = Array.from(crossIcons);
         crossIcons.forEach(icon => {
-            if (icon.parentNode.style.display =='table-cell') {
+            if (icon.parentNode.style.display == 'table-cell') {
                 icon.click();
             }
         });
@@ -185,10 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     setTimeout(function () {
                         tableRow.remove();
+                        new Toast("fa-solid fa-check", "#28a745", "Deleted", "Purchase Record has been deleted", false, 3000);
                     }, 300);
                 })
                 .catch(err => {
                     console.log(err)
+                    new Toast("fa-solid fa-times", "#dc3545", "Error", "An error occurred while deleting the purchase record", false, 3000);
                 })
         });
     });
@@ -297,7 +299,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             let fetchRes = fetch(url, options);
             fetchRes.then(res => res.json())
+                .then(data => {
+                    new Toast("fa-solid fa-check", "#28a745", "Updated", "Purchase Record has been updated", false, 3000);
+                })
                 .catch(err => {
+                    new Toast("fa-solid fa-times", "#dc3545", "Error", "An error occurred while updating the purchase record", false, 3000);
                     console.log(err)
                 })
         }

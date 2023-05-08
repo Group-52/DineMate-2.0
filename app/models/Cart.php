@@ -79,4 +79,39 @@ class Cart extends Model
         $this->update(['reg_customer_id' => $reg_customer_id, 'guest_id' => null])
             ->where('guest_id', $guest_id)->execute();
     }
+
+    /**
+     * @param $user_id
+     * @param bool $isGuest = false
+     * @return float
+     * Description: Calculates the total cost of the cart based on the dishes and their quantities without promotion or service charge
+     */
+    public function calculateSubTotal($user_id, bool $isGuest = false): float
+    {
+        $dishes = $this->getCartItems($user_id, $isGuest);
+        $total = 0;
+        foreach ($dishes as $dish) {
+            $total += $dish->selling_price * $dish->quantity;
+        }
+        return $total;
+    }
+
+    /**
+     * @param $user_id
+     * @param $isGuest
+     * @param $ordertype
+     * @param int $promotion
+     * @return float
+     * Description: Calculates the total cost of the cart based on the dishes and their quantities with promotion and service charge
+     */
+    public function calculateTotal($user_id, $isGuest, $ordertype, int $promotion=1): float{
+        $total = $this->calculateSubTotal($user_id, $isGuest);
+        if ($promotion != 1) {
+            $total = $total - (new Promotion())->reducedCostCart($user_id, $isGuest,$promotion);
+        }
+        if ($ordertype == "dine-in") {
+            $total = $total + $total * 0.05;
+        }
+        return $total;
+    }
 }

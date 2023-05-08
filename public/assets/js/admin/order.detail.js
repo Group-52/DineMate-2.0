@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const finishbutton = document.querySelector('#finish-button');
     const deletebutton = document.querySelector('#delete-button');
     const addbutton = document.querySelector('#add-button');
-    const tablebody = document.querySelector('tbody');
+    const tablebody = document.querySelector(' #order-details-table tbody');
     const inputrow = document.querySelector('.input-row');
     const dummyrow = document.querySelector('.dummy-row');
 
@@ -245,18 +245,18 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Event delegation on table
-    document.querySelector('table').addEventListener('click', function (event) {
+    document.querySelector(' #order-details-table table').addEventListener('click', function (event) {
         if (event.target.classList.contains('save-dish')) {
             if (checkQuantity(event) && checkDish(event)) {
                 addRow(event);
                 addbutton.style.display = 'inline-block';
                 editbutton.style.display = 'inline-block';
             } else if (checkDish(event)) {
-                let row = event.target.parentNode.parentNode;
-                displayError("Quantity must be greater than 0", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Quantity must be greater than zero", false, 3000);
             } else if (checkQuantity(event)) {
-                let row = event.target.parentNode.parentNode;
-                displayError("Dish already added", row.getBoundingClientRect().top, row.getBoundingClientRect.left);
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Dish is already added", false, 3000);
+            }else{
+                new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Dish is already added", false, 3000);
             }
         } else if (event.target.classList.contains('trash-icon')) {
             removeRow(event);

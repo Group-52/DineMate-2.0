@@ -16,12 +16,16 @@ document.addEventListener("DOMContentLoaded", () => {
         let sidebar = document.querySelector('#sidebar');
         let mode = KDSbutton.innerHTML !== "Exit KDS mode";
         let h1title = document.querySelector('h1');
+        let dashboardbuttons = document.querySelectorAll('.dashboard-buttons a');
 
         if (mode) {
             sessionStorage.setItem('KDSmode', "true");
             nav.style.display = "none";
             sidebar.style.display = "none";
             KDSbutton.innerHTML = "Exit KDS mode";
+            dashboardbuttons.forEach(button => {
+                button.classList.add('hide-buttons')
+            });
             //got to full screen
             if (document.fullscreenEnabled) {
                 document.documentElement.requestFullscreen();
@@ -34,6 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
             nav.style.display = 'flex';
             sidebar.style.display = 'block';
             KDSbutton.innerHTML = "KDS Mode";
+            dashboardbuttons.forEach(button => {
+                button.classList.remove('hide-buttons')
+            });
             //exit full screen
             if (document.fullscreenEnabled) {
                 document.exitFullscreen();
@@ -116,7 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let card = document.querySelector(`[data-order-id="${oid}"]`);
         let uid = card.getAttribute('data-user-id');
         let utype = card.getAttribute('data-user-type');
-        (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        if (status === "accepted") {
+            (new Socket()).send_data("accepted_order", {"order_id": oid, "user_id": uid, "user_type": utype})
+        }
 
         fetch(`${ROOT}/api/orders/changestatus`, {
             method: 'POST',
@@ -147,23 +156,23 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-status", order.status);
         card.setAttribute("data-user-id", order.user_id);
         card.setAttribute("data-user-type", order.user_type);
-        if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
+        if (order.scheduled_time) card.querySelector('.card-header').classList.add('timer');
 
-        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp";
+        card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp;";
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);
         let iconimg = card.querySelector('.type-icon').children[0];
         let url = ""
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             url = `${ASSETS}/icons/table.png`;
-        } else if (order.type == "takeaway") {
+        } else if (order.type === "takeaway") {
             url = `${ASSETS}/icons/fastcart.png`;
-        } else if (order.type == "bulk") {
+        } else if (order.type === "bulk") {
             url = `${ASSETS}/icons/bulk.svg`;
         }
         iconimg.src = url;
         iconimg.alt = order.type;
 
-        if (order.type == "dine-in") {
+        if (order.type === "dine-in") {
             iconimg.nextSibling.innerHTML = order.table_id;
         }
         card.querySelector('#circle').setAttribute('data-order-status', order.status);

@@ -68,8 +68,15 @@ class Employee extends Model
 
     public function deleteEmployee($data)
     {
-    
-    
         $this->delete()->where("emp_id", $data)->execute();
+    }
+    /**
+     * Get user by username
+     * @param string $username
+     * @return object|false
+     */
+    public function getUserByUsername(string $username): object|false
+    {
+        return $this->select()->where("username", $username)->fetch();
     }
 }

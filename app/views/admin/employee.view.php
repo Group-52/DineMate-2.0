@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/employees.js"></script>
 </head>
@@ -11,7 +11,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-employees-center justify-content-space-between w-100">
-            <h1 class="display-3">Employees</h1>
+            <h1 class="display-5 mb-2">Employees</h1>
             <a class="btn btn-primary text-uppercase fw-bold" href="employees/addEmployee" id="add-employee-button">+
                 New Employee</a>
         </div>
@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <label class="label" for="role">Role</label>
                     <select class="form-control" name="role" id="role" required>
-                        <option value="0" disabled selected>----</option>
+                        <option value="" disabled selected>----</option>
                         <option value="1">Chef</option>
                         <option value="2">General Manager</option>
                         <option value="3">Cashier</option>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="form-group">
                     <label class="label" for="contact_no">Contact No</label>
-                    <input class="form-control" type="text" name="contact_no" id="contact_no" required>
+                    <input class="form-control" type="number" name="contact_no" id="contact_no" required>
                 </div>
                 <div class="form-group">
                     <label class="label" for="email">Email</label>
@@ -143,3 +143,71 @@
     }
 </style>
 </html>
+
+<script>
+    //don't allow duplicate usernames or ones with spaces or special characters
+    function validateUsername(username){
+        let usernames = <?php echo json_encode($ulist); ?>;
+        console.log(usernames);
+        var regex = /^[a-zA-Z0-9]+$/;
+
+        if(username.length < 5){
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username must be at least 5 characters long", false, 3000);
+            return false;
+        }
+        if(!regex.test(username)){
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username must contain only letters and numbers", false, 3000);
+            return false;
+        }
+        if(usernames.includes(username)){
+            new Toast("fa-solid fa-exclamation-circle", "red", "Warning", "Username already exists", false, 3000);
+            return false;
+        }
+        return true;
+    }
+
+    let usernameinput = document.getElementById("username");
+    usernameinput.addEventListener("change", function(){
+        if (validateUsername(usernameinput.value) == false){
+            //disable submit button
+            document.getElementById("submit-button").disabled = true;
+        }else{
+            //enable submit button
+            document.getElementById("submit-button").disabled = false;
+        }
+    });
+
+    const submitButton = document.querySelector('#submit-button');
+
+    function validateEmail(email) {
+        if (email == "") {
+            return true;
+        }
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    //validate email
+    const email = document.querySelector('input[name="email"]');
+    email.addEventListener('change', () => {
+        if (!validateEmail(email.value)) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email is not valid", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+
+    const contact_no = document.querySelector('input[name="contact_no"]');
+    contact_no.addEventListener('change', () => {
+        if (contact_no.value == "") {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no is required", false, 3000);
+        } else if (contact_no.value.length != 10) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no must be 10 digits", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+</script>

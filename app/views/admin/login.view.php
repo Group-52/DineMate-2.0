@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
 </head>
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">

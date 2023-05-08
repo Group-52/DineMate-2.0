@@ -21,10 +21,10 @@ class Orders
             $dish_list[$o->order_id] = $od->getOrderDishes($o->order_id);
         }
 
-        $results['order_list'] = $ol;
-        $results['order_dishes'] = $dish_list;
-        $results['controller'] = "orders";
-        $this->view('admin/order.chef', $results);
+        $data['order_list'] = $ol;
+        $data['order_dishes'] = $dish_list;
+        $data['controller'] = "orders";
+        $this->view('admin/order.chef', $data);
     }
 
     public function edit($order_id): void
@@ -44,7 +44,8 @@ class Orders
         $data['allDishes'] = (new Dish())->getDishes();
         $data['dishes'] = $order->getDishes($order_id);
         $data['order'] = $order->getOrder($order_id);
-        $data['promo_list'] = (new \models\Promotion())->getAllPromotions();
+        $data['promo_list'] = (new \models\Promotion())->getValidPromotions($order_id);
+        $data['controller'] = "orders";
         if ($data['order'])
             $this->view('admin/order.detail', $data);
         else
@@ -71,6 +72,7 @@ class Orders
                 'currentPage' => $p,
                 'totalPages' => $totalPages,
                 'order_list' => $ol,
+                'controller' => "orders"
             ];
             $this->view('admin/order.history', $data);
         }

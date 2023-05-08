@@ -40,6 +40,10 @@ class Pagination
      */
     public function html(): string
     {
+        if ($this->totalPages <= 1) {
+            return "";
+        }
+
         $html = "<div class='pagination fs-4 my-5'>";
         $html .= "<ul>";
 

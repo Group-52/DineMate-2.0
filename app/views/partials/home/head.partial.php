@@ -1,5 +1,6 @@
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
 <title><?php echo((isset($title)) ? ($title . " | " . APP_NAME) : APP_NAME) ?></title>
 <meta name="description" content="<?= APP_DESC ?>">
 
@@ -20,9 +21,9 @@
 <script>
   const ROOT = '<?= ROOT ?>';
   const ASSETS = '<?= ASSETS ?>';
-  const DB_HOST = '<?= DB_HOST ?>';
+  const SOCKET_HOST = '<?= SOCKET_HOST ?>';
+  const USER_ID = '<?= userId() ?>';
 </script>
 <script src="<?= ASSETS ?>/js/components/Socket.js"></script>
 <script src="<?= ASSETS ?>/js/components/Toast.js"></script>
-<script src="<?= ASSETS ?>/js/guest.js"></script>
 <script src="<?= ASSETS ?>/js/home.js"></script>

@@ -4,22 +4,51 @@ document.addEventListener('DOMContentLoaded', function () {
     const toBeCollectedDiv = document.querySelector('#tobecollected-table');
     const toBePaidHeader = document.querySelector('#unpaid-header');
     const toBeCollectedHeader = document.querySelector('#tocollect-header');
+    const addOrderbtn = document.querySelector('#add-order-button');
+
+    const rcustomer = document.querySelector('#return-customer')
+    const ncustomer = document.querySelector('#new-customer')
+    const popup = document.querySelector('#customer-type-popup')
+    const close = document.querySelector('#close-icon')
+    const container = document.querySelector('#blur-container')
+
+    const popup2 = document.querySelector('#reg-email-popup')
+    const popup2close = popup2.querySelector('#close-icon2')
+
+    popup2close.addEventListener('click', function () {
+        popup2.style.display = 'none'
+    })
+
+    //when clicked on r or n customer, redirect to the respective page
+    rcustomer.addEventListener('click', function () {
+        popup2.style.display = 'block'
+    })
+    ncustomer.addEventListener('click', function () {
+        window.location.href = `${ROOT}/admin/payments/addOrder?utype=guest`;
+    })
+
+    addOrderbtn.addEventListener('click', function (event) {
+        popup.style.display = 'block'
+        container.style.filter = 'blur(5px)'
+        event.preventDefault()
+    })
+    close.addEventListener('click', function () {
+        popup.style.display = 'none'
+        container.style.filter = 'blur(0px)'
+    })
+
 
     toBePaidHeader.onclick = function () {
         toBePaidDiv.style.display = 'block';
         toBeCollectedDiv.style.display = 'none';
-        toBePaidHeader.style.backgroundColor = 'white';
-        toBePaidHeader.style.color = 'black';
-        toBeCollectedHeader.style.backgroundColor = '#ff0000';
-        toBeCollectedHeader.style.color = 'white';
+        toBePaidHeader.style.backgroundColor = '#802323';
+        toBeCollectedHeader.style.backgroundColor = '#FF4546';
     }
     toBeCollectedHeader.onclick = function () {
         toBePaidDiv.style.display = 'none';
         toBeCollectedDiv.style.display = 'block';
-        toBePaidHeader.style.backgroundColor = '#ff0000';
-        toBePaidHeader.style.color = 'white';
-        toBeCollectedHeader.style.backgroundColor = 'white';
-        toBeCollectedHeader.style.color = 'black';
+        toBePaidHeader.style.backgroundColor = '#FF4546';
+        toBeCollectedHeader.style.backgroundColor = '#802323';
     }
     toBePaidHeader.onclick();
 
@@ -45,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         new Toast("fa-solid fa-check", "#28a745", title, message, true, 3000);
 
         // Get the row of the order
-        const row = document.querySelector(`tr[data-order-id="${d.order_id}"]`);
+        const row = document.querySelector(`tr[data-order-id = "${d.order_id}"]`);
         //make row border glow light green and fade back to white slowly
         row.style.border = "4px solid #00ff00";
         row.style.transition = "border 2s ease-in-out";
@@ -57,5 +86,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update the estimated time cell
         estimatedTimeCell.textContent = "Completed";
     });
+
 
 });

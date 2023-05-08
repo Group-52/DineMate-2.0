@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     startDateInput.addEventListener('change', () => {
         //check if the start date is greater than the end date
         if (startDateInput.value > endDateInput.value) {
-            displayError("Start date cannot be greater than end date",startDateInput.getBoundingClientRect().top,startDateInput.getBoundingClientRect().left);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Start date cannot be greater than end date", false, 3000);
             return;
         }
         // console.log("start date changed");
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     endDateInput.addEventListener('change', () => {
         //check if the start date is greater than the end date
         if (startDateInput.value > endDateInput.value) {
-            displayError("End date cannot be less than start date",endDateInput.getBoundingClientRect().top,endDateInput.getBoundingClientRect().left);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "End date cannot be less than start date", false, 3000);
             return;
         }
         // console.log("end date changed");

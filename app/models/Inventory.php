@@ -23,6 +23,17 @@ class Inventory extends Model
             'lead_time'
         ];
     }
+    public function add($item_id, $amount_remaining): void
+    {
+        $this->insert([
+            "item_id" => $item_id,
+            "amount_remaining" => $amount_remaining,
+            "max_stock_level" => 100,
+            "buffer_stock_level" => 25,
+            "reorder_level" => 50,
+            "lead_time" => 0
+        ]);
+    }
 
     // Get all inventory data from database with pagination
 //    give 0 as a parameter to not have pagination
@@ -32,6 +43,7 @@ class Inventory extends Model
         $q = $this->select(["inventory.*", "items.item_name", "units.abbreviation"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
+            ->where("items.deleted", 0)
             ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
@@ -39,15 +51,24 @@ class Inventory extends Model
             return $q->limit($this->nrows)->offset($skip)->fetchAll();
     }
 
-//    TODO group by category
-    public function getInventorybyCategory():array|bool
+    public function getInventoryByCategory():array|bool
     {
-        return $this->select(["inventory.*", "items.item_name","items.image_url", "units.abbreviation","categories.category_name"])
+        $categories = (new Category())->getCategories();
+        $temp1 = $this->select(["inventory.*", "items.item_name","items.image_url", "units.abbreviation","categories.*"])
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->join("categories","categories.category_id","items.category")
+            ->where("items.deleted",0)
             ->orderBy("items.item_name")
             ->fetchAll();
+        $inventory = [];
+        foreach ($categories as $category) {
+            $inventory[$category->category_name] = [];
+        }
+        foreach ($temp1 as $item) {
+            $inventory[$item->category_name][] = $item;
+        }
+        return $inventory;
     }
     public function deleteInventory($item_id):void
     {
@@ -63,6 +84,7 @@ class Inventory extends Model
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->wherecolumn("inventory.amount_remaining", "inventory.reorder_level","<=")
+            ->and('items.deleted',0)
             ->fetchAll();
     }
 
@@ -73,14 +95,15 @@ class Inventory extends Model
             ->join("items", "items.item_id", "inventory.item_id")
             ->join("units", "units.unit_id", "items.unit")
             ->wherecolumn("amount_remaining", "buffer_stock_level","<=")
+            ->and('items.deleted',0)
             ->fetchAll();
     }
 
     // update inventory
-    public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null)
+    public function updateInventory($item, $amount = null, $max = null, $buffer = null, $lead = null, $reorder = null): void
     {
         $data = [];
-        if ($amount) {
+        if ($amount && $amount >= 0) {
             $data["amount_remaining"] = $amount;
         }
         if ($max) {
@@ -101,7 +124,7 @@ class Inventory extends Model
     }
 
     // reduce or add to inventory
-    public function adjustAmount($item, $amount, $operation)
+    public function adjustAmount($item, $amount, $operation): void
     {
         $current = $this->select(["amount_remaining"])->where("item_id", $item)->fetch();
         $current = $current->amount_remaining;
@@ -109,8 +132,21 @@ class Inventory extends Model
             $this->update(["amount_remaining" => $current + $amount])
                 ->where("item_id", $item)->execute();
         } else if ($operation == "reduce") {
-            $this->update(["amount_remaining" => $current - $amount])
+            // check if the amount is greater than the current amount
+            $new_amount = $current - $amount;
+            if ($new_amount < 0) $new_amount = 0;
+            $this->update(["amount_remaining" => $new_amount])
                 ->where("item_id", $item)->execute();
         }
+    }
+
+    //check if a given inventory exists
+    public function checkInventory($item_id):bool
+    {
+        $inventory = $this->select(["item_id"])->where("item_id",$item_id)->fetch();
+        if($inventory)
+            return true;
+        else
+            return false;
     }
 }

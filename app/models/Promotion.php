@@ -3,7 +3,7 @@
 // Main Promotion class
 namespace models;
 
-// Main Promotions class
+// Main Promotion class
 
 use core\Model;
 
@@ -36,23 +36,25 @@ class Promotion extends Model
         $promotions = $this->getAllPromotions();
         $valid_promotions = [];
         foreach ($promotions as $promotion) {
-            if ($promotion->type == 'spending_bonus') {
-                $obj = new PromotionsSpendingBonus();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'discounts') {
-                $obj = new PromotionsDiscounts();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'free_dish') {
-                $obj = new PromotionsBuy1Get1Free();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
+            if ($promotion->status == '1') {
+                if ($promotion->type == 'spending_bonus') {
+                    $obj = new PromotionsSpendingBonus();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'discounts') {
+                    $obj = new PromotionsDiscounts();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'free_dish') {
+                    $obj = new PromotionsBuy1Get1Free();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
                 }
             }
         }
@@ -83,50 +85,119 @@ class Promotion extends Model
         return $reduction;
     }
 
-    public function getAllPromotions(): array
+    /**
+     * @param $user_id
+     * @param $isGuest
+     * @return array
+     * Description: Get all valid promotions for the given cart
+     */
+    public function getValidPromotionsCart($user_id, $isGuest): array
     {
-        $a1 = $this->getDiscounts();
-        $a2 = $this->getSpendingBonus();
-        $a3 = $this->getFreeDish();
+        $promotions = $this->getAllPromotions();
+        $valid_promotions = [];
+        foreach ($promotions as $promotion) {
+            if ($promotion->status == '1') {
+                if ($promotion->type == 'spending_bonus') {
+                    $obj = new PromotionsSpendingBonus();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'discounts') {
+                    $obj = new PromotionsDiscounts();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'free_dish') {
+                    $obj = new PromotionsBuy1Get1Free();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                }
+            }
+        }
+        return $valid_promotions;
+    }
+
+    /**
+     * @param $user_id
+     * @param $isGuest
+     * @param $promo_id
+     * @return float
+     * Description: Get price reduction of cart after applying promotion
+     */
+    public function reducedCostCart($user_id, $isGuest, $promo_id): float
+    {
+        $promotion = $this->getPromotion($promo_id);
+        $reduction = 0;
+        if ($promotion->type == 'spending_bonus') {
+            $obj = new PromotionsSpendingBonus();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        } else if ($promotion->type == 'discounts') {
+            $obj = new PromotionsDiscounts();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        } else if ($promotion->type == 'free_dish') {
+            $obj = new PromotionsBuy1Get1Free();
+            $reduction = $obj->getReductionCart($promo_id, $user_id, $isGuest);
+        }
+        return $reduction;
+    }
+
+    public function getAllPromotions($onlyActive = false): array
+    {
+        $a1 = $this->getDiscounts($onlyActive);
+        $a2 = $this->getSpendingBonus($onlyActive);
+        $a3 = $this->getFreeDish($onlyActive);
         return array_merge($a1, $a2, $a3);
     }
 
-    public function getDiscounts(): array|bool
+    public function getDiscounts($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->
+        $this->select(["promotions.*", "promo_discounts.*", "dishes.dish_name"])->
         join('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         join('dishes', 'promo_discounts.dish_id', 'dishes.dish_id')->
         where('promotions.type', 'discounts')->
         and('promotions.deleted', 0)->
-        and('dishes.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('dishes.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getSpendingBonus(): array|bool
+    public function getSpendingBonus($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_spending_bonus.*"])->
+        $this->select(["promotions.*", "promo_spending_bonus.*"])->
         join('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         where('promotions.type', 'spending_bonus')->
-        and('promotions.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('promotions.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
-    public function getFreeDish(): array|bool
+    public function getFreeDish($onlyActive = false): array|bool
     {
-        return $this->select(["promotions.*", "promo_buy1get1free.*", "dishes1.dish_name as dish1_name", "dishes2.dish_name as dish2_name"])->
+        $this->select(["promotions.*", "promo_buy1get1free.*", "dishes1.dish_name as dish1_name", "dishes2.dish_name as dish2_name"])->
         join('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
         join('dishes as dishes1', 'promo_buy1get1free.dish1_id', 'dishes1.dish_id')->
         join('dishes as dishes2', 'promo_buy1get1free.dish2_id', 'dishes2.dish_id')->
         where('promotions.type', 'free_dish')->
         and('promotions.deleted', 0)->
         and('dishes1.deleted', 0)->
-        and('dishes2.deleted', 0)->
-        orderBy('status', 'DESC')->fetchAll();
+        and('dishes2.deleted', 0);
+        if ($onlyActive) {
+            $this->and('promotions.status', 1);
+        }
+        return $this->orderBy('status', 'DESC')->fetchAll();
     }
 
 
     // Add a new entry to the promotions table and sub tables
-    public function addpromotion($data): void
+    public function addPromotion($data): void
     {
         $this->insert([
             'title' => $data['title'],
@@ -154,21 +225,22 @@ class Promotion extends Model
     }
 
     // get one promotion by id
-    public function getpromotion($id):Object|bool
+    public function getpromotion($id): object|bool
     {
         return $this->select()->
         leftJoin('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         leftJoin('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         leftJoin('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
-        where('promotions.promo_id', $id)->and('promotions.deleted', 0)->fetch();
+        where('promotions.promo_id', $id)->and('promotions.deleted', 0)->
+        fetch();
     }
 
-    public function deletepromo($id): void
+    public function deletePromo($id): void
     {
         $this->update(["deleted" => 1])->where('promo_id', $id)->execute();
     }
 
-    public function editpromo($data): void
+    public function editPromo($data): void
     {
         $this->update([
             'title' => $data['title'],
@@ -188,4 +260,26 @@ class Promotion extends Model
         }
     }
 
+    public function generateCardObject($promotion): object
+    {
+        $promoObj = new \stdClass();
+        $promoObj->dish_id = $promotion->promo_id;
+        $promoObj->dish_name = $promotion->title;
+        $promoObj->description = $promotion->description;
+        $promoObj->image_url = $promotion->image_url;
+        if (isset($promotion->discount)) {
+            $dish = (new Dish)->getDishById($promotion->dish_id);
+            $promoObj->old_price = $dish->selling_price;
+            $promoObj->selling_price = $dish->selling_price - $promotion->discount;
+        } else if (isset($promotion->spent_amount)) {
+            $promoObj->old_price = $promotion->spent_amount + $promotion->bonus_amount;
+            $promoObj->selling_price = $promotion->spent_amount;
+        } else {
+            $dish1 = (new Dish)->getDishById($promotion->dish1_id);
+            $dish2 = (new Dish)->getDishById($promotion->dish2_id);
+            $promoObj->old_price = $dish1->selling_price + $dish2->selling_price;
+            $promoObj->selling_price = $dish1->selling_price;
+        }
+        return $promoObj;
+    }
 }

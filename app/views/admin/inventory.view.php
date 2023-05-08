@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/inventory.css">
     <script src="<?= ASSETS ?>/js/admin/inventory.js"></script>
-    <script src="<?= ASSETS ?>/js/admin/common.js"></script>
 </head>
 
 <body class="dashboard">
@@ -15,7 +14,10 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3">Inventory</h1>
+
+            <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/inventory/dashboard">Inventory</a> <i class="fa-solid fa-chevron-right mx-2"></i> Details</h1>
+
+
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>

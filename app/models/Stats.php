@@ -118,6 +118,10 @@ class Stats extends Model
             $wait_time = ($t2 - $t1) / 60;
         }
 
+        if ($wait_time < 0) {
+            $wait_time = 0;
+        }
+
         //check if the day already exists in the table
         $row = $this->select()->where('day', $day)->fetch();
         if ($row) {

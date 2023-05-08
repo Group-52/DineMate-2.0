@@ -198,7 +198,9 @@ class Model
      */
     public function limit(int $limit): Model
     {
-        $this->query .= " LIMIT $limit";
+        if ($limit != 0) {
+            $this->query .= " LIMIT $limit";
+        }
         return $this;
     }
 
@@ -270,5 +272,31 @@ class Model
     public function lastInsertId(): int
     {
         return $this->db->lastInsertId();
+    }
+
+    public function concat(array $columns, string $separator, $as = null): string
+    {
+        $query = " CONCAT(";
+        foreach ($columns as $column) {
+            $query .= $column . ", '$separator', ";
+        }
+        $query = rtrim($query, ", '$separator', ");
+        $query .= ")";
+        if ($as) {
+            $query .= " AS $as";
+        }
+        return $query;
+    }
+
+    public function min($column): Model
+    {
+        $this->query = "SELECT MIN($column) AS $column FROM $this->table";
+        return $this;
+    }
+
+    public function max($column): Model
+    {
+        $this->query = "SELECT MAX($column) AS $column FROM $this->table";
+        return $this;
     }
 }

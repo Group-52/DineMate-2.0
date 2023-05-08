@@ -15,7 +15,7 @@ $paft = $paft > $totalPages ? $totalPages : $paft;
             <div>
                 <?php if($currentPage >1 + $lim): ?>
                 <span class="page-item">
-                    <a class="page-link" href="?page=<?= $currentPage - $lim; ?>"><</a>
+                    <a class="page-link" href="?page=<?= $currentPage - $lim; ?>"><i class='fa-solid fa-chevron-left'></i></a>
                 </span>
                 <?php endif; ?>
 
@@ -40,7 +40,7 @@ $paft = $paft > $totalPages ? $totalPages : $paft;
 
                 <?php if($currentPage < $totalPages - $lim): ?>
                 <span class="page-item">
-                    <a class="page-link" href="?page=<?= $currentPage + $lim; ?>">></a>
+                    <a class="page-link" href="?page=<?= $currentPage + $lim; ?>"><i class='fa-solid fa-chevron-right'></i></a>
                 </span>
                 <?php endif; ?>
 

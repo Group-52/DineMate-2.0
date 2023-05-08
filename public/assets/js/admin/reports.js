@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     start.addEventListener('change', () => {
         if (start.value > end.value) {
-            displayError("Start date cannot be after end date", start.getBoundingClientRect().top, start.getBoundingClientRect().left);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Start date cannot be after end date", false, 3000);
             end.value = start.value;
         }
     });
     end.addEventListener('change', () => {
         if (start.value > end.value) {
-            displayError("End date cannot be before start date", end.getBoundingClientRect().top, end.getBoundingClientRect().left);
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "End date cannot be before start date", false, 3000);
             start.value = end.value;
         }
     });
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data['error']) {
-                displayError(data['error'], generate.getBoundingClientRect().top, generate.getBoundingClientRect().left);
+                new Toast("fa-solid fa-times", "#dc3545", "Error", data['error'], false, 3000);
                 return;
             }
             // console.log(data)

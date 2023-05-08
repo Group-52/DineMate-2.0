@@ -21,6 +21,7 @@ class Dish extends Model
             "description",
             "prep_time",
             "image_url",
+            "veg",
             "deleted"
         ];
     }
@@ -57,7 +58,8 @@ class Dish extends Model
             'selling_price' => $data['selling_price'],
             'description' => $data['description'],
             'prep_time' => $data['prep_time'],
-            'image_url' => $data['image_url']
+            'image_url' => $data['image_url'],
+            'veg' => $data['veg']
         ]);
     }
 
@@ -66,7 +68,7 @@ class Dish extends Model
      * @param $dish_id
      * @return bool
      */
-    public function SafeToAdd($dish_id): bool
+    public function safeToAdd($dish_id): bool
     {
         $temp1 = (new Inventory())->getBufferItems();
         $riskstockids = [];
@@ -95,13 +97,25 @@ class Dish extends Model
     public function searchDishes($data): array
     {
         $query = $this->select();
+        $and = false;
         if (isset($data['name'])) {
             $query->contains(["dish_name"], $data['name']);
+            $and = true;
         }
         if (isset($data['price'])) {
-            $query->where('selling_price', '<=', $data['price']);
+            if ($and) {
+                $query->and("selling_price", $data['price'], "<=");
+            } else {
+                $query->where('selling_price', $data['price'], "<=");
+            }
         }
-        // TODO search by Menu
+        if (isset($data['pref']) && $data['pref'] != 2) {
+            if ($and) {
+                $query->and("veg", $data['pref']);
+            } else {
+                $query->where("veg", $data['pref']);
+            }
+        }
         return $query->fetchAll();
     }
 
@@ -113,6 +127,7 @@ class Dish extends Model
             'selling_price' => $data['selling_price'],
             'description' => $data['description'],
             'prep_time' => $data['prep_time'],
+            'veg' => $data['veg']
 //            'image_url' => $data['image_url']
         ])->where('dish_id', $data['dish_id'])->execute();
     }
@@ -120,6 +135,16 @@ class Dish extends Model
     public function deleteDish($id): void
     {
         $this->update(["deleted" => 1])->where('dish_id', $id)->execute();
+    }
+
+    public function minPrice(): float
+    {
+        return $this->min("selling_price")->fetch()->selling_price;
+    }
+
+    public function maxPrice(): float
+    {
+        return $this->max("selling_price")->fetch()->selling_price;
     }
 }
 

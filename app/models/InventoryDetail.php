@@ -24,6 +24,15 @@ class InventoryDetail extends Model
         ];
     }
 
+    public function add($pid, $item_id, $amount_remaining, $special_notes=""):void{
+        $this->insert([
+            'pid' => $pid,
+            'item_id' => $item_id,
+            'amount_remaining' => $amount_remaining,
+            'special_notes' => $special_notes,
+        ]);
+    }
+
     // get a single inventory item
     public function getInventoryItem($pid): object|bool
     {
@@ -77,6 +86,7 @@ class InventoryDetail extends Model
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
+            ->where('items.deleted', 0)
             ->orderBy("items.item_name");
         if (!$page)
             return $q->fetchAll();
@@ -87,15 +97,22 @@ class InventoryDetail extends Model
     // get non-zero inventory with items set to expire in the next x weeks or less in order of expiry date
     public function expiring($weeks): array
     {
-        return $this->select(["inventory2.*", "items.item_name", "units.*", "purchases.expiry_date"])
+        $temp =  $this->select(["inventory2.*", "items.item_name","inventory2.amount_remaining","items.deleted", "units.*", "purchases.expiry_date"])
             ->join("items", "items.item_id", "inventory2.item_id")
             ->join("units", "items.unit", "units.unit_id")
             ->join("purchases", "purchases.purchase_id", "inventory2.pid")
             ->where('inventory2.expiry_risk', 1)
             ->or("purchases.expiry_date", date("Y-m-d", strtotime("+$weeks weeks")), "<=")
-            ->and ("amount_remaining", 0, ">")
             ->orderBy("purchases.expiry_date", "ASC")
             ->fetchAll();
+
+        // remove items with 0 amount_remaining and deleted
+        $result = [];
+        foreach ($temp as $t){
+            if ($t->amount_remaining > 0 && $t->deleted == 0)
+                $result[] = $t;
+        }
+        return $result;
     }
 
     // Make sure to give named arguments
@@ -111,6 +128,18 @@ class InventoryDetail extends Model
         }
         if ($risk !== null) {
             $data['expiry_risk'] = $risk;
+        }
+        if ($amount !== null) {
+            $temp = $this->select(["amount_remaining", "item_id"])->where("pid", $pid)->fetch();
+            if ($temp->amount_remaining > $amount) {
+                // reduce from inventory before updating
+                $inv = new Inventory();
+                $inv->adjustAmount($temp->item_id, $temp->amount_remaining - $amount, "reduce");
+            }elseif ($temp->amount_remaining < $amount){
+                // increase inventory before updating
+                $inv = new Inventory();
+                $inv->adjustAmount($temp->item_id, $amount - $temp->amount_remaining, "add");
+            }
         }
         $this->update($data)
             ->where("pid", $pid)
@@ -149,5 +178,18 @@ class InventoryDetail extends Model
             $data[$t->item_id] = $t->count;
         }
         return $data;
+    }
+
+    //get quantity left of an item
+    public function getQuantity($itemid):float{
+        $temp = $this->select('amount_remaining')
+            ->where('item_id',$itemid)
+            ->fetchAll();
+        $total = 0;
+        if (!$temp) return $total;
+        foreach ($temp as $t){
+            $total += $t->amount_remaining;
+        }
+        return $total;
     }
 }

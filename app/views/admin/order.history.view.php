@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
     <?php include VIEWS . "/partials/admin/head.partial.php" ?>
@@ -16,7 +17,7 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Orders</h1>
+                <h1 class="display-5 mb-2"><a class="link" href="<?= ROOT ?>/admin/orders">Orders</a><i class="fa-solid fa-chevron-right mx-2"></i>History</h1>
             <div class="dashboard-buttons">
                 <a class="btn btn-primary text-uppercase fw-bold" href="<?= ROOT ?>/admin/orders">Today's Orders</a>
             </div>

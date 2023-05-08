@@ -15,21 +15,18 @@ class MenuDishes extends Model
         ];
     }
 
-    #get all menu dishes and sort and separate by menu and make an array of arrays of menu dishes
-    // public function getMenuDishesByMenu(): array
-    // {
-    //     $m = new Menu();
-    //     $menus = $m->getMenus();
-    //     $m_ids = array();
-
-    //     foreach ($menus as $menu) {
-    //         $m_ids[$menu->menu_id] = $this->getMenuDishes($menu->menu_id);
-    //     }
-    //     return $m_ids;
-    // }
+    /**
+     * @return array
+     * Description: get all dishes that are assigned to a menu
+     */
+    public function getDishes():array
+    {
+        $q =  $this->select(['dishes.*'])->join('dishes','menu_dishes.dish_id','dishes.dish_id')->fetchAll();
+        return array_unique($q,SORT_REGULAR);
+    }
 
     // get all dishes for a menu
-    public function getMenuDishes(int $menu_id, int $num = 100, int $offset = 0): array
+    public function getMenuDishes(int $menu_id, int $num = 100, int $offset = 0, $filterAvailable = false): array
     {
         $d = new Dish();
 
@@ -41,9 +38,15 @@ class MenuDishes extends Model
         $menu_dishes = array();
         foreach ($records as $r) {
             if ($r->menu_id == $menu_id) {
-                $menu_dishes[] = $d->getDishById($r->dish_id);
+                if ($filterAvailable) {
+                    if ($d->safeToAdd($r->dish_id))
+                        $menu_dishes[] = $d->getDishById($r->dish_id);
+                } else {
+                    $menu_dishes[] = $d->getDishById($r->dish_id);
+                }
             }
         }
+
         return $menu_dishes;
     }
 

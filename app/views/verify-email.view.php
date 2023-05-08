@@ -9,7 +9,7 @@
 <body style="background: #FF4546">
 <div class="vh-100 position-relative">
     <div class="row h-100 p-5">
-        <div class="col-6 p-5 h-100 d-flex align-items-center">
+        <div class="col-lg-6 col-12 p-5 h-100 d-flex align-items-center">
             <div class="col-offset-xl-2 col-xl-8 col-12">
                 <a href="<?= ROOT ?>/home">
                     <img class="img-logo" src="<?= ROOT ?>/assets/images/logos/logo_Logo Red.svg" alt="DineMate Logo">
@@ -29,7 +29,7 @@
                 <?php endif ?>
                 <form class="my-3" action="" method="POST" id="verify-form">
                     <div class="form-group">
-                        <div class="d-flex m-3 justify-content-center align-items-center">
+                        <div class="d-flex m-3 justify-content-center align-items-center code-container">
                             <?php for ($i = 0; $i < 6; $i++): ?>
                                 <input type="text" name="code-<?= $i + 1 ?>"
                                        id="code-<?= $i + 1 ?>"
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 p-5 h-100">
+        <div class="col-lg-6 not-mobile p-5 h-100">
             <img src="<?= ROOT ?>/assets/images/login/cover.jpg" alt="Login Cover" class="img-cover">
         </div>
     </div>

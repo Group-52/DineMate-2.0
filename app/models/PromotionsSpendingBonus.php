@@ -1,7 +1,7 @@
 <?php
 
 namespace models;
-// Sub Promotions class for the spending bonus promotion
+// Sub Promotion class for the spending bonus promotion
 
 use core\Model;
 
@@ -20,6 +20,12 @@ class PromotionsSpendingBonus extends Model
         ];
     }
 
+    /**
+     * @param $promo_id
+     * @param $order_id
+     * @return bool
+     * Check if the promotion is valid for the given order
+     */
     public function checkValidPromotion($promo_id, $order_id): bool
     {
         $total = (new Order())->calculateSubTotal($order_id);
@@ -31,6 +37,12 @@ class PromotionsSpendingBonus extends Model
         return false;
     }
 
+    /**
+     * @param $promo_id
+     * @param $order_id
+     * @return float
+     * Get the reduction amount for the given promotion and order
+     */
     public function getReduction($promo_id, $order_id): float
     {
         $total = (new Order())->calculateSubTotal($order_id);
@@ -44,15 +56,53 @@ class PromotionsSpendingBonus extends Model
         }
     }
 
+    /**
+     * @param $promo_id
+     * @param $user_id
+     * @param $isGuest
+     * @return float
+     * Get the reduction amount for the given promotion and cart
+     */
+    public function getReductionCart($promo_id, $user_id, $isGuest): float
+    {
+        $total = (new Cart())->calculateSubTotal($user_id, $isGuest);
+        $promotion = $this->getPromotion($promo_id);
+        $spent = $promotion->spent_amount;
+        $bonus = $promotion->bonus_amount;
+        if ($total >= $spent) {
+            return $bonus;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @param $promo_id
+     * @param $user_id
+     * @param $isGuest
+     * @return bool
+     * Check if the promotion is valid for the given cart
+     */
+    public function checkValidPromotionCart($promo_id, $user_id, $isGuest): bool
+    {
+        $total = (new Cart())->calculateSubTotal($user_id, $isGuest);
+        $promotion = $this->getPromotion($promo_id);
+        $spent = $promotion->spent_amount;
+        if ($total >= $spent) {
+            return true;
+        }
+        return false;
+    }
+
     // Get all entries in the table
-    public function getPromos()
+    public function getPromos(): array
     {
         return $this->select('promotions.*')->
         join('promotions', 'promo_spending_bonus.promo_id', 'promotions.promo_id')->fetchAll();
     }
 
     // Add a new entry to the promo_spending_bonus table given the promo_id, spent_amount and bonus_amount
-    public function addPromotion($pid, $spent, $bonus)
+    public function addPromotion($pid, $spent, $bonus): void
     {
         $this->insert([
             'promo_id' => $pid,

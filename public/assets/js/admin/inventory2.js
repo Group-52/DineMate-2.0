@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     fieldName: fieldName,
                     newValue: newValue
                 });
-                console.log("Gonna send this data to server: ", data);
+                // console.log("Gonna send this data to server: ", data);
             }
         }
 
@@ -109,8 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         fetchRes.then(res => res.json())
+            .then(res => {
+                new Toast("fa-solid fa-check", "#28a745", "Updated", "Batch has been Updated", false, 3000);
+
+            } )
             .catch(err => {
                 console.log(err)
+                new Toast("fa-solid fa-times", "#dc3545", "Error", "Batch could not be updated", false, 3000);
             })
 
     }
@@ -146,10 +151,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     setTimeout(function () {
                         tableRow.remove();
+                        new Toast("fa-solid fa-check", "#28a745", "Deleted", "Batch has been deleted", false, 3000);
                     }, 300);
                 })
                 .catch(err => {
                     console.log(err)
+                    new Toast("fa-solid fa-times", "#dc3545", "Error", "Batch could not be deleted", false, 3000);
                 })
         });
     });
@@ -183,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         cell.setAttribute('data-previous-value', currentValue)
                         input.type = 'number';
                         input.min = 0;
+                        input.step = 0.001;
                         input.style.width = '20%';
                         input.setAttribute('oninput', "validity.valid||(value='');");
                         input.value = currentValue;

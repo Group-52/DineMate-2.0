@@ -10,7 +10,7 @@ class App
 {
     private mixed $module = "";
     private array $modules = ["admin", "api"];
-    private mixed $controller = "Home";
+    private mixed $controller = "home";
     private string $method = "index";
     private array $params = [];
 
@@ -66,12 +66,14 @@ class App
             }
         }
 
+        RouteAuth::guestSession($this->controller, $this->module);
+
         if ($allowed && $found) {
             //Create an instance of the controller
             if ($this->module) {
-                $this->controller = "controllers\\" . $this->module . "\\" . $this->controller;
+                $this->controller = "controllers\\" . $this->module . "\\" . ucfirst($this->controller);
             } else {
-                $this->controller = "controllers\\" . $this->controller;
+                $this->controller = "controllers\\" . ucfirst($this->controller);
             }
             $this->controller = new $this->controller;
 
@@ -85,7 +87,6 @@ class App
                     (new _404())->index();
                     $found = false;
                 }
-
             }
         }
         // sets the params

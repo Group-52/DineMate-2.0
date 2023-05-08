@@ -19,9 +19,9 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-items-center justify-content-space-between w-100">
-            <h1 class="display-3 active">Purchases</h1>
+            <h1 class="display-5 mb-2">Purchases</h1>
             <div class="dashboard-buttons">
-                <a class="btn btn-primary text-uppercase fw-bold" id="add-purchase-button">Add Purchase</a>
+                <a class="btn btn-primary text-uppercase fw-bold" id="add-purchase-button">+ Add Purchase</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
             </div>
@@ -29,7 +29,7 @@
         <table id="purchase-table" class="table">
             <thead>
             <tr>
-                <!--                        <th>Purchase ID</th>-->
+                <th>Purchase ID</th>
                 <th>Item</th>
                 <th>Purchase Date</th>
                 <th>Vendor</th>
@@ -47,14 +47,14 @@
             <?php if (isset($purchases)) : ?>
                 <?php foreach ($purchases as $purchase) : ?>
                     <tr data-purchase-id="<?= $purchase->purchase_id ?>">
-                        <td style=display:none> <?= $purchase->purchase_id ?> </td>
+                        <td><?= $purchase->purchase_id ?> </td>
                         <td><?= $purchase->item_name ?></td>
                         <td data-field-name="purchase_date"><?= substr($purchase->purchase_date, 0, 10) ?></td>
                         <td data-field-name="vendor"><?= $purchase->vendor_name ?></td>
                         <td data-field-name="quantity"
                             data-unit="<?= $purchase->abbreviation ?>"><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
-                        <td data-field-name="brand"><?= $purchase->brand ?></td>
-                        <td data-field-name="expiry_date"><?= $purchase->expiry_date ?></td>
+                        <td style="max-width: 90px; overflow: clip;" data-field-name="brand"><?= $purchase->brand ?></td>
+                        <td data-field-name="expiry_date"><?php if ($purchase->expiry_date != '0000-00-00') echo $purchase->expiry_date ?></td>
                         <td data-field-name="cost"><?= $purchase->cost ?></td>
                         <td data-field-name="discount"><?= $purchase->discount ?></td>
                         <td data-field-name="final_price"><?= $purchase->final_price ?></td>
@@ -102,7 +102,8 @@
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
                     <span class="d-block">
-                    <input type="number" step="0.01" min="0" name="quantity" id="quantity" class="form-control d-inline w-75 mr-2" required><span id="unitspan"></span>
+                    <input type="number" step="0.01" min="0" name="quantity" id="quantity"
+                           class="form-control d-inline w-75 mr-2" required><span id="unitspan"></span>
                     </span>
                 </div>
                 <div class="form-group">
@@ -111,7 +112,7 @@
                 </div>
                 <div class="form-group">
                     <label for="expiry_date">Expiry Date</label>
-                    <input type="date" name="expiry_date" id="expiry_date" class="form-control">
+                    <input type="date" name="expiry_date" id="expiry_date" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="cost">Cost</label>
@@ -123,14 +124,14 @@
                 <div class="form-group">
                     <label for="discount">Discount</label>
                     <span class="d-block">
-                        <input type="number" step="1" min="0" name="discount" id="discount"
+                        <input type="number" step="1" min="0" name="discount" id="discount" value="0"
                                class="form-control d-inline w-75 mr-2"> LKR
                         </span>
                 </div>
                 <div class="form-group">
                     <label for="tax">Tax</label>
-                    <span class="d-block"> <input type="number" step="1" min="0" name="tax" id="tax"
-                                                   class="form-control d-inline w-75 mr-2"> LKR </span>
+                    <span class="d-block"> <input type="number" step="1" min="0" name="tax" id="tax" value="0"
+                                                  class="form-control d-inline w-75 mr-2"> LKR </span>
                 </div>
                 <div class="form-group">
                     <label for="final_price">Final Price</label>
@@ -138,8 +139,14 @@
                         <input type="number" step="1" min="0" required name="final_price" id="final_price"
                                class="form-control d-inline w-75 mr-2">  LKR </span>
                 </div>
-                <button type="submit" name="submit" class="btn btn-primary" id="submit-button">Submit</button>
-                <button type="button" name="cancel" class="btn btn-danger" id="cancel-button">Cancel</button>
+                <div class="d-flex justify-content-space-between">
+                    <button type="button" name="cancel" class="btn btn-secondary text-uppercase" id="cancel-button">
+                        Cancel
+                    </button>
+                    <button type="submit" name="submit" class="btn btn-primary text-uppercase" id="submit-button">
+                        Submit
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -148,3 +155,16 @@
 </body>
 
 </html>
+
+<script>
+    //Update final price
+    let cost = document.getElementById('cost');
+    let discount = document.getElementById('discount');
+    let tax = document.getElementById('tax');
+    let final_price = document.getElementById('final_price');
+    [cost, discount, tax].forEach(function (element) {
+        element.addEventListener('change', function () {
+            final_price.value = parseFloat(cost.value) - parseFloat(discount.value) + parseFloat(tax.value);
+        });
+    });
+</script>

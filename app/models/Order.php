@@ -47,7 +47,7 @@ class Order extends Model
     }
 
     // Create a new order and returns the order id
-    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null): int
+    public function create($type, $dishlist, $reg_customer_id = null, $guest_id = null, $request = null, $table_id = null, $scheduled_time = null, $total_cost = 0, $promo = 1, $service_charge = 0): int
     {
         $data = [];
         $time_placed = date("Y-m-d H:i:s");
@@ -65,7 +65,10 @@ class Order extends Model
             'scheduled_time' => $scheduled_time,
             'request' => $request,
             'status' => 'pending',
-            'table_id' => $table_id
+            'table_id' => $table_id,
+            'total_cost' => $total_cost,
+            'promo' => $promo,
+            'service_charge' => $service_charge
         ];
 
         $this->insert($data);
@@ -155,6 +158,17 @@ class Order extends Model
         return $this->fetchAll();
     }
 
+    public function getUncollectedOrders($user_id, $limit = 10, $offset = 0, $isGuest = false): array
+    {
+        $this->select()
+            ->where("collected", "1", "!=")
+            ->and(userColumn($isGuest), $user_id)
+            ->orderBy("time_placed", "DESC")
+            ->limit($limit)
+            ->offset($offset);
+        return $this->fetchAll();
+    }
+
     public function getActiveOrdersCount($user_id, $isGuest = false): int
     {
         $this->count()
@@ -168,7 +182,7 @@ class Order extends Model
     {
         $this->select("orders.*, feedback.rating")
             ->leftJoin("feedback", "orders.order_id", "feedback.order_id")
-            ->where("status", "completed")
+            ->where("collected", "1")
             ->and(userColumn($isGuest), $user_id)
             ->orderBy("time_placed", "DESC")
             ->limit($limit)
@@ -344,7 +358,6 @@ class Order extends Model
     public function complete($order_id): void
     {
         //add to stats
-        (new Stats())->addOrder($order_id);
         (new MenuStats())->addOrder($order_id);
 
         $d = (new OrderDishes())->getOrderDishes($order_id);

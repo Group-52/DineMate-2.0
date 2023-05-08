@@ -37,4 +37,28 @@ class Unit extends Model
             ->fetchAll();
     }
 
+    //given a unit and an item checks whether unit type is compatible with item
+    public function unitMatch($unit_id, $item_id): bool
+    {
+        if (!$unit_id || !$item_id) {
+            return false;
+        }
+        $itemUnit = (new Item())->getItemById($item_id)->unit;
+        $ut1 = $this->select(["type"])
+            ->where('unit_id', $unit_id)
+            ->fetch();
+        $ut2 = $this->select(["type"])
+            ->where('unit_id', $itemUnit)
+            ->fetch();
+
+        if (!$ut1 || !$ut2) {
+            return false;
+        }
+        if ($ut1 == $ut2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

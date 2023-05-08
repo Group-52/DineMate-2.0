@@ -2,29 +2,33 @@
 
 namespace utils;
 
+use models\Guest;
+use models\RegUser;
+
 class RouteAuth
 {
-    protected static array $common_controllers = ["auth", "_404", "_401", "_403"];
+    protected static array $common_controllers = ["auth", "_404", "_401", "_403",'logout','profile'];
 
     protected static array $role_list = [1 => "Chef", 2 => "General Manager", 3 => "Cashier", 4 => "Inventory Manager", 5 => "Admin", 6 => "Customer"];
 
-    protected static array $allowed_controllers = [
+    public static array $allowed_controllers = [
         "not_api" => [
-            "Chef" => ["home","orders"],
+            "Chef" => ["home","orders","ingredients"],
             "Cashier" => ["home","payments"],
-            "Inventory Manager" => ["home","dishes", "ingredients", "vendors", "inventory", "items", "purchases"],
-            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders"]
+            "Inventory Manager" => ["home","ingredients", "vendors", "inventory", "items", "purchases"],
+            "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders", "promotion"]
         ],
         "api" => [
             "Chef" => ["orders", "orderdishes"],
             "Cashier" => [],
             "Inventory Manager" => ["dishes", "ingredients", "vendors", "inventory", "items", "purchases", "stats"],
-            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest"]
+            "Customer" => ["home", "cart", "dishes", "profile", "purchases", "orders", "feedback", "guest", "promotions"]
         ]
     ];
 
     public static function checkAuth($controller, string $module = ""): bool
     {
+        if ($module=='api') return true;
         if (!$controller) return false;
         $controller = strtolower($controller);
 
@@ -48,6 +52,7 @@ class RouteAuth
         }
         //check if the controller is in the allowed controllers
         $module = ($module === "api") ? "api" : "not_api";
+
         $allowed_controllers_arr = self::$allowed_controllers[$module][$role] ?? null;
         if ($allowed_controllers_arr && in_array($controller, $allowed_controllers_arr)) {
             return true;
@@ -65,7 +70,7 @@ class RouteAuth
         }
         $role = "Customer";
 
-        if (isset($_SESSION['user']) && isset($_SESSION['user']->role)) {
+        if (isset($_SESSION['user']->role)) {
             $role = self::$role_list[$_SESSION['user']->role];
             if ($role == 'General Manager' || $role == 'Admin') {
                 return true;
@@ -76,6 +81,40 @@ class RouteAuth
             }
         }
         return false;
+    }
+
+
+    public static function guestSession($controller, $module): void
+    {
+        $guest = new Guest();
+        $regUser = new RegUser();
+
+        if (isNotLoggedIn() && empty($module)) {
+            if (in_array($controller, self::$allowed_controllers["not_api"]["Customer"])) {
+
+                $cookieName = "guest";
+
+                if (isset($_COOKIE["guest"])) {
+                    $guestId = $_COOKIE["guest"];
+                } else {
+                    $guestId = $guest->createGuest();
+                    setcookie($cookieName, $guestId, time() + (86400 * 30 * 7), "/");
+                }
+                createSessionGuest($guestId);
+            }
+        } else if (isGuest()) {
+            $guestData = $guest->getGuestById(userId());
+            if (!$guestData) {
+                session_destroy();
+                self::guestSession($controller, $module);
+            }
+        } else if (isRegistered()) {
+            $regUserData = $regUser->getUserById($_SESSION["user"]->user_id);
+            if (!$regUserData) {
+                unset($_SESSION["user_id"]);
+                self::guestSession($controller, $module);
+            }
+        }
     }
 }
 

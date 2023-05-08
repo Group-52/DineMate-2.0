@@ -1,5 +1,5 @@
 .maindiv{
-    background-color: red;
+    /*background-color: red;*/
     /*background: linear-gradient(0deg, rgba(232,231,229,0.13385864599746145) 27%, rgba(195,35,34,1) 74%);*/
 }
 .card {
@@ -37,5 +37,5 @@
     color: black;
 }
 .type-header{
-    color:white;
+    /*color:white;*/
 }

@@ -4,6 +4,8 @@ namespace controllers\api;
 
 use core\Controller;
 use models\Order;
+use models\Stats;
+use WebSocket\Client;
 
 class Orders
 {
@@ -26,11 +28,35 @@ class Orders
                     $request = $post->request ?? null;
                     $type = $post->type;
                     $table = $post->table ?? null;
+                    $total = $post->netTotal ?? null;
+                    $promo = $post->promotion ?? 1;
+                    $svcharge = $post->serviceCharge ?? 0;
                     $dishlist = $post->dishlist;
                     $od = new Order();
-                    // TODO debug the dishlist
-                    $od->create($type, $dishlist, $reg_customer_id, $request, $guest_id, $table, $scheduled_time);
+                    $od->create($type, $dishlist, $reg_customer_id, $guest_id,$request, $table, $scheduled_time, $total,$promo,$svcharge);
+                    $order_id = $od->lastInsertId();
 
+                    $ws = new Client("ws://".SERVER_SOCKET_HOST.":8080");
+                    $ws->text(json_encode([
+                        "event_type" => "new_order",
+                        'data'=>[
+                            "order_id" => $order_id,
+                            "status" => "pending",
+                            "time_placed" => date("Y-m-d H:i:s"),
+                            "request" => $request,
+                            "user_id" => $reg_customer_id ?? $guest_id,
+                            "user_type" => $reg_customer_id ? "registered" : "guest",
+                            "type" => $type,
+                            "scheduled_time" => $scheduled_time,
+                            "table_id" => $table,
+                            "order_dishes" => $dishlist
+                        ]
+
+                    ]));
+
+                    if (isset($_SESSION['guest_id'])){
+                        unset($_SESSION['guest_id']);
+                    }
                     $this->json([
                         'status' => 'success',
                         'message' => 'Order created'
@@ -104,6 +130,10 @@ class Orders
                 //remove null values
                 $data = array_filter($data, fn($v) => !is_null($v));
                 $od->editOrder($data);
+
+                if($collected==1){
+                    (new Stats())->addOrder($order_id);
+                }
 
                 $this->json([
                     'status' => 'success',

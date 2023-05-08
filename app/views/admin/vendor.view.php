@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php include VIEWS . "/partials/home/head.partial.php" ?>
+    <?php include VIEWS . "/partials/admin/head.partial.php" ?>
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
     <script src="<?= ASSETS ?>/js/admin/vendors.js"></script>
 </head>
@@ -11,78 +11,122 @@
     <?php include VIEWS . "/partials/admin/sidebar.partial.php" ?>
     <div class="w-100 h-100 p-5">
         <div class="dashboard-header d-flex flex-row align-vendors-center justify-content-space-between w-100">
-            <h1 class="display-3">Vendors</h1>
-            <a class="btn btn-primary text-uppercase fw-bold h-50" href="vendors/addVendor" id="add-vendor-button">+ New Vendors</a>
-        </div>
-        <div>
-<!--            <form action="" method="GET">-->
-<!--                <div class="row">-->
-<!--                    <div class="form-search col-10">-->
-<!--                        <input type="text" class="form-control" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">-->
-<!--                        <button class="form-search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </form>-->
+            <h1 class="display-5 mb-2">Vendors</h1>
+
+
+            <div class="w-50">
+                <form action="" method="GET">
+                    <div class="row">
+                        <div class="form-search col-10">
+                            <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"
+                                   placeholder="Search for names.." title="Type in a name">
+                            <button class="form-search-icon" type="submit"><i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <a class="btn btn-primary text-uppercase fw-bold h-50" href="vendors/addVendor" id="add-vendor-button">+ New
+                Vendors</a>
         </div>
         <div id="vendor-table">
-        <table class=" table">
-        <thead>
-            <tr>
-                <th>VendorID</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Company</th>
-                <th>Contact No</th>
-            </tr>
-            </thead>
-    
-    <tbody>
-    
-        <?php if (isset($Vendor)) {
-            foreach ($Vendor as $v1) {
-                echo "<tr>";
-                echo "<td>" . $v1->vendor_id . "</td>";
-                echo "<td>" . $v1->vendor_name. "</td>";
-                echo "<td>" . $v1->address . "</td>";
-                echo "<td>" . $v1->company . "</td>";
-                echo "<td>" . $v1->contact_no . "</td>";
-                echo "<td>" . $v1->email . "</td>";
-                echo "<td><a class='edit-icon-link' href='vendors/edit/" . $v1->vendor_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
-                echo "<td><a class='cart-trash-icon' href='vendors/delete/" . $v1->vendor_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'</i></a></td>";
-            }
-        }
-        ?>
-        </tbody>
-        </table>
+            <table class=" table">
+                <thead>
+                <tr>
+                    <th>VendorID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Company</th>
+                    <th>Contact No</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <?php if (isset($Vendor)) {
+                    foreach ($Vendor as $v1) {
+                        echo "<tr>";
+                        echo "<td>" . $v1->vendor_id . "</td>";
+                        echo "<td>" . $v1->vendor_name . "</td>";
+                        echo "<td>" . $v1->address . "</td>";
+                        echo "<td>" . $v1->company . "</td>";
+                        echo "<td>" . $v1->contact_no . "</td>";
+                        echo "<td>" . $v1->email . "</td>";
+                        echo "<td><a class='edit-icon-link' href='vendors/edit/" . $v1->vendor_id . "'><i class='fa fa-edit edit-icon' aria-hidden='true'></i></a></td>";
+                        echo "<td><a class='cart-trash-icon' href='vendors/delete/" . $v1->vendor_id . "'><i class='fa-solid fa-trash cart-delete p-1 pointer'</i></a></td>";
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
         </div>
         <div id="vendor-form" class="overlay">
-        <form action="<?= ROOT ?>/admin/vendors/addVendor" method="POST">
-            
-            <div class="form-group">
-                <label class="label" for="name">Name</label>
-                <input class="form-control" type="text" name="vendor_name" id="vendor_name" required>
-            </div>
-            <div class="form-group">
-                <label class="label" for="address">Address</label>
-                <input class="form-control" type="text" name="address" id="address">
-            </div>
-            <div class="form-group">
-                <label class="label" for="company">Company</label>
-                <input class="form-control" type="text" name="company" id="company">
-            </div>
-            <div class="form-group">
-                <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" type="text" name="contact_no" id="contact_no" required>
-            </div>
-            <div class="form-group">
-                <label class="label" for="email">Email</label>
-                <input class="form-control" type="text" name="email" id="email">
-            </div>
-            <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">Save Vendor</button>
-            <button type="button" class="btn btn-secondary" id="cancel-button">Cancel</button>
-        </form>
-    </div>
+            <form action="<?= ROOT ?>/admin/vendors/addVendor" method="POST">
+
+                <div class="form-group">
+                    <label class="label" for="name">Name</label>
+                    <input class="form-control" type="text" name="vendor_name" id="vendor_name" required>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="address">Address</label>
+                    <input class="form-control" type="text" name="address" id="address">
+                </div>
+                <div class="form-group">
+                    <label class="label" for="company">Company</label>
+                    <input class="form-control" type="text" name="company" id="company">
+                </div>
+                <div class="form-group">
+                    <label class="label" for="contact_no">Contact No</label>
+                    <input class="form-control" type="number" name="contact_no" id="contact_no" required>
+                </div>
+                <div class="form-group">
+                    <label class="label" for="email">Email</label>
+                    <input class="form-control" type="text" name="email" id="email">
+                </div>
+                <div class="d-flex justify-content-space-between w-100">
+                    <button type="button" class="btn btn-secondary text-uppercase fw-bold" id="cancel-button">Cancel
+                    </button>
+                    <button class="btn btn-success text-uppercase fw-bold" type="submit" name="save" id="submit-button">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 </body>
 </html>
+
+<script>
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("vendor-table");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                //and name is not "Uknown"
+                if (txtValue.toUpperCase().indexOf(filter) > -1 && txtValue.toUpperCase() != "UNKNOWN") {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+
+    let vendors = <?= json_encode($Vendor) ?>;
+    let namefield = document.getElementById('vendor_name');
+    namefield.addEventListener('change', (e) => {
+        let name = e.target.value;
+        let vendor = vendors.find(vendor => vendor.vendor_name.toLowerCase() == name.toLowerCase());
+        if (vendor) {
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Vendor with same name exists", false, 3000);
+            namefield.value = "";
+        }
+    })
+</script>

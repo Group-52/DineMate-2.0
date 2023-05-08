@@ -56,4 +56,21 @@ class Dishes
             ]);
         }
     }
+
+    public function minmax(): void
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $dish = new Dish();
+            $this->json([
+                'status' => 'success',
+                'min' => $dish->minPrice(),
+                'max' => $dish->maxPrice()
+            ]);
+        } else {
+            $this->json([
+                'status' => 'error',
+                'message' => 'Invalid request method'
+            ]);
+        }
+    }
 }
