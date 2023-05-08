@@ -4,6 +4,7 @@ namespace controllers;
 
 use components\Form;
 use core\Controller;
+use models\GeneralDetails;
 use models\OTPRegUser;
 use utils\Mailer;
 
@@ -30,6 +31,7 @@ class Profile
             $form->addInputField("email", "email", "email", "Email", true, value: $_SESSION["user"]->email);
             $form->addInputField("tel", "tel", "tel", "Contact Number", true, value: $_SESSION["user"]->contact_no);
             $data["form"] = $form;
+            $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
             $this->view("profile", $data);
         } else {
             redirectToLogin();
@@ -56,6 +58,7 @@ class Profile
                     $html .= "<h2>" . $otp . "</h2>";
                     $data["success"] = $mailer->send($user->email, "Verify your email address - " . APP_NAME, $html);
                 }
+                $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
                 $this->view("verify-email", $data);
             }
         } else {

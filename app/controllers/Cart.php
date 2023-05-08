@@ -15,6 +15,7 @@ class Cart
             $cart = new \models\Cart();
             $data["cart_items"] = $cart->getCartItems(userId(), isGuest());
             $data["title"] = "Cart";
+            $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
             $this->view("cart", $data);
         } else {
             redirectToLogin();

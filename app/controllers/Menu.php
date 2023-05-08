@@ -4,6 +4,7 @@ namespace controllers;
 
 use components\MenuCard;
 use core\Controller;
+use models\GeneralDetails;
 use models\MenuDishes;
 
 class Menu
@@ -19,6 +20,7 @@ class Menu
     {
         $menu = new \models\Menu();
         $menuDetails = $menu->getMenu($menu_id);
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
         if ($menuDetails) {
             $data = [];
             $data["menu"] = $menuDetails;

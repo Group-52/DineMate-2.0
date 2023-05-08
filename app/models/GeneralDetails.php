@@ -33,6 +33,11 @@ class GeneralDetails extends Model
     {
         return $this->select()->fetch();
     }
+
+    public function getFooterDetails(): object|false
+    {
+        return $this->select(["opening_time", "closing_time", "email", "contact_no", "twitter_url", "instagram_url"])->fetch();
+    }
     public function updateDetails($data): void
     {
         $this->update($data)->execute();

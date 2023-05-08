@@ -4,6 +4,7 @@ namespace controllers;
 
 use components\Pagination;
 use Core\Controller;
+use models\GeneralDetails;
 use models\Order;
 use models\OrderDishes;
 use models\Promotion;
@@ -29,6 +30,7 @@ class Orders
             $totalCount = $order->getActiveOrdersCount(userId(), isGuest());
             $data = $this->paginateOrders($totalCount, $limit, $data);
             $data["title"] = "Active Orders";
+            $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
             $this->view("orders.active", $data);
         } else {
             redirect("auth");
@@ -47,6 +49,7 @@ class Orders
             $totalCount = $order->getPreviousOrdersCount(userId(), isGuest());
             $data = $this->paginateOrders($totalCount, $limit, $data);
             $data["title"] = "Previous Orders";
+            $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
             $this->view("orders.previous", $data);
         } else {
             redirect("auth");

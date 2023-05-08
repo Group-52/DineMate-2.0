@@ -6,6 +6,7 @@ use core\Controller;
 use components\Form;
 use models\Cart;
 use models\Dish;
+use models\GeneralDetails;
 use models\Order;
 use models\PromotionsBuy1Get1Free;
 use models\PromotionsDiscounts;
@@ -166,6 +167,7 @@ class Checkout
                 $data["errors"] = $form->getErrors();
             }
         }
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
         $data["form"] = $form;
         $data["cart"] = $cartItems;
         $this->view("checkout", $data);

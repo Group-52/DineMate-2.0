@@ -3,6 +3,7 @@
 namespace controllers;
 
 use core\Controller;
+use models\GeneralDetails;
 
 class Dish
 {
@@ -12,6 +13,7 @@ class Dish
     {
         $data = [];
         $dish = (new \models\Dish())->getDishById($item_id);
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
         if ($dish) {
             $data["cartQty"] = 0;
             if (isLoggedIn()) {

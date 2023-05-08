@@ -5,6 +5,7 @@ namespace controllers;
 use components\MenuCard;
 use core\Controller;
 use models\Dish;
+use models\GeneralDetails;
 use models\Guest;
 use models\PromotionsBuy1Get1Free;
 use models\PromotionsDiscounts;
@@ -19,6 +20,7 @@ class Promotion
     {
         $data = [];
         $data['title'] = 'Promotion';
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
         $promotion = new \models\Promotion();
         $promotion_items = $promotion->getAllPromotions(true);
@@ -46,6 +48,7 @@ class Promotion
 
         $data = [];
         $data['title'] = 'Promotion';
+        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
         $promotion = new \models\Promotion();
         $promotion_item = $promotion->getPromotion($id);
