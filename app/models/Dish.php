@@ -66,7 +66,7 @@ class Dish extends Model
      * @param $dish_id
      * @return bool
      */
-    public function SafeToAdd($dish_id): bool
+    public function safeToAdd($dish_id): bool
     {
         $temp1 = (new Inventory())->getBufferItems();
         $riskstockids = [];

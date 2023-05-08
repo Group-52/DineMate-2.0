@@ -3,7 +3,7 @@
 // Main Promotion class
 namespace models;
 
-// Main Promotions class
+// Main Promotion class
 
 use core\Model;
 
@@ -188,7 +188,7 @@ class Promotion extends Model
 
 
     // Add a new entry to the promotions table and sub tables
-    public function addpromotion($data): void
+    public function addPromotion($data): void
     {
         $this->insert([
             'title' => $data['title'],
@@ -222,15 +222,16 @@ class Promotion extends Model
         leftJoin('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->
         leftJoin('promo_spending_bonus', 'promotions.promo_id', 'promo_spending_bonus.promo_id')->
         leftJoin('promo_buy1get1free', 'promotions.promo_id', 'promo_buy1get1free.promo_id')->
-        where('promotions.promo_id', $id)->and('promotions.deleted', 0)->fetch();
+        where('promotions.promo_id', $id)->and('promotions.deleted', 0)->
+        fetch();
     }
 
-    public function deletepromo($id): void
+    public function deletePromo($id): void
     {
         $this->update(["deleted" => 1])->where('promo_id', $id)->execute();
     }
 
-    public function editpromo($data): void
+    public function editPromo($data): void
     {
         $this->update([
             'title' => $data['title'],
@@ -250,4 +251,26 @@ class Promotion extends Model
         }
     }
 
+    public function generateCardObject($promotion): object
+    {
+        $promoObj = new \stdClass();
+        $promoObj->dish_id = $promotion->promo_id;
+        $promoObj->dish_name = $promotion->title;
+        $promoObj->description = $promotion->description;
+        $promoObj->image_url = $promotion->image_url;
+        if (isset($promotion->discount)) {
+            $dish = (new Dish)->getDishById($promotion->dish_id);
+            $promoObj->old_price = $dish->selling_price;
+            $promoObj->selling_price = $dish->selling_price - $promotion->discount;
+        } else if (isset($promotion->spent_amount)) {
+            $promoObj->old_price = $promotion->spent_amount + $promotion->bonus_amount;
+            $promoObj->selling_price = $promotion->spent_amount;
+        } else {
+            $dish1 = (new Dish)->getDishById($promotion->dish1_id);
+            $dish2 = (new Dish)->getDishById($promotion->dish2_id);
+            $promoObj->old_price = $dish1->selling_price + $dish2->selling_price;
+            $promoObj->selling_price = $dish1->selling_price;
+        }
+        return $promoObj;
+    }
 }

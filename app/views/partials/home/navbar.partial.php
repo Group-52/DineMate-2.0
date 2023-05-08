@@ -74,7 +74,7 @@ use models\Cart;
             </div>
             <div class="sidebar-item">
                 <i class="fa-solid fa-tag"></i>
-                <span class="sidebar-text">My Promotions</span>
+                    <span class="sidebar-text"><a class="link" href="<?= ROOT ?>/promotion">My Promotions</a></span>
             </div>
             <a class="sidebar-item">
                 <?php if (isRegistered()):  ?>

@@ -1,7 +1,7 @@
 <?php
 
 namespace models;
-// Sub Promotions class for the spending bonus promotion
+// Sub Promotion class for the spending bonus promotion
 
 use core\Model;
 

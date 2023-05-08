@@ -3,6 +3,7 @@
 namespace controllers\api;
 
 use core\Controller;
+use models\Dish;
 
 class Cart
 {
@@ -39,12 +40,20 @@ class Cart
                     $post = json_decode(file_get_contents('php://input'));
                     $item_id = $post->id;
                     $cart = new \models\Cart();
-                    $cart->addToCart(userId(), $item_id, 1, isGuest());
-                    $this->json([
-                        'status' => 'success',
-                        'message' => 'Items added to cart',
-                        'cart_count' => $cart->getNoOfItems(userId(), isGuest())
-                    ]);
+                    if ((new Dish)->safeToAdd($item_id))
+                    {
+                        $cart->addToCart(userId(), $item_id, 1, isGuest());
+                        $this->json([
+                            'status' => 'success',
+                            'message' => 'Items added to cart',
+                            'cart_count' => $cart->getNoOfItems(userId(), isGuest())
+                        ]);
+                    } else {
+                        $this->json([
+                            'status' => 'error',
+                            'message' => 'Item is not available'
+                        ]);
+                    }
                 } catch (\Exception $e) {
                     $this->json([
                         'status' => 'error',

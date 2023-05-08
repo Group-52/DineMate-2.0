@@ -38,23 +38,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php if (isset($cart)): ?>
-                            <?php
-                            $total = 0.00;
-                            foreach ($cart as $item) : ?>
+                        <?php if (isset($cart) && isset($discount) && isset($total) && isset($subtotal)): ?>
+                            <?php foreach ($cart as $item) : ?>
                                 <tr>
                                     <td><?= $item->dish_name ?></td>
                                     <td><?= $item->quantity ?></td>
                                     <?php
                                     $price = (float)$item->selling_price * (float)$item->quantity;
-                                    $total += $price;
                                     ?>
                                     <td><?= $price ?></td>
                                 </tr>
                             <?php endforeach ?>
+                            <tr class="secondary fs-5" id="cart-sub-total">
+                                <td colspan="2" class="fw-bold">SUB TOTAL</td>
+                                <td class="fw-bold"><?= $subtotal ?></td>
+                            </tr>
+                            <tr class="secondary fs-5">
+                                <td colspan="2" class="fw-bold">DISCOUNT</td>
+                                <td class="fw-bold"><?= $discount ?></td>
+                            </tr>
+                            <tr class="secondary fs-5">
+                                <td colspan="2" class="fw-bold">SERVICE CHARGE</td>
+                                <td class="fw-bold" id="service-charge">0</td>
+                            </tr>
                             <tr class="secondary fs-4">
                                 <td colspan="2" class="fw-bold">TOTAL</td>
-                                <td class="fw-bold"><?= $total ?></td>
+                                <td class="fw-bold" id="total"><?= $total ?></td>
                             </tr>
                         <?php endif; ?>
                         </tbody>

@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             button.disabled = true;
             button.firstChild.className = "fa-solid fa-check";
             new Toast("fa-solid fa-check", "#59BB1E", "Success", "Added to cart successfully", false, 5000);
+            updatePromotionBar();
           }
         })
         .catch((error) => {
@@ -62,16 +63,19 @@ document.addEventListener("DOMContentLoaded", () => {
               searchResults.innerHTML = "";
               data.dishes.forEach((dish) => {
                 searchResults.innerHTML += `
-              <div>
-              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
               <div class='menu-item-card rounded-sm'>
+              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
               <div class='card-img-wrapper'>
               <img src='${ASSETS}/images/dishes/${
                   dish.image_url
                 }' class='card-img' alt='${dish.dish_name}'>
               </div>
+              </a>
+              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-body-wrapper'>
               <div class='card-body'>
+              <div class="card-content">
               <h3 class='card-title'>${dish.dish_name}</h3>
+              </div>
               <div class='card-prices'>
               ${
                 dish.old_price != null
@@ -79,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   : ""
               }
               <div class='card-price-new'>LKR ${dish.selling_price}</div>
-              </div></div></div></a></div>
+              </div></div></a></div>
               `;
               });
             }
@@ -117,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Websocket
   Object.keys(states).forEach((state) => {
     (new Socket()).receive_data(state, (data) => {
       const userId = data["user_id"];
@@ -131,14 +136,46 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     })
-
   });
 
+  // Card banner
+  const bannerImg = document.getElementById("bg-change");
+  const cards = document.querySelectorAll(".menu-dish");
+  cards.forEach((card) => {
+    card.onmouseenter = () => {
+      const img = card.querySelector(".card-img");
+      bannerImg.src = img.src;
+      bannerImg.classList.remove("banner-hidden");
+    }
+    card.onmouseleave = () => {
+      bannerImg.classList.add("banner-hidden");
+    }
+  });
 
-  // navigator.serviceWorker &&
-  //   navigator.serviceWorker
-  //     .register(ROOT + "/service-worker.js")
-  //     .then(function (registration) {
-  //       console.log("Excellent, registered with scope: ", registration.scope);
-  //     });
+  // Promotions
+  const promotionBar = document.querySelector(".promotion-bar");
+  const promotionTitle = document.querySelector(".promotion-title");
+  const promotionPrice = document.querySelector(".promotion-price");
+  const progressBar = document.querySelector(".progress-bar");
+  const updatePromotionBar = () => {
+    fetch(`${ROOT}/api/promotions/spendingBonusDetails`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "success") {
+          const promotion = data.promotion;
+          if (promotion) {
+            promotionBar.classList.remove("d-none");
+            promotionTitle.innerText = "Spending Bonus"
+            promotionPrice.innerText = "LKR " + data['sub_total'] + " / LKR " + data['spent_amt'];
+            progressBar.style.width = (data['sub_total'] / data['spent_amt']) * 100 + "%";
+          }
+
+          promotionBar.onclick = () => {
+            window.location.href = `${ROOT}/promotion/id/${data.promotion.promo_id}`;
+          }
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+  updatePromotionBar();
 });

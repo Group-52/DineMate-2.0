@@ -14,6 +14,7 @@
             <img class="banner-bg-img"
                  src="<?php echo ASSETS . "/images/menus/" . $menu->image_url ?? ASSETS . '/images/home/banner.jpg' ?>"
                  alt="banner">
+            <img class="banner-bg-img banner-hidden" id="bg-change" src="" alt="banner">
             <div class="banner-bg-gradient"></div>
             <div class="banner-text">
                 <h1><?= $menu->menu_name ?></h1>

@@ -82,11 +82,11 @@ class Cart extends Model
 
     /**
      * @param $user_id
-     * @param $isGuest = false
+     * @param bool $isGuest = false
      * @return float
      * Description: Calculates the total cost of the cart based on the dishes and their quantities without promotion or service charge
      */
-    public function calculateSubTotal($user_id, $isGuest): float
+    public function calculateSubTotal($user_id, bool $isGuest = false): float
     {
         $dishes = $this->getCartItems($user_id, $isGuest);
         $total = 0;
