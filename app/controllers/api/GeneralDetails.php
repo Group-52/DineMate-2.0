@@ -8,7 +8,7 @@ class GeneralDetails
 {
     use Controller;
 
-    public function get(): void
+    public function index(): void
     {
         $general_details = new \models\GeneralDetails();
         $details = $general_details->getDetails();
