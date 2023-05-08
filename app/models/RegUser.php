@@ -77,7 +77,8 @@ class RegUser extends Model
     public function setPromoId($userId, $promoId): void
     {
         $this->update(["promo_id" => $promoId])->where("user_id", $userId)->execute();
-        
+    }
+
     public function updateLogin($id): void
     {
         $this->update(['last_login' => date("Y-m-d H:i:s")])->where('user_id', $id)->execute();

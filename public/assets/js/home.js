@@ -63,16 +63,19 @@ document.addEventListener("DOMContentLoaded", () => {
               searchResults.innerHTML = "";
               data.dishes.forEach((dish) => {
                 searchResults.innerHTML += `
-              <div>
-              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
               <div class='menu-item-card rounded-sm'>
+              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-link'>
               <div class='card-img-wrapper'>
               <img src='${ASSETS}/images/dishes/${
                   dish.image_url
                 }' class='card-img' alt='${dish.dish_name}'>
               </div>
+              </a>
+              <a href='${ROOT}/dish/id/${dish.dish_id}' class='card-body-wrapper'>
               <div class='card-body'>
+              <div class="card-content">
               <h3 class='card-title'>${dish.dish_name}</h3>
+              </div>
               <div class='card-prices'>
               ${
                 dish.old_price != null
@@ -80,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   : ""
               }
               <div class='card-price-new'>LKR ${dish.selling_price}</div>
-              </div></div></div></a></div>
+              </div></div></a></div>
               `;
               });
             }
