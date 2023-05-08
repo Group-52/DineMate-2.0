@@ -36,7 +36,7 @@
                     } ?>
                     <?php endif ?>
                     <div class="text-center">
-                        <button class="btn btn-primary btn-lg text-uppercase">Update Info</button>
+                        <button class="btn btn-primary text-uppercase">Update Info</button>
                     </div>
                 </form>
             </div>
