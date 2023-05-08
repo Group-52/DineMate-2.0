@@ -105,7 +105,14 @@ class Payments
 
         $m2 = new MenuDishes();
         $data['controller'] = $this->controller;
-        $data['dishes'] = $m2->getDishes();
+        $temp = $m2->getDishes();
+        $dm = new Dish();
+        $temp2 =[];
+        foreach ($temp as $t){
+            if ($dm->safeToAdd($t->dish_id))
+                $temp2[] = $t;
+        }
+        $data['dishes'] = $temp2;
         $this->view('admin/payments.addOrder', $data);
     }
 }
