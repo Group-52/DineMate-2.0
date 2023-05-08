@@ -17,7 +17,7 @@
             <div class="display-5 fw-bold mr-4"><a href="<?= ROOT ?>/orders/active" class="headings">Active Orders</a></div>
             <div class="display-5 fw-bold secondary">Previous Orders</div>
         </div>
-        <?php if (isset($orders) && isset($orderDishes)) : ?>
+        <?php if (isset($orders) && isset($orderDishes) && sizeof($orderDishes) > 0) : ?>
             <div class="orders">
                 <?php foreach ($orders as $order): ?>
                     <div class="order px-4 py-3 rounded-sm shadow-sm mb-3">
@@ -27,6 +27,7 @@
                                 <div class="fs-6"><?= $order->time_placed ?></div>
                             </div>
                             <div class="col-md-6 d-flex flex-row justify-content-end align-items-center">
+                                <?php if (isRegistered()) : ?>
                                 <div class="d-flex flex-column justify-content-end text-right align-items-center add-feedback pointer
                                     <?php if (!empty($order->rating)) echo " d-none" ?>" data-order="<?= $order->order_id ?>">
                                     <i class="fa-solid fa-comment fs-2"></i>
@@ -40,16 +41,19 @@
                                         <i class="fa-solid fa-star fs-2" data-stars="<?= $i + 1 ?>"></i>
                                     <?php endfor; ?>
                                 </div>
+                                <?php endif ?>
                                 <div class="ml-2">
                                     <i class="fa-solid fa-chevron-down chevron"></i>
                                 </div>
                             </div>
                         </div>
+                        <?php if (isRegistered()) : ?>
                         <div class="text-right fs-6 h-0 secondary edit-feedback pointer
                         <?php if (empty($order->rating)) echo "d-none" ?>
                         " data-order="<?= $order->order_id ?>">
                             Edit Feedback
                         </div>
+                        <?php endif ?>
                         <?php $orderDish = $orderDishes[$order->order_id] ?>
                         <table class="table order">
                             <tbody>
@@ -63,6 +67,30 @@
                                     <td class="fw-bold fit fs-4 px-3">LKR <?= $dish->net_price ?></td>
                                 </tr>
                             <?php endforeach; ?>
+                            <tr>
+                                <td></td>
+                                <td>Sub-Total</td>
+                                <td></td>
+                                <td class="fw-bold fs-4">LKR <?= $order->sub_total?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Discount</td>
+                                <td></td>
+                                <td class="fw-bold fs-4">LKR <?= $order->discount?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Service Charge</td>
+                                <td></td>
+                                <td class="fw-bold fs-4">LKR <?= $order->service_charge?></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="fw-bold secondary fs-3">Total</td>
+                                <td></td>
+                                <td class="fw-bold fs-4 px-2 single-line">LKR <?= $order->total?></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -71,6 +99,8 @@
             <?php if (isset($pagination)) {
                 $pagination->render();
             } ?>
+        <?php else : ?>
+            <div class="lead w-100 text-center">No Active Orders</div>
         <?php endif ?>
     </div>
 </div>
