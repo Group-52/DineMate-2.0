@@ -31,7 +31,7 @@ class Checkout
         $form->addSelectField("order-type", "order-type", "Type of Order",true, ["dine-in" => "Dine-In", "takeaway" => "Take Away"], "Type of Order");
         if (isRegistered()) {
             $form->addInputField("schedule-order", "schedule-order", "checkbox", "Schedule Order", false, "Schedule Order", "", true);
-            $form->addInputField("order-time", "order-time", "datetime-local", "Order Time", false, "Order Time", date("Y-m-d H:i"), true);
+            $form->addInputField("schedule-time", "schedule-time", "datetime-local", "Schedule Time", false, "Schedule Time", date("Y-m-d H:i"), true);
         }
         $form->addInputField("table-number", "table-number", "number", "Table Number", false, "", "", true);
         $form->addInputField("request", "request", "text", "Request", false, "Less spicy, no salt, etc.");
@@ -130,7 +130,7 @@ class Checkout
                 }
                 $order_id = $order->create($_POST["order-type"], $cart_items, reg_customer_id: (isRegistered()) ? userId() : null,
                     guest_id: (isGuest()) ? userId() : null, request: $_POST["request"], table_id: $_POST["table-number"] ?? null,
-                    scheduled_time: isset($_POST["schedule-order"]) ? $_POST["order-time"] : null, total_cost: $total,
+                    scheduled_time: isset($_POST["schedule-order"]) ? $_POST["schedule-time"] : null, total_cost: $total,
                     promo: $promo_id, service_charge: $service_charge);
 
                 if ($order->getErrors()) {
@@ -150,7 +150,7 @@ class Checkout
                             "user_id" => userId(),
                             "user_type" => (isRegistered()) ? "registered" : "guest",
                             "type" => $_POST["order-type"],
-                            "scheduled_time" => $_POST["schedule-order"] ?? null,
+                            "scheduled_time" => $_POST["schedule-time"] ?? null,
                             "table_id" => $_POST["table-number"] ?? null,
                             "order_dishes" => $cart_items
                         ]

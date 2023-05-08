@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const orderTypeSelect = document.getElementById("order-type");
   const scheduleCheckbox = document.getElementById("schedule-order");
-  const orderTimeInput = document.getElementById("order-time");
+  const orderTimeInput = document.getElementById("schedule-time");
   const tableNumberInput = document.getElementById("table-number");
 
   let total = parseFloat(document.getElementById("total").innerHTML);
