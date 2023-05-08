@@ -13,7 +13,7 @@ class RouteAuth
 
     public static array $allowed_controllers = [
         "not_api" => [
-            "Chef" => ["home","orders","ingredients"],
+            "Chef" => ["home","orders","ingredients","inventory"],
             "Cashier" => ["home","payments"],
             "Inventory Manager" => ["home","ingredients", "vendors", "inventory", "items", "purchases"],
             "Customer" => ["home","cart", "checkout", "dish", "menu", "profile", "orders", "promotion"]

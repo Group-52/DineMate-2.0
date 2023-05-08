@@ -39,7 +39,7 @@
                         >
                             <div class="d-flex align-items-center">
                                 <div class="card-image">
-                                    <img src="<?= ASSETS ?>./images/items/<?= $item->image_url ?>"
+                                    <img src="<?= ASSETS ?>/images/items/<?= $item->image_url ?>"
                                          alt="<?= $item->item_name ?>">
                                 </div>
                                 <div>
