@@ -56,13 +56,19 @@ class Menu
         $html .= "<div class='d-flex flex-column justify-content-space-between align-items-md-start align-items-center mb-3'>";
         $html .= "<h2 class='menu-title not-mobile'>{$this->name}</h2>";
         $html .= "<h1 class='menu-title only-mobile'>{$this->name}</h1>";
-        $html .= "<h4 class='menu-time secondary'>";
-        if ($this->all_day) {
-            $html .= "All Day";
-        } else {
-            $html .= "{$this->start_time} - {$this->end_time}";
+        $html .= "<h4 class='secondary lead fs-6'>";
+        if ($this->description) {
+            $html .= "{$this->description}";
         }
-        $html .= "</h4></div></div>";
+        $html .= "</h4>";
+        $html .= "</div></div>";
+        //        $html .= "<h4 class='menu-time secondary'>";
+        //        if ($this->all_day) {
+        //            $html .= "All Day";
+        //        } else {
+        //            $html .= "{$this->start_time} - {$this->end_time}";
+        //        }
+        //        $html .= "</h4></div></div>";
 
         // View more button column (desktop)
         $html .= "<div class='d-flex align-items-center'>";

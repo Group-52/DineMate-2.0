@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const priceRangeEl = document.getElementById("price-range");
   const prefEl = document.getElementById("preference");
   const searchModalFilter = document.getElementById("search-modal-filter");
+  const body = document.querySelector("body");
 
   fetch(`${ROOT}/api/dishes/minmax`)
     .then((res) => res.json())
@@ -74,9 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const query = searchField.value;
     const price = priceRangeEl.value;
     const pref = prefEl.value;
+    body.style.overflowY = "hidden";
     searchContainer.classList.add("open");
     searchModalFilter.style.opacity = 1;
-    html.style.overflow = "hidden";
     fetch(`${ROOT}/api/dishes/search?name=${query}&price=${price}&pref=${pref}`)
       .then((res) => res.json())
       .then((data) => {
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (modalClose) {
     modalClose.onclick = () => {
       searchContainer.classList.remove("open");
-      html.style.overflow = "";
+      body.style.overflowY = "";
       searchResults.innerHTML = "";
       searchField.value = "";
       searchModalFilter.style.opacity = 0;
@@ -162,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Card banner
   const bannerImg = document.getElementById("bg-change");
-  const cards = document.querySelectorAll(".menu-dish");
+  const cards = document.querySelectorAll(".menu-item-card");
   cards.forEach((card) => {
     card.onmouseenter = () => {
       const img = card.querySelector(".card-img");
