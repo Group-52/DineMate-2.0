@@ -85,6 +85,12 @@
             "text" => "Payments"
         ],
         [
+            "controller" => "settings",
+            "link" => "/settings",
+            "solid-icon" => "cog",
+            "text" => "Settings"
+        ],
+        [
             "controller" => "logout",
             "link" => "/auth/logout",
             "solid-icon" => "sign-out",

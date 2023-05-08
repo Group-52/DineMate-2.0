@@ -36,23 +36,25 @@ class Promotion extends Model
         $promotions = $this->getAllPromotions();
         $valid_promotions = [];
         foreach ($promotions as $promotion) {
-            if ($promotion->type == 'spending_bonus') {
-                $obj = new PromotionsSpendingBonus();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'discounts') {
-                $obj = new PromotionsDiscounts();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'free_dish') {
-                $obj = new PromotionsBuy1Get1Free();
-                $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
+            if ($promotion->status == '1') {
+                if ($promotion->type == 'spending_bonus') {
+                    $obj = new PromotionsSpendingBonus();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'discounts') {
+                    $obj = new PromotionsDiscounts();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'free_dish') {
+                    $obj = new PromotionsBuy1Get1Free();
+                    $valid = $obj->checkValidPromotion($promotion->promo_id, $order_id);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
                 }
             }
         }
@@ -89,27 +91,30 @@ class Promotion extends Model
      * @return array
      * Description: Get all valid promotions for the given cart
      */
-    public function getValidPromotionsCart($user_id, $isGuest):array{
+    public function getValidPromotionsCart($user_id, $isGuest): array
+    {
         $promotions = $this->getAllPromotions();
         $valid_promotions = [];
         foreach ($promotions as $promotion) {
-            if ($promotion->type == 'spending_bonus') {
-                $obj = new PromotionsSpendingBonus();
-                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'discounts') {
-                $obj = new PromotionsDiscounts();
-                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
-                }
-            } else if ($promotion->type == 'free_dish') {
-                $obj = new PromotionsBuy1Get1Free();
-                $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
-                if ($valid) {
-                    $valid_promotions[] = $promotion;
+            if ($promotion->status == '1') {
+                if ($promotion->type == 'spending_bonus') {
+                    $obj = new PromotionsSpendingBonus();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'discounts') {
+                    $obj = new PromotionsDiscounts();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
+                } else if ($promotion->type == 'free_dish') {
+                    $obj = new PromotionsBuy1Get1Free();
+                    $valid = $obj->checkValidPromotionCart($promotion->promo_id, $user_id, $isGuest);
+                    if ($valid) {
+                        $valid_promotions[] = $promotion;
+                    }
                 }
             }
         }
@@ -139,6 +144,7 @@ class Promotion extends Model
         }
         return $reduction;
     }
+
     public function getAllPromotions(): array
     {
         $a1 = $this->getDiscounts();
@@ -210,7 +216,7 @@ class Promotion extends Model
     }
 
     // get one promotion by id
-    public function getPromotion($id):Object|bool
+    public function getpromotion($id): object|bool
     {
         return $this->select()->
         leftJoin('promo_discounts', 'promotions.promo_id', 'promo_discounts.promo_id')->

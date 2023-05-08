@@ -81,7 +81,7 @@
 
                     <tr class="input-row">
                         <td>
-                            <select name="ingredient" class="form-control m-2 w-75">
+                            <select name="ingredient" class="form-control m-2 w-75 ingredient-select">
                                 <option value="" disabled selected>Ingredient</option>
                                 <?php if (isset($ingredients)) : ?>
                                     <?php foreach ($ingredients as $ingredient) : ?>
@@ -97,7 +97,7 @@
                                    oninput="validity.valid||(value='');" required>
                         </td>
                         <td>
-                            <select name="unit" class="form-control m-2 w-75">
+                            <select name="unit" class="form-control m-2 w-75 unit-select">
                                 <option value="" disabled selected>Unit</option>
                                 <?php if (isset($units)) : ?>
                                     <?php foreach ($units as $unit) : ?>

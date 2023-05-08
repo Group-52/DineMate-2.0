@@ -117,3 +117,16 @@
 </body>
 
 </html>
+
+<script>
+    let items = <?= json_encode($items) ?>;
+    let namefield = document.getElementById("name");
+    namefield.addEventListener('change', (e) => {
+        let name = e.target.value;
+        let item = items.find(item => item.item_name.toLowerCase() == name.toLowerCase());
+        if (item) {
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Item with same name exists", false, 3000);
+            namefield.value = "";
+        }
+    })
+</script>

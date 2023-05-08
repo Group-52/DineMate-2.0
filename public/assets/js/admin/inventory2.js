@@ -190,6 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         cell.setAttribute('data-previous-value', currentValue)
                         input.type = 'number';
                         input.min = 0;
+                        input.step = 0.001;
                         input.style.width = '20%';
                         input.setAttribute('oninput', "validity.valid||(value='');");
                         input.value = currentValue;

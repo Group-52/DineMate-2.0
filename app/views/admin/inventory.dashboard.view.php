@@ -67,7 +67,7 @@
                         </div>
                     <?php endforeach; ?>
                     <?php else:?>
-                        <div class="mt-2 w-100">No Items Added</div>
+                        <div class="mt-2 w-100">No Purchases Made</div>
                     <?php endif;?>
                 </div>
                 </div>

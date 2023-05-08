@@ -23,11 +23,13 @@
                 <button class="btn btn-secondary ml-3" value="rejected" id="reject-button">Reject</button>
                 <button class="btn btn-success mr-3" value="accepted" id="accept-button">Accept</button>
                 <button class="btn text-success" value="completed" id="complete-button">Complete</button>
+                <?php if($_SESSION['user']->role == '2' || $_SESSION['user']->role == '5') : ?>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="add-button">+ <i
                         class="fa-solid fa-bowl-rice d-inline"></i></a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="finish-button">Finish Editing</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="edit-button">Edit</a>
                 <a class="btn btn-primary text-uppercase fw-bold" href="#" id="delete-button">Delete</a>
+                <?php endif; ?>
             </div>
         </div>
         <div class="blur-container d-flex flex-column">
@@ -120,7 +122,7 @@
                     <div class="row fs-4 mb-4">
                         <table class="table">
                             <tr><td>Estimated Time: </td><td><?= (new models\Order())->getEstimate($order->order_id) ?> minutes</td></tr>
-                            <tr style="background: white"><td>Placed Time: </td><td><?= substr($order->time_placed, 0, 16) ?></td></tr>
+                            <tr style="background: white"><td>Placed Time: </td><td><?= date('Y M jS g:i A',strtotime($order->time_placed)) ?></td></tr>
                         </table>
                     </div>
                     <div id="order-details-table">

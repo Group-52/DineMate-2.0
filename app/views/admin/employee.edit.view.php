@@ -12,7 +12,7 @@
         <form method="POST">
             <div class="dashboard-header d-flex flex-row align-employees-center justify-content-space-between w-100">
                 <h1 class="display-4"><a class="link" href="<?= ROOT ?>/admin/employees">Employees</a> <i class="fa-solid fa-chevron-right mx-2"></i> Edit Employee</h1>
-                <button class="btn btn-success text-uppercase fw-bold" type="submit">Update Employee</button>
+                <button class="btn btn-success text-uppercase fw-bold" id="update-button" type="submit">Update Employee</button>
             </div>
             <div class="form-group">
                 <label class="label" for="emp_id">Employee ID</label>
@@ -58,7 +58,7 @@
             </div> -->
             <div class="form-group">
                 <label class="label" for="contact_no">Contact No</label>
-                <input class="form-control" name="contact_no" value="<?= $e1->contact_no ?>" required>
+                <input class="form-control" type="number" name="contact_no" value="<?= $e1->contact_no ?>" required>
             </div>
             <div class="form-group">
                 <label class="label" for="email">Email</label>
@@ -82,3 +82,40 @@
     }
 </style>
 </html>
+
+<script>
+
+    const submitButton = document.querySelector('#update-button');
+
+    function validateEmail(email) {
+        if (email == "") {
+            return true;
+        }
+        let re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    //validate email
+    const email = document.querySelector('input[name="email"]');
+    email.addEventListener('change', () => {
+        if (!validateEmail(email.value)) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Email is not valid", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+
+    const contact_no = document.querySelector('input[name="contact_no"]');
+    contact_no.addEventListener('change', () => {
+        if (contact_no.value == "") {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no is required", false, 3000);
+        } else if (contact_no.value.length != 10) {
+            submitButton.disabled = true;
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Contact no must be 10 digits", false, 3000);
+        } else {
+            submitButton.disabled = false;
+        }
+    });
+</script>
