@@ -5348,6 +5348,11 @@ body {
   border-radius: 0 5rem 0 0;
   z-index: -1;
 }
+@media (max-width: 990px) {
+  .login-bg {
+    width: 100vw;
+  }
+}
 
 #sidebar-toggle {
   cursor: pointer;
@@ -5487,7 +5492,7 @@ a {
   background-color: #FAFAFA;
 }
 
-.verify-input {
+.code-container .verify-input {
   width: 2rem;
   height: 3rem;
 }

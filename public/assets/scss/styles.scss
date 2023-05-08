@@ -46,6 +46,10 @@ body {
   width: 60vw;
   border-radius: 0 5rem 0 0;
   z-index: -1;
+  
+  @media (max-width: 990px) {
+    width: 100vw;
+  }
 }
 
 
@@ -200,9 +204,11 @@ a {
   background-color: $bg-color-light;
 }
 
-.verify-input {
-  width: 2rem;
-  height: 3rem;
+.code-container {
+  .verify-input {
+    width: 2rem;
+    height: 3rem;
+  }
 }
 
 .stars {
