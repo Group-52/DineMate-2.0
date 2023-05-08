@@ -38,3 +38,9 @@
     <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0"
          aria-valuemax="100"></div>
 </div>
+<script>
+    <?php if(isset($error)) : ?>
+    const errorMessage = "<?= $error ?>";
+    new Toast("fa-solid fa-triangle-exclamation", "red", "Error", errorMessage, true);
+    <?php endif ?>
+</script>
