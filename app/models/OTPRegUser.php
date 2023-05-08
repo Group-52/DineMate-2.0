@@ -38,6 +38,27 @@ class OTPRegUser extends Model
         return $otp;
     }
 
+    public function isValid($otp): bool
+    {
+        $row = $this->select()->where("otp", $otp)->and("time_of_expiry", date('Y-m-d H:i:s'), ">")->fetch();
+        return $row != null;
+    }
+
+    /**
+     * Get User ID by OTP
+     * @param $otp
+     * @return void
+     */
+    public function getUserId($otp): int|null
+    {
+        $row = $this->select()->where("otp", $otp)->and("time_of_expiry", date('Y-m-d H:i:s'), ">")->fetch();
+        if ($row == null) {
+            return null;
+        } else {
+            return $row->user_id;
+        }
+    }
+
     public function invalidateOTP($user_id): void
     {
         $this->delete()->where("user_id", $user_id)->execute();
