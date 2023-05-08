@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
         card.setAttribute("data-order-status", order.status);
         card.setAttribute("data-user-id", order.user_id);
         card.setAttribute("data-user-type", order.user_type);
-        if (order.scheduled_time) card.querySelector('.card-header').classList.add('time');
+        if (order.scheduled_time) card.querySelector('.card-header').classList.add('timer');
 
         card.querySelector('.id-strip').innerHTML = "#" + order.order_id + "&nbsp;";
         card.querySelector('.time').innerHTML = formatOrderTime(order.scheduled_time, order.time_placed);

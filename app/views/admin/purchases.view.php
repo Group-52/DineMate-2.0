@@ -29,7 +29,7 @@
         <table id="purchase-table" class="table">
             <thead>
             <tr>
-                <!--                        <th>Purchase ID</th>-->
+                <th>Purchase ID</th>
                 <th>Item</th>
                 <th>Purchase Date</th>
                 <th>Vendor</th>
@@ -47,14 +47,14 @@
             <?php if (isset($purchases)) : ?>
                 <?php foreach ($purchases as $purchase) : ?>
                     <tr data-purchase-id="<?= $purchase->purchase_id ?>">
-                        <td style=display:none> <?= $purchase->purchase_id ?> </td>
+                        <td><?= $purchase->purchase_id ?> </td>
                         <td><?= $purchase->item_name ?></td>
                         <td data-field-name="purchase_date"><?= substr($purchase->purchase_date, 0, 10) ?></td>
                         <td data-field-name="vendor"><?= $purchase->vendor_name ?></td>
                         <td data-field-name="quantity"
                             data-unit="<?= $purchase->abbreviation ?>"><?= $purchase->quantity ?> <?= $purchase->abbreviation ?></td>
-                        <td data-field-name="brand"><?= $purchase->brand ?></td>
-                        <td data-field-name="expiry_date"><?php if($purchase->expiry_date!='0000-00-00') echo $purchase->expiry_date ?></td>
+                        <td style="max-width: 90px; overflow: clip;" data-field-name="brand"><?= $purchase->brand ?></td>
+                        <td data-field-name="expiry_date"><?php if ($purchase->expiry_date != '0000-00-00') echo $purchase->expiry_date ?></td>
                         <td data-field-name="cost"><?= $purchase->cost ?></td>
                         <td data-field-name="discount"><?= $purchase->discount ?></td>
                         <td data-field-name="final_price"><?= $purchase->final_price ?></td>
@@ -102,7 +102,8 @@
                 <div class="form-group">
                     <label for="quantity">Quantity</label>
                     <span class="d-block">
-                    <input type="number" step="0.01" min="0" name="quantity" id="quantity" class="form-control d-inline w-75 mr-2" required><span id="unitspan"></span>
+                    <input type="number" step="0.01" min="0" name="quantity" id="quantity"
+                           class="form-control d-inline w-75 mr-2" required><span id="unitspan"></span>
                     </span>
                 </div>
                 <div class="form-group">
@@ -130,7 +131,7 @@
                 <div class="form-group">
                     <label for="tax">Tax</label>
                     <span class="d-block"> <input type="number" step="1" min="0" name="tax" id="tax" value="0"
-                                                   class="form-control d-inline w-75 mr-2"> LKR </span>
+                                                  class="form-control d-inline w-75 mr-2"> LKR </span>
                 </div>
                 <div class="form-group">
                     <label for="final_price">Final Price</label>
@@ -139,8 +140,12 @@
                                class="form-control d-inline w-75 mr-2">  LKR </span>
                 </div>
                 <div class="d-flex justify-content-space-between">
-                    <button type="button" name="cancel" class="btn btn-secondary text-uppercase" id="cancel-button">Cancel</button>
-                    <button type="submit" name="submit" class="btn btn-primary text-uppercase" id="submit-button">Submit</button>
+                    <button type="button" name="cancel" class="btn btn-secondary text-uppercase" id="cancel-button">
+                        Cancel
+                    </button>
+                    <button type="submit" name="submit" class="btn btn-primary text-uppercase" id="submit-button">
+                        Submit
+                    </button>
                 </div>
             </form>
         </div>

@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="<?= ROOT ?>/assets/css/admin/menus.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/tables.css">
     <link rel="stylesheet" href="<?= ASSETS ?>/css/admin/common.css">
-    <script src="<?= ROOT ?>/assets/js/admin/menus.js"></script>
     <script src="<?= ROOT ?>/assets/js/admin/common.js"></script>
 </head>
 <body class="dashboard">
@@ -38,11 +37,11 @@
                     </div>
                     <div class="form-group" id="start-time-div">
                         <label class="label" for="start_time">From Time</label>
-                        <input class="form-control" type="time" name="start_time" value="<?= $m->start_time ?>">
+                        <input class="form-control" type="time" name="start_time" id="start_time" value="<?= $m->start_time ?>">
                     </div>
                     <div class="form-group" id="end-time-div">
                         <label class="label" for="end_time">To Time</label>
-                        <input class="form-control" type="time" name="end_time" value="<?= $m->end_time ?>">
+                        <input class="form-control" type="time" name="end_time" id="end_time" value="<?= $m->end_time ?>">
                     </div>
                     <div class="form-group">
                         <label class="label d-inline" for="all_day">All Day</label>
@@ -86,4 +85,19 @@
 
         }
     });
+
+    function validateTime() {
+        const startTime = document.querySelector('#start_time').value;
+        const endTime = document.querySelector('#end_time').value;
+        // Ensure start time is before end time
+        if (startTime >= endTime) {
+            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Start time must be less than end time", false, 3000);
+            submit.disabled = true;
+        } else {
+            submit.disabled = false;
+        }
+    }
+
+    document.querySelector('#start_time').addEventListener('change', validateTime);
+    document.querySelector('#end_time').addEventListener('change', validateTime);
 </script>
