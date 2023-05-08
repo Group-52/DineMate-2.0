@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label class="label" for="kitchen_staff">No. of Active Kitchen Staff</label>
-                        <input class="form-control" type="number" name="kitchen_staff" id="kitchen_staff" required
+                        <input class="form-control" type="number" name="kitchen_staff" id="kitchen_staff" required min="1"
                                value="<?= $details->kitchen_staff ?>">
                     </div>
                     <div class="form-group">
