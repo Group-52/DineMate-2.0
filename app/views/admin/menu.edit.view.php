@@ -34,19 +34,7 @@
                         <input class="form-control" type="text" name="description" value="<?= $m->description ?>"
                                required>
                     </div>
-                    <div class="form-group" id="start-time-div">
-                        <label class="label" for="start_time">From Time</label>
-                        <input class="form-control" type="time" name="start_time" id="start_time" value="<?= $m->start_time ?>">
-                    </div>
-                    <div class="form-group" id="end-time-div">
-                        <label class="label" for="end_time">To Time</label>
-                        <input class="form-control" type="time" name="end_time" id="end_time" value="<?= $m->end_time ?>">
-                    </div>
-                    <div class="form-group">
-                        <label class="label d-inline" for="all_day">All Day</label>
-                        <input class="form-control d-inline w-25" type="checkbox"
-                               name="all_day" <?= $m->all_day ? 'checked' : '' ?>>
-                    </div>
+
                 </div>
             </form>
         <?php else: ?>
@@ -57,46 +45,3 @@
 </body>
 
 </html>
-
-<script>
-    const submit = document.querySelector('button[type="submit"]');
-
-    //add event listener to all day checkbox
-    const allDay = document.querySelector('input[name="all_day"]');
-    allDay.addEventListener('change', () => {
-        let inputstart = document.querySelector('input[name="start_time"]');
-        let inputend = document.querySelector('input[name="end_time"]');
-        if (allDay.checked) {
-            inputstart.setAttribute('required', false);
-            inputend.setAttribute('required', false);
-            //disable start and end time
-            inputstart.disabled = true;
-            inputend.disabled = true;
-            //clear the values
-            inputstart.value = '';
-            inputend.value = '';
-        } else {
-            inputstart.setAttribute('required', true);
-            inputend.setAttribute('required', true);
-            //enable start and end time
-            inputstart.disabled = false;
-            inputend.disabled = false;
-
-        }
-    });
-
-    function validateTime() {
-        const startTime = document.querySelector('#start_time').value;
-        const endTime = document.querySelector('#end_time').value;
-        // Ensure start time is before end time
-        if (startTime >= endTime) {
-            new Toast("fa-solid fa-exclamation-circle", "red", "Error", "Start time must be less than end time", false, 3000);
-            submit.disabled = true;
-        } else {
-            submit.disabled = false;
-        }
-    }
-
-    document.querySelector('#start_time').addEventListener('change', validateTime);
-    document.querySelector('#end_time').addEventListener('change', validateTime);
-</script>
