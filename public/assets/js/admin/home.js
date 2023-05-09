@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let controllers = {
         "Chef": ["home", "orders", "ingredients","inventory"],
         "Cashier": ["home", "payments"],
-        "Inventory Manager": ["home", "ingredients", "vendors", "inventory", "items", "purchases"]
+        "Inventory Manager": ["home", "ingredients", "vendors", "inventory", "items", "purchases","stats"]
     };
     const cards = document.querySelectorAll('.card');
 

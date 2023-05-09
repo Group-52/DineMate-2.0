@@ -13,7 +13,7 @@ class Home
 
     public function stats(): void
     {
-        if ($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5') {
+        if ($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5' && $_SESSION['user']->role != '4') {
             redirect('admin/_401');
         }
 
