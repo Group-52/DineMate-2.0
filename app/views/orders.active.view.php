@@ -21,7 +21,7 @@
         <div class="orders">
             <?php foreach ($orders as $order): ?>
             <div class="order px-4 py-3 rounded-sm shadow-sm mb-3">
-               <div class="d-flex flex-row fw-bold fs-4 align-items-center mb-3">
+               <div class="d-flex flex-row fw-bold fs-4 align-items-center mb-3 justify-content-space-between">
                    <div class="col-md-4">
                        <div>Order ID: #<?= $order->order_id ?></div>
                        <div class="fs-6"><?= $order->time_placed ?></div>
@@ -31,7 +31,7 @@
                    </div>
                    <div class="col-md-4 d-flex flex-row justify-content-end align-items-center">
                        <?php if ($order->status != "completed") : ?>
-                      <span class="time-remaining-text mr-2"><?= $order->time_remaining ?> mins</span>
+                      <span class="time-remaining-text mr-2 not-mobile"><?= $order->time_remaining ?> mins</span>
                        <?php endif ?>
                        <i class="fa-solid fa-chevron-down chevron"></i>
                    </div>
