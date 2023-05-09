@@ -135,7 +135,7 @@ class Checkout
 
         $maxBulkAmt = 0;
         if (isset($footer_details)) {
-        $maxBulkAmt = $footer_details->max_nonbulk;
+            $maxBulkAmt = $footer_details->max_nonbulk;
         }
 
         // Place order
@@ -169,7 +169,7 @@ class Checkout
                             "request" => $_POST["request"],
                             "user_id" => userId(),
                             "user_type" => (isRegistered()) ? "registered" : "guest",
-                            "type" => $_POST["order-type"],
+                            "type" => $orderType,
                             "scheduled_time" => $_POST["schedule-time"] ?? null,
                             "table_id" => $_POST["table-number"] ?? null,
                             "order_dishes" => $cart_items
