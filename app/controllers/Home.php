@@ -31,7 +31,7 @@ class Home
 
             $menus = (new Menu())->getMenus();
             foreach ($menus as $menu) {
-                $data['menus'][$menu->menu_id] = new \components\Menu($menu, 4);
+                $data['menus'][$menu->menu_id] = new \components\Menu($menu);
             }
 
             $data["title"] = "Home";
