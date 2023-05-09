@@ -64,7 +64,7 @@
                                     </td>
                                     <td><?= $dish->dish_name ?></td>
                                     <td class="fit px-3"><?= $dish->quantity ?> pcs.</td>
-                                    <td class="fw-bold fit fs-4 px-3">LKR <?= $dish->net_price ?></td>
+                                    <td class="fw-bold fit fs-4 px-3">LKR <?= $dish->selling_price * $dish->quantity ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <tr>
