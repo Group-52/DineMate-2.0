@@ -133,13 +133,22 @@ class Checkout
         $total = $subtotal - $discount;
         $data["total"] = $total;
 
+        $maxBulkAmt = 0;
+        if (isset($footer_details)) {
+        $maxBulkAmt = $footer_details->max_nonbulk;
+        }
+
         // Place order
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($form->isValid($_POST)) {
                 $cart = new Cart();
                 $cart_items = $cart->getCartItems(userId(), isGuest());
                 $order = new Order();
-                $order_id = $order->create($_POST["order-type"], $cart_items, reg_customer_id: (isRegistered()) ? userId() : null,
+                $orderType = $_POST["order-type"];
+                if ($subtotal > $maxBulkAmt) {
+                   $orderType = "bulk";
+                }
+                $order_id = $order->create($orderType, $cart_items, reg_customer_id: (isRegistered()) ? userId() : null,
                     guest_id: (isGuest()) ? userId() : null, request: $_POST["request"], table_id: $_POST["table-number"] ?? null,
                     scheduled_time: isset($_POST["schedule-order"]) ? $_POST["schedule-time"] : null, total_cost: $total,
                     promo: $promo_id);
