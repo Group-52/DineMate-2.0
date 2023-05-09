@@ -11,9 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
     get_stats(lastWeek, today);
 
     startDateInput.addEventListener('change', () => {
+        if (startDateInput.value === "") {
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Start date cannot be empty", false, 3000);
+            return;
+        }
         //check if the start date is greater than the end date
-        if (startDateInput.value > endDateInput.value) {
-            new Toast("fa-solid fa-times", "#dc3545", "Error", "Start date cannot be greater than end date", false, 3000);
+        if (startDateInput.value >= endDateInput.value) {
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "Start date must be less than end date", false, 3000);
             return;
         }
         // console.log("start date changed");
@@ -21,9 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
         dateRangeSelect.value = 'Custom';
     });
     endDateInput.addEventListener('change', () => {
+        if (endDateInput.value === "") {
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "End date cannot be empty", false, 3000);
+            return;
+        }
         //check if the start date is greater than the end date
-        if (startDateInput.value > endDateInput.value) {
-            new Toast("fa-solid fa-times", "#dc3545", "Error", "End date cannot be less than start date", false, 3000);
+        if (startDateInput.value >= endDateInput.value) {
+            new Toast("fa-solid fa-times", "#dc3545", "Error", "End date must be greater than start date", false, 3000);
             return;
         }
         // console.log("end date changed");
