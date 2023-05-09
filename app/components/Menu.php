@@ -27,7 +27,7 @@ class Menu
         $this->end_time = $menu->end_time ?? null;
         $this->all_day = $menu->all_day;
 
-        $menuDishes = (new MenuDishes())->getMenuDishes($this->id, $n, 0, true);
+        $menuDishes = array_slice((new MenuDishes())->getMenuDishes($this->id, $n, 0, true), 0, 4);
         foreach ($menuDishes as $menuDish) {
             $this->menu_items[] = new MenuCard($menuDish);
         }

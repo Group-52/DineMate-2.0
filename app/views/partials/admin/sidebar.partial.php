@@ -22,7 +22,7 @@
             "controller" => "ingredients",
             "link" => "/ingredients",
             "solid-icon" => "carrot",
-            "text" => "Ingredients"
+            "text" => "Recipes"
         ],
         [
             "controller" => "menus",
