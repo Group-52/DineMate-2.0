@@ -21,7 +21,7 @@
             <div class="orders">
                 <?php foreach ($orders as $order): ?>
                     <div class="order px-4 py-3 rounded-sm shadow-sm mb-3">
-                        <div class="d-flex flex-row fw-bold fs-4 align-items-center mb-3">
+                        <div class="d-flex flex-row fw-bold fs-4 align-items-center mb-3 justify-content-space-between">
                             <div class="col-md-6">
                                 <div>Order ID: #<?= $order->order_id ?></div>
                                 <div class="fs-6"><?= $order->time_placed ?></div>
@@ -35,10 +35,10 @@
                                 </div>
                                 <div class="stars <?php if (empty($order->rating)) echo " d-none" ?>" data-order="<?= $order->order_id ?>">
                                     <?php for ($i = 0; $i < $order->rating; $i++): ?>
-                                        <i class="fa-solid fa-star fs-2 star" data-stars="<?= $i + 1 ?>"></i>
+                                        <i class="fa-solid fa-star fs-4 star" data-stars="<?= $i + 1 ?>"></i>
                                     <?php endfor; ?>
                                     <?php for ($i = $order->rating; $i < 5; $i++): ?>
-                                        <i class="fa-solid fa-star fs-2" data-stars="<?= $i + 1 ?>"></i>
+                                        <i class="fa-solid fa-star fs-4" data-stars="<?= $i + 1 ?>"></i>
                                     <?php endfor; ?>
                                 </div>
                                 <?php endif ?>
