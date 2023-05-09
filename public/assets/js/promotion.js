@@ -28,4 +28,6 @@ const updatePromotionBar = () => {
     })
     .catch((error) => console.log(error));
 }
-updatePromotionBar();
+
+if(promotionBar && promotionTitle && promotionPrice && progressBar)
+  updatePromotionBar();

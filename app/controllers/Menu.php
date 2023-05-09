@@ -21,10 +21,10 @@ class Menu
     {
         $menu = new \models\Menu();
         $menuDetails = $menu->getMenu($menu_id);
-        $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
         if ($menuDetails) {
             $data = [];
             $data["menu"] = $menuDetails;
+            $data["footer_details"] = (new GeneralDetails())->getFooterDetails();
 
             // Get all dishes in the menu
             $menuDishes = (new MenuDishes())->getMenuDishes($menu_id, 100, 0, true);
