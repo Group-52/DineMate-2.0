@@ -18,7 +18,7 @@ class Home
         }
 
         if ($_SESSION)
-        $d = new Dish();
+            $d = new Dish();
         $dishes = $d->getDishes();
 
         $expiring = (new \models\InventoryDetail())->expiring(2);
@@ -33,7 +33,8 @@ class Home
         $this->view('admin/home');
     }
 
-    public function reports():void{
+    public function reports(): void
+    {
         if ($_SESSION['user']->role != '2' && $_SESSION['user']->role != '5') {
             redirect('admin/_401');
         }

@@ -101,7 +101,11 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('#takeaway h2')[1].innerHTML = sum['takeawayTotal'];
             document.querySelectorAll('#dinein h2')[1].innerHTML = sum['dineinTotal'];
             //update the wait time cards
-            document.querySelector('.takeaway-time').innerHTML = Math.ceil(avg['takeawayWaitTime'] / avg['takeawayTotal']) + " minutes";
+            let time1_val =  Math.ceil(avg['takeawayWaitTime'] / avg['takeawayTotal'])
+            if (isNaN(time1_val)) {
+                time1_val = 0;
+            }
+            document.querySelector('.takeaway-time').innerHTML = time1_val + " minutes";
             let time_val = Math.ceil(avg['dineinWaitTime'] / avg['dineinTotal'])
             //check if the value is a number
             if (isNaN(time_val)) {

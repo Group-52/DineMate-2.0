@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         maindiv.style.pointerEvents = 'none';
 
         // focus on first input
-        form.querySelector('input').focus();
+        // form.querySelector('input').focus();
         // make add button invisible
         addButton.style.display = 'none';
     });
