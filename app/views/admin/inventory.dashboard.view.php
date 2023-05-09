@@ -52,6 +52,8 @@
                                     <span class="numerator"><?= $item->amount_remaining ?></span>
                                     <span class="denominator">/<?= $item->max_stock_level ?></span>
                                     <span><?= $item->abbreviation ?></span>
+                                    &nbsp;&nbsp;&nbsp;<a title="add purchase" class="link" href="<?=ROOT?>/admin/purchases"><i class="fa-solid fa-plus" style="color: #ea1a1a;"></i></a>
+
                                 </span>
                                 <div class="progress">
                                     <div class="progress-bar"></div>
