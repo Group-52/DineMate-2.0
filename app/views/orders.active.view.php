@@ -69,6 +69,12 @@
                         </tr>
                         <tr>
                             <td></td>
+                            <td>Tip</td>
+                            <td></td>
+                            <td class="fw-bold fs-4">LKR <?= $order->tip?></td>
+                        </tr>
+                        <tr>
+                            <td></td>
                             <td class="fw-bold secondary fs-3">Total</td>
                             <td></td>
                             <td class="fw-bold fs-4 px-2 single-line">LKR <?= $order->total?></td>
