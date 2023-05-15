@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const total = parseFloat(totalElement.innerHTML);
   const serviceChargeElement = document.getElementById("service-charge");
 
-  // YYYY-MM-DDThh:mm:ssTZD
+  // Tip
+  const tipElement = document.getElementById("tip-calc");
+  const tipSelect = document.getElementById("tip");
 
   if (scheduleCheckbox !== null)
   {
@@ -28,14 +30,29 @@ document.addEventListener("DOMContentLoaded", () => {
       totalElement.innerHTML = total.toFixed();
       tableNumberInput.disabled = true;
     } else {
-      console.log(subTotal);
       const serviceCharge = subTotal * 0.05;
-      console.log(serviceCharge);
+      const tip = subTotal * parseFloat(tipSelect.value);
       serviceChargeElement.innerHTML = serviceCharge.toFixed();
-      totalElement.innerHTML = (subTotal + serviceCharge - discount).toFixed();
+      totalElement.innerHTML = (subTotal + serviceCharge - discount + tip).toFixed();
       tableNumberInput.disabled = false;
     }
   };
+
+  // Tip Select on change
+  tipSelect.onchange = () => {
+    const tip = subTotal * parseFloat(tipSelect.value);
+    tipElement.innerHTML = tip.toFixed();
+
+    // Service charge based on order type
+    let serviceCharge = 0;
+    if (orderTypeSelect.value === "dine-in") {
+      serviceCharge = subTotal * 0.05;
+    }
+
+    // Calculating total
+    totalElement.innerHTML = (subTotal + serviceCharge - discount + tip).toFixed();
+  }
+
   //fetch opening and closing times
   let rtimes = fetch(`${ROOT}/api/GeneralDetails`, {
     method: 'GET',

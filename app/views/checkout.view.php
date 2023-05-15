@@ -17,12 +17,12 @@
             ?>
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <?php for ($i = 0; $i < (isGuest() ? 3 : 5); $i++) {
+                    <?php for ($i = 0; $i < (isGuest() ? 4 : 6); $i++) {
                         echo $form->htmlField($i);
                     } ?>
                     <?php if (isGuest()): ?>
                         <h2 class='display-5 mb-3'>Personal Info</h2>
-                        <?php for ($i = 3; $i < $form->countFields(); $i++) {
+                        <?php for ($i = 4; $i < $form->countFields(); $i++) {
                             echo $form->htmlField($i);
                         } ?>
                     <?php endif; ?>
@@ -60,6 +60,10 @@
                             <tr class="secondary fs-5">
                                 <td colspan="2" class="fw-bold">SERVICE CHARGE</td>
                                 <td class="fw-bold" id="service-charge">0</td>
+                            </tr>
+                            <tr class="secondary fs-5">
+                                <td colspan="2" class="fw-bold">TIP</td>
+                                <td class="fw-bold" id="tip-calc">0</td>
                             </tr>
                             <tr class="secondary fs-4">
                                 <td colspan="2" class="fw-bold">TOTAL</td>

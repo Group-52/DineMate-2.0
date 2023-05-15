@@ -21,6 +21,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html
-            sudo git pull origin main
+            git pull origin main
       - name: Install composer dependencies
-        run: sudo composer install --no-dev
+        run: composer install --no-dev

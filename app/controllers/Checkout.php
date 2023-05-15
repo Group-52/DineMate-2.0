@@ -40,6 +40,7 @@ class Checkout
             "min" => 1
         ]);
         $form->addInputField("request", "request", "text", "Request", false, "Less spicy, no salt, etc.");
+        $form->addSelectField("tip", "tip", "Tip",true, ["0" => "0%", "0.05" => "5%", "0.1" => "10%", "0.15" => "15%"]);
         if (isGuest()) {
             $form->addInputField("full-name", "full-name", "text", "Full Name", true, "Full Name");
             $form->addInputField("mobile", "mobile", "text", "Mobile", true, "Mobile");
@@ -145,13 +146,13 @@ class Checkout
                 $cart_items = $cart->getCartItems(userId(), isGuest());
                 $order = new Order();
                 $orderType = $_POST["order-type"];
-                if ($subtotal > $maxBulkAmt) {
-                   $orderType = "bulk";
-                }
+                $serviceCharge = 0;
+                if ($orderType == "dine-in")
+                   $serviceCharge = $subtotal * 0.05;
                 $order_id = $order->create($orderType, $cart_items, reg_customer_id: (isRegistered()) ? userId() : null,
                     guest_id: (isGuest()) ? userId() : null, request: $_POST["request"], table_id: $_POST["table-number"] ?? null,
                     scheduled_time: isset($_POST["schedule-order"]) ? $_POST["schedule-time"] : null, total_cost: $total,
-                    promo: $promo_id);
+                    promo: $promo_id, service_charge: $serviceCharge ,tip: $subtotal * $_POST["tip"]);
 
                 if ($order->getErrors()) {
                     $data["errors"] = $order->getErrors();
